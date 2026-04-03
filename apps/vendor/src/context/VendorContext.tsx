@@ -1,12 +1,14 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-import { getCard } from '../lib/api'
+import { loginVendor, getCard } from '../lib/api'
 
 interface VendorCard {
   uid: string
   owner_name: string
   owner_email: string
-  points_balance: number
+  phone_number: string
   role: string
+  vendor_id: string | null
+  business_name: string | null
 }
 
 interface VendorContextValue {
@@ -14,7 +16,7 @@ interface VendorContextValue {
   vendorId: string | null
   loading: boolean
   error: string | null
-  login: (uid: string) => Promise<void>
+  login: (uid: string, password: string) => Promise<void>
   logout: () => void
   setVendorId: (id: string) => void
 }
@@ -23,30 +25,51 @@ const VendorContext = createContext<VendorContextValue | null>(null)
 
 export function VendorProvider({ children }: { children: ReactNode }) {
   const [card, setCard] = useState<VendorCard | null>(null)
-  const [vendorId, setVendorId] = useState<string | null>(null)
+  const [vendorId, setVendorIdState] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Restore session
+  // Restore session on mount (no re-auth — password not stored)
   useEffect(() => {
     const uid = localStorage.getItem('vendor_card_uid')
     const vid = localStorage.getItem('vendor_id')
-    if (uid) login(uid)
-    if (vid) setVendorId(vid)
+    if (uid) restoreSession(uid, vid)
   }, [])
 
-  async function login(uid: string) {
+  async function restoreSession(uid: string, vid: string | null) {
+    setLoading(true)
+    try {
+      const data = await getCard(uid) as any
+      if (data.role !== 'VENDOR') throw new Error('Not a vendor card')
+      // Vendor ID from localStorage or from login response
+      const resolvedVid = vid ?? null
+      setCard({ ...data, vendor_id: resolvedVid, business_name: null })
+      setVendorIdState(resolvedVid)
+    } catch {
+      // Session stale — clear it
+      localStorage.removeItem('vendor_card_uid')
+      localStorage.removeItem('vendor_id')
+      setCard(null)
+      setVendorIdState(null)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function login(uid: string, password: string) {
     setLoading(true)
     setError(null)
     try {
-      const data = await getCard(uid) as VendorCard
-      if (data.role !== 'VENDOR') throw new Error('Card does not have VENDOR role')
-      setCard(data)
+      const data = await loginVendor(uid, password) as VendorCard
       localStorage.setItem('vendor_card_uid', uid)
+      if (data.vendor_id) {
+        localStorage.setItem('vendor_id', data.vendor_id)
+        setVendorIdState(data.vendor_id)
+      }
+      setCard(data)
     } catch (e: any) {
       setError(e.message ?? 'Login failed')
       setCard(null)
-      localStorage.removeItem('vendor_card_uid')
     } finally {
       setLoading(false)
     }
@@ -54,18 +77,19 @@ export function VendorProvider({ children }: { children: ReactNode }) {
 
   function logout() {
     setCard(null)
-    setVendorId(null)
+    setVendorIdState(null)
     localStorage.removeItem('vendor_card_uid')
     localStorage.removeItem('vendor_id')
   }
 
-  function handleSetVendorId(id: string) {
-    setVendorId(id)
+  function setVendorId(id: string) {
+    setVendorIdState(id)
     localStorage.setItem('vendor_id', id)
+    if (card) setCard({ ...card, vendor_id: id })
   }
 
   return (
-    <VendorContext.Provider value={{ card, vendorId, loading, error, login, logout, setVendorId: handleSetVendorId }}>
+    <VendorContext.Provider value={{ card, vendorId, loading, error, login, logout, setVendorId }}>
       {children}
     </VendorContext.Provider>
   )

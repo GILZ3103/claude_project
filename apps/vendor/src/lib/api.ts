@@ -12,12 +12,25 @@ async function request<T>(path: string, options?: RequestInit, cardUid?: string)
 // Auth — reads card UID from localStorage
 const getUid = () => localStorage.getItem('vendor_card_uid') ?? undefined
 
-// Card / Auth
+// Auth
+export const registerCard = (body: {
+  uid: string
+  owner_name: string
+  owner_email: string
+  phone_number: string
+  password: string
+}) => request('/api/cards/register', { method: 'POST', body: JSON.stringify(body) })
+
+export const loginVendor = (uid: string, password: string) =>
+  request('/api/auth/vendor/login', { method: 'POST', body: JSON.stringify({ uid, password }) })
+
 export const getCard = (uid: string) => request(`/api/cards/${uid}`)
 
 export const registerVendor = (body: {
   owner_card_uid: string
   business_name: string
+  ssm_registration_number: string
+  phone_number: string
   category?: string
   description?: string
   grid_x?: number

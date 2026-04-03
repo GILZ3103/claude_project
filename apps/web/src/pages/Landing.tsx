@@ -1,36 +1,19 @@
-// Landing page — Figma design to be applied via MCP
-// API integration complete. Placeholder layout until Figma handoff.
+// Landing / Login page — Figma design to be applied via MCP
 import { useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 import { useCard } from '../context/CardContext'
-import { registerCard } from '../lib/api'
-import toast from 'react-hot-toast'
 
 export default function Landing() {
-  const { card, loading, error, linkCard } = useCard()
+  const { card, loading, error, loginCard, unlinkCard } = useCard()
   const [uid, setUid] = useState('')
-  const [showRegister, setShowRegister] = useState(false)
-  const [regForm, setRegForm] = useState({ uid: '', owner_name: '', owner_email: '' })
-  const [regLoading, setRegLoading] = useState(false)
+  const [password, setPassword] = useState('')
+  const navigate = useNavigate()
 
-  async function handleLink(e: React.FormEvent) {
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
-    if (!uid.trim()) return
-    await linkCard(uid.trim())
-  }
-
-  async function handleRegister(e: React.FormEvent) {
-    e.preventDefault()
-    setRegLoading(true)
-    try {
-      await registerCard(regForm.uid, regForm.owner_name, regForm.owner_email)
-      toast.success('Card registered! You can now link it.')
-      setShowRegister(false)
-      setUid(regForm.uid)
-    } catch (e: any) {
-      toast.error(e.message ?? 'Registration failed')
-    } finally {
-      setRegLoading(false)
-    }
+    if (!uid.trim() || !password) return
+    await loginCard(uid.trim(), password)
+    navigate('/dashboard')
   }
 
   return (
@@ -43,20 +26,41 @@ export default function Landing() {
         </div>
 
         {card ? (
-          <div className="bg-white rounded-xl p-4 shadow text-center">
-            <p className="text-sm text-gray-500">Linked as</p>
+          <div className="bg-white rounded-xl p-5 shadow text-center space-y-3">
+            <p className="text-sm text-gray-500">Signed in as</p>
             <p className="font-bold text-lg">{card.owner_name}</p>
             <p className="text-sm text-gray-400">{card.uid}</p>
-            <p className="mt-2 font-semibold text-green-600">RM {Number(card.points_balance).toFixed(2)} pts</p>
+            <p className="mt-1 font-semibold text-green-600">RM {Number(card.points_balance).toFixed(2)} pts</p>
+            <div className="flex gap-2 pt-1">
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="flex-1 bg-black text-white rounded-lg py-2 text-sm font-medium"
+              >
+                Go to Dashboard
+              </button>
+              <button
+                onClick={unlinkCard}
+                className="flex-1 border rounded-lg py-2 text-sm text-gray-500"
+              >
+                Sign Out
+              </button>
+            </div>
           </div>
         ) : (
           <>
-            <form onSubmit={handleLink} className="space-y-3">
+            <form onSubmit={handleLogin} className="space-y-3">
               <input
                 className="w-full border rounded-lg px-4 py-3 text-sm"
-                placeholder="Enter card UID (e.g. 04:A3:2F:B1)"
+                placeholder="Card UID (e.g. 04:A3:2F:B1)"
                 value={uid}
                 onChange={e => setUid(e.target.value)}
+              />
+              <input
+                type="password"
+                className="w-full border rounded-lg px-4 py-3 text-sm"
+                placeholder="Password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
               />
               {error && <p className="text-red-500 text-sm">{error}</p>}
               <button
@@ -64,28 +68,16 @@ export default function Landing() {
                 disabled={loading}
                 className="w-full bg-black text-white rounded-lg py-3 font-medium disabled:opacity-50"
               >
-                {loading ? 'Linking...' : 'Link Card'}
+                {loading ? 'Signing in...' : 'Sign In'}
               </button>
             </form>
 
-            <button
-              onClick={() => setShowRegister(!showRegister)}
-              className="w-full text-sm text-gray-500 underline"
-            >
-              New card? Register here
-            </button>
-
-            {showRegister && (
-              <form onSubmit={handleRegister} className="space-y-3 bg-white p-4 rounded-xl shadow">
-                <h2 className="font-semibold">Register New Card</h2>
-                <input className="w-full border rounded-lg px-4 py-2 text-sm" placeholder="Card UID" value={regForm.uid} onChange={e => setRegForm(p => ({ ...p, uid: e.target.value }))} />
-                <input className="w-full border rounded-lg px-4 py-2 text-sm" placeholder="Your name" value={regForm.owner_name} onChange={e => setRegForm(p => ({ ...p, owner_name: e.target.value }))} />
-                <input className="w-full border rounded-lg px-4 py-2 text-sm" placeholder="Email" type="email" value={regForm.owner_email} onChange={e => setRegForm(p => ({ ...p, owner_email: e.target.value }))} />
-                <button type="submit" disabled={regLoading} className="w-full bg-black text-white rounded-lg py-2 text-sm disabled:opacity-50">
-                  {regLoading ? 'Registering...' : 'Register'}
-                </button>
-              </form>
-            )}
+            <p className="text-center text-sm text-gray-500">
+              New to Night Market?{' '}
+              <Link to="/register" className="text-black font-medium underline">
+                Register your card
+              </Link>
+            </p>
           </>
         )}
       </div>

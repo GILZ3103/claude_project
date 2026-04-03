@@ -1,7 +1,8 @@
-import { BrowserRouter, Routes, Route, NavLink, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, NavLink, Navigate, useLocation } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { VendorProvider, useVendor } from './context/VendorContext'
 import Login from './pages/Login'
+import Register from './pages/Register'
 import Onboarding from './pages/Onboarding'
 import Menu from './pages/Menu'
 import Summary from './pages/Summary'
@@ -23,16 +24,29 @@ function Nav() {
   )
 }
 
-function AuthedApp() {
-  const { card, vendorId, logout } = useVendor()
+function AppRouter() {
+  const { card, vendorId, logout, loading } = useVendor()
+  const { pathname } = useLocation()
 
+  // Auth pages — always accessible
+  if (pathname === '/register') return <Register />
+
+  // Loading session restore
+  if (loading) return null
+
+  // Not logged in → Login
   if (!card) return <Login />
 
-  if (!vendorId) return <Onboarding />
+  // Logged in but no stall registered yet → Onboarding
+  if (!vendorId && pathname !== '/onboarding') return <Navigate to="/onboarding" replace />
 
+  // Onboarding page
+  if (pathname === '/onboarding') return <Onboarding />
+
+  // Fully authed — main app
   return (
     <div className="pb-16 min-h-screen bg-gray-50">
-      <div className="flex justify-between items-center px-6 pt-4 pb-2">
+      <div className="flex justify-between items-center px-6 pt-4 pb-2 border-b border-gray-100 bg-white">
         <p className="text-sm font-medium">{card.owner_name}</p>
         <button onClick={logout} className="text-xs text-gray-400 underline">Logout</button>
       </div>
@@ -52,7 +66,7 @@ export default function App() {
   return (
     <VendorProvider>
       <BrowserRouter>
-        <AuthedApp />
+        <AppRouter />
         <Toaster position="top-center" />
       </BrowserRouter>
     </VendorProvider>

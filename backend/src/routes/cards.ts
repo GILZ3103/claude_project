@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express'
 import { z } from 'zod'
+import bcrypt from 'bcryptjs'
 import { supabase } from '../lib/supabase'
 import { validate } from '../middleware/validate'
 
@@ -8,7 +9,9 @@ const router = Router()
 const registerSchema = z.object({
   uid: z.string().min(4).max(20),
   owner_name: z.string().max(100),
-  owner_email: z.string().email()
+  owner_email: z.string().email(),
+  phone_number: z.string().regex(/^(\+?6?01)[0-46-9]-*[0-9]{7,8}$/, 'Invalid Malaysian phone number'),
+  password: z.string().min(8).max(100)
 })
 
 const topupSchema = z.object({
@@ -21,7 +24,7 @@ const calorieLimitSchema = z.object({
 
 // POST /api/cards/register
 router.post('/register', validate(registerSchema), async (req: Request, res: Response): Promise<void> => {
-  const { uid, owner_name, owner_email } = req.body
+  const { uid, owner_name, owner_email, phone_number, password } = req.body
 
   const { data: existing } = await supabase
     .from('cards')
@@ -34,10 +37,12 @@ router.post('/register', validate(registerSchema), async (req: Request, res: Res
     return
   }
 
+  const password_hash = await bcrypt.hash(password, 10)
+
   const { data, error } = await supabase
     .from('cards')
-    .insert({ uid, owner_name, owner_email, role: 'CONSUMER' })
-    .select()
+    .insert({ uid, owner_name, owner_email, phone_number, password_hash, role: 'CONSUMER' })
+    .select('uid, owner_name, owner_email, phone_number, points_balance, calorie_limit, role, registered_at, is_active')
     .single()
 
   if (error) throw error

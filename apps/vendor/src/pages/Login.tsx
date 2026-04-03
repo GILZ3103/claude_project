@@ -1,14 +1,16 @@
-// Login — Figma design to be applied via MCP
+// Vendor Login — Figma design to be applied via MCP
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useVendor } from '../context/VendorContext'
 
 export default function Login() {
   const { login, loading, error } = useVendor()
   const [uid, setUid] = useState('')
+  const [password, setPassword] = useState('')
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (uid.trim()) login(uid.trim())
+    if (uid.trim() && password) login(uid.trim(), password)
   }
 
   return (
@@ -23,9 +25,16 @@ export default function Login() {
         <form onSubmit={handleSubmit} className="space-y-3">
           <input
             className="w-full border rounded-lg px-4 py-3 text-sm"
-            placeholder="Vendor card UID (e.g. 04:A3:2F:B1)"
+            placeholder="Card UID (e.g. 04:A3:2F:B1)"
             value={uid}
             onChange={e => setUid(e.target.value)}
+          />
+          <input
+            type="password"
+            className="w-full border rounded-lg px-4 py-3 text-sm"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
           />
           {error && <p className="text-red-500 text-sm">{error}</p>}
           <button
@@ -36,6 +45,13 @@ export default function Login() {
             {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </form>
+
+        <p className="text-center text-sm text-gray-500">
+          New vendor?{' '}
+          <Link to="/register" className="text-black font-medium underline">
+            Register here
+          </Link>
+        </p>
       </div>
     </div>
   )

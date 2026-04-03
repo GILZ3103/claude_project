@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-import { getCard } from '../lib/api'
+import { getCard, loginConsumer } from '../lib/api'
 
 interface Voucher {
   voucher_id: string
@@ -12,6 +12,7 @@ interface CardSession {
   uid: string
   owner_name: string
   owner_email: string
+  phone_number: string
   points_balance: number
   calorie_limit: number
   calories_today: number
@@ -23,7 +24,7 @@ interface CardContextValue {
   card: CardSession | null
   loading: boolean
   error: string | null
-  linkCard: (uid: string) => Promise<void>
+  loginCard: (uid: string, password: string) => Promise<void>
   refreshCard: () => Promise<void>
   unlinkCard: () => void
 }
@@ -35,21 +36,36 @@ export function CardProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Restore session from localStorage on mount
+  // Restore session from localStorage on mount (no re-auth needed after first login)
   useEffect(() => {
     const stored = localStorage.getItem('linked_card_uid')
-    if (stored) linkCard(stored)
+    if (stored) restoreSession(stored)
   }, [])
 
-  async function linkCard(uid: string) {
+  async function restoreSession(uid: string) {
     setLoading(true)
-    setError(null)
     try {
       const data = await getCard(uid) as CardSession
       setCard(data)
+    } catch {
+      localStorage.removeItem('linked_card_uid')
+      setCard(null)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function loginCard(uid: string, password: string) {
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await loginConsumer(uid, password) as CardSession
       localStorage.setItem('linked_card_uid', uid)
+      // Fetch full profile (includes calories_today etc.)
+      const full = await getCard(uid) as CardSession
+      setCard(full)
     } catch (e: any) {
-      setError(e.message ?? 'Card not found')
+      setError(e.message ?? 'Login failed')
       setCard(null)
     } finally {
       setLoading(false)
@@ -57,7 +73,7 @@ export function CardProvider({ children }: { children: ReactNode }) {
   }
 
   async function refreshCard() {
-    if (card?.uid) await linkCard(card.uid)
+    if (card?.uid) await restoreSession(card.uid)
   }
 
   function unlinkCard() {
@@ -66,7 +82,7 @@ export function CardProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <CardContext.Provider value={{ card, loading, error, linkCard, refreshCard, unlinkCard }}>
+    <CardContext.Provider value={{ card, loading, error, loginCard, refreshCard, unlinkCard }}>
       {children}
     </CardContext.Provider>
   )

@@ -8,6 +8,8 @@ const router = Router()
 const registerSchema = z.object({
   owner_card_uid: z.string().min(4).max(20),
   business_name: z.string().max(100),
+  ssm_registration_number: z.string().min(5).max(50),
+  phone_number: z.string().regex(/^(\+?6?01)[0-46-9]-*[0-9]{7,8}$/, 'Invalid Malaysian phone number'),
   category: z.string().max(50).optional(),
   description: z.string().optional(),
   grid_x: z.number().int().optional(),
@@ -82,7 +84,7 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
 
 // POST /api/vendors/register
 router.post('/register', validate(registerSchema), async (req: Request, res: Response): Promise<void> => {
-  const { owner_card_uid, business_name, category, description, grid_x, grid_y, terminal_mac_address } = req.body
+  const { owner_card_uid, business_name, ssm_registration_number, phone_number, category, description, grid_x, grid_y, terminal_mac_address } = req.body
 
   const { data: card, error: cardError } = await supabase
     .from('cards')
@@ -95,12 +97,24 @@ router.post('/register', validate(registerSchema), async (req: Request, res: Res
     return
   }
 
+  // Check SSM number is not already registered
+  const { data: existingSSM } = await supabase
+    .from('vendors')
+    .select('vendor_id')
+    .eq('ssm_registration_number', ssm_registration_number)
+    .single()
+
+  if (existingSSM) {
+    res.status(409).json({ success: false, error: 'SSM_ALREADY_REGISTERED', message: 'This SSM registration number is already in use.' })
+    return
+  }
+
   // Upgrade card role to VENDOR
-  await supabase.from('cards').update({ role: 'VENDOR' }).eq('uid', owner_card_uid)
+  await supabase.from('cards').update({ role: 'VENDOR', phone_number }).eq('uid', owner_card_uid)
 
   const { data: vendor, error } = await supabase
     .from('vendors')
-    .insert({ owner_card_uid, business_name, category, description, grid_x, grid_y, terminal_mac_address })
+    .insert({ owner_card_uid, business_name, ssm_registration_number, phone_number, category, description, grid_x, grid_y, terminal_mac_address })
     .select()
     .single()
 

@@ -10,13 +10,19 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   return json.data
 }
 
-// Cards
-export const registerCard = (uid: string, owner_name: string, owner_email: string) =>
-  request('/api/cards/register', {
-    method: 'POST',
-    body: JSON.stringify({ uid, owner_name, owner_email }),
-  })
+// Auth
+export const registerCard = (body: {
+  uid: string
+  owner_name: string
+  owner_email: string
+  phone_number: string
+  password: string
+}) => request('/api/cards/register', { method: 'POST', body: JSON.stringify(body) })
 
+export const loginConsumer = (uid: string, password: string) =>
+  request('/api/auth/consumer/login', { method: 'POST', body: JSON.stringify({ uid, password }) })
+
+// Cards
 export const getCard = (uid: string) => request(`/api/cards/${uid}`)
 
 export const getCardHistory = (uid: string, limit = 50, offset = 0) =>

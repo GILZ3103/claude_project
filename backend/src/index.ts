@@ -7,6 +7,7 @@ import vendorsRouter from './routes/vendors'
 import tapRouter from './routes/tap'
 import campaignsRouter from './routes/campaigns'
 import mapRouter from './routes/map'
+import authRouter from './routes/auth'
 import { errorHandler } from './middleware/errors'
 
 const app = express()
@@ -31,6 +32,7 @@ app.get('/api/health', (_req, res) => {
 })
 
 // Routes
+app.use('/api/auth', authRouter)
 app.use('/api/cards', cardsRouter)
 app.use('/api/vendors', vendorsRouter)
 app.use('/api/tap', tapRouter)

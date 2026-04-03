@@ -17,6 +17,8 @@ CREATE TABLE cards (
     uid                 VARCHAR(20) PRIMARY KEY,
     owner_name          VARCHAR(100),
     owner_email         VARCHAR(255) UNIQUE,
+    phone_number        VARCHAR(20),
+    password_hash       VARCHAR(255),          -- bcrypt hash, set on registration
     points_balance      DECIMAL(10,2) DEFAULT 0,
     calorie_limit       INTEGER DEFAULT 2000,
     role                VARCHAR(20) DEFAULT 'CONSUMER'
@@ -34,6 +36,8 @@ CREATE TABLE vendors (
     owner_card_uid          VARCHAR(20) REFERENCES cards(uid) ON DELETE SET NULL,
     terminal_mac_address    VARCHAR(17) UNIQUE,
     business_name           VARCHAR(100) NOT NULL,
+    ssm_registration_number VARCHAR(50) UNIQUE,  -- Malaysia SSM business registration number
+    phone_number            VARCHAR(20),
     category                VARCHAR(50),
     description             TEXT,
     grid_x                  INTEGER,
