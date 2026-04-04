@@ -383,11 +383,14 @@ Plus one view: subsidy_summary (live calculation — never stale)
 -- points_balance is the consumer's spendable currency.
 -- calorie_limit is set by consumer — default 2000 kcal per session.
 -- role determines portal access: CONSUMER or VENDOR.
--- owner_email is the future bridge to Supabase Auth.
+-- password_hash: bcrypt(password, 10) — NEVER returned in any API response.
+-- phone_number: Malaysian mobile number (01X-XXXXXXX format).
 CREATE TABLE cards (
     uid                 VARCHAR(20) PRIMARY KEY,
     owner_name          VARCHAR(100),
     owner_email         VARCHAR(255) UNIQUE,
+    phone_number        VARCHAR(20),
+    password_hash       VARCHAR(255),          -- bcrypt hash, set on registration
     points_balance      DECIMAL(10,2) DEFAULT 0,
     calorie_limit       INTEGER DEFAULT 2000,
     role                VARCHAR(20) DEFAULT 'CONSUMER'
@@ -400,12 +403,15 @@ CREATE TABLE cards (
 -- One row per stall. Registered by vendor through the vendor portal.
 -- terminal_mac_address links the physical ESP8266 to this vendor.
 -- grid_x and grid_y position the stall on the market map.
--- Vendor selects grid position visually in the app during onboarding.
+-- ssm_registration_number: Malaysia SSM ROB/ROC number — unique, required.
+-- phone_number: business contact number.
 CREATE TABLE vendors (
     vendor_id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     owner_card_uid          VARCHAR(20) REFERENCES cards(uid) ON DELETE SET NULL,
     terminal_mac_address    VARCHAR(17) UNIQUE,
     business_name           VARCHAR(100) NOT NULL,
+    ssm_registration_number VARCHAR(50) UNIQUE,  -- Malaysia SSM ROB/ROC number
+    phone_number            VARCHAR(20),
     category                VARCHAR(50),
     description             TEXT,
     grid_x                  INTEGER,
