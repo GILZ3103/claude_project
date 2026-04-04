@@ -17,14 +17,40 @@ Consumers use a physical NFC card to tap at vendor stalls, spend points, track c
 ```
 claude_project/
 ├── apps/
-│   ├── web/          # Consumer web app (React + TypeScript + Vite)
-│   ├── vendor/       # Vendor portal (React + TypeScript + Vite)
-│   └── kiosk/        # Physical kiosk interface (React + TypeScript + Vite)
-├── backend/          # REST API (Node.js + Express + TypeScript + Supabase)
-├── database/         # SQL schema, migrations, and seed data
-├── firmware/         # Arduino + ESP8266 vendor terminal firmware
-├── daemon/           # Background services
-└── MASTER_v2_refined.md  # Full system specification
+│   ├── web/                        # Consumer web app (React + TypeScript + Vite)
+│   │   └── src/pages/
+│   │       ├── Landing.tsx         # Sign-in page
+│   │       ├── Register.tsx        # Consumer registration
+│   │       ├── Dashboard.tsx
+│   │       ├── Campaigns.tsx
+│   │       ├── Vendors.tsx
+│   │       └── Map.tsx
+│   ├── vendor/                     # Vendor portal (React + TypeScript + Vite)
+│   │   └── src/pages/
+│   │       ├── Login.tsx
+│   │       ├── Register.tsx        # Step 1 — card account creation
+│   │       ├── Onboarding.tsx      # Step 2 — business + SSM registration
+│   │       ├── Menu.tsx
+│   │       ├── Claim.tsx
+│   │       └── Summary.tsx
+│   └── kiosk/                      # Physical kiosk interface (React + TypeScript + Vite)
+├── backend/
+│   ├── src/routes/
+│   │   ├── auth.ts                 # POST /api/auth/consumer/login + /vendor/login
+│   │   ├── cards.ts
+│   │   ├── vendors.ts
+│   │   ├── tap.ts
+│   │   ├── campaigns.ts
+│   │   └── map.ts
+│   └── nixpacks.toml               # Railway build configuration
+├── database/
+│   ├── schema.sql                  # Full schema — run first in Supabase
+│   ├── seed.sql                    # Sample data
+│   └── migrations/
+│       └── 001_add_auth_fields.sql # Adds phone_number, password_hash, SSM columns
+├── firmware/                       # Arduino + ESP8266 vendor terminal firmware
+├── daemon/                         # Python NFC daemon for Raspberry Pi kiosk
+└── MASTER_v2_refined.md            # Full system specification
 ```
 
 ---
@@ -78,6 +104,12 @@ cp .env.example .env   # fill in your Supabase URL and keys
 npm install
 npm run dev            # runs on http://localhost:3000
 ```
+
+**Deploying to Railway:**
+- Set **Root Directory** to `backend` in Railway service settings
+- Add environment variables: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `PORT=3000`
+- `nixpacks.toml` is already configured — Railway will build and start automatically
+- Build uses `node node_modules/typescript/bin/tsc` to avoid binary permission issues
 
 ### 4. Run a frontend app
 ```bash
@@ -140,4 +172,4 @@ Base URL: `http://localhost:3000/api`
 
 ## Version
 
-**v2.1** — See `MASTER_v2_refined.md` for the full system specification and changelog.
+**v2.2** — See `MASTER_v2_refined.md` for the full system specification and changelog.

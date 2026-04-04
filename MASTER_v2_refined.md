@@ -164,31 +164,50 @@ The prepaid top-up flow is UI-only — points balance is adjusted directly.
 nightmarket/
 ├── apps/
 │   ├── web/                        # Consumer website — React + TypeScript + Vite
+│   │   └── src/
+│   │       ├── context/CardContext.tsx
+│   │       ├── lib/api.ts
+│   │       └── pages/
+│   │           ├── Landing.tsx     # Sign-in (UID + password)
+│   │           ├── Register.tsx    # Consumer registration
+│   │           ├── Dashboard.tsx
+│   │           ├── Campaigns.tsx
+│   │           ├── Vendors.tsx
+│   │           └── Map.tsx
 │   ├── kiosk/                      # Kiosk UI — React + TypeScript + Vite (runs on Pi)
 │   └── vendor/                     # Vendor portal — React + TypeScript + Vite
+│       └── src/
+│           ├── context/VendorContext.tsx
+│           ├── lib/api.ts
+│           └── pages/
+│               ├── Login.tsx       # Sign-in (UID + password)
+│               ├── Register.tsx    # Step 1 — card account creation
+│               ├── Onboarding.tsx  # Step 2 — business + SSM registration
+│               ├── Menu.tsx
+│               ├── VendorCampaigns.tsx
+│               ├── Summary.tsx
+│               └── Claim.tsx
 ├── backend/
 │   ├── src/
 │   │   ├── routes/
+│   │   │   ├── auth.ts             # POST /api/auth/consumer/login + /vendor/login
 │   │   │   ├── cards.ts
 │   │   │   ├── tap.ts
 │   │   │   ├── vendors.ts
-│   │   │   ├── food.ts
 │   │   │   ├── campaigns.ts
-│   │   │   ├── vouchers.ts
-│   │   │   ├── map.ts
-│   │   │   └── subsidies.ts
+│   │   │   └── map.ts
 │   │   ├── middleware/
 │   │   │   ├── validate.ts         # Zod middleware wrapper
 │   │   │   └── errors.ts           # Centralised error handler
-│   │   ├── schemas/
-│   │   │   └── tap.schema.ts       # Zod schemas per route
 │   │   └── lib/
-│   │       ├── supabase.ts         # Supabase client (service role)
-│   │       └── points.ts           # Points deduction helper
+│   │       └── supabase.ts         # Supabase client (service role)
+│   ├── nixpacks.toml               # Railway build configuration
 │   └── package.json
 ├── database/
 │   ├── schema.sql                  # Full schema — run first in Supabase
-│   └── seed.sql                    # Sample vendors, food items, campaigns
+│   ├── seed.sql                    # Sample vendors, food items, campaigns
+│   └── migrations/
+│       └── 001_add_auth_fields.sql # Adds phone_number, password_hash, SSM columns
 ├── firmware/
 │   └── vendor-terminal/
 │       └── src/
@@ -197,7 +216,7 @@ nightmarket/
 │               └── wifi_bridge.ino # ESP8266 UART-to-HTTP bridge
 ├── daemon/                         # Python NFC daemon for Raspberry Pi kiosk
 │   └── nfc_daemon.py
-└── MASTER.md
+└── MASTER_v2_refined.md
 ```
 
 ## Environment Variables
@@ -225,8 +244,13 @@ VITE_API_URL=https://your-app.up.railway.app
 1. Create Supabase project
 2. Run database/schema.sql in Supabase SQL editor
 3. Run database/seed.sql for development data
-4. Deploy backend to Railway — set environment variables
-5. Deploy web and vendor apps to Vercel
+4. Deploy backend to Railway:
+   - Connect GitHub repo → set Root Directory to `backend`
+   - Add env vars: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, PORT=3000
+   - nixpacks.toml handles build automatically (installs devDeps, runs tsc via node)
+   - Generate domain → copy Railway URL for step 5
+5. Deploy web and vendor apps to Vercel:
+   - Set VITE_API_URL to Railway URL from step 4
 6. Run kiosk app locally on Raspberry Pi
 7. Run Python NFC daemon on Raspberry Pi
 8. Flash firmware to Arduino + ESP8266
@@ -682,6 +706,7 @@ POST /api/vendors/:id/claim, GET /api/vendors/:id/claims.
 | INVALID_PAYLOAD | 400 | Zod validation failed |
 | CARD_NOT_FOUND | 404 | UID not in cards table |
 | CARD_INACTIVE | 403 | cards.is_active is false |
+| CARD_ALREADY_REGISTERED | 409 | UID already exists in cards table |
 | VENDOR_NOT_FOUND | 404 | vendor_id not in vendors |
 | FOOD_NOT_FOUND | 404 | food_id not in food_items |
 | DUPLICATE_TAP | 409 | Same card + vendor tapped on same calendar day |
@@ -690,15 +715,52 @@ POST /api/vendors/:id/claim, GET /api/vendors/:id/claims.
 | CAMPAIGN_NOT_FOUND | 404 | campaign_id not found |
 | ALREADY_COMPLETED | 409 | Campaign already completed by this card |
 | UNAUTHORIZED | 403 | x-card-uid header missing, wrong role, or not vendor owner |
+| INVALID_CREDENTIALS | 401 | Wrong UID or password on login |
+| NO_PASSWORD_SET | 401 | Card exists but has no password (registered before auth was added) |
+| NOT_A_VENDOR | 403 | Card role is CONSUMER — stall registration not completed |
+| ACCOUNT_DISABLED | 403 | cards.is_active is false |
+| SSM_ALREADY_REGISTERED | 409 | SSM number already in use by another vendor |
+
+---
+
+## Auth Routes
+
+### POST /api/auth/consumer/login
+Authenticate a consumer with UID + password.
+Body: `{ "uid": "04:A3:2F:B1", "password": "mypassword" }`
+Logic: Fetch card → bcrypt.compare(password, password_hash) → return profile.
+password_hash is NEVER included in the response.
+Response data: `{ uid, owner_name, owner_email, phone_number, points_balance, calorie_limit, role, is_active }`
+Errors: INVALID_CREDENTIALS, ACCOUNT_DISABLED, NO_PASSWORD_SET
+
+---
+
+### POST /api/auth/vendor/login
+Authenticate a vendor with UID + password. Requires role = VENDOR.
+Body: `{ "uid": "04:V3:ND:01", "password": "mypassword" }`
+Logic: Fetch card → bcrypt.compare → check role = VENDOR → fetch linked vendor.
+Response data: `{ uid, owner_name, owner_email, phone_number, role, vendor_id, business_name }`
+Errors: INVALID_CREDENTIALS, ACCOUNT_DISABLED, NO_PASSWORD_SET, NOT_A_VENDOR
 
 ---
 
 ## Phase 1 Routes
 
 ### POST /api/cards/register
-Register new NFC card.
-Body: `{ "uid": "04:A3:2F:B1", "owner_name": "Ahmad", "owner_email": "ahmad@email.com" }`
-Logic: Insert into cards with role = CONSUMER. Return created card.
+Register new NFC card with password.
+Body:
+```json
+{
+  "uid": "04:A3:2F:B1",
+  "owner_name": "Ahmad",
+  "owner_email": "ahmad@email.com",
+  "phone_number": "0123456789",
+  "password": "min8chars"
+}
+```
+Logic: Check uid not already registered → bcrypt.hash(password, 10) → insert into cards with role = CONSUMER.
+Returns card profile (no password_hash).
+Errors: CARD_ALREADY_REGISTERED
 
 ---
 
@@ -773,8 +835,22 @@ All active vendors with grid positions and food item count.
 ---
 
 ### POST /api/vendors/register
-Body: `{ "owner_card_uid", "business_name", "category", "description", "grid_x", "grid_y", "terminal_mac_address" }`
-Logic: Verify card exists, update role to VENDOR, insert vendor row.
+Body:
+```json
+{
+  "owner_card_uid": "04:V3:ND:01",
+  "business_name": "Mak Cik Nasi Lemak",
+  "ssm_registration_number": "001234567-A",
+  "phone_number": "0123456789",
+  "category": "Nasi Lemak",
+  "description": "Optional stall description",
+  "grid_x": 3,
+  "grid_y": 5,
+  "terminal_mac_address": "AA:BB:CC:DD:EE:FF"
+}
+```
+Logic: Verify card exists → check SSM not already taken → update card role to VENDOR → insert vendor row.
+Errors: CARD_NOT_FOUND, SSM_ALREADY_REGISTERED
 
 ---
 
@@ -1367,11 +1443,26 @@ Libraries: Flask, adafruit-circuitpython-pn532, datetime
 ---
 
 *End of MASTER.md*
-*Version: 2.1 — Refined after architectural review*
+*Version: 2.2 — Auth, registration flows, and Railway deployment*
 *Hardware: Arduino UNO R3 + ESP8266 + DS3231 + PN532 + E-paper | Raspberry Pi 4 + PN532*
 *Stack: React + TypeScript + Express + PostgreSQL (Supabase) + Railway + Vercel*
 
-**Changes from v2.0:**
+**Changes from v2.1 to v2.2:**
+- Added dedicated consumer registration page (/register) — UID + name + email + phone + password
+- Added dedicated vendor registration flow — Step 1 card account, Step 2 stall + SSM number
+- Added password authentication — bcrypt(10) hash stored in cards.password_hash
+- Added POST /api/auth/consumer/login and POST /api/auth/vendor/login routes
+- Added phone_number column to cards table
+- Added phone_number and ssm_registration_number columns to vendors table
+- Added database/migrations/001_add_auth_fields.sql
+- Added backend/nixpacks.toml for Railway deployment (devDep install + node tsc invocation)
+- Updated POST /api/cards/register — now requires phone_number and password
+- Updated POST /api/vendors/register — now requires ssm_registration_number and phone_number
+- Updated repository structure to reflect all current files
+- Updated Setup Order step 4 with full Railway deployment instructions
+- Added SSM_ALREADY_REGISTERED, INVALID_CREDENTIALS, NO_PASSWORD_SET, NOT_A_VENDOR, ACCOUNT_DISABLED error codes
+
+**Changes from v2.0 to v2.1:**
 - Added Figma + MCP UI design workflow for all three web surfaces and e-paper display
 - Added daemon/ directory to repo structure
 - Added VITE_KIOSK_ID env var to kiosk env block
