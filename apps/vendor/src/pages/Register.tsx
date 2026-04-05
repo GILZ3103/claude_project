@@ -7,7 +7,7 @@ import { useVendor } from '../context/VendorContext'
 import toast from 'react-hot-toast'
 
 export default function Register() {
-  const { login } = useVendor()
+  const { startSession } = useVendor()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState({
@@ -45,8 +45,8 @@ export default function Register() {
         phone_number: form.phone_number.trim(),
         password: form.password,
       })
-      // Auto-login then proceed to stall onboarding
-      await login(form.uid.trim(), form.password)
+      // Start session without requiring VENDOR role (step 2 upgrades the role)
+      await startSession(form.uid.trim())
       toast.success('Account created! Now register your stall.')
       navigate('/onboarding')
     } catch (e: any) {

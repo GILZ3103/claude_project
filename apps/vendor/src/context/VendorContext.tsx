@@ -17,6 +17,7 @@ interface VendorContextValue {
   loading: boolean
   error: string | null
   login: (uid: string, password: string) => Promise<void>
+  startSession: (uid: string) => Promise<void>
   logout: () => void
   setVendorId: (id: string) => void
 }
@@ -40,8 +41,8 @@ export function VendorProvider({ children }: { children: ReactNode }) {
     setLoading(true)
     try {
       const data = await getCard(uid) as any
-      if (data.role !== 'VENDOR') throw new Error('Not a vendor card')
-      // Vendor ID from localStorage or from login response
+      // Allow CONSUMER role during onboarding (role upgrades to VENDOR after step 2)
+      if (data.role !== 'VENDOR' && data.role !== 'CONSUMER') throw new Error('Invalid card role')
       const resolvedVid = vid ?? null
       setCard({ ...data, vendor_id: resolvedVid, business_name: null })
       setVendorIdState(resolvedVid)
@@ -75,6 +76,21 @@ export function VendorProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  // Used after Step 1 registration — card is CONSUMER role, no password re-check needed
+  async function startSession(uid: string) {
+    setLoading(true)
+    try {
+      const data = await getCard(uid) as any
+      localStorage.setItem('vendor_card_uid', uid)
+      setCard({ ...data, vendor_id: null, business_name: null })
+      setVendorIdState(null)
+    } catch (e: any) {
+      setError(e.message ?? 'Session error')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   function logout() {
     setCard(null)
     setVendorIdState(null)
@@ -89,7 +105,7 @@ export function VendorProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <VendorContext.Provider value={{ card, vendorId, loading, error, login, logout, setVendorId }}>
+    <VendorContext.Provider value={{ card, vendorId, loading, error, login, startSession, logout, setVendorId }}>
       {children}
     </VendorContext.Provider>
   )

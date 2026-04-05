@@ -52,6 +52,9 @@ export const addFoodItem = (vendor_id: string, body: {
 // Campaigns
 export const getCampaigns = () => request('/api/campaigns')
 
+export const enrolCampaign = (campaign_id: string, card_uid: string) =>
+  request(`/api/campaigns/${campaign_id}/enrol`, { method: 'POST', body: JSON.stringify({ card_uid }) })
+
 // Subsidy
 export const getVendorSummary = (vendor_id: string) =>
   request(`/api/vendors/${vendor_id}/summary`, undefined, getUid())

@@ -21,7 +21,10 @@ const foodItemSchema = z.object({
   name: z.string().max(100),
   calories: z.number().int().positive(),
   price_in_points: z.number().positive(),
-  photo_url: z.string().url().optional()
+  photo_url: z.string().url().optional(),
+  protein_g: z.number().min(0).optional(),
+  carbs_g: z.number().min(0).optional(),
+  fat_g: z.number().min(0).optional()
 })
 
 // Auth helper — vendor routes require x-card-uid header with VENDOR role owning this vendor
