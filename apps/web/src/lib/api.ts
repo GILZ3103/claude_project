@@ -19,8 +19,8 @@ export const registerCard = (body: {
   password: string
 }) => request('/api/cards/register', { method: 'POST', body: JSON.stringify(body) })
 
-export const loginConsumer = (uid: string, password: string) =>
-  request('/api/auth/consumer/login', { method: 'POST', body: JSON.stringify({ uid, password }) })
+export const loginConsumer = (email: string, password: string) =>
+  request('/api/auth/consumer/login', { method: 'POST', body: JSON.stringify({ email, password }) })
 
 // Cards
 export const getCard = (uid: string) => request(`/api/cards/${uid}`)

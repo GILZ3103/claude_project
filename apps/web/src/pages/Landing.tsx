@@ -5,15 +5,15 @@ import { useCard } from '../context/CardContext'
 
 export default function Landing() {
   const { card, loading, error, loginCard, unlinkCard } = useCard()
-  const [uid, setUid] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
 
-  async function handleLogin(e: React.FormEvent) {
+  async function handleLogin(e: React.SyntheticEvent) {
     e.preventDefault()
-    if (!uid.trim() || !password) return
-    await loginCard(uid.trim(), password)
-    navigate('/dashboard')
+    if (!email.trim() || !password) return
+    const ok = await loginCard(email.trim(), password)
+    if (ok) navigate('/dashboard')
   }
 
   return (
@@ -50,10 +50,11 @@ export default function Landing() {
           <>
             <form onSubmit={handleLogin} className="space-y-3">
               <input
+                type="email"
                 className="w-full border rounded-lg px-4 py-3 text-sm"
-                placeholder="Card UID (e.g. 04:A3:2F:B1)"
-                value={uid}
-                onChange={e => setUid(e.target.value)}
+                placeholder="Email address"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
               />
               <input
                 type="password"

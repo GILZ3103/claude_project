@@ -1,6 +1,7 @@
-import { BrowserRouter, Routes, Route, NavLink, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { CardProvider } from './context/CardContext'
+import { useCard } from './context/CardContext'
 import Landing from './pages/Landing'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
@@ -13,11 +14,18 @@ const NO_NAV = ['/', '/register']
 
 function Nav() {
   const { pathname } = useLocation()
+  const { unlinkCard } = useCard()
+  const navigate = useNavigate()
   if (NO_NAV.includes(pathname)) return null
 
   const base = 'text-xs font-medium px-3 py-2 rounded-lg transition-colors'
   const active = `${base} bg-black text-white`
   const inactive = `${base} text-gray-500`
+
+  function handleSignOut() {
+    unlinkCard()
+    navigate('/')
+  }
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex justify-around py-2 z-10">
@@ -25,6 +33,7 @@ function Nav() {
       <NavLink to="/campaigns" className={({ isActive }) => isActive ? active : inactive}>Campaigns</NavLink>
       <NavLink to="/vendors" className={({ isActive }) => isActive ? active : inactive}>Vendors</NavLink>
       <NavLink to="/map" className={({ isActive }) => isActive ? active : inactive}>Map</NavLink>
+      <button onClick={handleSignOut} className={inactive}>Sign Out</button>
     </nav>
   )
 }

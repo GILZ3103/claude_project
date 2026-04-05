@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
+import type { ReactNode } from 'react'
 import { getCard, loginConsumer } from '../lib/api'
 
 interface Voucher {
@@ -24,7 +25,7 @@ interface CardContextValue {
   card: CardSession | null
   loading: boolean
   error: string | null
-  loginCard: (uid: string, password: string) => Promise<void>
+  loginCard: (email: string, password: string) => Promise<boolean>
   refreshCard: () => Promise<void>
   unlinkCard: () => void
 }
@@ -55,18 +56,20 @@ export function CardProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  async function loginCard(uid: string, password: string) {
+  async function loginCard(email: string, password: string): Promise<boolean> {
     setLoading(true)
     setError(null)
     try {
-      const data = await loginConsumer(uid, password) as CardSession
-      localStorage.setItem('linked_card_uid', uid)
+      const data = await loginConsumer(email, password) as CardSession
+      localStorage.setItem('linked_card_uid', data.uid)
       // Fetch full profile (includes calories_today etc.)
-      const full = await getCard(uid) as CardSession
+      const full = await getCard(data.uid) as CardSession
       setCard(full)
+      return true
     } catch (e: any) {
       setError(e.message ?? 'Login failed')
       setCard(null)
+      return false
     } finally {
       setLoading(false)
     }

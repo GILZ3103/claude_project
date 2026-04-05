@@ -7,19 +7,24 @@ import { validate } from '../middleware/validate'
 const router = Router()
 
 const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(1)
+})
+
+const vendorLoginSchema = z.object({
   uid: z.string().min(4).max(20),
   password: z.string().min(1)
 })
 
 // POST /api/auth/consumer/login
-// Validates UID + password, returns card profile (no password_hash in response)
+// Validates email + password, returns card profile (no password_hash in response)
 router.post('/consumer/login', validate(loginSchema), async (req: Request, res: Response): Promise<void> => {
-  const { uid, password } = req.body
+  const { email, password } = req.body
 
   const { data: card, error } = await supabase
     .from('cards')
     .select('uid, owner_name, owner_email, phone_number, points_balance, calorie_limit, role, is_active, password_hash')
-    .eq('uid', uid)
+    .eq('owner_email', email)
     .single()
 
   if (error || !card) {
@@ -49,7 +54,7 @@ router.post('/consumer/login', validate(loginSchema), async (req: Request, res: 
 
 // POST /api/auth/vendor/login
 // Validates UID + password, checks VENDOR role, returns card + vendor_id
-router.post('/vendor/login', validate(loginSchema), async (req: Request, res: Response): Promise<void> => {
+router.post('/vendor/login', validate(vendorLoginSchema), async (req: Request, res: Response): Promise<void> => {
   const { uid, password } = req.body
 
   const { data: card, error } = await supabase
