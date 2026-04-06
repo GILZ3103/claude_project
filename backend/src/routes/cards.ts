@@ -95,18 +95,39 @@ router.get('/:uid', async (req: Request, res: Response): Promise<void> => {
     .eq('card_uid', uid)
     .eq('status', 'ACTIVE')
 
+  // Vendor info (if VENDOR role)
+  let vendor_id: string | null = null
+  let business_name: string | null = null
+  let ssm_registration_number: string | null = null
+  if (card.role === 'VENDOR') {
+    const { data: vendor } = await supabase
+      .from('vendors')
+      .select('vendor_id, business_name, ssm_registration_number')
+      .eq('owner_card_uid', uid)
+      .eq('is_active', true)
+      .single()
+    vendor_id = vendor?.vendor_id ?? null
+    business_name = vendor?.business_name ?? null
+    ssm_registration_number = vendor?.ssm_registration_number ?? null
+  }
+
   res.json({
     success: true,
     data: {
       uid: card.uid,
       owner_name: card.owner_name,
       owner_email: card.owner_email,
+      phone_number: card.phone_number,
+      role: card.role,
       points_balance: card.points_balance,
       calorie_limit: card.calorie_limit,
       is_active: card.is_active,
       calories_today,
       checkpoints_today,
-      active_vouchers: active_vouchers ?? []
+      active_vouchers: active_vouchers ?? [],
+      vendor_id,
+      business_name,
+      ssm_registration_number
     }
   })
 })

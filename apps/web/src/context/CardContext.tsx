@@ -14,11 +14,16 @@ interface CardSession {
   owner_name: string
   owner_email: string
   phone_number: string
+  role: string
   points_balance: number
   calorie_limit: number
   calories_today: number
   checkpoints_today: string[]
   active_vouchers: Voucher[]
+  // Vendor fields (only populated when role === 'VENDOR')
+  vendor_id: string | null
+  business_name: string | null
+  ssm_registration_number: string | null
 }
 
 interface CardContextValue {
@@ -37,7 +42,6 @@ export function CardProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Restore session from localStorage on mount (no re-auth needed after first login)
   useEffect(() => {
     const stored = localStorage.getItem('linked_card_uid')
     if (stored) restoreSession(stored)
@@ -62,7 +66,6 @@ export function CardProvider({ children }: { children: ReactNode }) {
     try {
       const data = await loginConsumer(email, password) as CardSession
       localStorage.setItem('linked_card_uid', data.uid)
-      // Fetch full profile (includes calories_today etc.)
       const full = await getCard(data.uid) as CardSession
       setCard(full)
       return true
@@ -82,6 +85,7 @@ export function CardProvider({ children }: { children: ReactNode }) {
   function unlinkCard() {
     setCard(null)
     localStorage.removeItem('linked_card_uid')
+    localStorage.removeItem('app_mode')
   }
 
   return (

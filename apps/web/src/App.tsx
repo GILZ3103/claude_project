@@ -1,27 +1,56 @@
+import { useState } from 'react'
 import { BrowserRouter, Routes, Route, NavLink, useLocation } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { CardProvider, useCard } from './context/CardContext'
 import Landing from './pages/Landing'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
+import Calories from './pages/Calories'
 import Campaigns from './pages/Campaigns'
 import Vendors from './pages/Vendors'
 import Map from './pages/Map'
-import Calories from './pages/Calories'
 import NfcConnect from './pages/NfcConnect'
 import Settings from './pages/Settings'
+import VendorDashboard from './pages/VendorDashboard'
+import VendorInformation from './pages/VendorInformation'
+import VendorClaim from './pages/VendorClaim'
 
 const NO_NAV = ['/', '/register']
 
-function Nav() {
-  const { pathname } = useLocation()
-  useCard()
-  if (NO_NAV.includes(pathname)) return null
+type AppMode = 'consumer' | 'vendor'
 
-  const base = 'text-xs font-medium px-2 py-2 rounded-lg transition-colors flex flex-col items-center gap-0.5'
+function ModeToggle({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => void }) {
+  const { card } = useCard()
+  if (card?.role !== 'VENDOR') return null
+
+  return (
+    <div className="fixed top-0 left-0 right-0 z-20 bg-white border-b border-gray-100 px-4 py-2 flex justify-center">
+      <div className="bg-gray-200 rounded-full p-0.5 flex relative w-48">
+        <div
+          className="absolute top-0.5 bottom-0.5 w-1/2 bg-black rounded-full transition-all duration-300"
+          style={{ left: mode === 'consumer' ? '2px' : 'calc(50% - 2px)' }}
+        />
+        <button
+          onClick={() => setMode('consumer')}
+          className={`flex-1 z-10 py-1.5 text-xs font-semibold rounded-full transition-colors ${mode === 'consumer' ? 'text-white' : 'text-gray-500'}`}
+        >
+          Consumer
+        </button>
+        <button
+          onClick={() => setMode('vendor')}
+          className={`flex-1 z-10 py-1.5 text-xs font-semibold rounded-full transition-colors ${mode === 'vendor' ? 'text-white' : 'text-gray-500'}`}
+        >
+          Vendor
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function ConsumerNav() {
+  const base = 'text-xs font-medium px-2 py-2 rounded-lg transition-colors'
   const active = `${base} bg-black text-white`
   const inactive = `${base} text-gray-500`
-
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex justify-around py-2 z-10">
       <NavLink to="/dashboard" className={({ isActive }) => isActive ? active : inactive}>Home</NavLink>
@@ -34,24 +63,67 @@ function Nav() {
   )
 }
 
+function VendorNav() {
+  const base = 'text-xs font-medium px-2 py-2 rounded-lg transition-colors'
+  const active = `${base} bg-black text-white`
+  const inactive = `${base} text-gray-500`
+  return (
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex justify-around py-2 z-10">
+      <NavLink to="/vendor/dashboard" className={({ isActive }) => isActive ? active : inactive}>Home</NavLink>
+      <NavLink to="/vendor/information" className={({ isActive }) => isActive ? active : inactive}>Info</NavLink>
+      <NavLink to="/vendor/campaigns" className={({ isActive }) => isActive ? active : inactive}>Campaigns</NavLink>
+      <NavLink to="/vendor/claim" className={({ isActive }) => isActive ? active : inactive}>Claim</NavLink>
+      <NavLink to="/settings" className={({ isActive }) => isActive ? active : inactive}>Settings</NavLink>
+    </nav>
+  )
+}
+
+function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => void }) {
+  const { pathname } = useLocation()
+  const { card } = useCard()
+  const showNav = !NO_NAV.includes(pathname)
+  const showToggle = showNav && card?.role === 'VENDOR'
+  const topPad = showToggle ? 'pt-12' : ''
+
+  return (
+    <div className={`pb-16 min-h-screen bg-gray-50 ${topPad}`}>
+      {showToggle && <ModeToggle mode={mode} setMode={setMode} />}
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/register" element={<Register />} />
+        {/* Consumer routes */}
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/calories" element={<Calories />} />
+        <Route path="/campaigns" element={<Campaigns />} />
+        <Route path="/vendors" element={<Vendors />} />
+        <Route path="/map" element={<Map />} />
+        <Route path="/nfc" element={<NfcConnect />} />
+        <Route path="/settings" element={<Settings />} />
+        {/* Vendor routes */}
+        <Route path="/vendor/dashboard" element={<VendorDashboard />} />
+        <Route path="/vendor/information" element={<VendorInformation />} />
+        <Route path="/vendor/campaigns" element={<Campaigns />} />
+        <Route path="/vendor/claim" element={<VendorClaim />} />
+      </Routes>
+      {showNav && (mode === 'vendor' && card?.role === 'VENDOR' ? <VendorNav /> : <ConsumerNav />)}
+    </div>
+  )
+}
+
 export default function App() {
+  const [mode, setMode] = useState<AppMode>(() =>
+    (localStorage.getItem('app_mode') as AppMode) ?? 'consumer'
+  )
+
+  function handleSetMode(m: AppMode) {
+    setMode(m)
+    localStorage.setItem('app_mode', m)
+  }
+
   return (
     <CardProvider>
       <BrowserRouter>
-        <div className="pb-16 min-h-screen bg-gray-50">
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/calories" element={<Calories />} />
-            <Route path="/campaigns" element={<Campaigns />} />
-            <Route path="/vendors" element={<Vendors />} />
-            <Route path="/map" element={<Map />} />
-            <Route path="/nfc" element={<NfcConnect />} />
-            <Route path="/settings" element={<Settings />} />
-          </Routes>
-          <Nav />
-        </div>
+        <AppLayout mode={mode} setMode={handleSetMode} />
         <Toaster position="top-center" />
       </BrowserRouter>
     </CardProvider>

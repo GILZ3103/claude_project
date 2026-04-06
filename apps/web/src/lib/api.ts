@@ -43,6 +43,37 @@ export const setCalorieLimit = (uid: string, calorie_limit: number) =>
     body: JSON.stringify({ calorie_limit }),
   })
 
+export const registerVendor = (body: {
+  owner_card_uid: string
+  business_name: string
+  ssm_registration_number: string
+  phone_number: string
+  category?: string
+  description?: string
+  grid_x?: number
+  grid_y?: number
+}) => request('/api/vendors/register', { method: 'POST', body: JSON.stringify(body) })
+
+export const getVendorSummary = (vendor_id: string, card_uid: string) =>
+  request(`/api/vendors/${vendor_id}/summary`, { headers: { 'x-card-uid': card_uid } } as any)
+
+export const submitClaim = (vendor_id: string, card_uid: string, claim_period_start: string, claim_period_end: string) =>
+  request(`/api/vendors/${vendor_id}/claim`, {
+    method: 'POST',
+    body: JSON.stringify({ claim_period_start, claim_period_end }),
+    headers: { 'x-card-uid': card_uid }
+  } as any)
+
+export const getVendorClaims = (vendor_id: string, card_uid: string) =>
+  request(`/api/vendors/${vendor_id}/claims`, { headers: { 'x-card-uid': card_uid } } as any)
+
+export const addFoodItem = (vendor_id: string, card_uid: string, body: {
+  name: string; calories: number; price_in_points: number;
+  photo_url?: string; protein_g?: number; carbs_g?: number; fat_g?: number
+}) => request(`/api/vendors/${vendor_id}/food`, {
+  method: 'POST', body: JSON.stringify(body), headers: { 'x-card-uid': card_uid }
+} as any)
+
 // Vendors
 export const getVendors = () => request('/api/vendors')
 
