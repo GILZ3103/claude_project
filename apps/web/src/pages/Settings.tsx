@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 export default function Settings() {
   const { card, unlinkCard } = useCard()
   const navigate = useNavigate()
-  const vendorUrl = import.meta.env.VITE_VENDOR_URL
 
   function handleSignOut() {
     unlinkCard()
@@ -32,21 +31,6 @@ export default function Settings() {
           </div>
         ))}
       </div>
-
-      {/* Switch portal */}
-      {vendorUrl && (
-        <div className="bg-white rounded-xl shadow p-4">
-          <p className="text-sm font-medium mb-2">Switch Portal</p>
-          <a
-            href={vendorUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full block text-center border border-black rounded-lg py-2 text-sm font-medium"
-          >
-            Switch to Vendor Portal →
-          </a>
-        </div>
-      )}
 
       {/* Sign out */}
       <div className="bg-white rounded-xl shadow p-4">
