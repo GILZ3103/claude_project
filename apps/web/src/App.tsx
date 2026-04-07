@@ -14,6 +14,7 @@ import Settings from './pages/Settings'
 import VendorDashboard from './pages/VendorDashboard'
 import VendorInformation from './pages/VendorInformation'
 import VendorClaim from './pages/VendorClaim'
+import VendorSummary from './pages/VendorSummary'
 
 const NO_NAV = ['/', '/register']
 
@@ -104,6 +105,7 @@ function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => 
         <Route path="/vendor/information" element={<VendorInformation />} />
         <Route path="/vendor/campaigns" element={<Campaigns />} />
         <Route path="/vendor/claim" element={<VendorClaim />} />
+        <Route path="/vendor/summary" element={<VendorSummary />} />
       </Routes>
       {showNav && (mode === 'vendor' && card?.role === 'VENDOR' ? <VendorNav /> : <ConsumerNav />)}
     </div>

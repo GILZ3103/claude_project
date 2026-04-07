@@ -49,7 +49,24 @@ router.post('/consumer/login', validate(loginSchema), async (req: Request, res: 
   }
 
   const { password_hash: _, ...safeCard } = card
-  res.json({ success: true, data: safeCard })
+
+  // If VENDOR role, also return vendor_id + business_name + ssm
+  let vendorData = {}
+  if (card.role === 'VENDOR') {
+    const { data: vendor } = await supabase
+      .from('vendors')
+      .select('vendor_id, business_name, ssm_registration_number')
+      .eq('owner_card_uid', safeCard.uid)
+      .eq('is_active', true)
+      .single()
+    vendorData = {
+      vendor_id: vendor?.vendor_id ?? null,
+      business_name: vendor?.business_name ?? null,
+      ssm_registration_number: vendor?.ssm_registration_number ?? null,
+    }
+  }
+
+  res.json({ success: true, data: { ...safeCard, ...vendorData } })
 })
 
 // POST /api/auth/vendor/login
