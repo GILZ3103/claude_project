@@ -1,5 +1,5 @@
 # MASTER.md — Smart Night Market System
-# Claude Code Project Brief — Version 2.1
+# Claude Code Project Brief — Version 2.3
 
 This document is the single source of truth for the Smart Night Market System.
 Read this entire file before writing any code. All architectural decisions are final.
@@ -66,8 +66,8 @@ The prepaid top-up flow is UI-only — points balance is adjusted directly.
 
 **Sign-in flow (/ Landing page):**
 ```
-1. User enters Card UID + Password
-2. POST /api/auth/consumer/login → bcrypt.compare
+1. User enters Email + Password (NOT Card UID — changed in v2.3)
+2. POST /api/auth/consumer/login → bcrypt.compare (looks up by owner_email)
 3. On success: uid stored in localStorage → GET /api/cards/:uid for full profile
 4. Redirects to /dashboard
 5. Session persists across page refreshes (uid in localStorage, no re-auth on reload)
@@ -76,6 +76,8 @@ The prepaid top-up flow is UI-only — points balance is adjusted directly.
 ---
 
 ### Vendor Registration (apps/vendor → /register → /onboarding)
+
+> Note: /register page has a Consumer/Vendor slide toggle at the top. Vendor mode reveals additional Business Information fields on the same form.
 
 **Step 1 — Account creation (/register):**
 ```
@@ -168,25 +170,30 @@ nightmarket/
 │   │       ├── context/CardContext.tsx
 │   │       ├── lib/api.ts
 │   │       └── pages/
-│   │           ├── Landing.tsx     # Sign-in (UID + password)
-│   │           ├── Register.tsx    # Consumer registration
-│   │           ├── Dashboard.tsx
-│   │           ├── Campaigns.tsx
-│   │           ├── Vendors.tsx
-│   │           └── Map.tsx
+│   │           ├── Landing.tsx         # Sign-in (email + password)
+│   │           ├── Register.tsx        # Consumer/Vendor toggle + registration
+│   │           ├── Dashboard.tsx       # Points, top-up, calories, history
+│   │           ├── Calories.tsx        # Macro breakdown, BMR, limit adjust
+│   │           ├── Campaigns.tsx       # Programs, vouchers collected, enrol
+│   │           ├── Vendors.tsx         # Search, menu with macros + photos
+│   │           ├── Map.tsx             # Interactive grid map
+│   │           ├── NfcConnect.tsx      # Card status, points, promotions, taps
+│   │           └── Settings.tsx        # Profile, sign out
 │   ├── kiosk/                      # Kiosk UI — React + TypeScript + Vite (runs on Pi)
 │   └── vendor/                     # Vendor portal — React + TypeScript + Vite
 │       └── src/
 │           ├── context/VendorContext.tsx
 │           ├── lib/api.ts
 │           └── pages/
-│               ├── Login.tsx       # Sign-in (UID + password)
-│               ├── Register.tsx    # Step 1 — card account creation
-│               ├── Onboarding.tsx  # Step 2 — business + SSM registration
-│               ├── Menu.tsx
-│               ├── VendorCampaigns.tsx
-│               ├── Summary.tsx
-│               └── Claim.tsx
+│               ├── Login.tsx           # Sign-in (UID + password)
+│               ├── Register.tsx        # Step 1 — card account creation
+│               ├── Onboarding.tsx      # Step 2 — business + SSM registration
+│               ├── Home.tsx            # Dashboard — subsidies, quick actions
+│               ├── Information.tsx     # Stall map + food items + macros + photos
+│               ├── VendorCampaigns.tsx # Campaign list + enrol button
+│               ├── Summary.tsx         # Subsidy breakdown
+│               ├── Claim.tsx           # Submit subsidy claims
+│               └── Settings.tsx        # Profile, sign out (no switch portal)
 ├── backend/
 │   ├── src/
 │   │   ├── routes/
@@ -207,7 +214,8 @@ nightmarket/
 │   ├── schema.sql                  # Full schema — run first in Supabase
 │   ├── seed.sql                    # Sample vendors, food items, campaigns
 │   └── migrations/
-│       └── 001_add_auth_fields.sql # Adds phone_number, password_hash, SSM columns
+│       ├── 001_add_auth_fields.sql # phone_number, password_hash, SSM columns
+│       └── 002_add_macros.sql      # protein_g, carbs_g, fat_g on food_items
 ├── firmware/
 │   └── vendor-terminal/
 │       └── src/
@@ -228,7 +236,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJ...
 PORT=3000
 
 # apps/web/.env
-VITE_API_URL=https://your-app.up.railway.app
+VITE_API_URL=https://claudeproject-production-5b22.up.railway.app
 
 # apps/kiosk/.env
 VITE_API_URL=http://localhost:3000
@@ -236,7 +244,7 @@ VITE_NFC_DAEMON_URL=http://localhost:5001
 VITE_KIOSK_ID=uuid-of-this-kiosk-unit
 
 # apps/vendor/.env
-VITE_API_URL=https://your-app.up.railway.app
+VITE_API_URL=https://claudeproject-production-5b22.up.railway.app
 ```
 
 ## Setup Order
@@ -448,6 +456,7 @@ CREATE TABLE vendors (
 -- Vendor menu items. Each has its own calorie count and point price.
 -- Replaces calories_per_serving on vendors — vendors can have multiple items.
 -- photo_url stores uploaded image URL from Supabase Storage.
+-- protein_g, carbs_g, fat_g added in migration 002_add_macros.sql (optional, default 0).
 -- The terminal has one default food_id hardcoded per terminal.
 -- If a vendor has one item, all taps use it. Multiple items require kiosk selection.
 CREATE TABLE food_items (
@@ -457,6 +466,9 @@ CREATE TABLE food_items (
     photo_url           TEXT,
     calories            INTEGER NOT NULL,
     price_in_points     DECIMAL(10,2) NOT NULL,
+    protein_g           NUMERIC(6,2) DEFAULT 0,   -- added in migration 002
+    carbs_g             NUMERIC(6,2) DEFAULT 0,   -- added in migration 002
+    fat_g               NUMERIC(6,2) DEFAULT 0,   -- added in migration 002
     is_available        BOOLEAN DEFAULT TRUE,
     created_at          TIMESTAMPTZ DEFAULT NOW()
 );
@@ -1446,6 +1458,19 @@ Libraries: Flask, adafruit-circuitpython-pn532, datetime
 *Version: 2.2 — Auth, registration flows, and Railway deployment*
 *Hardware: Arduino UNO R3 + ESP8266 + DS3231 + PN532 + E-paper | Raspberry Pi 4 + PN532*
 *Stack: React + TypeScript + Express + PostgreSQL (Supabase) + Railway + Vercel*
+
+**Changes from v2.2 to v2.3:**
+- Consumer login changed from Card UID to **email + password**
+- /register page has Consumer/Vendor slide toggle; vendor mode adds business fields inline
+- New consumer pages: /calories (macro breakdown, BMR calculator), /nfc (card status, promotions, taps), /settings
+- Dashboard updated: username greeting, top-up modal, Locate Market button
+- Campaigns updated: vouchers collected section, total deduction summary
+- Vendors updated: search bar, macros (protein/carbs/fat) on food items
+- Vendor portal new pages: Home dashboard, Information (stall map + food + macros + photos), Settings
+- Vendor Campaigns: enrol button added
+- Switch Portal button removed from both Settings pages
+- food_items now supports protein_g, carbs_g, fat_g — run migration 002_add_macros.sql
+- Nav updated: consumer 6 tabs, vendor 5 tabs
 
 **Changes from v2.1 to v2.2:**
 - Added dedicated consumer registration page (/register) — UID + name + email + phone + password

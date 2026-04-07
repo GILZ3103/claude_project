@@ -12,44 +12,72 @@ Consumers use a physical NFC card to tap at vendor stalls, spend points, track c
 
 ---
 
+## Current Progress
+
+| Component | Status |
+|---|---|
+| Database (Supabase) | Live |
+| Backend API (Railway) | Live — `https://claudeproject-production-5b22.up.railway.app` |
+| Consumer Web App | Functional locally (`localhost:5173`) |
+| Vendor Portal | Functional locally (`localhost:5174`) |
+| Kiosk App | Scaffolded — not deployed |
+| Arduino Firmware | Not yet started — awaiting hardware setup |
+| Vercel Deployment | Pending |
+
+---
+
 ## Project Structure
 
 ```
 claude_project/
 ├── apps/
 │   ├── web/                        # Consumer web app (React + TypeScript + Vite)
-│   │   └── src/pages/
-│   │       ├── Landing.tsx         # Sign-in page
-│   │       ├── Register.tsx        # Consumer registration
-│   │       ├── Dashboard.tsx
-│   │       ├── Campaigns.tsx
-│   │       ├── Vendors.tsx
-│   │       └── Map.tsx
+│   │   └── src/
+│   │       ├── context/CardContext.tsx
+│   │       ├── lib/api.ts
+│   │       └── pages/
+│   │           ├── Landing.tsx         # Sign-in (email + password)
+│   │           ├── Register.tsx        # Consumer/Vendor toggle registration
+│   │           ├── Dashboard.tsx       # Points, calories, top-up, history
+│   │           ├── Calories.tsx        # Calorie tracker + macros + BMR
+│   │           ├── Campaigns.tsx       # Programs, vouchers, enrol
+│   │           ├── Vendors.tsx         # Search, menu, macros
+│   │           ├── Map.tsx             # Grid market map
+│   │           ├── NfcConnect.tsx      # Card status, points, promotions, taps
+│   │           └── Settings.tsx        # Profile, sign out
 │   ├── vendor/                     # Vendor portal (React + TypeScript + Vite)
-│   │   └── src/pages/
-│   │       ├── Login.tsx
-│   │       ├── Register.tsx        # Step 1 — card account creation
-│   │       ├── Onboarding.tsx      # Step 2 — business + SSM registration
-│   │       ├── Menu.tsx
-│   │       ├── Claim.tsx
-│   │       └── Summary.tsx
+│   │   └── src/
+│   │       ├── context/VendorContext.tsx
+│   │       ├── lib/api.ts
+│   │       └── pages/
+│   │           ├── Login.tsx           # Sign-in (UID + password)
+│   │           ├── Register.tsx        # Step 1 — card account
+│   │           ├── Onboarding.tsx      # Step 2 — business + SSM
+│   │           ├── Home.tsx            # Dashboard — subsidies, quick actions
+│   │           ├── Information.tsx     # Stall map + food items + macros + photos
+│   │           ├── VendorCampaigns.tsx # Campaigns + enrol button
+│   │           ├── Summary.tsx         # Subsidy breakdown
+│   │           ├── Claim.tsx           # Submit subsidy claims
+│   │           └── Settings.tsx        # Profile, sign out
 │   └── kiosk/                      # Physical kiosk interface (React + TypeScript + Vite)
 ├── backend/
 │   ├── src/routes/
-│   │   ├── auth.ts                 # POST /api/auth/consumer/login + /vendor/login
-│   │   ├── cards.ts
-│   │   ├── vendors.ts
-│   │   ├── tap.ts
-│   │   ├── campaigns.ts
-│   │   └── map.ts
+│   │   ├── auth.ts                 # POST /api/auth/consumer/login (email) + /vendor/login
+│   │   ├── cards.ts                # Register, profile, history, top-up, calorie limit
+│   │   ├── vendors.ts              # Register, food items (with macros), summary, claims
+│   │   ├── tap.ts                  # NFC tap processing
+│   │   ├── campaigns.ts            # Campaign list, enrol, progress
+│   │   └── map.ts                  # Grid map data
 │   └── nixpacks.toml               # Railway build configuration
 ├── database/
 │   ├── schema.sql                  # Full schema — run first in Supabase
 │   ├── seed.sql                    # Sample data
 │   └── migrations/
-│       └── 001_add_auth_fields.sql # Adds phone_number, password_hash, SSM columns
-├── firmware/                       # Arduino + ESP8266 vendor terminal firmware
+│       ├── 001_add_auth_fields.sql # phone_number, password_hash, SSM columns
+│       └── 002_add_macros.sql      # protein_g, carbs_g, fat_g on food_items
+├── firmware/                       # Arduino + ESP8266 vendor terminal (not yet implemented)
 ├── daemon/                         # Python NFC daemon for Raspberry Pi kiosk
+│   └── nfc_daemon.py
 └── MASTER_v2_refined.md            # Full system specification
 ```
 
@@ -63,7 +91,7 @@ claude_project/
 | Backend | Node.js, Express, TypeScript, Zod |
 | Database | Supabase (PostgreSQL) |
 | Auth | bcryptjs (hashed passwords, no JWT) |
-| Firmware | Arduino + ESP8266 (NFC reader) |
+| Firmware | Arduino + ESP8266 (not yet implemented) |
 | Charts | Recharts (consumer dashboard) |
 
 ---
@@ -72,9 +100,9 @@ claude_project/
 
 | Role | Interface | Primary Actions |
 |---|---|---|
-| Consumer | `apps/web`, `apps/kiosk` | Register NFC card, top up points (UI only), tap at vendors, track calories, activate campaigns, redeem vouchers |
-| Vendor | `apps/vendor` | Register business, upload food items, set prices, join campaigns, view subsidy dashboard |
-| Guest | `apps/web` | Browse vendors and map only — no NFC features |
+| Consumer | `apps/web` | Register card, top up points (UI only), tap at vendors, track calories, join campaigns, redeem vouchers |
+| Vendor | `apps/vendor` | Register business + SSM, upload food items with macros, join campaigns, view subsidy dashboard, submit claims |
+| Guest | `apps/web` | Browse vendors and map only |
 
 ---
 
@@ -82,7 +110,7 @@ claude_project/
 
 ### Prerequisites
 - Node.js 18+
-- A Supabase project (for the database)
+- A Supabase project
 
 ### 1. Clone the repo
 ```bash
@@ -91,72 +119,127 @@ cd claude_project
 ```
 
 ### 2. Set up the database
-Run the SQL files in Supabase's SQL editor in this order:
+Run in Supabase SQL Editor in this order:
 ```
 database/schema.sql
 database/seed.sql
+database/migrations/001_add_auth_fields.sql
+database/migrations/002_add_macros.sql
 ```
 
-### 3. Set up the backend
+### 3. Backend
+Already deployed on Railway. To run locally:
 ```bash
 cd backend
-cp .env.example .env   # fill in your Supabase URL and keys
+cp .env.example .env   # fill in SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY
 npm install
 npm run dev            # runs on http://localhost:3000
 ```
 
-**Deploying to Railway:**
+**Railway deployment:**
 - Set **Root Directory** to `backend` in Railway service settings
-- Add environment variables: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `PORT=3000`
-- `nixpacks.toml` is already configured — Railway will build and start automatically
-- Build uses `node node_modules/typescript/bin/tsc` to avoid binary permission issues
+- Add env vars: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `PORT=3000`
+- `nixpacks.toml` handles build automatically
 
-### 4. Run a frontend app
+### 4. Run frontend apps
 ```bash
-# Consumer web app
-cd apps/web
-npm install
-npm run dev
+# Consumer web app — http://localhost:5173
+cd apps/web && npm run dev
 
-# Vendor portal
-cd apps/vendor
-npm install
-npm run dev
-
-# Kiosk
-cd apps/kiosk
-npm install
-npm run dev
+# Vendor portal — http://localhost:5174
+cd apps/vendor && npm run dev
 ```
+
+### 5. Environment files
+```bash
+# apps/web/.env
+VITE_API_URL=https://claudeproject-production-5b22.up.railway.app
+
+# apps/vendor/.env
+VITE_API_URL=https://claudeproject-production-5b22.up.railway.app
+```
+
+---
+
+## Consumer Web App — Pages
+
+| Page | Route | Features |
+|---|---|---|
+| Login | `/` | Email + password sign-in, link to register |
+| Register | `/register` | Toggle Consumer / Vendor at top; vendor adds Business Name, SSM, Category |
+| Dashboard | `/dashboard` | Username greeting, points balance, top-up modal (RM 10/20/50/custom), Locate Market button, calorie bar, vouchers, tap history |
+| Calories | `/calories` | Daily intake vs limit, macronutrient breakdown (protein/carbs/fat), adjust calorie limit, weight + height BMR calculator |
+| Campaigns | `/campaigns` | Program list with progress bars, enrol button, vouchers collected section, total deduction summary |
+| Vendors | `/vendors` | Search bar, vendor list, drill into food menu with macros and photos |
+| Map | `/map` | Interactive grid map, click stall for tooltip |
+| NFC Card | `/nfc` | Card connected status, points balance, active promotions notifications, previous taps |
+| Settings | `/settings` | Profile view (name, email, phone, UID), sign out |
+
+---
+
+## Vendor Portal — Pages
+
+| Page | Route | Features |
+|---|---|---|
+| Login | `/` | Card UID + password |
+| Register | `/register` | Step 1 — card account (same fields as consumer) |
+| Onboarding | `/onboarding` | Step 2 — Business Name, SSM No., Phone, Category, Grid position |
+| Home | `/home` | Business name, total subsidies available, quick action grid |
+| Information | `/information` | Stall location on map grid, food items list with photo URL + calories + macros |
+| Campaigns | `/campaigns` | Campaign list + enrol button |
+| Summary | `/summary` | Subsidy breakdown per campaign |
+| Claim | `/claim` | Submit subsidy claim by date range, claim history |
+| Settings | `/settings` | Profile view, sign out |
 
 ---
 
 ## API Overview
 
-Base URL: `http://localhost:3000/api`
+Base URL: `https://claudeproject-production-5b22.up.railway.app/api`
 
 | Method | Endpoint | Description |
 |---|---|---|
-| POST | `/cards/register` | Register a new NFC card (consumer) |
-| POST | `/auth/consumer/login` | Consumer login |
-| POST | `/auth/vendor/login` | Vendor login |
-| GET | `/cards/:uid` | Get consumer profile by card UID |
+| POST | `/auth/consumer/login` | Login with email + password |
+| POST | `/auth/vendor/login` | Login with card UID + password (requires VENDOR role) |
+| POST | `/cards/register` | Register new NFC card with phone + password |
+| GET | `/cards/:uid` | Get full card profile |
+| GET | `/cards/:uid/history` | Tap history |
+| GET | `/cards/:uid/vouchers` | Active vouchers |
+| POST | `/cards/:uid/topup` | Add points balance |
+| PATCH | `/cards/:uid/calorie-limit` | Update daily calorie limit |
+| GET | `/vendors` | List all active vendors |
+| POST | `/vendors/register` | Register vendor stall + SSM |
+| GET | `/vendors/:id/food` | Food menu with macros |
+| POST | `/vendors/:id/food` | Add food item (name, calories, price, macros, photo) |
+| GET | `/vendors/:id/summary` | Subsidy summary |
+| POST | `/vendors/:id/claim` | Submit subsidy claim |
+| GET | `/campaigns` | List campaigns (with progress if card_uid provided) |
+| POST | `/campaigns/:id/enrol` | Enrol card in campaign |
+| POST | `/tap` | Process NFC tap at vendor terminal |
+| GET | `/map` | Grid map with vendor + kiosk positions |
 
-> See `MASTER_v2_refined.md` for the full API contract and data schemas.
+> See `MASTER_v2_refined.md` for full API contracts and data schemas.
 
 ---
 
 ## Key Flows
 
 **Consumer registration:**
-1. User visits `/register` on the web app
-2. Submits Card UID, name, email, phone, password
-3. Password is bcrypt-hashed (10 rounds) server-side
-4. Auto sign-in → redirected to `/dashboard`
+1. Visit `/register` → select Consumer tab
+2. Fill: Card UID, name, email, phone, password
+3. Auto sign-in → `/dashboard`
+
+**Vendor registration:**
+1. Visit `/register` → select Vendor tab → fills card account fields + business info
+2. Step 2 (Onboarding): Business Name, SSM No., grid position
+3. Auto sign-in → `/home` dashboard
+
+**Consumer login:**
+- Email + password (not Card UID)
 
 **NFC tap at vendor:**
 1. Consumer taps NFC card at vendor terminal (Arduino + ESP8266)
-2. Firmware sends Card UID to backend
+2. Firmware sends Card UID + food item to `POST /api/tap`
 3. Points deducted, calories logged, transaction recorded
 
 ---
@@ -164,12 +247,13 @@ Base URL: `http://localhost:3000/api`
 ## Development Notes
 
 - `password_hash` is **never** returned in any API response
-- Session is stored in `localStorage` (uid only) — no re-auth on page reload
-- Build order: Database → Backend → Frontend (web, vendor, kiosk) → Firmware
-- Full architectural decisions are documented in `MASTER_v2_refined.md`
+- Consumer login uses **email**, vendor login uses **Card UID**
+- Session stored in `localStorage` (uid only) — no re-auth on page reload
+- Macros (protein/carbs/fat) on food items require migration `002_add_macros.sql`
+- Build order: Database → Backend → Frontend → Firmware
 
 ---
 
 ## Version
 
-**v2.2** — See `MASTER_v2_refined.md` for the full system specification and changelog.
+**v2.3** — See `MASTER_v2_refined.md` for full specification and changelog.
