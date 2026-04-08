@@ -6,6 +6,101 @@
 
 ---
 
+## Hardware Block Diagram
+
+![Embedded System Hardware Block Diagram](embedded-system-diagram.svg)
+
+> **How to read this diagram:**
+> - **Solid arrows** = data/signal flow
+> - **Dashed arrows** = power or configuration (one-time setup)
+> - Each protocol label (SPI, I2C, WiFi, GPIO) shows exactly which bus connects which component
+  class CLOUD cloud
+  class FS storage
+```
+
+---
+
+## Tap Processing Flow
+
+```mermaid
+flowchart TD
+    A([POWER ON]) --> B[Init Serial · NVS · LittleFS\nSPI → PN532 · I2C → DS3231 + OLED]
+    B --> C[Load from NVS:\napi_token · vendor_id · food_id]
+    C --> D{WiFi\nAvailable?}
+
+    D -- Yes --> E[Sync DS3231\nfrom NTP]
+    D -- No --> F[Use DS3231\nStored Time]
+    E --> G
+    F --> G
+
+    G{Offline Queue\nNot Empty?}
+    G -- Yes --> H[syncQueue]
+    G -- No --> I
+    H --> I
+
+    I([MAIN LOOP]) --> J[Poll PN532\nnon-blocking]
+    J --> K{Card\nDetected?}
+    K -- No --> J
+
+    K -- Yes --> L[Read UID\nfrom PN532\n── SPI ──]
+    L --> M[Get ISO Timestamp\nfrom DS3231\n── I2C ──]
+    M --> N[Generate txn_id\nSHA256 uid + ts\n── CPU ──]
+
+    N --> O{WiFi\nOnline?}
+
+    O -- Yes --> P[POST /api/tap\nAuthorization: Bearer token\ncard_uid · vendor_id · food_id\ndevice_timestamp · txn_id]
+    P --> Q{HTTP\nResponse}
+
+    Q -- 200 OK --> R[Parse JSON Response\npoints_balance · calorie_warning\ncampaign_completed]
+    R --> S[OLED: Show Balance\n── I2C ──]
+    S --> T{calorie\nwarning?}
+    T -- Yes --> U[OLED: ⚠ Limit Reached]
+    T -- No --> V{campaign\ncompleted?}
+    U --> V
+    V -- Yes --> W[OLED: 🎉 Campaign Done!]
+    V -- No --> X
+
+    Q -- 23505\nDuplicate txn_id --> Y[200 OK idempotent:true\nNo double charge]
+    Y --> X
+
+    Q -- 4xx / 5xx --> Z[OLED: Show Error Code\nGPIO2 LED: Red Blink]
+    Z --> X
+
+    O -- No --> AA[Enqueue to LittleFS\ncard_uid · food_id · ts · txn_id\n── Internal Flash ──]
+    AA --> AB[OLED: Saved Offline\nQueue count]
+    AB --> X
+
+    W --> X[Disable PN532 Poll\n1500ms cooldown\nPrevents txn_id collision]
+    X --> AC{WiFi just\nreconnected?}
+    AC -- Yes --> AD[syncQueue]
+    AC -- No --> J
+    AD --> J
+
+    subgraph SYNC ["syncQueue() — Chunked Offline Sync"]
+        SQ1[Read chunk of 10\nfrom LittleFS] --> SQ2[POST /api/tap/sync\nevents array max 10\nAuthorization: Bearer token]
+        SQ2 --> SQ3{HTTP 200?}
+        SQ3 -- Yes --> SQ4[Delete chunk\nfrom LittleFS]
+        SQ4 --> SQ5{Queue\nEmpty?}
+        SQ5 -- No --> SQ1
+        SQ5 -- Yes --> SQ6([Sync Complete])
+        SQ3 -- No --> SQ7([Stop · Retry\non Reconnect])
+    end
+
+    H --> SYNC
+    AD --> SYNC
+
+    style A fill:#1a1a2e,stroke:#4a9eff,color:#fff
+    style I fill:#1a1a2e,stroke:#4a9eff,color:#fff
+    style SYNC fill:#0f3460,stroke:#4a9eff,color:#ccc
+    style P fill:#533483,stroke:#9b59b6,color:#fff
+    style AA fill:#1a472a,stroke:#27ae60,color:#fff
+    style X fill:#16213e,stroke:#4a9eff,color:#fff
+    style Y fill:#1a472a,stroke:#27ae60,color:#fff
+    style Z fill:#4a0000,stroke:#e74c3c,color:#fff
+```
+
+---
+
 ## Context
 
 The original design specified an ESP8266 sending HTTPS REST calls for every NFC tap.

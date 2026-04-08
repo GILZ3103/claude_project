@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 720" width="960" height="720" font-family="Segoe UI, Arial, sans-serif">
+
+  <!-- Background -->
+  <rect width="960" height="720" fill="#fafafa"/>
+
+  <!-- Outer dashed border -->
+  <rect x="20" y="20" width="920" height="680" rx="12" fill="white" stroke="#aaa" stroke-width="1.5" stroke-dasharray="8,5"/>
+  <text x="38" y="46" font-size="13" fill="#888" font-style="italic">Embedded System — Vendor Terminal</text>
+
+  <!-- ═══════════════════════════════════════════════
+       ROW 1 — INPUT  /  MCU  /  OUTPUT
+  ════════════════════════════════════════════════ -->
+
+  <!-- INPUT DEVICES box -->
+  <rect x="44" y="62" width="192" height="130" rx="10" fill="#d4edda" stroke="#28a745" stroke-width="1.8"/>
+  <text x="140" y="85"  text-anchor="middle" font-size="13" font-weight="700" fill="#155724">Input Devices</text>
+  <line x1="70" y1="92" x2="210" y2="92" stroke="#28a745" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <text x="140" y="112" text-anchor="middle" font-size="12" fill="#155724">PN532 NFC Reader</text>
+  <text x="140" y="130" text-anchor="middle" font-size="11" fill="#2d6a4f">Sensor: ISO 14443A / NFC</text>
+  <text x="140" y="148" text-anchor="middle" font-size="11" fill="#2d6a4f">Reads card UID on tap</text>
+  <text x="140" y="166" text-anchor="middle" font-size="10" fill="#40916c" font-style="italic">Protocol → SPI</text>
+  <text x="140" y="182" text-anchor="middle" font-size="10" fill="#52b788" font-style="italic">SS=5  MOSI=23  MISO=19  SCK=18</text>
+
+  <!-- MCU box -->
+  <rect x="380" y="62" width="200" height="130" rx="10" fill="#e8d5f5" stroke="#7b5ea7" stroke-width="1.8"/>
+  <text x="480" y="85"  text-anchor="middle" font-size="13" font-weight="700" fill="#4a2080">Processor / MCU</text>
+  <line x1="400" y1="92" x2="560" y2="92" stroke="#7b5ea7" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <text x="480" y="112" text-anchor="middle" font-size="12" fill="#4a2080">ESP32 DevKit v1</text>
+  <text x="480" y="130" text-anchor="middle" font-size="11" fill="#5e35b1">240 MHz · 520 KB SRAM</text>
+  <text x="480" y="148" text-anchor="middle" font-size="11" fill="#5e35b1">4 MB Flash · Dual-core</text>
+  <text x="480" y="166" text-anchor="middle" font-size="11" fill="#5e35b1">Built-in WiFi 802.11 b/g/n</text>
+  <text x="480" y="182" text-anchor="middle" font-size="10" fill="#7e57c2" font-style="italic">Hardware TLS acceleration</text>
+
+  <!-- OUTPUT DEVICES box -->
+  <rect x="724" y="62" width="192" height="130" rx="10" fill="#fde8e8" stroke="#c0392b" stroke-width="1.8"/>
+  <text x="820" y="85"  text-anchor="middle" font-size="13" font-weight="700" fill="#7b241c">Output Devices</text>
+  <line x1="748" y1="92" x2="892" y2="92" stroke="#c0392b" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <text x="820" y="112" text-anchor="middle" font-size="12" fill="#7b241c">SSD1306 OLED Screen</text>
+  <text x="820" y="130" text-anchor="middle" font-size="11" fill="#922b21">128 × 64 px · Balance/Errors</text>
+  <text x="820" y="148" text-anchor="middle" font-size="10" fill="#a93226" font-style="italic">Protocol → I2C</text>
+  <text x="820" y="162" text-anchor="middle" font-size="10" fill="#a93226" font-style="italic">SDA=21  SCL=22</text>
+  <line x1="748" y1="172" x2="892" y2="172" stroke="#c0392b" stroke-width="0.6" stroke-dasharray="2,4"/>
+  <text x="820" y="184" text-anchor="middle" font-size="11" fill="#7b241c">Status LED  ·  GPIO2</text>
+
+  <!-- ═══════════════════════════════════════════════
+       ROW 2 — MEMORY
+  ════════════════════════════════════════════════ -->
+
+  <!-- MEMORY box -->
+  <rect x="356" y="248" width="248" height="120" rx="10" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.8"/>
+  <text x="480" y="270" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a8a">Memory</text>
+  <line x1="376" y1="277" x2="584" y2="277" stroke="#3b82f6" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <text x="480" y="296" text-anchor="middle" font-size="12" fill="#1e40af">NVS Flash  (Preferences)</text>
+  <text x="480" y="313" text-anchor="middle" font-size="11" fill="#1d4ed8">Stores: Token · Vendor ID · WiFi creds</text>
+  <text x="480" y="330" text-anchor="middle" font-size="11" fill="#1d4ed8">Survives power-off</text>
+  <line x1="376" y1="340" x2="584" y2="340" stroke="#3b82f6" stroke-width="0.6" stroke-dasharray="2,4"/>
+  <text x="480" y="358" text-anchor="middle" font-size="11" fill="#1e40af">LittleFS  (Offline queue)</text>
+
+  <!-- ═══════════════════════════════════════════════
+       ROW 3 — POWER  /  COMMUNICATION  /  FIRMWARE
+  ════════════════════════════════════════════════ -->
+
+  <!-- POWER SUPPLY box -->
+  <rect x="44" y="430" width="192" height="120" rx="10" fill="#dcfce7" stroke="#16a34a" stroke-width="1.8"/>
+  <text x="140" y="453" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">Power Supply</text>
+  <line x1="64" y1="460" x2="216" y2="460" stroke="#16a34a" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <text x="140" y="480" text-anchor="middle" font-size="12" fill="#14532d">5V via USB cable</text>
+  <text x="140" y="498" text-anchor="middle" font-size="11" fill="#166534">Regulated → 3.3V</text>
+  <text x="140" y="516" text-anchor="middle" font-size="11" fill="#166534">Powers all components</text>
+  <text x="140" y="534" text-anchor="middle" font-size="10" fill="#15803d" font-style="italic">CR2032 backup → RTC only</text>
+
+  <!-- COMMUNICATION box -->
+  <rect x="340" y="430" width="280" height="120" rx="10" fill="#fef3c7" stroke="#d97706" stroke-width="1.8"/>
+  <text x="480" y="453" text-anchor="middle" font-size="13" font-weight="700" fill="#78350f">Communication Protocols</text>
+  <line x1="360" y1="460" x2="600" y2="460" stroke="#d97706" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <text x="380" y="480" text-anchor="start" font-size="11" fill="#92400e">● SPI</text>
+  <text x="430" y="480" text-anchor="start" font-size="11" fill="#78350f">→ NFC Reader (fast, wired)</text>
+  <text x="380" y="498" text-anchor="start" font-size="11" fill="#92400e">● I2C</text>
+  <text x="430" y="498" text-anchor="start" font-size="11" fill="#78350f">→ RTC Clock + OLED Screen</text>
+  <text x="380" y="516" text-anchor="start" font-size="11" fill="#92400e">● WiFi</text>
+  <text x="430" y="516" text-anchor="start" font-size="11" fill="#78350f">→ HTTPS / TLS to Cloud API</text>
+  <text x="380" y="534" text-anchor="start" font-size="11" fill="#92400e">● GPIO</text>
+  <text x="430" y="534" text-anchor="start" font-size="11" fill="#78350f">→ Status LED (on/off signal)</text>
+
+  <!-- FIRMWARE box -->
+  <rect x="724" y="430" width="192" height="120" rx="10" fill="#f1f5f9" stroke="#64748b" stroke-width="1.8"/>
+  <text x="820" y="453" text-anchor="middle" font-size="13" font-weight="700" fill="#1e293b">Firmware / OS</text>
+  <line x1="744" y1="460" x2="892" y2="460" stroke="#64748b" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <text x="820" y="480" text-anchor="middle" font-size="12" fill="#1e293b">Arduino C++ Framework</text>
+  <text x="820" y="498" text-anchor="middle" font-size="11" fill="#334155">ArduinoJson v6</text>
+  <text x="820" y="516" text-anchor="middle" font-size="11" fill="#334155">Adafruit PN532 · RTClib</text>
+  <text x="820" y="534" text-anchor="middle" font-size="11" fill="#334155">mbedTLS · LittleFS</text>
+
+  <!-- ═══════════════════════════════════════════════
+       ROW 4 — CLOCK / RTC
+  ════════════════════════════════════════════════ -->
+
+  <!-- CLOCK box -->
+  <rect x="356" y="612" width="248" height="72" rx="10" fill="#fce7f3" stroke="#db2777" stroke-width="1.8"/>
+  <text x="480" y="635" text-anchor="middle" font-size="13" font-weight="700" fill="#831843">Clock / RTC</text>
+  <line x1="376" y1="641" x2="584" y2="641" stroke="#db2777" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <text x="480" y="658" text-anchor="middle" font-size="12" fill="#831843">DS3231 RTC Module</text>
+  <text x="480" y="674" text-anchor="middle" font-size="11" fill="#9d174d">I2C · ISO 8601 timestamps · CR2032 backup</text>
+
+  <!-- ═══════════════════════════════════════════════
+       CLOUD (top right)
+  ════════════════════════════════════════════════ -->
+  <rect x="744" y="620" width="192" height="72" rx="10" fill="#f3e8ff" stroke="#7c3aed" stroke-width="1.8"/>
+  <text x="840" y="643" text-anchor="middle" font-size="13" font-weight="700" fill="#4c1d95">☁ Cloud API</text>
+  <line x1="764" y1="650" x2="916" y2="650" stroke="#7c3aed" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <text x="840" y="667" text-anchor="middle" font-size="11" fill="#4c1d95">Railway · REST API</text>
+  <text x="840" y="683" text-anchor="middle" font-size="10" fill="#6d28d9" font-style="italic">POST /api/tap · /api/tap/sync</text>
+
+  <!-- ═══════════════════════════════════════════════
+       ARROWS
+  ════════════════════════════════════════════════ -->
+
+  <!-- Input → MCU (solid, horizontal right) -->
+  <defs>
+    <marker id="arrowBlack" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#555"/>
+    </marker>
+    <marker id="arrowBlackLeft" markerWidth="8" markerHeight="8" refX="2" refY="3" orient="auto">
+      <path d="M8,0 L8,6 L0,3 z" fill="#555"/>
+    </marker>
+    <marker id="arrowDash" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#999"/>
+    </marker>
+    <marker id="arrowUp" markerWidth="8" markerHeight="8" refX="3" refY="0" orient="auto">
+      <path d="M0,8 L6,8 L3,0 z" fill="#555"/>
+    </marker>
+    <marker id="arrowDown" markerWidth="8" markerHeight="8" refX="3" refY="8" orient="auto">
+      <path d="M0,0 L6,0 L3,8 z" fill="#555"/>
+    </marker>
+  </defs>
+
+  <!-- Input → MCU -->
+  <line x1="238" y1="127" x2="378" y2="127" stroke="#555" stroke-width="2" marker-end="url(#arrowBlack)"/>
+  <text x="308" y="120" text-anchor="middle" font-size="10" fill="#333">SPI</text>
+
+  <!-- MCU → Output -->
+  <line x1="582" y1="127" x2="722" y2="127" stroke="#555" stroke-width="2" marker-end="url(#arrowBlack)"/>
+  <text x="652" y="120" text-anchor="middle" font-size="10" fill="#333">I2C / GPIO</text>
+
+  <!-- MCU ↔ Memory (double-headed vertical) -->
+  <line x1="480" y1="194" x2="480" y2="246" stroke="#555" stroke-width="2" marker-start="url(#arrowBlack)" marker-end="url(#arrowBlack)"/>
+  <text x="494" y="224" font-size="10" fill="#333">internal</text>
+
+  <!-- Memory → Communication (vertical down) -->
+  <line x1="480" y1="370" x2="480" y2="428" stroke="#555" stroke-width="2" marker-end="url(#arrowBlack)"/>
+
+  <!-- Power → Communication (dashed horizontal) -->
+  <line x1="238" y1="490" x2="338" y2="490" stroke="#999" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arrowDash)"/>
+  <text x="288" y="484" text-anchor="middle" font-size="10" fill="#666">3.3V</text>
+
+  <!-- Firmware → MCU area (dashed diagonal) -->
+  <line x1="822" y1="428" x2="582" y2="194" stroke="#999" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arrowDash)"/>
+  <text x="730" y="310" text-anchor="middle" font-size="10" fill="#666" transform="rotate(-45,730,310)">flashed via USB</text>
+
+  <!-- Communication ↔ Output (dashed) -->
+  <path d="M 622 470 Q 700 350 724 170" stroke="#999" stroke-width="1.5" stroke-dasharray="5,4" fill="none" marker-end="url(#arrowDash)"/>
+
+  <!-- Communication → Clock (vertical down) -->
+  <line x1="480" y1="552" x2="480" y2="610" stroke="#555" stroke-width="2" marker-end="url(#arrowBlack)"/>
+  <text x="494" y="585" font-size="10" fill="#333">I2C</text>
+
+  <!-- MCU → Cloud (WiFi arrow, angled) -->
+  <path d="M 582 162 Q 660 200 742 648" stroke="#7c3aed" stroke-width="2" stroke-dasharray="6,3" fill="none" marker-end="url(#arrowDash)"/>
+  <text x="696" y="400" text-anchor="middle" font-size="10" fill="#7c3aed" transform="rotate(80,696,400)">WiFi · HTTPS · TLS</text>
+
+</svg>
