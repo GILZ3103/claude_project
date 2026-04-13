@@ -75,37 +75,29 @@ The prepaid top-up flow is UI-only — points balance is adjusted directly.
 
 ---
 
-### Vendor Registration (apps/vendor → /register → /onboarding)
+### Vendor Registration (apps/web → /register)
 
 > Note: /register page has a Consumer/Vendor slide toggle at the top. Vendor mode reveals additional Business Information fields on the same form.
 
-**Step 1 — Account creation (/register):**
+**Account + business registration (/register):**
 ```
-1. Vendor visits /register on the vendor portal
-2. Fills form:
+1. Vendor visits /register on apps/web
+2. Selects "Vendor" toggle — reveals Business Information fields
+3. Fills form:
    - Card UID (vendor NFC card)
    - Full Name (as per IC / Passport)
    - Email Address
    - Phone Number (Malaysian mobile)
    - Password (min 8 characters)
    - Confirm Password
-3. POST /api/cards/register (same endpoint as consumer — role starts as CONSUMER)
-4. On success: auto sign-in → redirects to /onboarding
-```
-
-**Step 2 — Business registration (/onboarding):**
-```
-1. Vendor fills stall details:
    - Business Name
    - SSM Registration Number (Malaysia ROB / ROC format, e.g. 001234567-X)
      → Validated as unique — duplicate SSM returns 409 SSM_ALREADY_REGISTERED
    - Business Phone Number
    - Category (optional, e.g. Nasi Lemak, Satay)
-   - Description (optional)
-   - Grid Position X/Y (optional — can be set by admin later)
-2. POST /api/vendors/register
+4. POST /api/cards/register → POST /api/vendors/register
    → card role upgraded to VENDOR in cards table
-3. On success: vendor_id stored in localStorage → redirects to /menu
+5. On success: vendor_id stored in localStorage → redirects to /vendor/dashboard
 ```
 
 **Sign-in flow (/ Login page):**
@@ -178,22 +170,14 @@ nightmarket/
 │   │           ├── Vendors.tsx         # Search, menu with macros + photos
 │   │           ├── Map.tsx             # Interactive grid map
 │   │           ├── NfcConnect.tsx      # Card status, points, promotions, taps
-│   │           └── Settings.tsx        # Profile, sign out
+│   │           ├── Settings.tsx        # Profile, sign out
+│   │           ├── VendorDashboard.tsx # Vendor home — subsidies, quick actions
+│   │           ├── VendorInformation.tsx # Stall map + food items + macros
+│   │           ├── VendorCampaigns.tsx # Campaign list + enrol
+│   │           ├── VendorClaim.tsx     # Submit subsidy claims
+│   │           └── VendorSummary.tsx   # Subsidy breakdown per campaign
 │   ├── kiosk/                      # Kiosk UI — React + TypeScript + Vite (runs on Pi)
-│   └── vendor/                     # Vendor portal — React + TypeScript + Vite
-│       └── src/
-│           ├── context/VendorContext.tsx
-│           ├── lib/api.ts
-│           └── pages/
-│               ├── Login.tsx           # Sign-in (UID + password)
-│               ├── Register.tsx        # Step 1 — card account creation
-│               ├── Onboarding.tsx      # Step 2 — business + SSM registration
-│               ├── Home.tsx            # Dashboard — subsidies, quick actions
-│               ├── Information.tsx     # Stall map + food items + macros + photos
-│               ├── VendorCampaigns.tsx # Campaign list + enrol button
-│               ├── Summary.tsx         # Subsidy breakdown
-│               ├── Claim.tsx           # Submit subsidy claims
-│               └── Settings.tsx        # Profile, sign out (no switch portal)
+│   └── vendor/                     # Legacy standalone vendor portal (superseded by apps/web)
 ├── backend/
 │   ├── src/
 │   │   ├── routes/
@@ -240,8 +224,6 @@ VITE_API_URL=http://localhost:3000
 VITE_NFC_DAEMON_URL=http://localhost:5001
 VITE_KIOSK_ID=uuid-of-this-kiosk-unit
 
-# apps/vendor/.env
-VITE_API_URL=https://claudeproject-production-5b22.up.railway.app
 ```
 
 ## Setup Order
@@ -435,7 +417,7 @@ CREATE TABLE cards (
 
 -- 2. VENDORS
 -- One row per stall. Registered by vendor through the vendor portal.
--- terminal_mac_address links the physical ESP8266 to this vendor.
+-- terminal_mac_address links the physical ESP32 vendor terminal to this vendor (legacy field — auth_token in NVS is preferred).
 -- grid_x and grid_y position the stall on the market map.
 -- ssm_registration_number: Malaysia SSM ROB/ROC number — unique, required.
 -- phone_number: business contact number.
@@ -955,7 +937,7 @@ Response data:
 ---
 
 ### POST /api/tap/sync
-Batch sync for ESP8266 offline LittleFS queue.
+Batch sync for ESP32 offline LittleFS queue.
 
 Body:
 ```json
@@ -1095,9 +1077,8 @@ All UI design is done in Figma first before any React code is written.
 Figma designs are connected to Claude Code via the Figma MCP integration.
 
 This applies to all three surfaces:
-- **Consumer Website** (apps/web)
+- **Consumer + Vendor Website** (apps/web — single app, mode toggle)
 - **Digital Directory Kiosk** (apps/kiosk)
-- **Vendor Portal** (apps/vendor)
 
 Design-to-code order for every screen:
 1. Design the screen in Figma (layout, components, spacing, colours, states)
@@ -1186,35 +1167,38 @@ Response: `{ "uid": "04:A3:2F:B1" }` or `{ "uid": null }`
 
 ---
 
-## App 3 — Vendor Portal (apps/vendor)
+## Vendor Pages (inside apps/web — mode toggle)
+
+When a VENDOR role card is logged in, a mode toggle appears at the top of apps/web.
+All vendor pages are part of the same React app at `nightmarket-web.vercel.app`.
+No separate app or URL — same Figma MCP workflow applies.
 
 ### UI Design Source
-All vendor portal layouts, table designs, form components, onboarding steps, and status badge
-styles come from Figma via MCP. Implement to spec — do not improvise UI decisions in code.
+Vendor page layouts, form components, table designs, and status badge styles come from
+Figma via MCP. Implement to spec — do not improvise UI decisions in code.
 
 ### Auth
-Vendor logs in with their card UID. All API calls to vendor routes include
-`x-card-uid: {uid}` header. If role ≠ VENDOR, redirect to registration.
+Vendor logs in via the standard `/` Login page using Card UID + Password.
+`x-card-uid: {uid}` header included on all vendor API calls.
+If role ≠ VENDOR, mode toggle does not appear.
 
 ### Pages
 
-**/ — Register or Login**
-Enter card UID. If role = VENDOR go to dashboard. If CONSUMER show registration form.
+**/vendor/dashboard — Vendor Home**
+Business name, total subsidies earned, quick actions.
 
-**/#onboarding — Setup**
-Step 1: Business details. Step 2: Visual grid picker. Step 3: MAC address. Step 4: First food item.
+**/vendor/information — Food Items & Stall**
+Stall grid position. Food item list from GET /api/vendors/:id/food.
+Add item form with macros + photo upload. Toggle availability.
 
-**/#menu — Food Items**
-List from GET /api/vendors/:id/food. Add item form with photo upload. Toggle availability.
-
-**/#campaigns — Campaign Participation**
+**/vendor/campaigns — Campaign Participation**
 Opt stall into active campaigns (counts for VISIT_STALLS condition).
 
-**/#summary — Subsidy Dashboard (Phase 3)**
+**/vendor/summary — Subsidy Dashboard**
 Table from subsidy_summary view via GET /api/vendors/:id/summary.
 Redemptions, subsidy per redemption, total owed (all-time).
 
-**/#claim — Submit Claim (Phase 3)**
+**/vendor/claim — Submit Claim**
 Date range picker, total preview, submit via POST /api/vendors/:id/claim.
 Claims history loaded from GET /api/vendors/:id/claims with status badges
 (PENDING_AUDIT / APPROVED / PAID).
@@ -1225,122 +1209,95 @@ Claims history loaded from GET /api/vendors/:id/claims with status badges
 
 # SECTION 6 — FIRMWARE
 
-## Vendor Terminal — Two Microcontrollers over UART
+## Vendor Terminal — ESP32 DevKit v1 (Single Chip)
 
-### Arduino UNO R3
-Reads NFC, reads RTC, builds payload, drives e-paper, communicates with ESP8266 via UART.
+> Hardware not yet purchased. Firmware not yet written. Full architecture and flow diagrams: `docs/embedded-architecture_vendor.md`
 
-### ESP8266
-WiFi only. Receives JSON from Arduino, sends HTTPS POST to API,
-stores in LittleFS queue if offline, flushes queue on reconnect,
-returns result to Arduino via UART.
+### ESP32 DevKit v1
+Single chip handles NFC reading (via SPI), RTC timekeeping (via I2C), OLED output (via I2C),
+WiFi HTTPS to Railway API, and offline queue in LittleFS. No separate WiFi bridge chip needed —
+ESP32 has hardware TLS acceleration built in.
 
-## E-paper Display Design — Figma + MCP
+## OLED Display Design — Figma + MCP
 
-All e-paper display states (idle, processing, success, error, offline) are designed in Figma first
+All OLED display states (idle, processing, success, error, offline) are designed in Figma first
 and connected to Claude Code via MCP before firmware rendering is implemented.
-The Figma designs define the exact text layout, font size, and content per state for the
-specific e-paper model in use. Implement the rendering code to match those specs.
+The Figma designs define the exact text layout and content per state for the 128×64 SSD1306 display.
+Implement the rendering code to match those specs.
 
 ## Libraries
 
-### Arduino UNO R3
-- Adafruit PN532
-- RTClib
-- ArduinoJson 6.x (StaticJsonDocument)
-- E-paper library for your specific display model
-
-### ESP8266
-- ESP8266WiFi.h
-- ESP8266HTTPClient.h
-- ArduinoJson 6.x
-- LittleFS (do NOT use SPIFFS — deprecated)
+### ESP32 (Arduino C++ framework via PlatformIO)
+- Adafruit PN532 (NFC reader — SPI mode)
+- RTClib (DS3231 RTC — I2C)
+- ArduinoJson v6 (StaticJsonDocument)
+- Adafruit SSD1306 (OLED — I2C)
+- mbedTLS (built-in hardware TLS — no extra library)
+- LittleFS (offline queue — do NOT use SPIFFS, deprecated)
 
 ## Hardware Connections
 
 ```
-Arduino UNO R3:
+ESP32 DevKit v1:
 
-PN532 NFC (I2C):
-  SDA → A4 | SCL → A5 | VCC → 3.3V | GND → GND
+PN532 NFC Reader (SPI):
+  SS=5  MOSI=23  MISO=19  SCK=18  VCC=3.3V  GND=GND
 
-DS3231 RTC (I2C — same bus):
-  SDA → A4 | SCL → A5 | VCC → 3.3V | GND → GND
+DS3231 RTC (I2C):
+  SDA=21  SCL=22  VCC=3.3V  GND=GND  CR2032 backup cell
 
-E-paper: per manufacturer spec
+SSD1306 OLED 128×64 (I2C — same bus as RTC):
+  SDA=21  SCL=22  VCC=3.3V  GND=GND
 
-ESP8266 UART:
-  Use SoftwareSerial on pins 10 (RX) and 11 (TX)
-  Arduino pin 11 (TX) → ESP8266 RX
-  Arduino pin 10 (RX) → ESP8266 TX
+Status LED:
+  GPIO2 (built-in LED on most DevKit v1 boards)
+
+Power:
+  5V via USB cable → regulated to 3.3V on-board
 ```
 
-## Hardcoded Constants Per Terminal
+## NVS Constants Per Terminal (stored in flash, survive power-off)
 
 ```cpp
-// Arduino main.cpp
-const char* VENDOR_ID = "uuid-of-this-vendor";
-const char* FOOD_ID   = "uuid-of-default-food-item";  // default item for this terminal
-
-// ESP8266 wifi_bridge.ino
-const char* WIFI_SSID     = "nightmarket_wifi";
-const char* WIFI_PASSWORD = "password";
-const char* API_URL       = "https://your-app.up.railway.app/api/tap";
-const char* SYNC_URL      = "https://your-app.up.railway.app/api/tap/sync";
-const char* TERMINAL_MAC  = "AA:BB:CC:DD:EE:FF";
+// Stored via Preferences (NVS) — written once during provisioning
+// Keys: "wifi_ssid", "wifi_pass", "vendor_id", "food_id", "auth_token"
+// auth_token is a Bearer token issued by the backend — NOT the MAC address
 ```
 
-## Arduino Main Loop
+## Core Firmware Loop
 
 ```
 Setup:
-  Init Serial, I2C, PN532, DS3231, e-paper, SoftwareSerial to ESP8266
-  Display: vendor name + "Ready"
+  Init SPI (PN532), I2C (DS3231 + OLED), WiFi, NVS, LittleFS
+  Sync RTC via NTP on first WiFi connect (add 28800s UTC→MYT)
+  Display: "[Vendor Name] — Ready"
 
 Loop:
   Poll PN532 every 200ms
   On card detected:
-    Read UID as hex string "04:A3:2F:B1"
-    Read DS3231 as ISO 8601 string (+08:00 suffix — DS3231 stores MYT local time)
-    Build JSON under 200 bytes via StaticJsonDocument<200>
-    Send over SoftwareSerial to ESP8266
-    Wait for response string (timeout 10s)
-    Parse response with ArduinoJson
-    Display result on e-paper 4 seconds
+    Read UID as hex string "04A32FB1"
+    Read DS3231 → ISO 8601 string "2024-03-31T14:22:09+08:00"
+    Compute txn_id = SHA256(card_uid + device_timestamp) → hex string [64 chars]
+    Build JSON payload (StaticJsonDocument<256>)
+    If WiFi connected:
+      POST /api/tap with Authorization: Bearer {token}
+      On 200: display success (balance, calories)
+      On 409 DUPLICATE_TAP: display "Already visited"
+      On network error: append to LittleFS queue
+    If WiFi disconnected:
+      Append JSON line to /queue.ndjson (NDJSON, append-only)
+      Display "Saved — will sync"
+    Block PN532 polling 1.5s (prevents same-second timestamp collision)
     Return to idle
+
+Queue flush (on WiFi reconnect):
+  Read /queue.ndjson in 10-event chunks
+  POST each chunk to /api/tap/sync: { events: [...] }
+  On 200: delete lines from file
+  On failure: retain — server deduplicates via txn_id UNIQUE constraint
 ```
 
-## ISO 8601 Timestamp
-
-```cpp
-// DS3231 stores MYT local time (UTC+8).
-// NTP sync must add 28800 seconds before writing DS3231 — NTP returns UTC.
-// Output format: "2024-03-31T14:22:09+08:00"
-String getISO8601() {
-    DateTime now = rtc.now();
-    char buf[26];
-    sprintf(buf, "%04d-%02d-%02dT%02d:%02d:%02d+08:00",
-        now.year(), now.month(), now.day(),
-        now.hour(), now.minute(), now.second());
-    return String(buf);
-}
-```
-
-## Minimal JSON Payload — Under 200 Bytes
-
-```cpp
-StaticJsonDocument<200> doc;
-doc["card_uid"]          = uid;
-doc["vendor_id"]         = VENDOR_ID;
-doc["food_id"]           = FOOD_ID;
-doc["device_timestamp"]  = getISO8601();
-doc["synced_from_queue"] = false;
-char payload[200];
-serializeJson(doc, payload);
-// Send payload over SoftwareSerial to ESP8266
-```
-
-## E-paper Display States
+## OLED Display States
 
 ```
 Idle:          "[Vendor Name] — Ready"
@@ -1351,34 +1308,6 @@ Warning:       "Calorie limit reached!"
 Duplicate:     "Already visited today"
 No points:     "Insufficient points"
 Offline:       "Saved — will sync"
-```
-
-## ESP8266 Bridge Logic
-
-```
-Setup:
-  Init UART (115200 baud), connect WiFi
-  Init LittleFS, flush /queue.ndjson if it exists
-
-Loop:
-  On data from Arduino Serial:
-    Read JSON string from UART
-    If WiFi connected:
-      POST to API_URL
-      Send response JSON back to Arduino via UART
-    If WiFi not connected:
-      Open /queue.ndjson in APPEND mode
-      Write JSON string + newline character
-      Close file
-      Send "OFFLINE_SAVED" to Arduino via UART
-
-Queue flush (on WiFi reconnect):
-  Read /queue.ndjson line by line
-  Parse each line as JSON object
-  Collect all objects into events array
-  POST batch to SYNC_URL: { terminal_mac, events }
-  On success: delete /queue.ndjson
-  On failure: retain file — server deduplicates on next retry
 ```
 
 Note: Queue uses NDJSON (one JSON object per line, append-only).
@@ -1413,11 +1342,11 @@ Libraries: Flask, adafruit-circuitpython-pn532, datetime
 |---|---|
 | Datatype incompatibility | Zod validates at Express. ArduinoJson types correctly. TIMESTAMPTZ in PostgreSQL |
 | System complexity | Phased build. Phase 1 fully functional without campaigns or map |
-| Delayed response | UART adds ~100ms. Keep payload under 200 bytes. E-paper shows Processing immediately |
+| Delayed response | ESP32 direct HTTPS — no UART bridge. Keep payload under 256 bytes. OLED shows Processing immediately |
 | Unclear storage | points_log is financial audit trail. tap_events is operational log. subsidy_summary is reporting |
 | Backend not working | POST /api/tap built and tested first. Zod rejects bad payloads early. Structured error codes |
-| Arduino 2KB SRAM | StaticJsonDocument fixed size. char arrays not String. Payload under 200 bytes |
-| RF environment dropout | LittleFS NDJSON queue on ESP8266 — offline taps never lost, append-only prevents corruption |
+| ESP32 heap | StaticJsonDocument fixed size. char arrays not String (stack-allocated hexOutput[65]). Payload under 256 bytes |
+| RF environment dropout | LittleFS NDJSON queue on ESP32 — offline taps never lost, append-only prevents corruption |
 | RTC accuracy offline | DS3231 battery-backed — survives reboots. NTP syncs on WiFi reconnect (add 28800s offset) |
 | Timestamp tampering | device_timestamp informational only. server_timestamp set by Express — client cannot supply it |
 | Stale subsidy totals | subsidy_summary is a live view — always calculated from current data |
@@ -1432,10 +1361,10 @@ Libraries: Flask, adafruit-circuitpython-pn532, datetime
 
 | Decision | Rationale |
 |---|---|
-| Express middleware retained | API key must stay server-side — ESP8266 firmware is extractable |
-| Arduino UNO R3 + ESP8266 | Cost — Arduino already available. ESP8266 handles WiFi separately |
+| Express middleware retained | API key must stay server-side — ESP32 firmware binary is extractable |
+| ESP32 DevKit v1 (single chip) | Hardware TLS acceleration built-in — no separate WiFi bridge chip needed. Replaces Arduino UNO R3 + ESP8266 dual-chip design |
 | TAP_EVENTS normalised event store | Decouples physical tap from business logic |
-| DS3231 mandatory | Arduino has no persistent clock — offline timestamps would be wrong on reboot |
+| DS3231 mandatory | ESP32 has no persistent clock — offline timestamps would be wrong on reboot |
 | Dual timestamp | device_timestamp for ordering, server_timestamp for audit |
 | DS3231 stores MYT (UTC+8), NTP adds offset | NTP returns UTC — must add 28800s before writing DS3231 so +08:00 suffix is correct |
 | points_log separate table | Financial audit trail separate from operational tap log |
@@ -1447,18 +1376,18 @@ Libraries: Flask, adafruit-circuitpython-pn532, datetime
 | Claim generation queries vouchers not view | View has no date filter — querying vouchers.used_at gives period-accurate totals |
 | Duplicate check uses device_timestamp for synced events | server_timestamp is always "today" for synced events — device_timestamp reflects actual tap day |
 | NDJSON append-only queue | Full file rewrite on each offline tap risks corruption on power loss. Append is atomic |
-| LittleFS not SPIFFS | SPIFFS deprecated in current ESP8266 Arduino core. LittleFS is the replacement |
+| LittleFS not SPIFFS | SPIFFS deprecated in current ESP32 Arduino core. LittleFS is the replacement |
 | Grid map vendor-selected position | Vendor knows their own stall location |
 | x-card-uid header for vendor route auth | Prototype-level guard using VENDOR role card. Replace with Supabase Auth for production |
-| Figma + MCP for all UI surfaces | Consumer website, kiosk, vendor portal, and e-paper display states all designed in Figma first |
+| Figma + MCP for all UI surfaces | Consumer + vendor website (apps/web), kiosk, and OLED display states all designed in Figma first |
 | Phase 1 / 2 / 3 build order | Core tap must be stable before campaigns. Campaigns before map |
 | Payment gateway excluded | Top-up is UI only. Payment inserts at top-up step only — no schema changes needed |
 
 ---
 
 *End of MASTER.md*
-*Version: 2.2 — Auth, registration flows, and Railway deployment*
-*Hardware: Arduino UNO R3 + ESP8266 + DS3231 + PN532 + E-paper | Raspberry Pi 4 + PN532*
+*Version: 2.3 — Single-URL deployment, ESP32 vendor terminal, vendor pages merged into apps/web*
+*Hardware: ESP32 DevKit v1 + DS3231 + PN532 + SSD1306 OLED | Raspberry Pi 4 + PN532*
 *Stack: React + TypeScript + Express + PostgreSQL (Supabase) + Railway + Vercel*
 
 **Changes from v2.2 to v2.3:**
@@ -1499,7 +1428,7 @@ Libraries: Flask, adafruit-circuitpython-pn532, datetime
 - Added vendor route auth via x-card-uid header
 - Clarified food_id selection — hardcoded per terminal, multi-item selection via kiosk
 - Completed POST /api/kiosk/tap response and kiosk Panel 1 tap flow
-- Replaced full queue file rewrite with NDJSON append-only on ESP8266
+- Replaced full queue file rewrite with NDJSON append-only on ESP32 LittleFS
 - Fixed NTP → DS3231 UTC+8 offset: NTP returns UTC, add 28800s before writing DS3231
 - Added CHECK constraints on all enum columns
 - Added database indexes on hot query paths
