@@ -17,7 +17,7 @@ Build in this exact order:
 3. Frontend Phase 1 — points, tap, calories, vendor registration
 4. Frontend Phase 2 — campaigns, vouchers
 5. Frontend Phase 3 — grid map, vendor portal
-6. Firmware — Arduino + ESP8266 last
+6. Firmware — ESP32 vendor terminal last (awaiting hardware)
 
 ---
 
@@ -135,7 +135,7 @@ The prepaid top-up flow is UI-only — points balance is adjusted directly.
 |---|---|---|
 | Consumer website | Any browser | Card registration, points top-up UI, campaign tracking, calorie dashboard |
 | Digital directory kiosk | Raspberry Pi 4 + PN532 + LCD | Tap card to check balance, activate campaigns, get location path to vendor |
-| Vendor terminal | Arduino UNO R3 + ESP8266 + PN532 | Consumer taps to purchase — deducts points, logs calories, redeems vouchers |
+| Vendor terminal | ESP32 DevKit v1 + PN532 + DS3231 RTC | Consumer taps to purchase — deducts points, logs calories, redeems vouchers |
 
 ## Build Phases
 
@@ -217,11 +217,8 @@ nightmarket/
 │       ├── 001_add_auth_fields.sql # phone_number, password_hash, SSM columns
 │       └── 002_add_macros.sql      # protein_g, carbs_g, fat_g on food_items
 ├── firmware/
-│   └── vendor-terminal/
-│       └── src/
-│           ├── main.cpp            # Arduino UNO R3 main logic
-│           └── wifi_bridge/
-│               └── wifi_bridge.ino # ESP8266 UART-to-HTTP bridge
+│   └── vendor-terminal/            # ESP32 firmware — awaiting hardware
+│       └── src/                    # See docs/embedded-architecture_vendor.md
 ├── daemon/                         # Python NFC daemon for Raspberry Pi kiosk
 │   └── nfc_daemon.py
 └── MASTER_v2_refined.md
@@ -257,11 +254,12 @@ VITE_API_URL=https://claudeproject-production-5b22.up.railway.app
    - Add env vars: SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, PORT=3000
    - nixpacks.toml handles build automatically (installs devDeps, runs tsc via node)
    - Generate domain → copy Railway URL for step 5
-5. Deploy web and vendor apps to Vercel:
+5. Deploy apps/web to Vercel (consumer + vendor — single app, single URL):
    - Set VITE_API_URL to Railway URL from step 4
-6. Run kiosk app locally on Raspberry Pi
-7. Run Python NFC daemon on Raspberry Pi
-8. Flash firmware to Arduino + ESP8266
+   - Live at: https://nightmarket-web.vercel.app
+6. Run kiosk app locally on Raspberry Pi (serve dist/ or npm run dev)
+7. Run Python NFC daemon on Raspberry Pi (daemon/nfc_daemon.py)
+8. Flash firmware to ESP32 vendor terminal
 
 ---
 
@@ -273,9 +271,8 @@ VITE_API_URL=https://claudeproject-production-5b22.up.railway.app
 
 | Layer | Technology | Hosting |
 |---|---|---|
-| Consumer website | React + TypeScript + Vite + TailwindCSS | Vercel |
-| Kiosk UI | React + TypeScript + Vite + TailwindCSS | Local on Raspberry Pi 4 |
-| Vendor portal | React + TypeScript + Vite + TailwindCSS | Vercel |
+| Consumer + Vendor web app | React + TypeScript + Vite + TailwindCSS | Vercel — nightmarket-web.vercel.app |
+| Kiosk UI | React + TypeScript + Vite + TailwindCSS | Local on Raspberry Pi 4 (served from SD card) |
 | Backend API | Node.js + Express + TypeScript | Railway |
 | Payload validation | Zod — at Express middleware layer | In Express |
 | Database | PostgreSQL | Supabase |
@@ -283,19 +280,22 @@ VITE_API_URL=https://claudeproject-production-5b22.up.railway.app
 
 ## Why Express Middleware Is Retained
 
-The API key must never leave the server. ESP8266 firmware is extractable —
+The API key must never leave the server. ESP32 firmware is extractable —
 if the Supabase service key were embedded in firmware, the entire database
 would be exposed. Express keeps the key server-side only.
 All hardware communicates with Express. Express communicates with Supabase.
+ESP32 authenticates using a pre-shared Bearer token (stored in NVS), not MAC address.
 
 ## Hardware Nodes
 
 ### Vendor Terminal
-- Arduino UNO R3 — main controller (2KB SRAM — keep all JSON minimal)
-- PN532 NFC reader — connected via I2C to Arduino
-- DS3231 RTC module — connected via I2C to Arduino (mandatory)
-- E-paper display — connected to Arduino
-- ESP8266 WiFi module — connected to Arduino via UART at 115200 baud
+- ESP32 DevKit v1 — main controller (520 KB SRAM, 240 MHz, built-in WiFi + hardware TLS)
+- PN532 NFC reader — connected via SPI (SS=5, MOSI=23, MISO=19, SCK=18)
+- DS3231 RTC module — connected via I2C (SDA=21, SCL=22) with CR2032 coin cell backup
+- SSD1306 OLED display — connected via I2C (shared bus with DS3231)
+- Device identity: pre-shared Bearer token stored in NVS (not MAC address)
+- Offline queue: LittleFS on internal flash, synced in chunks of 10 events
+- Idempotency: txn_id = SHA256(card_uid + device_timestamp) — UNIQUE constraint on tap_events
 
 ### Digital Directory Kiosk
 - Raspberry Pi 4
@@ -310,25 +310,27 @@ All hardware communicates with Express. Express communicates with Supabase.
 
 ## Edge Architecture — Two Paths
 
-### Path A — Vendor Terminal (Arduino + ESP8266)
+### Path A — Vendor Terminal (ESP32)
 
 ```
-Consumer taps NFC card on PN532
-→ Arduino reads UID as hex string
-→ Arduino reads ISO 8601 timestamp from DS3231 (MYT local time, UTC+8)
-→ Arduino builds minimal JSON string via ArduinoJson (under 200 bytes)
-→ Arduino sends JSON over UART to ESP8266
-→ ESP8266 receives string, sends HTTPS POST to Express /api/tap
-→ If WiFi down: ESP8266 appends event as NDJSON line to LittleFS /queue.ndjson
-→ On reconnect: ESP8266 batch POSTs queue to /api/tap/sync
-→ Express returns JSON result
-→ ESP8266 sends result string back to Arduino via UART
-→ Arduino displays result on e-paper
+Consumer taps NFC card on PN532 (SPI)
+→ ESP32 reads UID as hex string
+→ ESP32 reads ISO 8601 timestamp from DS3231 (I2C, MYT UTC+8, CR2032 backed)
+→ ESP32 generates txn_id = SHA256(card_uid + device_timestamp)
+→ If WiFi online:
+    ESP32 sends HTTPS POST to /api/tap with Bearer token
+    → Express returns JSON result
+    → ESP32 displays balance / warning on OLED (I2C)
+    → 1.5s PN532 polling block (prevents duplicate tap in same second)
+→ If WiFi offline:
+    ESP32 enqueues { card_uid, food_id, device_timestamp, txn_id } to LittleFS
+    → OLED shows "Saved offline"
+→ On WiFi reconnect:
+    ESP32 sends chunks of 10 events to /api/tap/sync with Bearer token
+    → Deletes chunk from LittleFS on 200 OK (idempotent — safe to retry)
 ```
 
-RAM constraint: Arduino UNO R3 has 2KB SRAM.
-Keep JSON payload under 200 bytes. Use StaticJsonDocument with fixed size.
-Do not use String class on Arduino — use char arrays only.
+Full firmware architecture documented in: docs/embedded-architecture_vendor.md
 
 ### Path B — Digital Directory Kiosk (Raspberry Pi)
 
