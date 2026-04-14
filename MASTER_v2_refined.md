@@ -1228,29 +1228,26 @@ Implement the rendering code to match those specs.
 ## Libraries
 
 ### ESP32 (Arduino C++ framework via PlatformIO)
-- Adafruit PN532 (NFC reader — SPI mode)
-- RTClib (DS3231 RTC — I2C)
+- MFRC522 (RC522 RFID reader — SPI mode)
 - ArduinoJson v6 (StaticJsonDocument)
-- Adafruit SSD1306 (OLED — I2C)
 - mbedTLS (built-in hardware TLS — no extra library)
-- LittleFS (offline queue — do NOT use SPIFFS, deprecated)
 
 ## Hardware Connections
 
 ```
 ESP32 DevKit v1:
 
-PN532 NFC Reader (SPI):
-  SS=5  MOSI=23  MISO=19  SCK=18  VCC=3.3V  GND=GND
+RC522 RFID Reader (SPI):
+  SS(SDA)=21  MOSI=23  MISO=19  SCK=18  RST=22  VCC=3.3V  GND=GND
 
-DS3231 RTC (I2C):
-  SDA=21  SCL=22  VCC=3.3V  GND=GND  CR2032 backup cell
+  #define SS_PIN   21
+  #define RST_PIN  22
+  #define MOSI_PIN 23
+  #define MISO_PIN 19
+  #define SCK_PIN  18
 
-SSD1306 OLED 128×64 (I2C — same bus as RTC):
-  SDA=21  SCL=22  VCC=3.3V  GND=GND
-
-Status LED:
-  GPIO2 (built-in LED on most DevKit v1 boards)
+Output:
+  Serial monitor (115200 baud) — all state feedback printed over USB
 
 Power:
   5V via USB cable → regulated to 3.3V on-board
@@ -1262,57 +1259,57 @@ Power:
 // Stored via Preferences (NVS) — written once during provisioning
 // Keys: "wifi_ssid", "wifi_pass", "vendor_id", "food_id", "auth_token"
 // auth_token is a Bearer token issued by the backend — NOT the MAC address
+// No RTC, no offline queue — device_timestamp not used
 ```
 
 ## Core Firmware Loop
 
 ```
 Setup:
-  Init SPI (PN532), I2C (DS3231 + OLED), WiFi, NVS, LittleFS
-  Sync RTC via NTP on first WiFi connect (add 28800s UTC→MYT)
-  Display: "[Vendor Name] — Ready"
+  SPI.begin(SCK_PIN=18, MISO_PIN=19, MOSI_PIN=23, SS_PIN=21)
+  mfrc522.PCD_Init() with RST_PIN=22
+  Serial.begin(115200)
+  Connect WiFi (block until connected — print status to Serial)
+  Load vendor_id, food_id, auth_token from NVS
+  Serial.println("Ready")
 
 Loop:
-  Poll PN532 every 200ms
+  Poll RC522 every 200ms (PICC_IsNewCardPresent + PICC_ReadCardSerial)
   On card detected:
-    Read UID as hex string "04A32FB1"
-    Read DS3231 → ISO 8601 string "2024-03-31T14:22:09+08:00"
-    Compute txn_id = SHA256(card_uid + device_timestamp) → hex string [64 chars]
-    Build JSON payload (StaticJsonDocument<256>)
-    If WiFi connected:
-      POST /api/tap with Authorization: Bearer {token}
-      On 200: display success (balance, calories)
-      On 409 DUPLICATE_TAP: display "Already visited"
-      On network error: append to LittleFS queue
-    If WiFi disconnected:
-      Append JSON line to /queue.ndjson (NDJSON, append-only)
-      Display "Saved — will sync"
-    Block PN532 polling 1.5s (prevents same-second timestamp collision)
-    Return to idle
-
-Queue flush (on WiFi reconnect):
-  Read /queue.ndjson in 10-event chunks
-  POST each chunk to /api/tap/sync: { events: [...] }
-  On 200: delete lines from file
-  On failure: retain — server deduplicates via txn_id UNIQUE constraint
+    Read UID bytes → uppercase hex string e.g. "A3F2B1C4"
+    Serial.println("Card detected: " + uid)
+    Build JSON payload (StaticJsonDocument<256>):
+      { "card_uid": "A3F2B1C4", "vendor_id": "...", "food_id": "..." }
+    POST /api/tap  Authorization: Bearer {token}
+    On 200:
+      Parse response → points_balance_remaining, calories_today, voucher_applied, campaign_completed
+      Serial.println("OK  Balance:" + pts + "  Calories:" + kcal)
+      if voucher_applied: Serial.println("Voucher applied!")
+      if campaign_completed: Serial.println("Campaign complete: " + name)
+    On 402 INSUFFICIENT_POINTS: Serial.println("Insufficient points")
+    On 409 DUPLICATE_TAP:       Serial.println("Already visited today")
+    On network error:           Serial.println("No connection — tap rejected")
+  PICC_HaltA() + PCD_StopCrypto1()
+  delay(2000)  — debounce, matches template
+  Return to idle
 ```
 
-## OLED Display States
+## Serial Monitor Output States
+
+All feedback is printed via Serial.println() at 115200 baud.
 
 ```
-Idle:          "[Vendor Name] — Ready"
-Processing:    "Reading..."
-Success:       "Done!  -[X]pts  +[Y]kcal"
-Voucher:       "Voucher applied!  -[X]pts saved"
+Startup:       "System Ready..."
+WiFi:          "Connecting to WiFi..." / "WiFi connected"
+Card detected: "Card detected: [UID]"
+Success:       "OK  Balance:[X]pts  Calories:[Y]kcal"
+Voucher:       "Voucher applied!"
+Campaign:      "Campaign complete: [name]"
 Warning:       "Calorie limit reached!"
 Duplicate:     "Already visited today"
 No points:     "Insufficient points"
-Offline:       "Saved — will sync"
+No connection: "No connection — tap rejected"
 ```
-
-Note: Queue uses NDJSON (one JSON object per line, append-only).
-Do NOT read-modify-write the full file on each offline tap — append only.
-This prevents data corruption on power loss mid-write.
 
 ## Python NFC Daemon — Raspberry Pi
 
@@ -1342,15 +1339,13 @@ Libraries: Flask, adafruit-circuitpython-pn532, datetime
 |---|---|
 | Datatype incompatibility | Zod validates at Express. ArduinoJson types correctly. TIMESTAMPTZ in PostgreSQL |
 | System complexity | Phased build. Phase 1 fully functional without campaigns or map |
-| Delayed response | ESP32 direct HTTPS — no UART bridge. Keep payload under 256 bytes. OLED shows Processing immediately |
+| Delayed response | ESP32 direct HTTPS — no UART bridge. Keep payload under 256 bytes. Serial prints Processing immediately |
 | Unclear storage | points_log is financial audit trail. tap_events is operational log. subsidy_summary is reporting |
 | Backend not working | POST /api/tap built and tested first. Zod rejects bad payloads early. Structured error codes |
 | ESP32 heap | StaticJsonDocument fixed size. char arrays not String (stack-allocated hexOutput[65]). Payload under 256 bytes |
-| RF environment dropout | LittleFS NDJSON queue on ESP32 — offline taps never lost, append-only prevents corruption |
-| RTC accuracy offline | DS3231 battery-backed — survives reboots. NTP syncs on WiFi reconnect (add 28800s offset) |
-| Timestamp tampering | device_timestamp informational only. server_timestamp set by Express — client cannot supply it |
+| RF environment dropout | Online-only — tap rejected and printed to Serial if WiFi unavailable. No offline queue. |
+| Timestamp tampering | server_timestamp set by Express (NOW()) — client does not supply a timestamp |
 | Stale subsidy totals | subsidy_summary is a live view — always calculated from current data |
-| Synced tap duplicate check | Uses device_timestamp::date not server_timestamp::date — reflects actual tap day |
 | Subsidy claim period accuracy | Claim generation queries vouchers.used_at directly — not the all-time view |
 
 ---
