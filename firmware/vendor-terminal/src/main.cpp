@@ -1,42 +1,220 @@
 /*
- * PROVISIONING SKETCH — run once to write config into NVS flash
+ * Smart Night Market — Vendor Terminal Firmware
+ * Hardware: ESP32 DevKit v1 + RC522 RFID Reader
+ * Communication: WiFi + HTTPS → POST /api/tap
+ * Output: Serial monitor (115200 baud)
  *
- * Steps:
- *   1. Fill in the values below
- *   2. Rename this file to main.cpp (rename existing main.cpp temporarily)
- *   3. Flash to ESP32
- *   4. Open Serial Monitor — it will print "Provisioning complete"
- *   5. Rename main.cpp back and re-flash the actual firmware
- *
- * You only need to do this once per device. Values survive power cycles.
+ * Pin Wiring (RC522):
+ *   SS(SDA)=21  MOSI=23  MISO=19  SCK=18  RST=22  VCC=3.3V  GND=GND
  */
 
 #include <Arduino.h>
+#include <SPI.h>
+#include <MFRC522.h>
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <ArduinoJson.h>
 #include <Preferences.h>
+#include <time.h>
 
-// ── FILL THESE IN BEFORE FLASHING ────────────────────────────────────────────
-const char* WIFI_SSID   = "Gilbert";
-const char* WIFI_PASS   = "gilbert123";
-const char* VENDOR_ID  = "a1000000-0000-0000-0000-000000000001";  // example: Nasi Lemak Pak Razif
-const char* FOOD_ID    = "f0000001-0001-0001-0001-000000000001";  // run: SELECT food_id, name FROM food_items WHERE vendor_id = 'a1000000-0000-0000-0000-000000000001'
-const char* API_URL    = "https://claudeproject-production-5b22.up.railway.app";
-// ─────────────────────────────────────────────────────────────────────────────
+// ── Pin definitions ───────────────────────────────────────────────────────────
+#define SS_PIN   21
+#define RST_PIN  22
+#define MOSI_PIN 23
+#define MISO_PIN 19
+#define SCK_PIN  18
 
+// ── Objects ───────────────────────────────────────────────────────────────────
+MFRC522     mfrc522(SS_PIN, RST_PIN);
 Preferences prefs;
 
+// ── Config (loaded from NVS at boot) ─────────────────────────────────────────
+String wifiSSID;
+String wifiPass;
+String vendorId;
+String foodId;
+String apiUrl;
+
+// ── WiFi ──────────────────────────────────────────────────────────────────────
+void connectWiFi() {
+    Serial.print("Connecting to WiFi");
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(wifiSSID.c_str(), wifiPass.c_str());
+
+    int attempts = 0;
+    while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+        if (++attempts > 30) {
+            Serial.println("\nWiFi failed — rebooting");
+            ESP.restart();
+        }
+    }
+    Serial.println();
+    Serial.println("WiFi connected: " + WiFi.localIP().toString());
+}
+
+// ── NTP timestamp → ISO 8601 string (MYT = UTC+8) ────────────────────────────
+String getTimestamp() {
+    struct tm timeinfo;
+    if (!getLocalTime(&timeinfo)) {
+        return "1970-01-01T00:00:00+08:00";
+    }
+    char buf[30];
+    strftime(buf, sizeof(buf), "%Y-%m-%dT%H:%M:%S+08:00", &timeinfo);
+    return String(buf);
+}
+
+// ── Read UID from RC522 → uppercase hex string ────────────────────────────────
+String readUID() {
+    String uid = "";
+    for (byte i = 0; i < mfrc522.uid.size; i++) {
+        if (mfrc522.uid.uidByte[i] < 0x10) uid += "0";
+        uid += String(mfrc522.uid.uidByte[i], HEX);
+    }
+    uid.toUpperCase();
+    return uid;
+}
+
+// ── POST /api/tap ─────────────────────────────────────────────────────────────
+void handleTap(const String& uid) {
+    Serial.println("Card detected: " + uid);
+
+    String timestamp = getTimestamp();
+
+    StaticJsonDocument<256> reqDoc;
+    reqDoc["card_uid"]          = uid;
+    reqDoc["vendor_id"]         = vendorId;
+    reqDoc["food_id"]           = foodId;
+    reqDoc["device_timestamp"]  = timestamp;
+    reqDoc["synced_from_queue"] = false;
+
+    String payload;
+    serializeJson(reqDoc, payload);
+
+    HTTPClient http;
+    String url = apiUrl + "/api/tap";
+    http.begin(url);
+    http.addHeader("Content-Type", "application/json");
+    http.setTimeout(8000);
+
+    int code = http.POST(payload);
+
+    if (code == 200) {
+        String body = http.getString();
+        StaticJsonDocument<512> res;
+
+        if (deserializeJson(res, body) != DeserializationError::Ok) {
+            Serial.println("Error: bad JSON response");
+            http.end();
+            return;
+        }
+
+        JsonObject data       = res["data"];
+        float   balance       = data["points_balance_remaining"] | 0.0f;
+        int     caloriesToday = data["calories_today"]           | 0;
+        int     caloriesAdded = data["calories_added"]           | 0;
+        float   finalCost     = data["final_cost"]               | 0.0f;
+        float   discount      = data["discount_applied"]         | 0.0f;
+        bool    calWarning    = data["calorie_warning"]          | false;
+        bool    voucherIssued = !data["voucher_issued"].isNull();
+        const char* campaign  = data["campaign_completed"];
+
+        Serial.println("-------------------------------");
+        Serial.println("OK  -" + String(finalCost, 1) + "pts  +" + String(caloriesAdded) + "kcal");
+        Serial.println("Balance: " + String(balance, 1) + "pts");
+        Serial.println("Calories today: " + String(caloriesToday) + "kcal");
+
+        if (discount > 0)   Serial.println("Voucher applied!  -" + String(discount, 1) + "pts saved");
+        if (voucherIssued)  Serial.println("New voucher earned!");
+        if (campaign && strlen(campaign) > 0)
+                            Serial.println("Campaign complete: " + String(campaign));
+        if (calWarning)     Serial.println("Warning: Calorie limit reached!");
+        Serial.println("-------------------------------");
+
+    } else if (code == 402) {
+        Serial.println("Insufficient points");
+
+    } else if (code == 409) {
+        String body = http.getString();
+        StaticJsonDocument<128> res;
+        deserializeJson(res, body);
+        const char* err = res["error"] | "CONFLICT";
+        if (String(err) == "DUPLICATE_TAP") {
+            Serial.println("Already visited today");
+        } else {
+            Serial.println("Error: " + String(err));
+        }
+
+    } else if (code < 0) {
+        Serial.println("No connection — tap rejected (" + http.errorToString(code) + ")");
+
+    } else {
+        Serial.println("Error: HTTP " + String(code));
+    }
+
+    http.end();
+}
+
+// ── Setup ─────────────────────────────────────────────────────────────────────
 void setup() {
     Serial.begin(115200);
     delay(500);
+    Serial.println("\n--- Vendor Terminal Booting ---");
 
-    prefs.begin("config", false);  // false = read-write
-    prefs.putString("wifi_ssid", WIFI_SSID);
-    prefs.putString("wifi_pass", WIFI_PASS);
-    prefs.putString("vendor_id", VENDOR_ID);
-    prefs.putString("food_id",   FOOD_ID);
-    prefs.putString("api_url",   API_URL);
+    // Load NVS config
+    prefs.begin("config", true);
+    wifiSSID = prefs.getString("wifi_ssid", "");
+    wifiPass = prefs.getString("wifi_pass", "");
+    vendorId = prefs.getString("vendor_id", "");
+    foodId   = prefs.getString("food_id",   "");
+    apiUrl   = prefs.getString("api_url",   "");
     prefs.end();
 
-    Serial.println("Provisioning complete. Re-flash main firmware now.");
+    if (wifiSSID.isEmpty() || vendorId.isEmpty() || foodId.isEmpty() || apiUrl.isEmpty()) {
+        Serial.println("ERROR: NVS not provisioned. Flash provision.cpp first.");
+        while (true) delay(5000);
+    }
+
+    // Init RC522
+    SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN, SS_PIN);
+    mfrc522.PCD_Init();
+    Serial.println("RC522 ready");
+
+    // Connect WiFi
+    connectWiFi();
+
+    // Sync time via NTP (MYT = UTC+8 = 28800s offset)
+    configTime(28800, 0, "pool.ntp.org");
+    Serial.print("Syncing time");
+    struct tm timeinfo;
+    int ntpTries = 0;
+    while (!getLocalTime(&timeinfo) && ntpTries < 10) {
+        delay(500);
+        Serial.print(".");
+        ntpTries++;
+    }
+    Serial.println();
+    Serial.println(ntpTries < 10 ? "Time synced: " + getTimestamp() : "NTP failed — timestamps may be wrong");
+
+    Serial.println("System Ready...");
 }
 
-void loop() {}
+// ── Loop ──────────────────────────────────────────────────────────────────────
+void loop() {
+    if (WiFi.status() != WL_CONNECTED) {
+        Serial.println("WiFi lost — reconnecting...");
+        connectWiFi();
+    }
+
+    if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) {
+        return;
+    }
+
+    String uid = readUID();
+    handleTap(uid);
+
+    mfrc522.PICC_HaltA();
+    mfrc522.PCD_StopCrypto1();
+    delay(2000);
+}

@@ -5,7 +5,17 @@
       "Bash(node -e \"require\\('canvas'\\)\")",
       "Bash(node -e \"require\\('sharp'\\)\")",
       "Bash(vercel --version)",
-      "Bash(npx vercel:*)"
+      "Bash(npx vercel:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Edit(/.claude/skills/dbs/**)",
+      "Edit(/.claude/skills/dbs-diagnosis/**)",
+      "Edit(/.claude/skills/dbs-benchmark/**)",
+      "Edit(/.claude/skills/dbs-content/**)",
+      "Edit(/.claude/skills/dbs-action/**)",
+      "Edit(/.claude/skills/dbs-chatroom/**)",
+      "Edit(/.claude/skills/dbs-hook/**)",
+      "Edit(/.claude/skills/dbs-ai-check/**)",
+      "Edit(/.claude/skills/dbs-deconstruct/**)"
     ]
   }
 }
