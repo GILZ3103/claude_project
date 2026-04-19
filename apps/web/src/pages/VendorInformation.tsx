@@ -51,8 +51,8 @@ export default function VendorInformation() {
 
   if (!card) return null
 
-  const gx = (card as any).grid_x
-  const gy = (card as any).grid_y
+  const gx = card.grid_x
+  const gy = card.grid_y
 
   return (
     <div className="p-6 max-w-lg mx-auto space-y-5 pb-24">

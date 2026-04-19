@@ -24,6 +24,8 @@ interface CardSession {
   vendor_id: string | null
   business_name: string | null
   ssm_registration_number: string | null
+  grid_x: number | null
+  grid_y: number | null
 }
 
 interface CardContextValue {

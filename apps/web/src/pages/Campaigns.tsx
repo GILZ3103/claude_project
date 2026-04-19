@@ -102,7 +102,7 @@ export default function Campaigns() {
       {campaigns.map((c: any) => {
         const progress = c.progress ?? null
         const pct = progress
-          ? Math.min(100, (progress.progress_value / c.condition_threshold) * 100)
+          ? Math.min(100, (progress.current_value / c.condition_threshold) * 100)
           : 0
         const enrolled = !!progress
         const completed = progress?.completed_at != null
@@ -131,7 +131,7 @@ export default function Campaigns() {
               <div>
                 <div className="flex justify-between text-xs text-gray-500 mb-1">
                   <span>{completed ? 'Completed!' : 'Progress'}</span>
-                  <span>{progress.progress_value} / {c.condition_threshold}</span>
+                  <span>{progress.current_value} / {c.condition_threshold}</span>
                 </div>
                 <div className="w-full bg-gray-100 rounded-full h-2">
                   <div

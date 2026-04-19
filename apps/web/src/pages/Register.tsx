@@ -56,7 +56,12 @@ export default function Register() {
       const ok = await loginCard(form.owner_email.trim(), form.password)
       if (ok) {
         toast.success(mode === 'vendor' ? 'Vendor account created!' : 'Welcome to Night Market!')
-        navigate('/dashboard')
+        if (mode === 'vendor') {
+          localStorage.setItem('app_mode', 'vendor')
+          navigate('/vendor/dashboard')
+        } else {
+          navigate('/dashboard')
+        }
       }
     } catch (e: any) {
       if (e.message === 'CARD_ALREADY_REGISTERED') {
