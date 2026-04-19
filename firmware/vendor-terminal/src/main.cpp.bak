@@ -109,7 +109,7 @@ void handleTap(const String& uid) {
 
     if (code == 200) {
         String body = http.getString();
-        StaticJsonDocument<512> res;
+        StaticJsonDocument<1024> res;
 
         if (deserializeJson(res, body) != DeserializationError::Ok) {
             Serial.println("Error: bad JSON response");
@@ -192,7 +192,7 @@ void setup() {
     connectWiFi();
 
     // Sync time via NTP (MYT = UTC+8 = 28800s offset)
-    configTime(28800, 0, "pool.ntp.org");
+    configTime(28800, 0, "time.google.com", "time.cloudflare.com");
     Serial.print("Syncing time");
     struct tm timeinfo;
     int ntpTries = 0;

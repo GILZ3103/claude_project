@@ -6,6 +6,11 @@
  *
  * Pin Wiring (RC522):
  *   SS(SDA)=21  MOSI=23  MISO=19  SCK=18  RST=22  VCC=3.3V  GND=GND
+ *
+ * Provisioning:
+ *   Edit provision.cpp.txt with your values, rename to main.cpp,
+ *   flash once, then restore this file and flash again.
+ *   Keys stored: wifi_ssid, wifi_pass, vendor_id, food_id, api_url
  */
 
 #include <Arduino.h>
@@ -17,7 +22,7 @@
 #include <Preferences.h>
 #include <time.h>
 
-// ── Pin definitions ───────────────────────────────────────────────────────────
+// ── Pin definitions (from hardware template — do not change) ──────────────────
 #define SS_PIN   21
 #define RST_PIN  22
 #define MOSI_PIN 23
@@ -82,6 +87,7 @@ void handleTap(const String& uid) {
 
     String timestamp = getTimestamp();
 
+    // Build payload — matches backend tapSchema exactly
     StaticJsonDocument<256> reqDoc;
     reqDoc["card_uid"]          = uid;
     reqDoc["vendor_id"]         = vendorId;
@@ -92,6 +98,7 @@ void handleTap(const String& uid) {
     String payload;
     serializeJson(reqDoc, payload);
 
+    // POST request
     HTTPClient http;
     String url = apiUrl + "/api/tap";
     http.begin(url);
@@ -102,7 +109,7 @@ void handleTap(const String& uid) {
 
     if (code == 200) {
         String body = http.getString();
-        StaticJsonDocument<512> res;
+        StaticJsonDocument<1024> res;
 
         if (deserializeJson(res, body) != DeserializationError::Ok) {
             Serial.println("Error: bad JSON response");
@@ -185,7 +192,7 @@ void setup() {
     connectWiFi();
 
     // Sync time via NTP (MYT = UTC+8 = 28800s offset)
-    configTime(28800, 0, "pool.ntp.org");
+    configTime(28800, 0, "time.google.com", "time.cloudflare.com");
     Serial.print("Syncing time");
     struct tm timeinfo;
     int ntpTries = 0;
@@ -202,11 +209,13 @@ void setup() {
 
 // ── Loop ──────────────────────────────────────────────────────────────────────
 void loop() {
+    // Reconnect WiFi if dropped
     if (WiFi.status() != WL_CONNECTED) {
         Serial.println("WiFi lost — reconnecting...");
         connectWiFi();
     }
 
+    // Wait for card
     if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) {
         return;
     }
