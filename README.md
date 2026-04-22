@@ -20,7 +20,7 @@ Consumers use a physical NFC card to tap at vendor stalls, spend points, track c
 | Backend API (Railway) | Live — `https://claudeproject-production-5b22.up.railway.app` |
 | Consumer + Vendor Web App | Live — `https://nightmarket-web.vercel.app` |
 | Kiosk App | Scaffolded — runs locally on Raspberry Pi |
-| ESP32 Vendor Terminal Firmware | Designed — awaiting hardware |
+| ESP32 Vendor Terminal Firmware | Active — ESP32 + RC522 RFID, WiFi + HTTPS, Serial monitor output |
 
 ---
 
@@ -88,8 +88,11 @@ claude_project/
 │       ├── 001_add_auth_fields.sql # phone_number, password_hash, SSM columns
 │       └── 002_add_macros.sql      # protein_g, carbs_g, fat_g on food_items
 ├── firmware/
-│   └── vendor-terminal/            # ESP32 firmware — awaiting hardware
-│                                   # Architecture: docs/embedded-architecture_vendor.md
+│   └── vendor-terminal/            # ESP32 firmware — active, tested end-to-end
+│       ├── platformio.ini          # Board: esp32dev, lib: MFRC522 + ArduinoJson
+│       └── src/
+│           ├── main.cpp            # Real firmware (loads NVS, WiFi, NTP, RC522 poll loop)
+│           └── main.cpp.bak        # Backup of real firmware
 ├── daemon/                         # Python NFC daemon for Raspberry Pi kiosk
 │   └── nfc_daemon.py
 ├── docs/
@@ -109,7 +112,7 @@ claude_project/
 | Backend | Node.js, Express, TypeScript, Zod |
 | Database | Supabase (PostgreSQL) |
 | Auth | bcryptjs (hashed passwords, no JWT) |
-| Vendor Terminal | ESP32 + PN532 NFC + DS3231 RTC (firmware not yet written) |
+| Vendor Terminal | ESP32 + RC522 RFID (SPI), WiFi + HTTPS, NVS config, Serial output |
 | Kiosk | Raspberry Pi 4 + PN532 + Python NFC daemon |
 | Charts | Recharts |
 
@@ -241,7 +244,6 @@ Base URL: `https://claudeproject-production-5b22.up.railway.app/api`
 | POST | `/vendors/:id/claim` | Submit subsidy claim |
 | GET | `/vendors/:id/claims` | Claim history |
 | POST | `/tap` | Process NFC tap (vendor terminal) |
-| POST | `/tap/sync` | Sync offline tap queue (chunked, 10/batch) |
 | GET | `/campaigns` | List campaigns + optional card progress |
 | POST | `/campaigns/:id/enrol` | Enrol card in campaign |
 | POST | `/kiosk/tap` | Kiosk directory tap + rebate |
@@ -251,14 +253,33 @@ Base URL: `https://claudeproject-production-5b22.up.railway.app/api`
 
 ## Embedded System
 
-The vendor terminal (ESP32) communicates directly with the Railway API over WiFi — no browser, no URL.
+The vendor terminal (ESP32) communicates directly with the Railway API over WiFi — no browser, no URL. Output is via Serial monitor (115200 baud).
 
 | Hardware | Role | Protocol |
 |---|---|---|
-| PN532 NFC reader | Reads customer card UID | SPI |
-| DS3231 RTC | Provides timestamps (survives power loss) | I2C |
-| SSD1306 OLED | Shows balance + alerts | I2C |
-| ESP32 WiFi | Sends tap events to Railway | HTTPS / TLS |
+| RC522 RFID reader | Reads customer card UID | SPI |
+| ESP32 WiFi | Sends tap events to Railway | HTTPS |
+
+**Pin wiring (RC522 → ESP32):**
+
+| RC522 Pin | ESP32 Pin |
+|---|---|
+| SS (SDA) | GPIO 21 |
+| MOSI | GPIO 23 |
+| MISO | GPIO 19 |
+| SCK | GPIO 18 |
+| RST | GPIO 22 |
+| VCC | 3.3V |
+| GND | GND |
+
+**Provisioning workflow:**
+1. Edit `provision.cpp.txt` with your `wifi_ssid`, `wifi_pass`, `vendor_id`, `food_id`, `api_url`
+2. Rename to `main.cpp`, flash to device — confirm "Provisioning complete" in Serial monitor
+3. Rename back to `provision.cpp.txt`, restore `main.cpp.bak` → `main.cpp`, flash real firmware
+
+Config is stored in ESP32 NVS (non-volatile storage) — survives reboots.
+
+NTP time sync uses `time.google.com` + `time.cloudflare.com` (UTC+8 / MYT). If NTP fails, backend timestamps via `NOW()` are used instead.
 
 Full architecture and flow diagrams: `docs/embedded-architecture_vendor.md`
 
