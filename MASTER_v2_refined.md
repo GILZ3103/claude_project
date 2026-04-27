@@ -711,6 +711,7 @@ POST /api/vendors/:id/claim, GET /api/vendors/:id/claims.
 | CAMPAIGN_NOT_FOUND | 404 | campaign_id not found |
 | ALREADY_COMPLETED | 409 | Campaign already completed by this card |
 | UNAUTHORIZED | 403 | x-card-uid header missing, wrong role, or not vendor owner |
+| UNAUTHORIZED | 401 | Tap rejected: missing or invalid Bearer token (vendor terminal auth on /api/tap) |
 | INVALID_CREDENTIALS | 401 | Wrong UID or password on login |
 | NO_PASSWORD_SET | 401 | Card exists but has no password (registered before auth was added) |
 | NOT_A_VENDOR | 403 | Card role is CONSUMER — stall registration not completed |
@@ -1257,9 +1258,11 @@ Power:
 
 ```cpp
 // Stored via Preferences (NVS) — written once during provisioning
-// Keys: "wifi_ssid", "wifi_pass", "vendor_id", "food_id", "auth_token"
-// auth_token is a Bearer token issued by the backend — NOT the MAC address
-// No RTC, no offline queue — device_timestamp not used
+// Keys: "wifi_ssid", "wifi_pass", "vendor_id", "food_id", "api_url", "auth_token"
+// auth_token is a pre-shared Bearer secret — must match TERMINAL_AUTH_TOKEN
+//   environment variable set on the backend (Railway). Generated with e.g.
+//   `openssl rand -hex 32`. Verified on every POST /api/tap call.
+// No RTC, no offline queue — device_timestamp generated from NTP at runtime
 ```
 
 ## Core Firmware Loop
@@ -1269,9 +1272,11 @@ Setup:
   SPI.begin(SCK_PIN=18, MISO_PIN=19, MOSI_PIN=23, SS_PIN=21)
   mfrc522.PCD_Init() with RST_PIN=22
   Serial.begin(115200)
+  Load wifi_ssid, wifi_pass, vendor_id, food_id, api_url, auth_token from NVS
+    → halt with error if any key missing (NVS not provisioned)
   Connect WiFi (block until connected — print status to Serial)
-  Load vendor_id, food_id, auth_token from NVS
-  Serial.println("Ready")
+  Sync time via NTP (time.google.com, time.cloudflare.com, MYT UTC+8)
+  Serial.println("System Ready...")
 
 Loop:
   Poll RC522 every 200ms (PICC_IsNewCardPresent + PICC_ReadCardSerial)
@@ -1279,13 +1284,17 @@ Loop:
     Read UID bytes → uppercase hex string e.g. "A3F2B1C4"
     Serial.println("Card detected: " + uid)
     Build JSON payload (StaticJsonDocument<256>):
-      { "card_uid": "A3F2B1C4", "vendor_id": "...", "food_id": "..." }
-    POST /api/tap  Authorization: Bearer {token}
+      { "card_uid": "A3F2B1C4", "vendor_id": "...", "food_id": "...",
+        "device_timestamp": "...", "synced_from_queue": false }
+    POST /api/tap with headers:
+      Content-Type: application/json
+      Authorization: Bearer {authToken}
     On 200:
       Parse response → points_balance_remaining, calories_today, voucher_applied, campaign_completed
       Serial.println("OK  Balance:" + pts + "  Calories:" + kcal)
       if voucher_applied: Serial.println("Voucher applied!")
       if campaign_completed: Serial.println("Campaign complete: " + name)
+    On 401 UNAUTHORIZED:        Serial.println("Auth failed — invalid terminal token")
     On 402 INSUFFICIENT_POINTS: Serial.println("Insufficient points")
     On 409 DUPLICATE_TAP:       Serial.println("Already visited today")
     On network error:           Serial.println("No connection — tap rejected")
@@ -1306,6 +1315,7 @@ Success:       "OK  Balance:[X]pts  Calories:[Y]kcal"
 Voucher:       "Voucher applied!"
 Campaign:      "Campaign complete: [name]"
 Warning:       "Calorie limit reached!"
+Auth failed:   "Auth failed — invalid terminal token"
 Duplicate:     "Already visited today"
 No points:     "Insufficient points"
 No connection: "No connection — tap rejected"
@@ -1328,6 +1338,28 @@ Behaviour:
 ```
 
 Libraries: Flask, adafruit-circuitpython-pn532, datetime
+
+---
+
+## Future / Parked Features
+
+### Market Selfie (Kiosk — Raspberry Pi)
+
+Optional camera module on the digital directory kiosk that takes a photo
+after a card tap and stores it as a "market memory" linked to the card.
+Could be sent to the consumer's registered email or shown in the consumer
+app under a new "Memories" page.
+
+Status: Concept only — not scheduled. Revisit when basic kiosk app is functional.
+
+Hardware needed:
+- Pi Camera Module v3 (CSI ribbon to Raspberry Pi)
+- Storage pipeline: capture → upload to Supabase Storage → store URL in a new `card_memories` table
+- Optional: thermal printer to print a small photo + QR code link
+
+Triggers to implement:
+- Photo captured automatically on every kiosk tap, or
+- Consumer presses a "Take Selfie" button on Panel 2 of the kiosk UI
 
 ---
 

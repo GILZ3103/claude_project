@@ -1,9 +1,24 @@
-import { Router, Request, Response } from 'express'
+import { Router, Request, Response, NextFunction } from 'express'
 import { z } from 'zod'
 import { supabase } from '../lib/supabase'
 import { validate } from '../middleware/validate'
 
 const router = Router()
+
+function requireTerminalAuth(req: Request, res: Response, next: NextFunction): void {
+  const authHeader = req.headers['authorization']
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7) : null
+  const expected = process.env.TERMINAL_AUTH_TOKEN
+  if (!expected || !token || token !== expected) {
+    res.status(401).json({
+      success: false,
+      error: 'UNAUTHORIZED',
+      message: 'Invalid or missing terminal token'
+    })
+    return
+  }
+  next()
+}
 
 const tapSchema = z.object({
   card_uid: z.string().min(4).max(20),
@@ -261,14 +276,14 @@ async function processTap(
 }
 
 // POST /api/tap
-router.post('/', validate(tapSchema), async (req: Request, res: Response): Promise<void> => {
+router.post('/', requireTerminalAuth, validate(tapSchema), async (req: Request, res: Response): Promise<void> => {
   const { card_uid, vendor_id, food_id, device_timestamp, synced_from_queue } = req.body
   const result = await processTap(card_uid, vendor_id, food_id, device_timestamp, synced_from_queue)
   res.status(result.status).json(result.body)
 })
 
 // POST /api/tap/sync
-router.post('/sync', validate(syncSchema), async (req: Request, res: Response): Promise<void> => {
+router.post('/sync', requireTerminalAuth, validate(syncSchema), async (req: Request, res: Response): Promise<void> => {
   const { terminal_mac, events } = req.body
 
   const { data: vendor } = await supabase

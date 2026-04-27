@@ -39,6 +39,7 @@ String wifiPass;
 String vendorId;
 String foodId;
 String apiUrl;
+String authToken;
 
 // ── WiFi ──────────────────────────────────────────────────────────────────────
 void connectWiFi() {
@@ -103,6 +104,7 @@ void handleTap(const String& uid) {
     String url = apiUrl + "/api/tap";
     http.begin(url);
     http.addHeader("Content-Type", "application/json");
+    http.addHeader("Authorization", "Bearer " + authToken);
     http.setTimeout(8000);
 
     int code = http.POST(payload);
@@ -139,6 +141,9 @@ void handleTap(const String& uid) {
         if (calWarning)     Serial.println("Warning: Calorie limit reached!");
         Serial.println("-------------------------------");
 
+    } else if (code == 401) {
+        Serial.println("Auth failed — invalid terminal token");
+
     } else if (code == 402) {
         Serial.println("Insufficient points");
 
@@ -171,14 +176,15 @@ void setup() {
 
     // Load NVS config
     prefs.begin("config", true);
-    wifiSSID = prefs.getString("wifi_ssid", "");
-    wifiPass = prefs.getString("wifi_pass", "");
-    vendorId = prefs.getString("vendor_id", "");
-    foodId   = prefs.getString("food_id",   "");
-    apiUrl   = prefs.getString("api_url",   "");
+    wifiSSID  = prefs.getString("wifi_ssid",  "");
+    wifiPass  = prefs.getString("wifi_pass",  "");
+    vendorId  = prefs.getString("vendor_id",  "");
+    foodId    = prefs.getString("food_id",    "");
+    apiUrl    = prefs.getString("api_url",    "");
+    authToken = prefs.getString("auth_token", "");
     prefs.end();
 
-    if (wifiSSID.isEmpty() || vendorId.isEmpty() || foodId.isEmpty() || apiUrl.isEmpty()) {
+    if (wifiSSID.isEmpty() || vendorId.isEmpty() || foodId.isEmpty() || apiUrl.isEmpty() || authToken.isEmpty()) {
         Serial.println("ERROR: NVS not provisioned. Flash provision.cpp first.");
         while (true) delay(5000);
     }

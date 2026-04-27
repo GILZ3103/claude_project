@@ -20,7 +20,7 @@ Consumers use a physical NFC card to tap at vendor stalls, spend points, track c
 | Backend API (Railway) | Live — `https://claudeproject-production-5b22.up.railway.app` |
 | Consumer + Vendor Web App | Live — `https://nightmarket-web.vercel.app` |
 | Kiosk App | Scaffolded — runs locally on Raspberry Pi |
-| ESP32 Vendor Terminal Firmware | Active — ESP32 + RC522 RFID, WiFi + HTTPS, Serial monitor output |
+| ESP32 Vendor Terminal Firmware | Active — ESP32 + RC522 RFID, WiFi + HTTPS, Bearer token auth, Serial monitor output |
 
 ---
 
@@ -112,7 +112,7 @@ claude_project/
 | Backend | Node.js, Express, TypeScript, Zod |
 | Database | Supabase (PostgreSQL) |
 | Auth | bcryptjs (hashed passwords, no JWT) |
-| Vendor Terminal | ESP32 + RC522 RFID (SPI), WiFi + HTTPS, NVS config, Serial output |
+| Vendor Terminal | ESP32 + RC522 RFID (SPI), WiFi + HTTPS, NVS config, Bearer token auth, Serial output |
 | Kiosk | Raspberry Pi 4 + PN532 + Python NFC daemon |
 | Charts | Recharts |
 
@@ -182,6 +182,12 @@ npm run dev            # http://localhost:5173
 ```bash
 # apps/web/.env
 VITE_API_URL=https://claudeproject-production-5b22.up.railway.app
+
+# backend/.env (Railway)
+SUPABASE_URL=https://xxxx.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
+TERMINAL_AUTH_TOKEN=<random secret — same value flashed to ESP32 NVS as auth_token>
+PORT=3000
 ```
 
 ### 6. Test login credentials (seed data)
@@ -273,11 +279,13 @@ The vendor terminal (ESP32) communicates directly with the Railway API over WiFi
 | GND | GND |
 
 **Provisioning workflow:**
-1. Edit `provision.cpp.txt` with your `wifi_ssid`, `wifi_pass`, `vendor_id`, `food_id`, `api_url`
+1. Edit `provision.cpp.txt` with your `wifi_ssid`, `wifi_pass`, `vendor_id`, `food_id`, `api_url`, `auth_token`
 2. Rename to `main.cpp`, flash to device — confirm "Provisioning complete" in Serial monitor
 3. Rename back to `provision.cpp.txt`, restore `main.cpp.bak` → `main.cpp`, flash real firmware
 
 Config is stored in ESP32 NVS (non-volatile storage) — survives reboots.
+
+**Authentication:** Every `POST /api/tap` from the terminal includes `Authorization: Bearer <auth_token>`. The backend rejects with `401 UNAUTHORIZED` if the header is missing or the token does not match the `TERMINAL_AUTH_TOKEN` environment variable. Generate a strong secret with e.g. `openssl rand -hex 32` — the same value is set in Railway and flashed into ESP32 NVS.
 
 NTP time sync uses `time.google.com` + `time.cloudflare.com` (UTC+8 / MYT). If NTP fails, backend timestamps via `NOW()` are used instead.
 
