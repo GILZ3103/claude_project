@@ -260,6 +260,57 @@ VITE_KIOSK_ID=uuid-of-this-kiosk-unit
 | Database | PostgreSQL | Supabase |
 | Auth (future) | Supabase Auth | Supabase |
 
+## Website Setup — Workflow Diagram
+
+End-to-end view of the four website-side pieces (database, backend, frontend, network) with current completion status. Green = done, yellow = partial / scaffolded, red = not started.
+
+```mermaid
+flowchart TB
+    subgraph Clients["CLIENTS"]
+        direction LR
+        Phone["📱 Consumer phone / browser ✅"]
+        VendorBrowser["💻 Vendor browser ✅"]
+        ESP32["⚡ ESP32 vendor terminal ✅<br/>Bearer token auth"]
+        PiKiosk["🖥️ Raspberry Pi kiosk 🟡<br/>scaffolded only"]
+    end
+
+    subgraph Frontend["FRONTEND ✅ Live on Vercel"]
+        direction TB
+        Web["apps/web<br/>Consumer + Vendor (mode toggle)<br/>nightmarket-web.vercel.app<br/>13 pages"]
+        Kiosk["apps/kiosk 🟡<br/>not built — 4 panels planned"]
+    end
+
+    subgraph Backend["BACKEND ✅ Live on Railway"]
+        direction TB
+        Mid["Middleware<br/>express.json · CORS · Zod validate · errors"]
+        Routes["Routes /api/*<br/>auth · cards · vendors · tap · campaigns · map · kiosk"]
+        Auth1["Auth checks ✅<br/>x-card-uid (vendor routes)<br/>Bearer token (POST /api/tap)"]
+    end
+
+    subgraph Database["DATABASE ✅ Live on Supabase"]
+        direction TB
+        DB[("PostgreSQL<br/>10 tables<br/>+ subsidy_summary view")]
+        Migrations["schema.sql + 2 migrations"]
+    end
+
+    Phone -->|HTTPS| Web
+    VendorBrowser -->|HTTPS| Web
+    ESP32 -->|HTTPS POST /api/tap| Routes
+    PiKiosk -.->|HTTPS planned| Kiosk
+    Web -->|fetch /api/*| Mid
+    Kiosk -.-> Mid
+    Mid --> Routes
+    Routes --> Auth1
+    Auth1 -->|service role key| DB
+    Migrations --- DB
+
+    style Frontend fill:#d4f4dd,stroke:#2d8a4f
+    style Backend fill:#d4f4dd,stroke:#2d8a4f
+    style Database fill:#d4f4dd,stroke:#2d8a4f
+    style Kiosk fill:#fff4cc,stroke:#b08800
+    style PiKiosk fill:#fff4cc,stroke:#b08800
+```
+
 ## Why Express Middleware Is Retained
 
 The API key must never leave the server. ESP32 firmware is extractable —
@@ -1072,6 +1123,80 @@ Logic: Query subsidy_claims WHERE vendor_id = :id ORDER BY generated_at DESC.
 
 # SECTION 5 — FRONTEND
 
+## User Journey — Workflow Diagram
+
+Click-by-click flow across the consumer web app, vendor portal, and kiosk. Shows what each navigation step triggers (page load vs API call) and current completion status.
+
+### Consumer Journey (apps/web) ✅
+
+```mermaid
+flowchart LR
+    Start([User opens<br/>nightmarket-web.vercel.app])
+    Start --> Land["/<br/>Landing — email + password ✅"]
+    Land -->|New| Reg["/register<br/>Consumer/Vendor toggle ✅"]
+    Land -->|Sign in| AuthCheck{"POST /api/auth/<br/>consumer/login"}
+    Reg -->|POST /api/cards/register| AuthCheck
+    AuthCheck -->|❌ wrong creds| Land
+    AuthCheck -->|✅| Dash["/dashboard ✅<br/>balance · calories · history"]
+
+    Dash -->|tab| Cal["/calories ✅<br/>macros · BMR · limit"]
+    Dash -->|tab| Camp["/campaigns ✅<br/>programs · vouchers"]
+    Dash -->|tab| Vend["/vendors ✅<br/>search · macros · photos"]
+    Dash -->|tab| Map["/map ✅<br/>grid layout"]
+    Dash -->|tab| NFC["/nfc ✅<br/>card status"]
+    Dash -->|tab| Set["/settings ✅"]
+
+    Dash -.->|"Top-up button"| Topup[/"POST /api/cards/:uid/topup"/]
+    Camp -.->|"Enrol button"| Enrol[/"POST /api/campaigns/:id/enrol"/]
+    Cal -.->|"Update limit"| Limit[/"PATCH /api/cards/:uid/calorie-limit"/]
+    Vend -.->|"View vendor"| VFood[/"GET /api/vendors/:id/food"/]
+    NFC -.->|"Refresh"| Card[/"GET /api/cards/:uid"/]
+    Set -->|Sign out| Land
+```
+
+### Vendor Journey (apps/web — vendor mode) ✅
+
+```mermaid
+flowchart LR
+    Start([Vendor login]) --> AuthV["POST /api/auth/<br/>vendor/login ✅"]
+    AuthV -->|role=VENDOR| Toggle["Mode toggle appears ✅"]
+    Toggle -->|Vendor mode| VDash["/vendor/dashboard ✅<br/>business · subsidies"]
+
+    VDash -->|tab| VInfo["/vendor/information ✅<br/>grid + food list + add form"]
+    VDash -->|tab| VCamp["/vendor/campaigns ✅"]
+    VDash -->|tab| VClaim["/vendor/claim ✅<br/>date range submit"]
+    VDash -->|tab| VSum["/vendor/summary ✅<br/>all-time subsidy"]
+
+    VInfo -.->|"Add food item"| AddFood[/"POST /api/vendors/:id/food<br/>x-card-uid header"/]
+    VClaim -.->|"Submit claim"| Claim[/"POST /api/vendors/:id/claim<br/>x-card-uid header"/]
+    VSum -.->|"Load summary"| Sum[/"GET /api/vendors/:id/summary<br/>x-card-uid header"/]
+    VDash -->|Switch back| CDash["Consumer mode<br/>(/dashboard)"]
+```
+
+### Kiosk Journey (apps/kiosk) 🟡 Planned
+
+```mermaid
+flowchart LR
+    Idle["Panel 1 — Idle 🟡<br/>Tap your card to begin"]
+    Idle -->|"NFC tap detected<br/>(daemon → /nfc poll)"| KTap[/"POST /api/kiosk/tap ✅ backend ready"/]
+    KTap --> P2["Panel 2 — Card Summary 🟡<br/>name · balance · calories · vouchers"]
+    P2 -->|button| P3["Panel 3 — Campaigns 🟡<br/>list · enrol"]
+    P2 -->|button| P4["Panel 4 — Map 🟡<br/>grid + path to vendor"]
+    P3 -.->|enrol| Enrol2[/"POST /api/campaigns/:id/enrol ✅"/]
+    P2 -->|60s idle| Idle
+    P3 -->|60s idle| Idle
+    P4 -->|60s idle| Idle
+
+    style Idle fill:#fff4cc,stroke:#b08800
+    style P2 fill:#fff4cc,stroke:#b08800
+    style P3 fill:#fff4cc,stroke:#b08800
+    style P4 fill:#fff4cc,stroke:#b08800
+```
+
+> Kiosk backend route `POST /api/kiosk/tap` is implemented; the React UI panels and Python NFC daemon polling glue are not yet built.
+
+---
+
 ## UI Design Workflow — Figma + MCP
 
 All UI design is done in Figma first before any React code is written.
@@ -1210,14 +1335,93 @@ Claims history loaded from GET /api/vendors/:id/claims with status badges
 
 # SECTION 6 — FIRMWARE
 
+## Hardware Setup — Workflow Diagram
+
+Two views of the ESP32 vendor terminal: (1) hardware architecture showing pins, NVS, and the network path, and (2) the user journey through the firmware code on every card tap.
+
+### Hardware Architecture ✅ Active
+
+```mermaid
+flowchart TB
+    Card["💳 NFC Card<br/>(NTAG215 — UID only) ✅"]
+
+    subgraph Terminal["VENDOR TERMINAL ✅"]
+        direction TB
+        subgraph RC522["RC522 RFID Reader (SPI) ✅"]
+            Reader["Reads card UID"]
+        end
+        subgraph ESP32["ESP32 DevKit v1 ✅"]
+            FW["main.cpp<br/>setup() + loop()"]
+            NVS[("NVS storage ✅<br/>wifi_ssid · wifi_pass<br/>vendor_id · food_id<br/>api_url · auth_token")]
+            WiFi["WiFi + HTTPS ✅<br/>(mbedTLS hardware TLS)"]
+        end
+        Serial["📺 USB Serial<br/>115200 baud<br/>(Serial monitor output)"]
+    end
+
+    Backend[/"Backend POST /api/tap ✅<br/>requireTerminalAuth →<br/>Zod validate → tap logic"/]
+    Supabase[("Supabase<br/>PostgreSQL ✅")]
+
+    Card -.tap.-> Reader
+    Reader -->|"SS=21 · MOSI=23<br/>MISO=19 · SCK=18 · RST=22"| FW
+    NVS -->|"prefs.getString()"| FW
+    FW --> WiFi
+    WiFi -->|"HTTPS<br/>Authorization: Bearer authToken"| Backend
+    Backend --> Supabase
+    Supabase -->|"row data"| Backend
+    Backend -->|"200 + balance/calories<br/>or 401/402/409"| WiFi
+    FW --> Serial
+
+    style Terminal fill:#d4f4dd,stroke:#2d8a4f
+    style Backend fill:#d4f4dd,stroke:#2d8a4f
+    style Supabase fill:#d4f4dd,stroke:#2d8a4f
+```
+
+### User Journey Through the Firmware ✅
+
+Sequence of what runs in `main.cpp` on every card tap. Each arrow is either a function call inside the firmware, an SPI read from RC522, or an HTTPS round-trip to the backend.
+
+```mermaid
+sequenceDiagram
+    actor User as 👤 Consumer
+    participant Card as 💳 NFC Card
+    participant RC522 as 📡 RC522
+    participant ESP32 as ⚡ ESP32 main.cpp
+    participant API as 🌐 Backend /api/tap
+    participant DB as 🗄️ Supabase
+
+    Note over ESP32: setup() — load NVS,<br/>connect WiFi, NTP sync
+    User->>Card: Tap on terminal
+    Card-->>RC522: UID broadcast (RF)
+    RC522-->>ESP32: PICC_IsNewCardPresent()<br/>+ PICC_ReadCardSerial()
+    ESP32->>ESP32: readUID() → uppercase hex<br/>e.g. "333F6C08"
+    ESP32->>ESP32: getTimestamp() (NTP MYT)
+    ESP32->>ESP32: Build JSON payload<br/>StaticJsonDocument<256>
+
+    ESP32->>+API: POST /api/tap<br/>Authorization: Bearer authToken
+    API->>API: requireTerminalAuth<br/>(401 if invalid)
+    API->>API: Zod validate (400 if invalid)
+    API->>+DB: SELECT card · vendor · food
+    DB-->>-API: rows
+    API->>API: Check duplicate · voucher · balance
+    API->>+DB: UPDATE balance<br/>INSERT tap_event<br/>INSERT points_log<br/>UPDATE campaign_progress
+    DB-->>-API: ok
+    API-->>-ESP32: 200 + JSON response
+
+    ESP32->>ESP32: Parse with<br/>StaticJsonDocument<1024>
+    ESP32-->>User: Serial.println<br/>"OK Balance:42pts +560kcal"
+
+    Note over ESP32: PICC_HaltA()<br/>delay(2000) — debounce
+```
+
+---
+
 ## Vendor Terminal — ESP32 DevKit v1 (Single Chip)
 
-> Hardware not yet purchased. Firmware not yet written. Full architecture and flow diagrams: `docs/embedded-architecture_vendor.md`
+> Firmware active and tested end-to-end. Full architecture and flow diagrams: `docs/embedded-architecture_vendor.md`
 
 ### ESP32 DevKit v1
-Single chip handles NFC reading (via SPI), RTC timekeeping (via I2C), OLED output (via I2C),
-WiFi HTTPS to Railway API, and offline queue in LittleFS. No separate WiFi bridge chip needed —
-ESP32 has hardware TLS acceleration built in.
+Single chip handles NFC reading (via SPI), WiFi HTTPS to Railway API, and Bearer-token authentication.
+ESP32 has hardware TLS acceleration built in — no separate WiFi bridge chip needed.
 
 ## OLED Display Design — Figma + MCP
 
