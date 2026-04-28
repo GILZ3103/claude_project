@@ -99,7 +99,8 @@ claude_project/
 │   ├── embedded-architecture_vendor.md   # ESP32 firmware architecture + flow diagrams
 │   ├── embedded-system-diagram.svg       # Hardware block diagram
 │   └── system-architecture.md           # Full deployment overview
-└── MASTER_v2_refined.md            # Full system specification
+├── MASTER_v2_refined.md            # Visual overview — diagrams, phase progress, status
+└── TECHNICAL.md                    # Deep technical specs — schema, API, firmware, decisions
 ```
 
 ---
