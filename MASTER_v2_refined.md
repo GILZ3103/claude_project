@@ -8,6 +8,7 @@ A unified night market platform: consumers tap a physical NFC card at vendor sta
 ## Build Progress
 
 ```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
 flowchart LR
     subgraph P1["✅ PHASE 1 — CORE"]
         direction TB
@@ -83,6 +84,7 @@ End-to-end view of the four website-side pieces (database, backend, frontend, ne
 🟢 = done · 🟡 = scaffolded · 🔴 = not started
 
 ```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
 flowchart TB
     subgraph Clients["DEVICES"]
         direction LR
@@ -134,6 +136,7 @@ Click-by-click flow showing what each step does, what API it calls, and completi
 ### Consumer Journey (apps/web) ✅
 
 ```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
 flowchart LR
     Start(["🌐 Open Web App"])
     Start --> Land["🏠 Landing Page ✅\nSign in with email + password"]
@@ -160,6 +163,7 @@ flowchart LR
 ### Vendor Journey (apps/web — vendor mode) ✅
 
 ```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
 flowchart LR
     Start(["🏪 Vendor Sign In"]) --> AuthV["🔐 Vendor Login ✅\ncard UID + password"]
     AuthV -->|Vendor account| Toggle["🔀 Mode Toggle Appears ✅"]
@@ -179,6 +183,7 @@ flowchart LR
 ### Kiosk Journey (apps/kiosk) 🟡 Planned
 
 ```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
 flowchart LR
     Idle["🖥️ Idle Screen 🟡\nTap your card to begin"]
     Idle -->|"Card tapped"| KTap[/"📡 Record Visit  ✅ backend ready"/]
@@ -205,6 +210,7 @@ flowchart LR
 ### System Flow — From Power On to Card Tap Result
 
 ```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
 flowchart LR
     S([▶ Start]) --> INIT[System\nInitialisation]
     INIT --> SCAN[Card Read\nCycle]
@@ -273,6 +279,7 @@ flowchart LR
 ### Hardware Communication Path ✅
 
 ```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
 flowchart LR
     Card["💳 NFC Card\nCarries unique ID only"]
 
@@ -315,6 +322,7 @@ flowchart LR
 How each technology is positioned in the stack — from device hardware up to cloud hosting.
 
 ```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
 flowchart TB
     subgraph Devices["DEVICES"]
         direction LR
@@ -391,6 +399,7 @@ flowchart TB
 Which tool talks to which, and what role each plays.
 
 ```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
 flowchart LR
     subgraph Build["Build Tools"]
         PIO2["PlatformIO\nFirmware Builder"] -->|compiles| CPP["Firmware Code\nC++ Language"]
@@ -430,6 +439,7 @@ flowchart LR
 Where each piece lives and how deployments are triggered.
 
 ```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
 flowchart LR
     GH["🐙 GitHub\nSource Code Repository"]
 
@@ -492,6 +502,7 @@ erDiagram
 ## Future / Parked Features
 
 ```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
 flowchart LR
     Now["✅ Completed\nVendor Terminal\nOnline tap & pay\nSecure authentication"]
     Next["🟡 Next Up\nDirectory Kiosk\n4 screen panels\nNFC card reader"]
