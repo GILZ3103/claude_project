@@ -161,34 +161,34 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    Start(["Vendor login"]) --> AuthV["POST /api/auth/\nvendor/login ✅"]
-    AuthV -->|role=VENDOR| Toggle["Mode toggle appears ✅"]
-    Toggle -->|Vendor mode| VDash["/vendor/dashboard ✅\nbusiness · subsidies"]
+    Start(["🏪 Vendor Sign In"]) --> AuthV["🔐 Vendor Login ✅\ncard UID + password"]
+    AuthV -->|Vendor account| Toggle["🔀 Mode Toggle Appears ✅"]
+    Toggle -->|Switch to vendor| VDash["🏠 Vendor Home ✅\nbusiness info · total subsidies"]
 
-    VDash -->|tab| VInfo["/vendor/information ✅\ngrid + food list + add form"]
-    VDash -->|tab| VCamp["/vendor/campaigns ✅"]
-    VDash -->|tab| VClaim["/vendor/claim ✅\ndate range submit"]
-    VDash -->|tab| VSum["/vendor/summary ✅\nall-time subsidy"]
+    VDash -->|tab| VInfo["📋 Stall Information ✅\nlocation on map · food menu"]
+    VDash -->|tab| VCamp["🎯 Campaigns ✅\njoin programs"]
+    VDash -->|tab| VClaim["📄 Submit Claim ✅\nselect date range · submit"]
+    VDash -->|tab| VSum["💰 Subsidy Summary ✅\nearnings per campaign"]
 
-    VInfo -.->|"Add food item"| AddFood[/"POST /api/vendors/:id/food\nx-card-uid header"/]
-    VClaim -.->|"Submit claim"| Claim[/"POST /api/vendors/:id/claim\nx-card-uid header"/]
-    VSum -.->|"Load summary"| Sum[/"GET /api/vendors/:id/summary\nx-card-uid header"/]
-    VDash -->|Switch back| CDash["Consumer mode\n(/dashboard)"]
+    VInfo -.->|"Add item button"| AddFood[/"🍽️ Add Food Item"/]
+    VClaim -.->|"Submit button"| Claim[/"📤 Submit Subsidy Claim"/]
+    VSum -.->|"Page load"| Sum[/"📊 Load Earnings Summary"/]
+    VDash -->|Switch back| CDash["👤 Consumer Mode"]
 ```
 
 ### Kiosk Journey (apps/kiosk) 🟡 Planned
 
 ```mermaid
 flowchart LR
-    Idle["Panel 1 — Idle 🟡\nTap your card to begin"]
-    Idle -->|"NFC tap detected\n(daemon → /nfc poll)"| KTap[/"POST /api/kiosk/tap ✅ backend ready"/]
-    KTap --> P2["Panel 2 — Card Summary 🟡\nname · balance · calories · vouchers"]
-    P2 -->|button| P3["Panel 3 — Campaigns 🟡\nlist · enrol"]
-    P2 -->|button| P4["Panel 4 — Map 🟡\ngrid + path to vendor"]
-    P3 -.->|enrol| Enrol2[/"POST /api/campaigns/:id/enrol ✅"/]
-    P2 -->|60s idle| Idle
-    P3 -->|60s idle| Idle
-    P4 -->|60s idle| Idle
+    Idle["🖥️ Idle Screen 🟡\nTap your card to begin"]
+    Idle -->|"Card tapped"| KTap[/"📡 Record Visit  ✅ backend ready"/]
+    KTap --> P2["👤 Card Summary 🟡\nname · balance · calories · vouchers"]
+    P2 -->|button| P3["🎯 Campaigns 🟡\nview · join programs"]
+    P2 -->|button| P4["🗺️ Market Map 🟡\nfind your stall"]
+    P3 -.->|"Join button"| Enrol2[/"🎯 Join Campaign  ✅"/]
+    P2 -->|"60 seconds no action"| Idle
+    P3 -->|"60 seconds no action"| Idle
+    P4 -->|"60 seconds no action"| Idle
 
     style Idle fill:#fff4cc,stroke:#b08800
     style P2 fill:#fff4cc,stroke:#b08800
@@ -208,37 +208,37 @@ Two views: physical hardware architecture and the firmware code path on every ca
 
 ```mermaid
 flowchart TB
-    Card["💳 NFC Card\n(NTAG215 — UID only) ✅"]
+    Card["💳 NFC Card\nCarries unique ID only ✅"]
 
     subgraph Terminal["VENDOR TERMINAL ✅"]
-        direction TB
-        subgraph RC522["RC522 RFID Reader (SPI) ✅"]
-            Reader["Reads card UID"]
+        direction LR
+        subgraph Reader["📡 RFID Reader ✅"]
+            RC["Detects &\nreads card"]
         end
-        subgraph ESP32["ESP32 DevKit v1 ✅"]
-            FW["main.cpp\nsetup() + loop()"]
-            NVS[("NVS storage ✅\nwifi_ssid · wifi_pass\nvendor_id · food_id\napi_url · auth_token")]
-            WiFi["WiFi + HTTPS ✅\n(mbedTLS hardware TLS)"]
+        subgraph Controller["⚡ ESP32 Microcontroller ✅"]
+            FW["🧠 Firmware\nboot · connect · scan · send"]
+            NVS[("💾 On-device Config ✅\nWiFi credentials\nVendor & food identity\nAuth token")]
+            WiFi["📶 Secure WiFi ✅\nhardware encryption built-in"]
         end
-        Serial["📺 USB Serial\n115200 baud\n(Serial monitor output)"]
     end
 
-    Backend[/"Backend POST /api/tap ✅\nrequireTerminalAuth →\nZod validate → tap logic"/]
-    Supabase[("Supabase\nPostgreSQL ✅")]
+    Backend[/"☁️ Backend API ✅\nVerify · Validate · Process"/]
+    Supabase[("🗄️ Cloud Database ✅\nPostgreSQL — Supabase")]
 
-    Card -.tap.-> Reader
-    Reader -->|"SS=21 · MOSI=23\nMISO=19 · SCK=18 · RST=22"| FW
-    NVS -->|"prefs.getString()"| FW
+    Card -.->|"Tap"| RC
+    RC -->|"Wired connection\n5 pins"| FW
+    NVS -->|"Loads settings\non boot"| FW
     FW --> WiFi
-    WiFi -->|"HTTPS\nAuthorization: Bearer authToken"| Backend
+    WiFi -->|"Authenticated\nHTTPS request"| Backend
     Backend --> Supabase
-    Supabase -->|"row data"| Backend
-    Backend -->|"200 + balance/calories\nor 401/402/409"| WiFi
-    FW --> Serial
+    Supabase -->|"Account data"| Backend
+    Backend -->|"Result:\npoints · calories · status"| WiFi
 
     style Terminal fill:#d4f4dd,stroke:#2d8a4f
     style Backend fill:#d4f4dd,stroke:#2d8a4f
     style Supabase fill:#d4f4dd,stroke:#2d8a4f
+    style Reader fill:#e8f4fd,stroke:#2980b9
+    style Controller fill:#e8f8f0,stroke:#27ae60
 ```
 
 ### Card Tap — Firmware Code Path ✅
