@@ -84,43 +84,39 @@ End-to-end view of the four website-side pieces (database, backend, frontend, ne
 
 ```mermaid
 flowchart TB
-    subgraph Clients["CLIENTS"]
+    subgraph Clients["DEVICES"]
         direction LR
-        Phone["📱 Consumer phone / browser ✅"]
-        VendorBrowser["💻 Vendor browser ✅"]
-        ESP32["⚡ ESP32 vendor terminal ✅\nBearer token auth"]
-        PiKiosk["🖥️ Raspberry Pi kiosk 🟡\nscaffolded only"]
+        Phone["📱 Consumer\nPhone / Browser ✅"]
+        VendorBrowser["💻 Vendor\nBrowser ✅"]
+        ESP32["⚡ ESP32\nVendor Terminal ✅"]
+        PiKiosk["🖥️ Raspberry Pi 4\nKiosk 🟡"]
     end
 
-    subgraph Frontend["FRONTEND ✅ Live on Vercel"]
+    subgraph Frontend["FRONTEND ✅  —  Vercel"]
         direction TB
-        Web["apps/web\nConsumer + Vendor (mode toggle)\nnightmarket-web.vercel.app\n13 pages"]
-        Kiosk["apps/kiosk 🟡\nnot built — 4 panels planned"]
+        Web["🌐 Consumer + Vendor Web App ✅\nnightmarket-web.vercel.app  ·  13 pages"]
+        Kiosk["🖥️ Directory Kiosk App 🟡\n4 panels — not yet built"]
     end
 
-    subgraph Backend["BACKEND ✅ Live on Railway"]
+    subgraph Backend["BACKEND ✅  —  Railway"]
         direction TB
-        Mid["Middleware\nexpress.json · CORS · Zod validate · errors"]
-        Routes["Routes /api/*\nauth · cards · vendors · tap · campaigns · map · kiosk"]
-        Auth1["Auth checks ✅\nx-card-uid (vendor routes)\nBearer token (POST /api/tap)"]
+        Mid["🔀 Request Handler\nvalidation · security · routing"]
+        Auth1["🔒 Access Control ✅\nvendor identity · terminal token"]
     end
 
-    subgraph Database["DATABASE ✅ Live on Supabase"]
+    subgraph Database["DATABASE ✅  —  Supabase"]
         direction TB
-        DB[("PostgreSQL\n10 tables\n+ subsidy_summary view")]
-        Migrations["schema.sql + 2 migrations"]
+        DB[("🗄️ PostgreSQL\n10 tables  ·  live report view")]
     end
 
-    Phone -->|HTTPS| Web
-    VendorBrowser -->|HTTPS| Web
-    ESP32 -->|"HTTPS POST /api/tap\nAuthorization: Bearer token"| Routes
-    PiKiosk -.->|HTTPS planned| Kiosk
-    Web -->|fetch /api/*| Mid
+    Phone -->|"Secure HTTPS"| Web
+    VendorBrowser -->|"Secure HTTPS"| Web
+    ESP32 -->|"Secure HTTPS\n+ Auth Token"| Mid
+    PiKiosk -.->|"Planned"| Kiosk
+    Web -->|"API requests"| Mid
     Kiosk -.-> Mid
-    Mid --> Routes
-    Routes --> Auth1
-    Auth1 -->|service role key| DB
-    Migrations --- DB
+    Mid --> Auth1
+    Auth1 -->|"Secure connection"| DB
 
     style Frontend fill:#d4f4dd,stroke:#2d8a4f
     style Backend fill:#d4f4dd,stroke:#2d8a4f
@@ -139,25 +135,25 @@ Click-by-click flow showing what each step does, what API it calls, and completi
 
 ```mermaid
 flowchart LR
-    Start(["User opens\nnightmarket-web.vercel.app"])
-    Start --> Land["/\nLanding — email + password ✅"]
-    Land -->|New user| Reg["/register\nConsumer/Vendor toggle ✅"]
-    Land -->|Sign in| AuthCheck{"POST /api/auth/\nconsumer/login"}
-    Reg -->|POST /api/cards/register| AuthCheck
-    AuthCheck -->|❌ wrong creds| Land
-    AuthCheck -->|✅| Dash["/dashboard ✅\nbalance · calories · history"]
+    Start(["🌐 Open Web App"])
+    Start --> Land["🏠 Landing Page ✅\nSign in with email + password"]
+    Land -->|New user| Reg["📝 Register ✅\nConsumer or Vendor toggle"]
+    Land -->|Sign in| AuthCheck{"🔐 Login Check"}
+    Reg -->|Create account| AuthCheck
+    AuthCheck -->|❌ Wrong credentials| Land
+    AuthCheck -->|✅ Success| Dash["📊 My Dashboard ✅\npoints balance · calories · history"]
 
-    Dash -->|tab| Cal["/calories ✅\nmacros · BMR · limit"]
-    Dash -->|tab| Camp["/campaigns ✅\nprograms · vouchers"]
-    Dash -->|tab| Vend["/vendors ✅\nsearch · macros · photos"]
-    Dash -->|tab| Map["/map ✅\ngrid layout"]
-    Dash -->|tab| NFC["/nfc ✅\ncard status"]
-    Dash -->|tab| Set["/settings ✅"]
+    Dash -->|tab| Cal["🥗 Calorie Tracker ✅\nmacros · BMR calculator · daily limit"]
+    Dash -->|tab| Camp["🎯 Campaigns ✅\nprograms · vouchers collected"]
+    Dash -->|tab| Vend["🏪 Vendors ✅\nsearch · food items · macros"]
+    Dash -->|tab| Map["🗺️ Market Map ✅\nstall grid layout"]
+    Dash -->|tab| NFC["💳 My Card ✅\ncard status · active promotions"]
+    Dash -->|tab| Set["⚙️ Settings ✅"]
 
-    Dash -.->|"Top-up button"| Topup[/"POST /api/cards/:uid/topup"/]
-    Camp -.->|"Enrol button"| Enrol[/"POST /api/campaigns/:id/enrol"/]
-    Cal -.->|"Update limit"| Limit[/"PATCH /api/cards/:uid/calorie-limit"/]
-    Vend -.->|"View menu"| VFood[/"GET /api/vendors/:id/food"/]
+    Dash -.->|"Top Up button"| Topup[/"💰 Add Points"/]
+    Camp -.->|"Enrol button"| Enrol[/"🎯 Join Campaign"/]
+    Cal -.->|"Save limit"| Limit[/"✏️ Update Daily Limit"/]
+    Vend -.->|"View stall"| VFood[/"🍽️ View Food Menu"/]
     Set -->|Sign out| Land
 ```
 
