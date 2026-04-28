@@ -202,80 +202,108 @@ flowchart LR
 
 ## Diagram 3 — Hardware Setup (ESP32 Vendor Terminal)
 
-Two views: physical hardware architecture and the firmware code path on every card tap.
-
-### Hardware Architecture ✅
+### System Flow — From Power On to Card Tap Result
 
 ```mermaid
-flowchart TB
-    Card["💳 NFC Card\nCarries unique ID only ✅"]
+flowchart LR
+    S([▶ Start]) --> INIT[System\nInitialisation]
+    INIT --> SCAN[Card Read\nCycle]
+    SCAN --> PROC[Microcontroller\nMain Loop]
+    PROC --> DISP[Update\nResult]
+    DISP --> RESET[Reset\nCycle]
+    RESET -->|loop back| SCAN
+
+    %% ── Initialisation branch ──────────────────────────────
+    INIT --> D1{Settings\nready?}
+    D1 -->|no| HALT(["⛔ System Halt\nRe-provision device"])
+    D1 -->|yes| D2{WiFi\nconnected?}
+    D2 -->|no| RETRY(["↺ Retry\nconnection"])
+    RETRY --> D2
+    D2 -->|yes| SCAN
+
+    %% ── Card scan branch ───────────────────────────────────
+    SCAN --> D3{Card\ndetected?}
+    D3 -->|no| SCAN
+    D3 -->|yes| PROC
+
+    %% ── Main loop branch ───────────────────────────────────
+    PROC --> D4{Terminal\nauthorised?}
+    D4 -->|no| E1(["🔴 Access Denied\ninvalid token"])
+    D4 -->|yes| D5{Card active\n& has points?}
+    D5 -->|no| E2(["🔴 Show Error\nno points · already visited\ncard not found"])
+    D5 -->|yes| SAVE["Save Transaction\ndeduct points · log calories\nupdate campaign"]
+
+    SAVE --> DISP
+
+    %% ── Result branch ──────────────────────────────────────
+    DISP --> D6{Success?}
+    D6 -->|yes| OK(["🟢 Show Result\npoints spent · calories added\nnew balance"])
+    D6 -->|no| FAIL(["🔴 Show Reason\nspecific error message"])
+
+    OK --> RESET
+    FAIL --> RESET
+    E1 --> RESET
+    E2 --> RESET
+
+    style S fill:#d4f4dd,stroke:#2d8a4f
+    style INIT fill:#e8f4fd,stroke:#2980b9
+    style SCAN fill:#e8f4fd,stroke:#2980b9
+    style PROC fill:#e8f4fd,stroke:#2980b9
+    style DISP fill:#e8f4fd,stroke:#2980b9
+    style RESET fill:#e8f4fd,stroke:#2980b9
+    style SAVE fill:#d4f4dd,stroke:#2d8a4f
+    style OK fill:#d4f4dd,stroke:#2d8a4f
+    style HALT fill:#fde8e8,stroke:#c0392b
+    style E1 fill:#fde8e8,stroke:#c0392b
+    style E2 fill:#fde8e8,stroke:#c0392b
+    style FAIL fill:#fde8e8,stroke:#c0392b
+    style RETRY fill:#fff4cc,stroke:#b08800
+```
+
+### What Each Stage Does
+
+| Stage | What Happens |
+|---|---|
+| **System Initialisation** | Load saved settings (WiFi, vendor ID, auth token), connect to WiFi, sync clock |
+| **Card Read Cycle** | Continuously poll the RFID reader — wait until a card is tapped |
+| **Microcontroller Main Loop** | Read card ID, verify with backend, check balance, save the transaction |
+| **Update Result** | Show success or reason for failure |
+| **Reset Cycle** | Clear the reader, wait 2 seconds to prevent double-taps, then scan again |
+
+### Hardware Communication Path ✅
+
+```mermaid
+flowchart LR
+    Card["💳 NFC Card\nCarries unique ID only"]
 
     subgraph Terminal["VENDOR TERMINAL ✅"]
         direction LR
-        subgraph Reader["📡 RFID Reader ✅"]
-            RC["Detects &\nreads card"]
+        subgraph Reader["📡 RFID Reader"]
+            RC["Detects card\nwirelessly"]
         end
-        subgraph Controller["⚡ ESP32 Microcontroller ✅"]
-            FW["🧠 Firmware\nboot · connect · scan · send"]
-            NVS[("💾 On-device Config ✅\nWiFi credentials\nVendor & food identity\nAuth token")]
-            WiFi["📶 Secure WiFi ✅\nhardware encryption built-in"]
+        subgraph Controller["⚡ ESP32 Microcontroller"]
+            FW["🧠 Firmware\nruns the system flow above"]
+            NVS[("💾 On-device Config\nWiFi · Vendor · Auth token")]
+            WiFi["📶 Secure WiFi\nencryption built into chip"]
         end
     end
 
-    Backend[/"☁️ Backend API ✅\nVerify · Validate · Process"/]
-    Supabase[("🗄️ Cloud Database ✅\nPostgreSQL — Supabase")]
+    Backend[/"☁️ Backend API ✅\nVerify · Process · Respond"/]
+    Supabase[("🗄️ Cloud Database ✅")]
 
     Card -.->|"Tap"| RC
-    RC -->|"Wired connection\n5 pins"| FW
-    NVS -->|"Loads settings\non boot"| FW
+    RC -->|"Wired"| FW
+    NVS -->|"Loaded on boot"| FW
     FW --> WiFi
-    WiFi -->|"Authenticated\nHTTPS request"| Backend
-    Backend --> Supabase
-    Supabase -->|"Account data"| Backend
-    Backend -->|"Result:\npoints · calories · status"| WiFi
+    WiFi -->|"Authenticated request"| Backend
+    Backend <--> Supabase
+    Backend -->|"Points · calories · status"| WiFi
 
     style Terminal fill:#d4f4dd,stroke:#2d8a4f
     style Backend fill:#d4f4dd,stroke:#2d8a4f
     style Supabase fill:#d4f4dd,stroke:#2d8a4f
     style Reader fill:#e8f4fd,stroke:#2980b9
     style Controller fill:#e8f8f0,stroke:#27ae60
-```
-
-### Card Tap — What Happens Step by Step ✅
-
-```mermaid
-sequenceDiagram
-    actor User as 👤 Consumer
-    participant Card as 💳 NFC Card
-    participant RC522 as 📡 RFID Reader
-    participant ESP32 as ⚡ ESP32 Firmware
-    participant API as ☁️ Backend API
-    participant DB as 🗄️ Database
-
-    Note over ESP32: On boot — load settings,<br/>connect to WiFi, sync time
-
-    User->>Card: Tap card on terminal
-    Card-->>RC522: Card ID sent wirelessly
-    RC522-->>ESP32: Card detected & ID received
-
-    ESP32->>ESP32: Read card ID
-    ESP32->>ESP32: Get current time
-    ESP32->>ESP32: Prepare request
-
-    ESP32->>+API: Send authenticated request
-    API->>API: Verify terminal identity
-    API->>API: Validate incoming data
-    API->>+DB: Look up card, vendor & food item
-    DB-->>-API: Account details returned
-    API->>API: Check rules — duplicate · voucher · balance
-    API->>+DB: Save transaction
-    DB-->>-API: Saved successfully
-    API-->>-ESP32: Result — points spent · calories added
-
-    ESP32->>ESP32: Read result
-    ESP32-->>User: Display result to vendor
-
-    Note over ESP32: Reset reader, wait 2 seconds
 ```
 
 ---
