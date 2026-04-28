@@ -71,8 +71,8 @@ flowchart LR
 
 | Role | Access | Key Actions |
 |---|---|---|
-| 🧑 Consumer | `nightmarket-web.vercel.app` | Register card · top up points · tap at vendors · track calories · join campaigns · redeem vouchers |
-| 🏪 Vendor | Same URL (mode toggle) | Register stall + SSM · upload food items · join campaigns · view subsidy dashboard · submit claims |
+| 🧑 Consumer | nightmarket-web.vercel.app | Register card · top up points · tap at vendors · track calories · join campaigns · redeem vouchers |
+| 🏪 Vendor | Same URL — vendor mode toggle | Register stall + SSM · upload food items · join campaigns · view subsidy dashboard · submit claims |
 | 👤 Guest | Same URL | Browse vendors and map only |
 
 ---
@@ -241,39 +241,41 @@ flowchart TB
     style Controller fill:#e8f8f0,stroke:#27ae60
 ```
 
-### Card Tap — Firmware Code Path ✅
+### Card Tap — What Happens Step by Step ✅
 
 ```mermaid
 sequenceDiagram
     actor User as 👤 Consumer
     participant Card as 💳 NFC Card
-    participant RC522 as 📡 RC522
-    participant ESP32 as ⚡ ESP32 main.cpp
-    participant API as 🌐 Backend /api/tap
-    participant DB as 🗄️ Supabase
+    participant RC522 as 📡 RFID Reader
+    participant ESP32 as ⚡ ESP32 Firmware
+    participant API as ☁️ Backend API
+    participant DB as 🗄️ Database
 
-    Note over ESP32: setup() — load NVS,<br/>connect WiFi, NTP sync
-    User->>Card: Tap on terminal
-    Card-->>RC522: UID broadcast (RF)
-    RC522-->>ESP32: PICC_IsNewCardPresent()<br/>+ PICC_ReadCardSerial()
-    ESP32->>ESP32: readUID() → "333F6C08"
-    ESP32->>ESP32: getTimestamp() (NTP MYT)
-    ESP32->>ESP32: Build JSON payload<br/>StaticJsonDocument<256>
+    Note over ESP32: On boot — load settings,<br/>connect to WiFi, sync time
 
-    ESP32->>+API: POST /api/tap<br/>Authorization: Bearer authToken
-    API->>API: requireTerminalAuth<br/>(401 if invalid)
-    API->>API: Zod validate (400 if invalid)
-    API->>+DB: SELECT card · vendor · food
-    DB-->>-API: rows
-    API->>API: Check duplicate · voucher · balance
-    API->>+DB: UPDATE balance<br/>INSERT tap_event<br/>INSERT points_log<br/>UPDATE campaign_progress
-    DB-->>-API: ok
-    API-->>-ESP32: 200 + JSON response
+    User->>Card: Tap card on terminal
+    Card-->>RC522: Card ID sent wirelessly
+    RC522-->>ESP32: Card detected & ID received
 
-    ESP32->>ESP32: Parse StaticJsonDocument<1024>
-    ESP32-->>User: Serial.println<br/>"OK  -5.0pts  +560kcal"
+    ESP32->>ESP32: Read card ID
+    ESP32->>ESP32: Get current time
+    ESP32->>ESP32: Prepare request
 
-    Note over ESP32: PICC_HaltA()<br/>delay(2000) — debounce
+    ESP32->>+API: Send authenticated request
+    API->>API: Verify terminal identity
+    API->>API: Validate incoming data
+    API->>+DB: Look up card, vendor & food item
+    DB-->>-API: Account details returned
+    API->>API: Check rules — duplicate · voucher · balance
+    API->>+DB: Save transaction
+    DB-->>-API: Saved successfully
+    API-->>-ESP32: Result — points spent · calories added
+
+    ESP32->>ESP32: Read result
+    ESP32-->>User: Display result to vendor
+
+    Note over ESP32: Reset reader, wait 2 seconds
 ```
 
 ---
@@ -288,59 +290,59 @@ How each technology is positioned in the stack — from device hardware up to cl
 flowchart TB
     subgraph Devices["DEVICES"]
         direction LR
-        Browser["🌐 Browser\n(any device)"]
-        ESP32HW["⚡ ESP32 DevKit v1\n240MHz · 520KB SRAM"]
-        PiHW["🖥️ Raspberry Pi 4\n(kiosk)"]
+        Browser["🌐 Browser\nany device"]
+        ESP32HW["⚡ ESP32 DevKit v1\nVendor Terminal"]
+        PiHW["🖥️ Raspberry Pi 4\nKiosk"]
     end
 
-    subgraph Firmware["FIRMWARE  (ESP32)"]
+    subgraph Firmware["FIRMWARE  —  ESP32"]
         direction LR
-        PIO["PlatformIO\nbuild system"]
-        ArduinoFW["Arduino C++\nframework"]
-        MFRC522Lib["MFRC522 lib\nRC522 SPI driver"]
-        AJson["ArduinoJson v6\nStaticJsonDocument"]
-        mbedTLS["mbedTLS\nhardware TLS (built-in)"]
+        PIO["PlatformIO\nBuild System"]
+        ArduinoFW["Arduino Framework\nC++ Language"]
+        MFRC522Lib["RFID Library\nCard Reader Driver"]
+        AJson["JSON Library\nData Serialiser"]
+        mbedTLS["Encryption Library\nBuilt into Chip"]
     end
 
-    subgraph Frontend["FRONTEND  (Vercel)"]
+    subgraph Frontend["FRONTEND  —  Vercel"]
         direction LR
-        Vite["Vite\nbundler + dev server"]
-        React["React 19\ncomponent tree"]
-        TS["TypeScript\ntype safety"]
-        Tailwind["TailwindCSS\nstyle utilities"]
-        RR["React Router\nclient-side routing"]
-        Context["Context API\nglobal card session"]
-        Recharts["Recharts\ncalorie bar chart"]
+        Vite["Vite\nBuild & Dev Server"]
+        React["React 19\nUI Framework"]
+        TS["TypeScript\nType Safety"]
+        Tailwind["Tailwind CSS\nStyling"]
+        RR["React Router\nPage Navigation"]
+        Context["Card Session\nGlobal State"]
+        Recharts["Charts\nCalorie Graph"]
     end
 
-    subgraph BackendLayer["BACKEND  (Railway)"]
+    subgraph BackendLayer["BACKEND  —  Railway"]
         direction LR
-        Express["Express\nHTTP server"]
-        Zod["Zod\npayload validation"]
-        Bcrypt["bcryptjs\npassword hashing"]
-        SupaJS["@supabase/supabase-js\nDB client"]
+        Express["Express\nHTTP Server"]
+        Zod["Zod\nInput Validation"]
+        Bcrypt["Bcrypt\nPassword Security"]
+        SupaJS["Supabase Client\nDatabase Connector"]
     end
 
-    subgraph Storage["DATABASE  (Supabase)"]
+    subgraph Storage["DATABASE  —  Supabase"]
         direction LR
-        PG["PostgreSQL\n10 tables + view"]
-        Auth["Supabase Auth\n(future)"]
+        PG["PostgreSQL\n10 tables  ·  live view"]
+        Auth["Supabase Auth\nFuture upgrade"]
     end
 
     subgraph Hosting["HOSTING"]
         direction LR
-        Vercel["Vercel\napps/web"]
-        Railway["Railway\nbackend"]
-        SupaCloud["Supabase Cloud\nDB + storage"]
+        Vercel["☁️ Vercel\nWeb App"]
+        Railway["🚂 Railway\nBackend"]
+        SupaCloud["🐘 Supabase Cloud\nDatabase"]
     end
 
-    Browser -->|HTTPS| Frontend
+    Browser -->|"Secure HTTPS"| Frontend
     ESP32HW --> Firmware
     PiHW -.-> Frontend
 
-    Firmware -->|"HTTPS + Bearer token\nmbedTLS"| BackendLayer
-    Frontend -->|"fetch() /api/*"| BackendLayer
-    BackendLayer -->|"service role key"| Storage
+    Firmware -->|"Secure HTTPS\nwith Auth Token"| BackendLayer
+    Frontend -->|"API requests"| BackendLayer
+    BackendLayer -->|"Secure connection"| Storage
 
     Frontend --- Vercel
     BackendLayer --- Railway
@@ -363,28 +365,28 @@ Which tool talks to which, and what role each plays.
 ```mermaid
 flowchart LR
     subgraph Build["Build Tools"]
-        PIO2["PlatformIO"] -->|compiles| CPP["Arduino C++\nmain.cpp"]
-        Vite2["Vite"] -->|bundles| TSX["React + TSX\ncomponents"]
+        PIO2["PlatformIO\nFirmware Builder"] -->|compiles| CPP["Firmware Code\nC++ Language"]
+        Vite2["Vite\nWeb Builder"] -->|bundles| TSX["Web Components\nReact + TypeScript"]
     end
 
-    subgraph Firmware2["Firmware Runtime"]
-        CPP -->|SPI bus| RC522["RC522\nreads UID"]
-        CPP -->|calls| AJ["ArduinoJson\nbuild payload"]
-        AJ -->|serialised JSON| TLS["mbedTLS\nencrypt + send"]
+    subgraph Firmware2["Firmware  —  On Device"]
+        CPP -->|"hardware wire"| RC522["RFID Reader\nreads card ID"]
+        CPP -->|"calls"| AJ["JSON Builder\nformats data"]
+        AJ -->|"prepared data"| TLS["Encryption Layer\nsecures & sends"]
     end
 
-    subgraph WebApp["Web App Runtime"]
-        TSX --> CTX["CardContext\n(uid, balance, role)"]
-        CTX --> API2["api.ts\nall fetch() calls"]
-        API2 -->|"Content-Type: json\nx-card-uid (vendor routes)"| EXP
+    subgraph WebApp["Web App  —  In Browser"]
+        TSX --> CTX["Card Session\nstores identity · balance · role"]
+        CTX --> API2["API Client\nhandles all server requests"]
+        API2 -->|"secure headers"| EXP
     end
 
-    subgraph API["Backend Runtime"]
-        TLS -->|"POST /api/tap\nAuthorization: Bearer"| EXP["Express\nrouter"]
-        EXP --> ZOD["Zod middleware\nvalidate body"]
-        ZOD --> BC["bcryptjs\npassword compare"]
-        ZOD --> SB["supabase-js\nclient"]
-        SB -->|"SQL"| PG2["PostgreSQL\nread + write"]
+    subgraph API["Backend  —  Railway"]
+        TLS -->|"authenticated tap request"| EXP["HTTP Server\nroutes requests"]
+        EXP --> ZOD["Input Validator\nchecks all incoming data"]
+        ZOD --> BC["Password Checker\nverifies login"]
+        ZOD --> SB["Database Client\nreads & writes data"]
+        SB -->|"database query"| PG2["PostgreSQL\nstores everything"]
     end
 
     style Build fill:#f0f0f0,stroke:#999
@@ -401,14 +403,14 @@ Where each piece lives and how deployments are triggered.
 
 ```mermaid
 flowchart LR
-    GH["🐙 GitHub\nclaude_project repo"]
+    GH["🐙 GitHub\nSource Code Repository"]
 
-    GH -->|"push to main\nauto-deploy"| Vercel2["☁️ Vercel\napps/web\nnightmarket-web.vercel.app"]
-    GH -->|"push to main\nauto-deploy"| Railway2["🚂 Railway\nbackend/\nclaudeproject-production-5b22.up.railway.app"]
-    Railway2 -->|"service role key\n(server-side only)"| Supa2["🐘 Supabase\nPostgreSQL\nschema + migrations run manually"]
+    GH -->|"Code push\nauto deploys"| Vercel2["☁️ Vercel\nWeb App\nnightmarket-web.vercel.app"]
+    GH -->|"Code push\nauto deploys"| Railway2["🚂 Railway\nBackend API\nclaudeproject-production-5b22.up.railway.app"]
+    Railway2 -->|"Secure connection\nserver side only"| Supa2["🐘 Supabase\nCloud Database\nschema applied manually"]
 
-    Dev["💻 Local Dev"] -->|"USB flash\nPlatformIO"| ESP322["⚡ ESP32\nfirmware\nnightmarket-web → Railway → Supabase"]
-    Dev -->|"SD card\nnpm run dev"| Pi2["🖥️ Raspberry Pi\napps/kiosk\n(local only)"]
+    Dev["💻 Developer Machine"] -->|"USB cable\nflash firmware"| ESP322["⚡ ESP32\nVendor Terminal\nconnects to Railway + Supabase"]
+    Dev -->|"SD card setup\nruns locally"| Pi2["🖥️ Raspberry Pi\nKiosk — local only"]
 
     style GH fill:#f0f0f0,stroke:#555
     style Vercel2 fill:#fdebd0,stroke:#e67e22
@@ -424,35 +426,36 @@ flowchart LR
 
 ```mermaid
 erDiagram
-    cards ||--o{ tap_events : "taps"
-    cards ||--o{ points_log : "transactions"
-    cards ||--o{ campaign_progress : "enrolled in"
-    cards ||--o{ vouchers : "holds"
-    cards ||--o| vendors : "owns"
+    CARD ||--o{ TAP_EVENT : "makes"
+    CARD ||--o{ POINTS_LOG : "recorded in"
+    CARD ||--o{ CAMPAIGN_PROGRESS : "enrolled in"
+    CARD ||--o{ VOUCHER : "holds"
+    CARD ||--o| VENDOR : "owns"
 
-    vendors ||--o{ food_items : "menu"
-    vendors ||--o{ tap_events : "receives"
-    vendors ||--o{ subsidy_claims : "submits"
+    VENDOR ||--o{ FOOD_ITEM : "sells"
+    VENDOR ||--o{ TAP_EVENT : "receives"
+    VENDOR ||--o{ SUBSIDY_CLAIM : "submits"
 
-    campaigns ||--o{ campaign_progress : "tracked by"
-    campaigns ||--o{ vouchers : "rewards"
+    CAMPAIGN ||--o{ CAMPAIGN_PROGRESS : "tracked by"
+    CAMPAIGN ||--o{ VOUCHER : "rewards"
 
-    cards {
-        varchar uid PK
-        decimal points_balance
-        integer calorie_limit
-        varchar role
+    CARD {
+        string Card_ID PK
+        number Points_Balance
+        number Daily_Calorie_Limit
+        string Role
     }
-    tap_events {
-        uuid event_id PK
-        varchar event_type
-        jsonb metadata
-        timestamptz server_timestamp
+    TAP_EVENT {
+        string Event_ID PK
+        string Type
+        number Calories
+        number Cost
+        datetime When
     }
-    vouchers {
-        uuid voucher_id PK
-        decimal discount_value
-        varchar status
+    VOUCHER {
+        string Voucher_ID PK
+        number Discount_Value
+        string Status
     }
 ```
 
@@ -462,10 +465,10 @@ erDiagram
 
 ```mermaid
 flowchart LR
-    Now["✅ Current\nESP32 + RC522\nOnline-only\nSerial output\nBearer token auth"]
-    Next["🟡 Next\nKiosk app\n(4 panels + NFC daemon)"]
-    Parked["🔵 Parked\nMarket Selfie\nCamera on kiosk\nPhoto stored per card"]
-    Future["⬜ Future\nAI Nutrition Advisor\nVendor Analytics Chat\nThermal printer receipt"]
+    Now["✅ Completed\nVendor Terminal\nOnline tap & pay\nSecure authentication"]
+    Next["🟡 Next Up\nDirectory Kiosk\n4 screen panels\nNFC card reader"]
+    Parked["🔵 On Hold\nMarket Selfie\nCamera at kiosk\nPhoto memory per visit"]
+    Future["⬜ Ideas\nAI Nutrition Advisor\nVendor Sales Chat\nPrinted receipt"]
 
     Now --> Next --> Parked --> Future
 
