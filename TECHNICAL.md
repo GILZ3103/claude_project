@@ -49,49 +49,108 @@ The Supabase service role key must never leave the server. ESP32 firmware binari
 ### Edge Architecture
 
 **Path A — Vendor Terminal (ESP32)**
-```
-Consumer taps NFC card on RC522 (SPI)
-→ ESP32 reads UID as uppercase hex string (e.g. "333F6C08")
-→ ESP32 gets device_timestamp from NTP (time.google.com, MYT UTC+8)
-→ ESP32 sends HTTPS POST to /api/tap with:
-    Content-Type: application/json
-    Authorization: Bearer {authToken}
-→ Backend: requireTerminalAuth → Zod validate → tap logic → DB writes
-→ Backend returns JSON result (200 / 401 / 402 / 409)
-→ ESP32 Serial.println output reflects result
-→ delay(2000) — debounce
+
+```mermaid
+flowchart TD
+    A(["👤 Consumer taps card"]) --> B["RC522 reads UID\nPICC_ReadCardSerial()"]
+    B --> C["readUID()\n→ uppercase hex e.g. '333F6C08'"]
+    C --> D["getTimestamp()\n→ NTP ISO 8601 MYT UTC+8"]
+    D --> E["Build payload\nStaticJsonDocument&lt;256&gt;"]
+    E --> F["HTTPS POST /api/tap\nAuthorization: Bearer authToken"]
+    F --> G{"HTTP status?"}
+    G -->|"200 ✅"| H["Parse response\nStaticJsonDocument&lt;1024&gt;"]
+    G -->|"401"| I["Serial: Auth failed"]
+    G -->|"402"| J["Serial: Insufficient points"]
+    G -->|"409"| K["Serial: Already visited today"]
+    G -->|"<0"| L["Serial: No connection"]
+    H --> M["Serial output:\nOK -X.Xpts +Ykcal\nBalance · Voucher · Campaign"]
+    M --> N["PICC_HaltA()\ndelay(2000)"]
+    I & J & K & L --> N
+    N --> O(["loop() — wait for next card"])
+
+    style A fill:#d4f4dd,stroke:#2d8a4f
+    style H fill:#d4f4dd,stroke:#2d8a4f
+    style M fill:#d4f4dd,stroke:#2d8a4f
+    style I fill:#fde8e8,stroke:#c0392b
+    style J fill:#fde8e8,stroke:#c0392b
+    style K fill:#fde8e8,stroke:#c0392b
+    style L fill:#fde8e8,stroke:#c0392b
 ```
 
 **Path B — Digital Directory Kiosk (Raspberry Pi)**
-```
-Consumer taps NFC card on PN532
-→ Python Flask daemon reads UID, exposes on localhost:5001
-→ React kiosk app polls localhost:5001/nfc every 500ms
-→ On UID detected: React calls POST /api/kiosk/tap (logs DIRECTORY_REBATE event)
-→ React calls GET /api/cards/:uid for dashboard data
-→ Returns card summary, active vouchers, nearby vendor locations
-→ Consumer can activate campaigns from Panel 3
+
+```mermaid
+flowchart TD
+    A(["👤 Consumer taps PN532"]) --> B["Python daemon\nnfc_daemon.py\nPN532 → localhost:5001"]
+    B --> C["React kiosk polls\nGET /nfc every 500ms"]
+    C --> D{"UID detected?"}
+    D -->|No| C
+    D -->|Yes| E["POST /api/kiosk/tap\n{ card_uid, kiosk_id, device_timestamp }"]
+    E --> F["Backend logs\nDIRECTORY_REBATE event"]
+    F --> G["GET /api/cards/:uid\nfetch dashboard data"]
+    G --> H["Show Panel 2\nname · balance · calories · vouchers"]
+    H --> I{"Consumer action?"}
+    I -->|Campaigns| J["Panel 3 — Campaigns\nPOST /campaigns/:id/enrol"]
+    I -->|Map| K["Panel 4 — Grid map\npath to vendor 🟡"]
+    I -->|60s idle| L(["Return to Panel 1 — Idle"])
+    J --> L
+    K --> L
+
+    style B fill:#e8f4fd,stroke:#2980b9
+    style C fill:#e8f4fd,stroke:#2980b9
+    style F fill:#d4f4dd,stroke:#2d8a4f
+    style K fill:#fff4cc,stroke:#b08800
 ```
 
 ### Data Transit Protocol
 
-1. Hardware to RAM: UID as C++ String (Arduino) or Python string (Pi)
-2. RAM to JSON: ArduinoJson (StaticJsonDocument<256>) serialises to UTF-8 JSON
-3. Network: HTTPS POST — UTF-8 bytes over TCP/IP, TLS-encrypted
-4. Express: `express.json()` parses to JS object → Zod validates → 400 if invalid
-5. Supabase: JS client maps JS types to PostgreSQL types
-6. Response: PostgreSQL rows → Express → JSON → React → DOM
+```mermaid
+flowchart LR
+    A["⚡ ESP32\nC++ String\nUID bytes"] -->|"ArduinoJson\nserialise"| B["UTF-8 JSON\nStaticJsonDocument&lt;256&gt;"]
+    B -->|"mbedTLS\nHTTPS POST"| C["🌐 Network\nTLS-encrypted bytes"]
+    C -->|"express.json()\nparse"| D["JS Object\nreq.body"]
+    D -->|"Zod\nvalidate"| E{"Valid?"}
+    E -->|"❌ 400"| F["INVALID_PAYLOAD"]
+    E -->|"✅"| G["supabase-js\ntype mapping"]
+    G -->|"SQL"| H["🗄️ PostgreSQL\nread + write"]
+    H -->|"rows"| I["JS Object\nres.data"]
+    I -->|"JSON.stringify"| J["HTTPS response\nto ESP32 / React"]
+
+    style A fill:#e8f4fd,stroke:#2980b9
+    style H fill:#f5eef8,stroke:#8e44ad
+    style F fill:#fde8e8,stroke:#c0392b
+    style J fill:#d4f4dd,stroke:#2d8a4f
+```
 
 ### Timestamp Protocol
 
-| Field | Source | Purpose |
-|---|---|---|
-| `device_timestamp` | NTP sync on ESP32 (MYT UTC+8) | Informational — not trusted for business logic |
-| `server_timestamp` | Express `new Date()` on arrival | Authoritative for all audits and duplicate checks |
+```mermaid
+flowchart LR
+    subgraph Source["Timestamp Sources"]
+        NTP["NTP sync\ntime.google.com\nMYT UTC+8"] -->|"ISO 8601 string"| DT["device_timestamp\n(from ESP32)"]
+        EXP["Express NOW()\non request arrival"] --> ST["server_timestamp\n(set by backend)"]
+    end
 
-Duplicate tap check:
-- Live taps: `card_uid + vendor_id + server_timestamp::date = today` → 409
-- Synced taps: `card_uid + vendor_id + device_timestamp::date` → 409
+    subgraph Usage["How Each Is Used"]
+        DT -->|"informational only\nnot trusted"| OQ["Offline queue ordering\n(not used — online-only)"]
+        ST -->|"authoritative"| DUP["Duplicate tap check\naudit trail\nall business logic"]
+    end
+
+    subgraph DupCheck["Duplicate Tap Logic"]
+        direction TB
+        Q{"synced_from_queue?"}
+        Q -->|"false (live tap)"| LC["card_uid + vendor_id\n+ server_timestamp::date = today\n→ 409 if exists"]
+        Q -->|"true (synced)"| SC["card_uid + vendor_id\n+ device_timestamp::date\n→ 409 if exists"]
+    end
+
+    ST --> Q
+    DT --> Q
+
+    style ST fill:#d4f4dd,stroke:#2d8a4f
+    style DT fill:#fff4cc,stroke:#b08800
+    style LC fill:#e8f4fd,stroke:#2980b9
+    style SC fill:#e8f4fd,stroke:#2980b9
+```
 
 ### Payment — Prototype Only
 
@@ -288,6 +347,80 @@ GROUP BY v.vendor_id, v.business_name, c.campaign_id, c.name, c.reward_value;
 | `vouchers.status` | `ACTIVE` · `USED` · `EXPIRED` |
 | `subsidy_claims.status` | `PENDING_AUDIT` · `APPROVED` · `PAID` |
 
+### State Machines
+
+**Voucher lifecycle:**
+
+```mermaid
+stateDiagram-v2
+    [*] --> ACTIVE : Campaign completed\nvoucher auto-issued
+    ACTIVE --> USED : Applied on tap purchase\n(discount deducted)
+    ACTIVE --> EXPIRED : expires_at passed\nwithout use
+    USED --> [*]
+    EXPIRED --> [*]
+```
+
+**Subsidy claim lifecycle:**
+
+```mermaid
+stateDiagram-v2
+    [*] --> PENDING_AUDIT : Vendor submits claim\nPOST /vendors/:id/claim
+    PENDING_AUDIT --> APPROVED : Government reviews\n& approves
+    APPROVED --> PAID : Payment received
+    PAID --> [*]
+```
+
+**Campaign conditions — how progress increments:**
+
+```mermaid
+flowchart TD
+    Tap(["Card tap event"]) --> CT{"condition_type?"}
+
+    CT -->|"VISIT_STALLS"| VS["Has this vendor been\nvisited today already?"]
+    VS -->|"No — new stall"| VSI["current_value += 1"]
+    VS -->|"Yes — skip"| VSS["no increment"]
+
+    CT -->|"SPEND_POINTS"| SP["current_value += final_cost\n(points spent this tap)"]
+
+    CT -->|"DIRECTORY_REBATE"| DR["Triggered by kiosk tap\nPOST /api/kiosk/tap\ncurrent_value += 1\n(threshold = 1)"]
+
+    VSI & SP & DR --> CHK{"current_value\n>= threshold?"}
+    CHK -->|"Yes + not completed"| DONE["completed = true\nIssue voucher\ndiscount_value = reward_value"]
+    CHK -->|"No"| CONT(["Continue accumulating"])
+
+    style DONE fill:#d4f4dd,stroke:#2d8a4f
+    style DR fill:#e8f4fd,stroke:#2980b9
+```
+
+**Points flow — how points move through the system:**
+
+```mermaid
+flowchart LR
+    subgraph In["Points IN ➕"]
+        TOPUP["TOPUP\n+amount\n(UI top-up)"]
+        VD["VOUCHER_DISCOUNT\n+discount_applied\n(voucher offset)"]
+        CR["CAMPAIGN_REWARD\n+reward_value\n(directory rebate)"]
+    end
+
+    BAL(["💳 points_balance"])
+
+    subgraph Out["Points OUT ➖"]
+        TP["TAP_PURCHASE\n-final_cost\n(food purchase)"]
+    end
+
+    TOPUP --> BAL
+    VD --> BAL
+    CR --> BAL
+    BAL --> TP
+
+    TP & TOPUP & VD & CR -->|"every movement"| LOG["📋 points_log\nimmutable audit trail\n(delta, reason, reference_id)"]
+
+    style BAL fill:#fdebd0,stroke:#e67e22
+    style LOG fill:#f5eef8,stroke:#8e44ad
+    style In fill:#d4f4dd,stroke:#2d8a4f
+    style Out fill:#fde8e8,stroke:#c0392b
+```
+
 ### Business Constraints (Enforced in API)
 
 - `points_balance` must never go below 0 — check before deducting
@@ -334,10 +467,66 @@ Base URL: `https://claudeproject-production-5b22.up.railway.app/api`
 
 ### Authentication
 
-- **Consumer routes**: no header required — UID inferred from URL param
-- **Vendor-protected routes**: `x-card-uid` header (card with `role = VENDOR` that owns the vendor)
-  - Affected: `POST /vendors/:id/food`, `GET /vendors/:id/summary`, `POST /vendors/:id/claim`, `GET /vendors/:id/claims`
-- **Terminal tap**: `Authorization: Bearer <TERMINAL_AUTH_TOKEN>` — verified by `requireTerminalAuth` middleware before Zod validation
+```mermaid
+flowchart TD
+    REQ(["Incoming request"]) --> RT{"Route type?"}
+
+    RT -->|"POST /api/tap\nPOST /api/tap/sync"| BA["Check\nAuthorization: Bearer header"]
+    BA --> BAC{"Token matches\nTERMINAL_AUTH_TOKEN?"}
+    BAC -->|"❌ No"| B401["401 UNAUTHORIZED"]
+    BAC -->|"✅ Yes"| ZOD1["Zod validate → tap logic"]
+
+    RT -->|"POST /vendors/:id/food\nGET  /vendors/:id/summary\nPOST /vendors/:id/claim\nGET  /vendors/:id/claims"| XH["Check\nx-card-uid header"]
+    XH --> XHC{"Card exists +\nrole=VENDOR +\nowns this vendor?"}
+    XHC -->|"❌ No"| B403["403 UNAUTHORIZED"]
+    XHC -->|"✅ Yes"| VPROT["Route handler"]
+
+    RT -->|"All other routes\n(public or UID in URL)"| PUB["No auth header needed\nUID from URL param"]
+    PUB --> HANDLER["Route handler"]
+
+    style B401 fill:#fde8e8,stroke:#c0392b
+    style B403 fill:#fde8e8,stroke:#c0392b
+    style ZOD1 fill:#d4f4dd,stroke:#2d8a4f
+    style VPROT fill:#d4f4dd,stroke:#2d8a4f
+    style HANDLER fill:#d4f4dd,stroke:#2d8a4f
+```
+
+### Login Flows
+
+```mermaid
+flowchart TD
+    subgraph Consumer["Consumer Login  POST /auth/consumer/login"]
+        CA["{ email, password }"] --> CB["Fetch card\nWHERE owner_email = email"]
+        CB -->|"not found"| CE1["401 INVALID_CREDENTIALS"]
+        CB -->|"inactive"| CE2["403 ACCOUNT_DISABLED"]
+        CB -->|"no password_hash"| CE3["401 NO_PASSWORD_SET"]
+        CB -->|"found"| CC["bcrypt.compare(password, hash)"]
+        CC -->|"❌ wrong"| CE1
+        CC -->|"✅ match"| CD["Return card profile\n+ vendor fields if role=VENDOR"]
+    end
+
+    subgraph Vendor["Vendor Login  POST /auth/vendor/login"]
+        VA["{ uid, password }"] --> VB["Fetch card\nWHERE uid = uid"]
+        VB -->|"not found"| VE1["401 INVALID_CREDENTIALS"]
+        VB -->|"inactive"| VE2["403 ACCOUNT_DISABLED"]
+        VB -->|"no hash"| VE3["401 NO_PASSWORD_SET"]
+        VB -->|"found"| VC["bcrypt.compare"]
+        VC -->|"❌"| VE1
+        VC -->|"✅"| VR{"role\n= VENDOR?"}
+        VR -->|"No"| VE4["403 NOT_A_VENDOR"]
+        VR -->|"Yes"| VD["Return card profile\n+ vendor_id + business_name"]
+    end
+
+    style CE1 fill:#fde8e8,stroke:#c0392b
+    style CE2 fill:#fde8e8,stroke:#c0392b
+    style CE3 fill:#fde8e8,stroke:#c0392b
+    style VE1 fill:#fde8e8,stroke:#c0392b
+    style VE2 fill:#fde8e8,stroke:#c0392b
+    style VE3 fill:#fde8e8,stroke:#c0392b
+    style VE4 fill:#fde8e8,stroke:#c0392b
+    style CD fill:#d4f4dd,stroke:#2d8a4f
+    style VD fill:#d4f4dd,stroke:#2d8a4f
+```
 
 ### All Routes
 
@@ -375,24 +564,42 @@ Base URL: `https://claudeproject-production-5b22.up.railway.app/api`
 | POST | `/tap/sync` | Bearer token required · `{ terminal_mac, events[] }` |
 
 **POST /api/tap atomic sequence:**
-```
-1.  requireTerminalAuth — 401 if invalid Bearer token
-2.  Zod validate — 400 if invalid payload
-3.  Fetch card → 404/403
-4.  Fetch vendor → 404
-5.  Fetch food_item → 404, verify belongs to vendor
-6.  Duplicate tap check → 409
-7.  Voucher lookup (ACTIVE, not expired, vendor matches)
-8.  final_cost = MAX(0, base_cost - discount_applied)
-9.  Check balance >= final_cost → 402
-10. DB writes (atomic):
-    a. Decrement points_balance
-    b. Mark voucher USED (if applied)
-    c. Insert tap_events
-    d. Insert points_log (TAP_PURCHASE + VOUCHER_DISCOUNT)
-11. Campaign progress update (non-blocking — does not roll back tap)
-12. Calorie warning check
-13. Return 200 with full result
+
+```mermaid
+flowchart TD
+    A(["POST /api/tap"]) --> AUTH["requireTerminalAuth"]
+    AUTH -->|"❌ invalid token"| E401["401 UNAUTHORIZED"]
+    AUTH -->|"✅"| ZOD["Zod validate body"]
+    ZOD -->|"❌ invalid"| E400["400 INVALID_PAYLOAD"]
+    ZOD -->|"✅"| FC["Fetch card\nfrom cards table"]
+    FC -->|"not found"| E404C["404 CARD_NOT_FOUND"]
+    FC -->|"inactive"| E403["403 CARD_INACTIVE"]
+    FC -->|"✅"| FV["Fetch vendor\nfrom vendors table"]
+    FV -->|"not found"| E404V["404 VENDOR_NOT_FOUND"]
+    FV -->|"✅"| FF["Fetch food_item\nverify vendor_id matches"]
+    FF -->|"not found / mismatch"| E404F["404 FOOD_NOT_FOUND"]
+    FF -->|"✅"| DUP["Duplicate tap check\ncard + vendor + date"]
+    DUP -->|"exists"| E409["409 DUPLICATE_TAP"]
+    DUP -->|"✅ no dup"| VOU["Voucher lookup\nACTIVE + not expired\n+ vendor matches"]
+    VOU --> COST["final_cost =\nMAX(0, base_cost - discount)"]
+    COST --> BAL{"balance\n>= final_cost?"}
+    BAL -->|"❌ No"| E402["402 INSUFFICIENT_POINTS"]
+    BAL -->|"✅ Yes"| DBW["DB writes — atomic\n① Decrement points_balance\n② Mark voucher USED\n③ Insert tap_events\n④ Insert points_log"]
+    DBW --> CAMP["Campaign progress update\n⚠️ non-blocking — tap\nalready committed"]
+    CAMP --> CAL["Calorie warning check\nsum today's calories"]
+    CAL --> R200["200 OK\nbalance · calories · voucher · campaign"]
+
+    style E401 fill:#fde8e8,stroke:#c0392b
+    style E400 fill:#fde8e8,stroke:#c0392b
+    style E404C fill:#fde8e8,stroke:#c0392b
+    style E403 fill:#fde8e8,stroke:#c0392b
+    style E404V fill:#fde8e8,stroke:#c0392b
+    style E404F fill:#fde8e8,stroke:#c0392b
+    style E409 fill:#fde8e8,stroke:#c0392b
+    style E402 fill:#fde8e8,stroke:#c0392b
+    style DBW fill:#d4f4dd,stroke:#2d8a4f
+    style R200 fill:#d4f4dd,stroke:#2d8a4f
+    style CAMP fill:#fff4cc,stroke:#b08800
 ```
 
 #### Campaigns / Kiosk
@@ -502,27 +709,40 @@ lib_deps =
 
 ### Core Loop (`main.cpp`)
 
-```
-setup():
-  SPI.begin(18, 19, 23, 21)
-  mfrc522.PCD_Init()                        // RST=22
-  Serial.begin(115200)
-  Load NVS keys → halt if any missing
-  Connect WiFi (block, reboot after 30 attempts)
-  configTime(28800, 0, "time.google.com", "time.cloudflare.com")
+```mermaid
+flowchart TD
+    subgraph SETUP["setup()"]
+        S1["SPI.begin(18,19,23,21)"] --> S2["mfrc522.PCD_Init() RST=22"]
+        S2 --> S3["Serial.begin(115200)"]
+        S3 --> S4["Load NVS keys\nwifi_ssid · wifi_pass · vendor_id\nfood_id · api_url · auth_token"]
+        S4 --> S5{"Any key\nempty?"}
+        S5 -->|"Yes"| HALT["Serial: ERROR NVS not provisioned\nwhile(true) delay(5000)"]
+        S5 -->|"No"| S6["connectWiFi()\nblock until connected\nreboot after 30 fails"]
+        S6 --> S7["configTime(28800, 0,\ntime.google.com,\ntime.cloudflare.com)"]
+        S7 --> S8["Serial: System Ready..."]
+    end
 
-loop():
-  Reconnect WiFi if dropped
-  PICC_IsNewCardPresent() + PICC_ReadCardSerial()
-  readUID() → uppercase hex
-  getTimestamp() → ISO 8601 MYT
-  POST /api/tap:
-    Authorization: Bearer {authToken}
-    StaticJsonDocument<256> payload
-  Parse response StaticJsonDocument<1024>
-  Serial output → see states below
-  PICC_HaltA() + PCD_StopCrypto1()
-  delay(2000)
+    subgraph LOOP["loop()"]
+        L1(["loop() start"]) --> L2{"WiFi\nconnected?"}
+        L2 -->|"No"| L3["connectWiFi()"]
+        L3 --> L2
+        L2 -->|"Yes"| L4{"PICC_IsNewCardPresent()\n+ ReadCardSerial()?"}
+        L4 -->|"No card"| L1
+        L4 -->|"Card detected"| L5["readUID()\n→ uppercase hex"]
+        L5 --> L6["getTimestamp()\n→ ISO 8601 MYT"]
+        L6 --> L7["Build JSON\nStaticJsonDocument&lt;256&gt;"]
+        L7 --> L8["POST /api/tap\nAuthorization: Bearer authToken"]
+        L8 --> L9["Parse response\nStaticJsonDocument&lt;1024&gt;"]
+        L9 --> L10["Serial.println output"]
+        L10 --> L11["PICC_HaltA()\nPCD_StopCrypto1()\ndelay(2000)"]
+        L11 --> L1
+    end
+
+    S8 --> L1
+
+    style HALT fill:#fde8e8,stroke:#c0392b
+    style SETUP fill:#e8f4fd,stroke:#2980b9
+    style LOOP fill:#d4f4dd,stroke:#2d8a4f
 ```
 
 ### Serial Monitor States
@@ -546,11 +766,21 @@ loop():
 
 ### Provisioning Workflow
 
-1. Edit `provision.cpp.txt` — fill all 6 NVS values
-2. Rename to `main.cpp` (back up real firmware as `main.cpp.bak`)
-3. Flash → confirm "Provisioning complete" in Serial monitor
-4. Rename back to `provision.cpp.txt`, restore `main.cpp.bak` → `main.cpp`
-5. Flash real firmware
+```mermaid
+flowchart LR
+    A["📝 Edit\nprovision.cpp.txt\nfill 6 NVS values"] --> B["📋 Rename to\nmain.cpp\n(back up real fw as .bak)"]
+    B --> C["⚡ Flash to ESP32\nPlatformIO upload"]
+    C --> D["📺 Serial monitor\nconfirm 'Provisioning complete'"]
+    D --> E["📋 Rename back\nprovision.cpp.txt\nrestore main.cpp.bak → main.cpp"]
+    E --> F["⚡ Flash real\nfirmware"]
+    F --> G(["✅ Terminal ready"])
+
+    style A fill:#fdebd0,stroke:#e67e22
+    style C fill:#e8f4fd,stroke:#2980b9
+    style D fill:#d4f4dd,stroke:#2d8a4f
+    style F fill:#e8f4fd,stroke:#2980b9
+    style G fill:#d4f4dd,stroke:#2d8a4f
+```
 
 ### Python NFC Daemon (Raspberry Pi)
 
