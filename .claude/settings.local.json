@@ -23,7 +23,9 @@
       "Bash(Remove-Item \"c:\\\\Users\\\\HUAWEI\\\\claude_project\\\\backend\\\\render.yaml\")",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(Get-ChildItem -Recurse -Force)",
+      "Bash(Select-Object -First 100 FullName)"
     ]
   },
   "enabledPlugins": {
