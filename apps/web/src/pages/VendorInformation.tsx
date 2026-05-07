@@ -4,6 +4,16 @@ import { getVendorFood, addFoodItem } from '../lib/api'
 import toast from 'react-hot-toast'
 
 const CELL = 48
+type PriceMode = 'fixed' | 'per_gram'
+
+const EMPTY_FORM = {
+  name: '', photo_url: '',
+  protein_g: '', carbs_g: '', fat_g: '',
+  // fixed mode
+  calories: '', price_in_points: '',
+  // per-gram mode
+  calories_per_100g: '', price_per_100g: ''
+}
 
 export default function VendorInformation() {
   const { card } = useCard()
@@ -11,7 +21,8 @@ export default function VendorInformation() {
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [form, setForm] = useState({ name: '', calories: '', price_in_points: '', photo_url: '', protein_g: '', carbs_g: '', fat_g: '' })
+  const [priceMode, setPriceMode] = useState<PriceMode>('fixed')
+  const [form, setForm] = useState(EMPTY_FORM)
 
   useEffect(() => {
     if (!card?.vendor_id) return
@@ -33,16 +44,23 @@ export default function VendorInformation() {
     if (!card?.vendor_id) return
     setSaving(true)
     try {
-      await addFoodItem(card.vendor_id, card.uid, {
-        name: form.name, calories: parseInt(form.calories),
-        price_in_points: parseFloat(form.price_in_points),
+      const body: Record<string, any> = {
+        name: form.name,
         photo_url: form.photo_url || undefined,
         protein_g: form.protein_g ? parseFloat(form.protein_g) : undefined,
         carbs_g: form.carbs_g ? parseFloat(form.carbs_g) : undefined,
         fat_g: form.fat_g ? parseFloat(form.fat_g) : undefined,
-      })
+      }
+      if (priceMode === 'fixed') {
+        body.price_in_points = parseFloat(form.price_in_points)
+        if (form.calories) body.calories = parseInt(form.calories)
+      } else {
+        body.price_per_100g = parseFloat(form.price_per_100g)
+        if (form.calories_per_100g) body.calories_per_100g = parseFloat(form.calories_per_100g)
+      }
+      await addFoodItem(card.vendor_id, card.uid, body)
       toast.success('Item added!')
-      setForm({ name: '', calories: '', price_in_points: '', photo_url: '', protein_g: '', carbs_g: '', fat_g: '' })
+      setForm(EMPTY_FORM)
       setShowForm(false)
       loadFood()
     } catch (e: any) { toast.error(e.message ?? 'Failed') }
@@ -93,12 +111,42 @@ export default function VendorInformation() {
       {showForm && (
         <form onSubmit={handleAdd} className="bg-white rounded-xl shadow p-4 space-y-3">
           <p className="text-sm font-medium">New Food Item</p>
+
           <input required className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Item name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
-          <div className="grid grid-cols-2 gap-2">
-            <input required type="number" className="border rounded-lg px-3 py-2 text-sm" placeholder="Calories (kcal)" value={form.calories} onChange={e => setForm(f => ({ ...f, calories: e.target.value }))} />
-            <input required type="number" step="0.01" className="border rounded-lg px-3 py-2 text-sm" placeholder="Price (RM)" value={form.price_in_points} onChange={e => setForm(f => ({ ...f, price_in_points: e.target.value }))} />
+
+          {/* Pricing mode toggle */}
+          <div>
+            <p className="text-xs text-gray-500 mb-1.5 font-medium">Pricing mode</p>
+            <div className="flex rounded-lg border overflow-hidden text-sm">
+              <button type="button"
+                className={`flex-1 py-2 font-medium transition-colors ${priceMode === 'fixed' ? 'bg-black text-white' : 'text-gray-500 bg-white'}`}
+                onClick={() => setPriceMode('fixed')}>
+                Fixed price
+              </button>
+              <button type="button"
+                className={`flex-1 py-2 font-medium transition-colors ${priceMode === 'per_gram' ? 'bg-black text-white' : 'text-gray-500 bg-white'}`}
+                onClick={() => setPriceMode('per_gram')}>
+                ⚖️ Per gram
+              </button>
+            </div>
           </div>
-          <p className="text-xs text-gray-500 font-medium">Macros (optional)</p>
+
+          {priceMode === 'fixed' ? (
+            <div className="grid grid-cols-2 gap-2">
+              <input type="number" className="border rounded-lg px-3 py-2 text-sm" placeholder="Calories (kcal)" value={form.calories} onChange={e => setForm(f => ({ ...f, calories: e.target.value }))} />
+              <input required type="number" step="0.01" className="border rounded-lg px-3 py-2 text-sm" placeholder="Price (RM)" value={form.price_in_points} onChange={e => setForm(f => ({ ...f, price_in_points: e.target.value }))} />
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-2 gap-2">
+                <input required type="number" step="0.1" className="border rounded-lg px-3 py-2 text-sm" placeholder="kcal per 100g" value={form.calories_per_100g} onChange={e => setForm(f => ({ ...f, calories_per_100g: e.target.value }))} />
+                <input required type="number" step="0.01" className="border rounded-lg px-3 py-2 text-sm" placeholder="RM per 100g" value={form.price_per_100g} onChange={e => setForm(f => ({ ...f, price_per_100g: e.target.value }))} />
+              </div>
+              <p className="text-xs text-gray-400">Load cell sends weight → price and calories scale automatically.</p>
+            </>
+          )}
+
+          <p className="text-xs text-gray-500 font-medium">Macros per serving (optional)</p>
           <div className="grid grid-cols-3 gap-2">
             <input type="number" step="0.1" className="border rounded-lg px-3 py-2 text-sm" placeholder="Protein (g)" value={form.protein_g} onChange={e => setForm(f => ({ ...f, protein_g: e.target.value }))} />
             <input type="number" step="0.1" className="border rounded-lg px-3 py-2 text-sm" placeholder="Carbs (g)" value={form.carbs_g} onChange={e => setForm(f => ({ ...f, carbs_g: e.target.value }))} />
@@ -119,11 +167,22 @@ export default function VendorInformation() {
               <div key={item.food_id} className="bg-white rounded-xl shadow p-4 flex gap-3">
                 {item.photo_url && <img src={item.photo_url} alt={item.name} className="w-16 h-16 rounded-lg object-cover shrink-0" />}
                 <div className="flex-1 min-w-0">
-                  <div className="flex justify-between">
+                  <div className="flex justify-between items-start">
                     <p className="font-medium truncate">{item.name}</p>
-                    <p className="font-semibold text-green-700 shrink-0 ml-2">RM {Number(item.price_in_points).toFixed(2)}</p>
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ml-2 shrink-0 ${item.price_per_100g ? 'bg-blue-50 text-blue-700' : 'bg-gray-100 text-gray-600'}`}>
+                      {item.price_per_100g ? '⚖️ Per gram' : 'Fixed'}
+                    </span>
                   </div>
-                  <p className="text-xs text-gray-400">{item.calories} kcal</p>
+                  <p className="text-sm font-semibold text-green-700 mt-0.5">
+                    {item.price_per_100g
+                      ? `RM ${Number(item.price_per_100g).toFixed(2)} / 100g`
+                      : `RM ${Number(item.price_in_points).toFixed(2)}`}
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    {item.calories_per_100g
+                      ? `${item.calories_per_100g} kcal / 100g`
+                      : item.calories ? `${item.calories} kcal` : ''}
+                  </p>
                   {(item.protein_g > 0 || item.carbs_g > 0 || item.fat_g > 0) && (
                     <p className="text-xs text-gray-400">P:{item.protein_g}g C:{item.carbs_g}g F:{item.fat_g}g</p>
                   )}

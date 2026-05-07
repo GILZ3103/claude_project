@@ -25,7 +25,8 @@ const tapSchema = z.object({
   vendor_id: z.string().uuid(),
   food_id: z.string().uuid(),
   device_timestamp: z.string(),
-  synced_from_queue: z.boolean().default(false)
+  synced_from_queue: z.boolean().default(false),
+  weight_g: z.number().positive().optional()
 })
 
 const syncSchema = z.object({
@@ -33,7 +34,8 @@ const syncSchema = z.object({
   events: z.array(z.object({
     card_uid: z.string().min(4).max(20),
     food_id: z.string().uuid(),
-    device_timestamp: z.string()
+    device_timestamp: z.string(),
+    weight_g: z.number().positive().optional()
   }))
 })
 
@@ -42,7 +44,8 @@ async function processTap(
   vendor_id: string,
   food_id: string,
   device_timestamp: string,
-  synced_from_queue: boolean
+  synced_from_queue: boolean,
+  weight_g?: number
 ): Promise<{ status: number; body: object }> {
   // 1. Fetch card
   const { data: card } = await supabase.from('cards').select('*').eq('uid', card_uid).single()
@@ -92,23 +95,31 @@ async function processTap(
     }
   }
 
-  // 6. Calculate cost
-  const base_cost = Number(food.price_in_points)
+  // 6. Calculate calories — weight-based if load cell data present, else fixed
+  const calories: number = (weight_g && food.calories_per_100g)
+    ? Math.round((weight_g / 100) * Number(food.calories_per_100g))
+    : (food.calories ?? 0)
+
+  // 7. Calculate cost — weight-based if load cell data present, else flat price
+  const base_cost = (weight_g && food.price_per_100g)
+    ? Math.round((weight_g / 100) * Number(food.price_per_100g) * 100) / 100
+    : Number(food.price_in_points)
   const discount_applied = voucher ? Number(voucher.discount_value) : 0
   const final_cost = Math.max(0, base_cost - discount_applied)
 
-  // 7. Check balance
+  // 8. Check balance
   if (Number(card.points_balance) < final_cost) {
     return { status: 402, body: { success: false, error: 'INSUFFICIENT_POINTS', message: 'Insufficient points balance.' } }
   }
 
   const server_timestamp = new Date().toISOString()
 
-  // 8. Build metadata
+  // 9. Build metadata
   const metadata: Record<string, any> = {
     food_id,
     food_name: food.name,
-    calories: food.calories,
+    calories,
+    weight_g: weight_g ?? null,
     base_cost,
     voucher_applied: voucher?.voucher_id ?? null,
     discount_applied,
@@ -144,6 +155,7 @@ async function processTap(
       device_timestamp,
       server_timestamp,
       synced_from_queue,
+      weight_g: weight_g ?? null,
       metadata
     })
     .select()
@@ -262,7 +274,7 @@ async function processTap(
         discount_applied,
         final_cost,
         points_balance_remaining: new_balance,
-        calories_added: food.calories,
+        calories_added: calories,
         calories_today,
         calorie_limit: card.calorie_limit,
         calorie_warning,
@@ -277,8 +289,8 @@ async function processTap(
 
 // POST /api/tap
 router.post('/', requireTerminalAuth, validate(tapSchema), async (req: Request, res: Response): Promise<void> => {
-  const { card_uid, vendor_id, food_id, device_timestamp, synced_from_queue } = req.body
-  const result = await processTap(card_uid, vendor_id, food_id, device_timestamp, synced_from_queue)
+  const { card_uid, vendor_id, food_id, device_timestamp, synced_from_queue, weight_g } = req.body
+  const result = await processTap(card_uid, vendor_id, food_id, device_timestamp, synced_from_queue, weight_g)
   res.status(result.status).json(result.body)
 })
 
@@ -310,7 +322,8 @@ router.post('/sync', requireTerminalAuth, validate(syncSchema), async (req: Requ
       vendor.vendor_id,
       event.food_id,
       event.device_timestamp,
-      true
+      true,
+      event.weight_g
     )
     if (result.status === 200) {
       processed++

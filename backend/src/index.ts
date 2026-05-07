@@ -8,6 +8,7 @@ import tapRouter from './routes/tap'
 import campaignsRouter from './routes/campaigns'
 import mapRouter from './routes/map'
 import authRouter from './routes/auth'
+import aiRouter from './routes/ai'
 import { errorHandler } from './middleware/errors'
 
 const app = express()
@@ -19,7 +20,8 @@ app.use(cors({
     'http://localhost:5174',
     'http://localhost:5175',
     /\.vercel\.app$/,
-    /\.up\.railway\.app$/
+    /\.up\.railway\.app$/,
+    /\.onrender\.com$/
   ],
   credentials: true
 }))
@@ -39,6 +41,7 @@ app.use('/api/tap', tapRouter)
 app.use('/api/campaigns', campaignsRouter)
 app.use('/api', campaignsRouter)   // mounts /api/kiosk/tap
 app.use('/api/map', mapRouter)
+app.use('/api/ai', aiRouter)
 
 // 404
 app.use((_req, res) => {

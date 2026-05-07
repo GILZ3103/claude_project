@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { BrowserRouter, Routes, Route, NavLink, useLocation } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { CardProvider, useCard } from './context/CardContext'
@@ -15,6 +15,7 @@ import VendorDashboard from './pages/VendorDashboard'
 import VendorInformation from './pages/VendorInformation'
 import VendorClaim from './pages/VendorClaim'
 import VendorSummary from './pages/VendorSummary'
+import AiChat from './components/AiChat'
 
 const NO_NAV = ['/', '/register']
 
@@ -89,6 +90,7 @@ function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => 
   return (
     <div className={`pb-16 min-h-screen bg-gray-50 ${topPad}`}>
       {showToggle && <ModeToggle mode={mode} setMode={setMode} />}
+      {showNav && <AiChat />}
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/register" element={<Register />} />
@@ -112,6 +114,33 @@ function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => 
   )
 }
 
+function ServerWakeBanner() {
+  const [show, setShow] = useState(false)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL
+    if (!apiUrl) return
+
+    timerRef.current = setTimeout(() => setShow(true), 4000)
+
+    fetch(`${apiUrl}/api/health`)
+      .finally(() => {
+        if (timerRef.current) clearTimeout(timerRef.current)
+        setShow(false)
+      })
+
+    return () => { if (timerRef.current) clearTimeout(timerRef.current) }
+  }, [])
+
+  if (!show) return null
+  return (
+    <div className="fixed top-0 left-0 right-0 z-50 bg-amber-50 border-b border-amber-200 text-center text-xs text-amber-700 py-1.5">
+      Connecting to server…
+    </div>
+  )
+}
+
 export default function App() {
   const [mode, setMode] = useState<AppMode>(() =>
     (localStorage.getItem('app_mode') as AppMode) ?? 'consumer'
@@ -125,6 +154,7 @@ export default function App() {
   return (
     <CardProvider>
       <BrowserRouter>
+        <ServerWakeBanner />
         <AppLayout mode={mode} setMode={handleSetMode} />
         <Toaster position="top-center" />
       </BrowserRouter>

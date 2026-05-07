@@ -19,13 +19,18 @@ const registerSchema = z.object({
 
 const foodItemSchema = z.object({
   name: z.string().max(100),
-  calories: z.number().int().positive(),
-  price_in_points: z.number().positive(),
+  calories: z.number().int().positive().optional(),
+  calories_per_100g: z.number().positive().optional(),
+  price_in_points: z.number().positive().optional(),
+  price_per_100g: z.number().positive().optional(),
   photo_url: z.string().url().optional(),
   protein_g: z.number().min(0).optional(),
   carbs_g: z.number().min(0).optional(),
   fat_g: z.number().min(0).optional()
-})
+}).refine(
+  d => d.price_in_points != null || d.price_per_100g != null,
+  { message: 'Either price_in_points or price_per_100g is required.' }
+)
 
 // Auth helper — vendor routes require x-card-uid header with VENDOR role owning this vendor
 async function authoriseVendor(req: Request, res: Response<any, any>, vendorId: string): Promise<boolean> {
@@ -155,7 +160,18 @@ router.post('/:id/food', validate(foodItemSchema), async (req: Request, res: Res
 
   const { data, error } = await supabase
     .from('food_items')
-    .insert({ vendor_id: id, ...req.body })
+    .insert({
+      vendor_id: id,
+      name: req.body.name,
+      calories: req.body.calories ?? null,
+      calories_per_100g: req.body.calories_per_100g ?? null,
+      price_in_points: req.body.price_in_points ?? null,
+      price_per_100g: req.body.price_per_100g ?? null,
+      photo_url: req.body.photo_url ?? null,
+      protein_g: req.body.protein_g ?? null,
+      carbs_g: req.body.carbs_g ?? null,
+      fat_g: req.body.fat_g ?? null,
+    })
     .select()
     .single()
 
@@ -250,6 +266,72 @@ router.get('/:id/claims', async (req: Request, res: Response): Promise<void> => 
   if (error) throw error
 
   res.json({ success: true, data: data ?? [] })
+})
+
+const complianceSchema = z.object({
+  record_type: z.enum(['INCOME_TAX', 'ELECTRIC_BILL', 'BUSINESS_TAX', 'OTHER']),
+  period_label: z.string().min(1).max(50),
+  amount_rm: z.number().positive().optional(),
+  reference_number: z.string().max(100).optional(),
+  submitted_at: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Use YYYY-MM-DD format'),
+  notes: z.string().optional()
+})
+
+// GET /api/vendors/:id/compliance
+router.get('/:id/compliance', async (req: Request, res: Response): Promise<void> => {
+  const id = String(req.params.id)
+  const authorised = await authoriseVendor(req, res, id)
+  if (!authorised) return
+
+  const { data, error } = await supabase
+    .from('compliance_records')
+    .select('*')
+    .eq('vendor_id', id)
+    .order('submitted_at', { ascending: false })
+
+  if (error) throw error
+  res.json({ success: true, data: data ?? [] })
+})
+
+// POST /api/vendors/:id/compliance
+router.post('/:id/compliance', validate(complianceSchema), async (req: Request, res: Response): Promise<void> => {
+  const id = String(req.params.id)
+  const authorised = await authoriseVendor(req, res, id)
+  if (!authorised) return
+
+  const { data, error } = await supabase
+    .from('compliance_records')
+    .insert({
+      vendor_id: id,
+      record_type: req.body.record_type,
+      period_label: req.body.period_label,
+      amount_rm: req.body.amount_rm ?? null,
+      reference_number: req.body.reference_number ?? null,
+      submitted_at: req.body.submitted_at,
+      notes: req.body.notes ?? null
+    })
+    .select()
+    .single()
+
+  if (error) throw error
+  res.status(201).json({ success: true, data })
+})
+
+// DELETE /api/vendors/:id/compliance/:rec_id
+router.delete('/:id/compliance/:rec_id', async (req: Request, res: Response): Promise<void> => {
+  const id = String(req.params.id)
+  const rec_id = String(req.params.rec_id)
+  const authorised = await authoriseVendor(req, res, id)
+  if (!authorised) return
+
+  const { error } = await supabase
+    .from('compliance_records')
+    .delete()
+    .eq('record_id', rec_id)
+    .eq('vendor_id', id)
+
+  if (error) throw error
+  res.json({ success: true })
 })
 
 export default router

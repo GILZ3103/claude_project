@@ -68,12 +68,33 @@ export const submitClaim = (vendor_id: string, card_uid: string, claim_period_st
 export const getVendorClaims = (vendor_id: string, card_uid: string) =>
   request(`/api/vendors/${vendor_id}/claims`, { headers: { 'x-card-uid': card_uid } } as any)
 
-export const addFoodItem = (vendor_id: string, card_uid: string, body: {
-  name: string; calories: number; price_in_points: number;
-  photo_url?: string; protein_g?: number; carbs_g?: number; fat_g?: number
-}) => request(`/api/vendors/${vendor_id}/food`, {
+export const addFoodItem = (vendor_id: string, card_uid: string, body: Record<string, any>) =>
+  request(`/api/vendors/${vendor_id}/food`, {
+    method: 'POST', body: JSON.stringify(body), headers: { 'x-card-uid': card_uid }
+  } as any)
+
+// Compliance records
+export const getComplianceRecords = (vendor_id: string, card_uid: string) =>
+  request(`/api/vendors/${vendor_id}/compliance`, { headers: { 'x-card-uid': card_uid } } as any)
+
+export const addComplianceRecord = (vendor_id: string, card_uid: string, body: {
+  record_type: string; period_label: string; submitted_at: string;
+  amount_rm?: number; reference_number?: string; notes?: string
+}) => request(`/api/vendors/${vendor_id}/compliance`, {
   method: 'POST', body: JSON.stringify(body), headers: { 'x-card-uid': card_uid }
 } as any)
+
+export const deleteComplianceRecord = (vendor_id: string, card_uid: string, record_id: string) =>
+  request(`/api/vendors/${vendor_id}/compliance/${record_id}`, {
+    method: 'DELETE', headers: { 'x-card-uid': card_uid }
+  } as any)
+
+// AI agent
+export const askAi = (message: string, role?: string) =>
+  request('/api/ai/chat', { method: 'POST', body: JSON.stringify({ message, role }) })
+
+export const getMealAdvice = (prompt: string, calorie_budget: number) =>
+  request('/api/ai/meal-advisor', { method: 'POST', body: JSON.stringify({ prompt, calorie_budget }) })
 
 // Vendors
 export const getVendors = () => request('/api/vendors')
