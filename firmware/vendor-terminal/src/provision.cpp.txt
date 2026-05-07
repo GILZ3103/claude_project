@@ -11,10 +11,14 @@
  *
  * NVS keys written:
  *   wifi_ssid, wifi_pass, vendor_id, food_id, api_url, auth_token
+ *   adc_pin, scale_factor, tare_offset  ← load cell calibration
  *
  * The "auth_token" value MUST match the TERMINAL_AUTH_TOKEN environment variable
  * set on the backend (Railway). Generate a strong random secret, e.g.:
  *   openssl rand -hex 32
+ *
+ * For scale_factor and tare_offset: run ml/train_calibration.py after collecting
+ * calibration readings, then paste the printed values below before flashing.
  */
 
 #include <Arduino.h>
@@ -35,6 +39,11 @@ void setup() {
     prefs.putString("food_id",    "YOUR_FOOD_UUID");
     prefs.putString("api_url",    "https://your-app.up.railway.app");
     prefs.putString("auth_token", "PASTE_TERMINAL_AUTH_TOKEN_HERE");
+
+    // Load cell calibration — run ml/train_calibration.py to get these values
+    prefs.putInt  ("adc_pin",      34);      // GPIO34 — ADC1, do not change
+    prefs.putFloat("scale_factor", 0.05f);   // replace with output from train_calibration.py
+    prefs.putInt  ("tare_offset",  0);       // replace with output from train_calibration.py
 
     prefs.end();
 

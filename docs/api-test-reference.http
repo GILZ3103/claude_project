@@ -1,0 +1,478 @@
+# NightMarket API — VS Code REST Client Test Reference
+# Extension required: REST Client (humao.rest-client)
+# Click "Send Request" above any ### block to run it.
+#
+# SETUP BEFORE TESTING:
+# 1. Run seed.sql in Supabase — all test data comes from there.
+# 2. Food item IDs cannot be hardcoded (gen_random_uuid() in seed).
+#    Run section [4a] first → copy real UUIDs → paste into @foodId1/2/3 below.
+# 3. POST /api/tap requires a Bearer token. Set one in Supabase:
+#    UPDATE vendors SET auth_token = 'test-token-abc123'
+#    WHERE id = 'a1000000-0000-0000-0000-000000000001';
+#    Then set @tapToken = test-token-abc123 below.
+# 4. POST /api/tap/sync requires terminal_mac_address set on a vendor:
+#    UPDATE vendors SET terminal_mac_address = 'AA:BB:CC:DD:EE:01'
+#    WHERE id = 'a1000000-0000-0000-0000-000000000001';
+
+# ─── VARIABLES ────────────────────────────────────────────────────────────────
+
+@baseUrl    = https://claudeproject-production-5b22.up.railway.app/api
+
+# Seed consumer card
+@consumerUid    = TESTCARD001
+@consumerEmail  = ahmad.farid@email.com
+@password       = password123
+
+# Seed vendor cards
+@vendor1Uid = VENDOR001
+@vendor2Uid = VENDOR002
+@vendor3Uid = VENDOR003
+
+# Seed vendor IDs (UUID — deterministic in seed.sql)
+@vendorId1  = a1000000-0000-0000-0000-000000000001
+@vendorId2  = a1000000-0000-0000-0000-000000000002
+@vendorId3  = a1000000-0000-0000-0000-000000000003
+
+# Seed kiosk IDs
+@kioskId1   = k1000000-0000-0000-0000-000000000001
+@kioskId2   = k1000000-0000-0000-0000-000000000002
+
+# Seed campaign IDs
+@campaignId1 = c1000000-0000-0000-0000-000000000001
+@campaignId2 = c1000000-0000-0000-0000-000000000002
+
+# Food item UUIDs — FILL IN after running [4a] GET /api/vendors/:id/food
+@foodId1 = REPLACE-WITH-UUID-FROM-4a   # Nasi Lemak Ayam (vendor 1)
+@foodId2 = REPLACE-WITH-UUID-FROM-4a   # Mee Goreng Udang (vendor 2)
+@foodId3 = REPLACE-WITH-UUID-FROM-4a   # Roti Canai (vendor 3)
+
+# ESP32 tap auth token — FILL IN after running SQL above
+@tapToken = test-token-abc123
+
+# ─── [1] HEALTH CHECK ─────────────────────────────────────────────────────────
+
+### [1] Health — API reachable
+GET {{baseUrl}}/health
+
+# Expected: 200 { status: "ok" }
+
+# ─── [2] AUTH ─────────────────────────────────────────────────────────────────
+
+### [2a] Consumer login — success
+POST {{baseUrl}}/auth/consumer/login
+Content-Type: application/json
+
+{
+  "email": "{{consumerEmail}}",
+  "password": "{{password}}"
+}
+
+# Expected: 200 { uid, owner_name, role: "CONSUMER", points_balance, ... }
+
+### [2b] Vendor login — success (VENDOR001)
+POST {{baseUrl}}/auth/vendor/login
+Content-Type: application/json
+
+{
+  "uid": "{{vendor1Uid}}",
+  "password": "{{password}}"
+}
+
+# Expected: 200 { uid, role: "VENDOR", vendor_id, business_name, ... }
+
+### [2c] Consumer login — wrong password (expect 401)
+POST {{baseUrl}}/auth/consumer/login
+Content-Type: application/json
+
+{
+  "email": "{{consumerEmail}}",
+  "password": "wrongpassword"
+}
+
+# Expected: 401 INVALID_CREDENTIALS
+
+### [2d] Consumer login — unknown email (expect 401)
+POST {{baseUrl}}/auth/consumer/login
+Content-Type: application/json
+
+{
+  "email": "nobody@example.com",
+  "password": "{{password}}"
+}
+
+# Expected: 401 INVALID_CREDENTIALS
+
+### [2e] Vendor login — CONSUMER card trying vendor route (expect 403)
+POST {{baseUrl}}/auth/vendor/login
+Content-Type: application/json
+
+{
+  "uid": "{{consumerUid}}",
+  "password": "{{password}}"
+}
+
+# Expected: 403 NOT_A_VENDOR
+
+# ─── [3] CARD OPERATIONS (CONSUMER) ───────────────────────────────────────────
+
+### [3a] Get consumer card profile
+GET {{baseUrl}}/cards/{{consumerUid}}
+
+# Expected: 200 { uid, owner_name, points_balance, calories_today, active_vouchers, ... }
+
+### [3b] Get consumer tap history (last 10)
+GET {{baseUrl}}/cards/{{consumerUid}}/history?limit=10&offset=0
+
+# Expected: 200 [ { vendor_name, food_name, points_spent, calories, tapped_at }, ... ]
+
+### [3c] Get consumer vouchers (all)
+GET {{baseUrl}}/cards/{{consumerUid}}/vouchers
+
+# Expected: 200 [ { campaign_name, discount_value, status, ... } ]
+
+### [3d] Get consumer vouchers — active only
+GET {{baseUrl}}/cards/{{consumerUid}}/vouchers?status=ACTIVE
+
+# Expected: 200 — active vouchers only
+
+### [3e] Top up consumer card (+20 points)
+POST {{baseUrl}}/cards/{{consumerUid}}/topup
+Content-Type: application/json
+
+{
+  "amount": 20
+}
+
+# Expected: 200 { new_balance: <previous + 20> }
+
+### [3f] Update consumer calorie limit
+PATCH {{baseUrl}}/cards/{{consumerUid}}/calorie-limit
+Content-Type: application/json
+
+{
+  "calorie_limit": 2200
+}
+
+# Expected: 200 { calorie_limit: 2200 }
+
+### [3g] Register new card (creates fresh CONSUMER card)
+POST {{baseUrl}}/cards/register
+Content-Type: application/json
+
+{
+  "uid": "NEWCARD999",
+  "owner_name": "Test User",
+  "owner_email": "testuser999@example.com",
+  "phone_number": "0123456789",
+  "password": "password123"
+}
+
+# Expected: 201 { uid: "NEWCARD999", role: "CONSUMER", ... }
+# Run once — will 409 CARD_ALREADY_EXISTS on retry
+
+### [3h] Register card — duplicate UID (expect 409)
+POST {{baseUrl}}/cards/register
+Content-Type: application/json
+
+{
+  "uid": "{{consumerUid}}",
+  "owner_name": "Duplicate",
+  "owner_email": "dup@example.com",
+  "phone_number": "0129999999",
+  "password": "password123"
+}
+
+# Expected: 409 CARD_ALREADY_EXISTS
+
+# ─── [4] VENDOR BROWSE (CONSUMER-FACING) ──────────────────────────────────────
+
+### [4a] List all vendors (run this first — copy food UUIDs from responses below)
+GET {{baseUrl}}/vendors
+
+# Expected: 200 [ { id, business_name, category, grid_x, grid_y, food_item_count }, ... ]
+
+### [4b] Get food menu — Nasi Lemak Pak Razif (vendor 1)
+GET {{baseUrl}}/vendors/{{vendorId1}}/food
+
+# Expected: 200 [ { id (UUID), name, calories, price_in_points, protein_g, carbs_g, fat_g }, ... ]
+# COPY the UUID of "Nasi Lemak Ayam" → paste into @foodId1 at the top of this file
+
+### [4c] Get food menu — Mee Goreng Siti (vendor 2)
+GET {{baseUrl}}/vendors/{{vendorId2}}/food
+
+# COPY UUID of "Mee Goreng Udang" → paste into @foodId2
+
+### [4d] Get food menu — Roti Canai Ramu (vendor 3)
+GET {{baseUrl}}/vendors/{{vendorId3}}/food
+
+# COPY UUID of "Roti Canai" → paste into @foodId3
+
+# ─── [5] VENDOR MANAGEMENT (VENDOR-FACING) ────────────────────────────────────
+
+### [5a] Get subsidy summary — vendor 1
+GET {{baseUrl}}/vendors/{{vendorId1}}/summary
+x-card-uid: {{vendor1Uid}}
+
+# Expected: 200 { summary: [...], grand_total }
+
+### [5b] Add food item — vendor 1
+POST {{baseUrl}}/vendors/{{vendorId1}}/food
+Content-Type: application/json
+x-card-uid: {{vendor1Uid}}
+
+{
+  "name": "Nasi Lemak Sambal Sotong",
+  "calories": 680,
+  "price_in_points": 9.00,
+  "protein_g": 28,
+  "carbs_g": 72,
+  "fat_g": 22
+}
+
+# Expected: 201 { id (new UUID), name, ... }
+
+### [5c] Submit subsidy claim — vendor 1
+POST {{baseUrl}}/vendors/{{vendorId1}}/claim
+Content-Type: application/json
+x-card-uid: {{vendor1Uid}}
+
+{
+  "claim_period_start": "2025-01-01",
+  "claim_period_end": "2025-12-31"
+}
+
+# Expected: 201 { id, status: "PENDING_AUDIT", total_subsidy_amount }
+
+### [5d] Get claim history — vendor 1
+GET {{baseUrl}}/vendors/{{vendorId1}}/claims
+x-card-uid: {{vendor1Uid}}
+
+# Expected: 200 [ { id, status, claim_period_start, claim_period_end, total_subsidy_amount }, ... ]
+
+### [5e] Register new vendor stall (run once — uses NEWCARD999 from 3g)
+POST {{baseUrl}}/vendors/register
+Content-Type: application/json
+
+{
+  "owner_card_uid": "NEWCARD999",
+  "business_name": "Cendol Pak Umar",
+  "ssm_registration_number": "123456789-Z",
+  "phone_number": "0123456789",
+  "category": "Dessert",
+  "grid_x": 2,
+  "grid_y": 3
+}
+
+# Expected: 201 { vendor_id, business_name, ... }
+# NEWCARD999 role upgrades from CONSUMER → VENDOR
+
+# ─── [6] ESP32 TAP (VENDOR TERMINAL) ──────────────────────────────────────────
+# Requires: @tapToken set + UPDATE vendors SET auth_token = ... in Supabase (see top)
+# Requires: @foodId1 filled in from section [4]
+
+### [6a] Single tap — consumer buys Nasi Lemak Ayam at vendor 1
+POST {{baseUrl}}/tap
+Content-Type: application/json
+Authorization: Bearer {{tapToken}}
+
+{
+  "card_uid": "{{consumerUid}}",
+  "vendor_id": "{{vendorId1}}",
+  "food_id": "{{foodId1}}",
+  "device_timestamp": "2026-05-07T14:00:00+08:00",
+  "synced_from_queue": false
+}
+
+# Expected: 200 { points_spent, new_balance, calories_added, voucher_applied }
+
+### [6b] Duplicate tap guard — same txn should return idempotent 200 (not double-charge)
+POST {{baseUrl}}/tap
+Content-Type: application/json
+Authorization: Bearer {{tapToken}}
+
+{
+  "card_uid": "{{consumerUid}}",
+  "vendor_id": "{{vendorId1}}",
+  "food_id": "{{foodId1}}",
+  "device_timestamp": "2026-05-07T14:00:00+08:00",
+  "synced_from_queue": false
+}
+
+# Expected: 200 with DUPLICATE_TAP or idempotent success — balance unchanged
+
+### [6c] Tap — vendor 2 (Mee Goreng)
+POST {{baseUrl}}/tap
+Content-Type: application/json
+Authorization: Bearer {{tapToken}}
+
+{
+  "card_uid": "{{consumerUid}}",
+  "vendor_id": "{{vendorId2}}",
+  "food_id": "{{foodId2}}",
+  "device_timestamp": "2026-05-07T14:30:00+08:00",
+  "synced_from_queue": false
+}
+
+# Expected: 200
+
+### [6d] Tap — vendor 3 (Roti Canai) — completes VISIT_STALLS campaign (3 stalls)
+POST {{baseUrl}}/tap
+Content-Type: application/json
+Authorization: Bearer {{tapToken}}
+
+{
+  "card_uid": "{{consumerUid}}",
+  "vendor_id": "{{vendorId3}}",
+  "food_id": "{{foodId3}}",
+  "device_timestamp": "2026-05-07T15:00:00+08:00",
+  "synced_from_queue": false
+}
+
+# Expected: 200 — after this tap, TESTCARD001 has visited 3 stalls
+# Check GET /api/cards/TESTCARD001/vouchers — a "Jelajah Bazaar" voucher should appear
+
+### [6e] Tap — insufficient points (use a card with near-zero balance)
+# Top up NEWCARD999 with 1 point first, then try buying Nasi Lemak (8 pts)
+POST {{baseUrl}}/tap
+Content-Type: application/json
+Authorization: Bearer {{tapToken}}
+
+{
+  "card_uid": "NEWCARD999",
+  "vendor_id": "{{vendorId1}}",
+  "food_id": "{{foodId1}}",
+  "device_timestamp": "2026-05-07T15:30:00+08:00",
+  "synced_from_queue": false
+}
+
+# Expected: 402 INSUFFICIENT_POINTS
+
+### [6f] Offline sync batch — 2 queued events
+# Requires: terminal_mac_address set on vendor 1 (see SETUP at top)
+POST {{baseUrl}}/tap/sync
+Content-Type: application/json
+Authorization: Bearer {{tapToken}}
+
+{
+  "terminal_mac": "AA:BB:CC:DD:EE:01",
+  "events": [
+    {
+      "card_uid": "{{consumerUid}}",
+      "food_id": "{{foodId1}}",
+      "device_timestamp": "2026-05-07T10:00:00+08:00"
+    },
+    {
+      "card_uid": "{{consumerUid}}",
+      "food_id": "{{foodId1}}",
+      "device_timestamp": "2026-05-07T10:05:00+08:00"
+    }
+  ]
+}
+
+# Expected: 200 { processed, failed, results: [...] }
+
+# ─── [7] CAMPAIGNS ────────────────────────────────────────────────────────────
+
+### [7a] List all campaigns (no card context)
+GET {{baseUrl}}/campaigns
+
+# Expected: 200 [ { id, name, condition_type, threshold, reward_value, ... } ]
+
+### [7b] List campaigns with consumer progress
+GET {{baseUrl}}/campaigns?card_uid={{consumerUid}}
+
+# Expected: 200 — each campaign includes current_value, enrolled, completed fields
+
+### [7c] Enrol consumer in Jelajah Bazaar campaign
+POST {{baseUrl}}/campaigns/{{campaignId1}}/enrol
+Content-Type: application/json
+
+{
+  "card_uid": "{{consumerUid}}"
+}
+
+# Expected: 201 or 200 { enrolled: true }
+# After enrolling, tap at 3 different stalls (section 6) to complete it
+
+### [7d] Enrol consumer in Selera Rakyat campaign (spend 20 pts)
+POST {{baseUrl}}/campaigns/{{campaignId2}}/enrol
+Content-Type: application/json
+
+{
+  "card_uid": "{{consumerUid}}"
+}
+
+# Expected: 201 or 200 { enrolled: true }
+
+### [7e] Enrol — already enrolled (expect 409)
+POST {{baseUrl}}/campaigns/{{campaignId1}}/enrol
+Content-Type: application/json
+
+{
+  "card_uid": "{{consumerUid}}"
+}
+
+# Expected: 409 ALREADY_ENROLLED
+
+# ─── [8] KIOSK TAP ────────────────────────────────────────────────────────────
+
+### [8a] Kiosk tap — Main Entrance (kiosk 1) — awards directory rebate
+POST {{baseUrl}}/kiosk/tap
+Content-Type: application/json
+
+{
+  "card_uid": "{{consumerUid}}",
+  "kiosk_id": "{{kioskId1}}",
+  "device_timestamp": "2026-05-07T12:00:00+08:00"
+}
+
+# Expected: 200 { points_added, new_balance, voucher_issued }
+
+### [8b] Kiosk tap — Centre Kiosk (kiosk 2)
+POST {{baseUrl}}/kiosk/tap
+Content-Type: application/json
+
+{
+  "card_uid": "{{consumerUid}}",
+  "kiosk_id": "{{kioskId2}}",
+  "device_timestamp": "2026-05-07T12:30:00+08:00"
+}
+
+# Expected: 200
+
+### [8c] Kiosk tap — unknown kiosk ID (expect 404)
+POST {{baseUrl}}/kiosk/tap
+Content-Type: application/json
+
+{
+  "card_uid": "{{consumerUid}}",
+  "kiosk_id": "00000000-0000-0000-0000-000000000000",
+  "device_timestamp": "2026-05-07T12:45:00+08:00"
+}
+
+# Expected: 404 KIOSK_NOT_FOUND
+
+# ─── [9] MAP ──────────────────────────────────────────────────────────────────
+
+### [9] Get grid map — vendors + kiosks with positions
+GET {{baseUrl}}/map
+
+# Expected: 200 { grid_size: { cols, rows }, vendors: [...], kiosks: [...] }
+
+# ─── ERROR CODE REFERENCE ─────────────────────────────────────────────────────
+#
+# 400  VALIDATION_ERROR          — Request body failed Zod schema
+# 401  INVALID_CREDENTIALS       — Wrong password or email not found
+# 401  UNAUTHORIZED              — Missing or invalid Bearer token
+# 402  INSUFFICIENT_POINTS       — Card balance too low for tap
+# 403  NOT_A_VENDOR              — Card role is CONSUMER, vendor route requires VENDOR
+# 403  WRONG_VENDOR              — x-card-uid does not own this vendor stall
+# 404  CARD_NOT_FOUND            — UID does not exist in cards table
+# 404  VENDOR_NOT_FOUND          — Vendor UUID does not exist
+# 404  FOOD_NOT_FOUND            — Food item UUID does not exist or not in this vendor
+# 404  CAMPAIGN_NOT_FOUND        — Campaign UUID does not exist
+# 404  KIOSK_NOT_FOUND           — Kiosk UUID does not exist
+# 409  CARD_ALREADY_EXISTS       — UID already registered
+# 409  SSM_ALREADY_REGISTERED    — SSM number belongs to another vendor
+# 409  ALREADY_ENROLLED          — Card already in this campaign
+# 409  DUPLICATE_TAP             — txn_id collision — idempotent 200 or 409 per implementation

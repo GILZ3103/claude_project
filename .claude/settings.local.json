@@ -13,7 +13,20 @@
       "Bash(curl -s -X POST http://localhost:3000/api/tap -H 'Content-Type: application/json' -d '{:*)",
       "Bash(npx tsx:*)",
       "Bash(python -c \"import matplotlib; print\\('matplotlib', matplotlib.__version__\\)\")",
-      "Bash(python3 -c \"import matplotlib; print\\('matplotlib', matplotlib.__version__\\)\")"
+      "Bash(python3 -c \"import matplotlib; print\\('matplotlib', matplotlib.__version__\\)\")",
+      "Read(//c/Users/HUAWEI/.claude/**)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\HUAWEI\\\\claude_project\\\\apps\\\\web\\\\src\\\\pages\\\\\" -File)",
+      "Read(//mnt/c/Users/HUAWEI/**)",
+      "Bash(dir \"C:\\\\Users\\\\HUAWEI\\\\claude_project\")",
+      "Bash(cmd /c \"dir C:\\\\Users\\\\HUAWEI\\\\claude_project /b\")",
+      "Bash(cmd /c \"dir C:\\\\Users\\\\HUAWEI\\\\claude_project /b /s\")",
+      "Bash(Remove-Item \"c:\\\\Users\\\\HUAWEI\\\\claude_project\\\\backend\\\\render.yaml\")",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
+  },
+  "enabledPlugins": {
+    "andrej-karpathy-skills@karpathy-skills": true
   }
 }
