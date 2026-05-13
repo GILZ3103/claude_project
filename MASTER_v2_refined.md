@@ -1,5 +1,5 @@
 # Smart Night Market — Master Overview
-**Version 2.3** · [Technical specs → TECHNICAL.md](TECHNICAL.md) · [Setup → README.md](README.md)
+**Version 2.4** · [Technical specs → TECHNICAL.md](TECHNICAL.md) · [Setup → README.md](README.md)
 
 A unified night market platform: consumers tap a physical NFC card at vendor stalls to spend points, track calories, and earn campaign vouchers. Vendors register, upload food, and claim government subsidies. A kiosk acts as a digital directory.
 
@@ -13,9 +13,9 @@ flowchart LR
     subgraph P1["✅ PHASE 1 — CORE"]
         direction TB
         DB["🗄️ Database\n10 tables live"]
-        BE["⚙️ Backend API\nRailway — all routes"]
+        BE["⚙️ Backend API\nRender — all routes"]
         FE["🌐 Web App\nVercel — 13 pages"]
-        HW["⚡ ESP32 Firmware\nRC522 + Bearer auth"]
+        HW["⚡ ESP32 Firmware\nRC522 + Load Cell + Bearer auth"]
     end
     subgraph P2["✅ PHASE 2 — CAMPAIGNS"]
         direction TB
@@ -27,20 +27,21 @@ flowchart LR
         direction TB
         GM["🗺️ Grid Map\nvendor positions"]
         VP2["🏪 Vendor Portal\nclaims + subsidy"]
+        VPA["📱 Vendor App\nseparate onboarding app"]
     end
-    subgraph PK["🟡 KIOSK — IN PROGRESS"]
+    subgraph P4["✅ PHASE 4 — AI & KIOSK"]
         direction TB
-        KUI["🖥️ Kiosk UI\n4 panels — not built"]
-        KDM["🐍 NFC Daemon\nscaffolded only"]
+        AI["🤖 AI Features\nChat + Meal Advisor\nGemini 2.0 Flash"]
+        KUI["🖥️ Kiosk UI\n8 panels built\nNFC polling"]
+        KDM["🐍 NFC Daemon\nPN532 I2C — complete"]
     end
 
-    P1 --> P2 --> P3
-    P3 -.->|next| PK
+    P1 --> P2 --> P3 --> P4
 
     style P1 fill:#d4f4dd,stroke:#2d8a4f,color:#1a5c33
     style P2 fill:#d4f4dd,stroke:#2d8a4f,color:#1a5c33
     style P3 fill:#d4f4dd,stroke:#2d8a4f,color:#1a5c33
-    style PK fill:#fff4cc,stroke:#b08800,color:#7a5c00
+    style P4 fill:#d4f4dd,stroke:#2d8a4f,color:#1a5c33
 ```
 
 ---
@@ -50,21 +51,25 @@ flowchart LR
 | Component | Status | Live URL |
 |---|---|---|
 | 🗄️ Database (Supabase) | ✅ Live | — |
-| ⚙️ Backend API (Railway) | ✅ Live | `claudeproject-production-5b22.up.railway.app` |
+| ⚙️ Backend API (Render) | ✅ Live | `warungtek-backend.onrender.com` |
 | 🌐 Consumer + Vendor Web App | ✅ Live | `nightmarket-web.vercel.app` |
+| 📱 Vendor Onboarding App | ✅ Built | `apps/vendor` — local / to be deployed |
 | ⚡ ESP32 Vendor Terminal | ✅ Tested end-to-end | On-device |
-| 🖥️ Kiosk App (Raspberry Pi) | 🟡 Scaffolded | Runs locally on Pi |
+| 🖥️ Kiosk App (Raspberry Pi) | 🟢 8 panels built | Runs locally on Pi |
+| 🐍 NFC Daemon (Raspberry Pi) | ✅ Complete | `localhost:5001` on Pi |
+| 🤖 AI Features | ✅ Chat + Meal Advisor | Via Gemini 2.0 Flash |
 
 ---
 
-## Three Physical Surfaces
+## Physical Surfaces
 
 | Surface | Hardware | Status |
 |---|---|---|
 | Consumer website | Any browser | ✅ Live |
-| Vendor portal | Any browser (same URL) | ✅ Live |
-| Vendor terminal | ESP32 DevKit v1 + RC522 RFID | ✅ Active |
-| Digital directory kiosk | Raspberry Pi 4 + PN532 NFC | 🟡 Not built yet |
+| Vendor portal (web mode toggle) | Any browser (same URL) | ✅ Live |
+| Vendor onboarding app | Any browser (`apps/vendor`) | ✅ Built |
+| Vendor terminal | ESP32 DevKit v1 + RC522 RFID + Load Cell | ✅ Active |
+| Digital directory kiosk | Raspberry Pi 4 + PN532 NFC | 🟢 Panels built — needs QR top-up + UID normalization |
 
 ---
 
@@ -180,28 +185,37 @@ flowchart LR
     VDash -->|Switch back| CDash["👤 Consumer Mode"]
 ```
 
-### Kiosk Journey (apps/kiosk) 🟡 Planned
+### Kiosk Journey (apps/kiosk) ✅ Built
 
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}} }%%
 flowchart LR
-    Idle["🖥️ Idle Screen 🟡\nTap your card to begin"]
-    Idle -->|"Card tapped"| KTap[/"📡 Record Visit  ✅ backend ready"/]
-    KTap --> P2["👤 Card Summary 🟡\nname · balance · calories · vouchers"]
-    P2 -->|button| P3["🎯 Campaigns 🟡\nview · join programs"]
-    P2 -->|button| P4["🗺️ Market Map 🟡\nfind your stall"]
-    P3 -.->|"Join button"| Enrol2[/"🎯 Join Campaign  ✅"/]
-    P2 -->|"60 seconds no action"| Idle
-    P3 -->|"60 seconds no action"| Idle
-    P4 -->|"60 seconds no action"| Idle
+    Home["🖥️ Home Screen ✅\nNFC polling · quick nav · emergency"]
+    Home -->|"Card tapped (NFC daemon)"| NfcTap[/"📡 GET /api/cards/:uid · GET /api/campaigns"/]
+    NfcTap --> Card["👤 Card Panel ✅\nname · balance · calorie bar · promotions"]
+    Card -->|button| Camp["🎯 Campaigns ✅\nenrol programs"]
+    Card -->|button| Map["🗺️ Market Map ✅\nstall grid · kiosk markers"]
+    Card -->|button| Cal["🥗 Calorie Limit ✅\nset limit · get AI meal suggestions"]
+    Card -->|button| Food["🍛 Food Browser ✅\nsearch food · navigate to stall"]
+    Card -->|button| TopUp["💳 Top Up ⚠️\nQR placeholder — wiring pending"]
+    Cal -->|"AI call"| Meal["🤖 Meal Suggestions ✅\n3 AI picks · navigate to stall"]
+    Card -->|"Directory Rebate button"| Rebate[/"📡 POST /api/kiosk/tap"/]
+    Card -->|"60 s idle"| Home
+    Camp -->|"60 s idle"| Home
 
-    style Idle fill:#fff4cc,stroke:#b08800
-    style P2 fill:#fff4cc,stroke:#b08800
-    style P3 fill:#fff4cc,stroke:#b08800
-    style P4 fill:#fff4cc,stroke:#b08800
+    Camp -.->|"Join button"| Enrol[/"📡 POST /api/campaigns/:id/enrol"/]
+
+    style Home fill:#d4f4dd,stroke:#2d8a4f
+    style Card fill:#d4f4dd,stroke:#2d8a4f
+    style Camp fill:#d4f4dd,stroke:#2d8a4f
+    style Map fill:#d4f4dd,stroke:#2d8a4f
+    style Cal fill:#d4f4dd,stroke:#2d8a4f
+    style Food fill:#d4f4dd,stroke:#2d8a4f
+    style Meal fill:#d4f4dd,stroke:#2d8a4f
+    style TopUp fill:#fff4cc,stroke:#b08800
 ```
 
-> Backend route `POST /api/kiosk/tap` is implemented. The React UI panels and Python NFC daemon are not yet built.
+> All panels built. Three open items: (1) TopUpPanel QR code needs a real URL, (2) MealSuggestionPanel stall navigation needs vendor_id in AI response, (3) NFC UID format from daemon (colon-separated) must be normalized to match cards stored via ESP32 (no colons).
 
 ---
 
@@ -288,9 +302,12 @@ flowchart LR
         subgraph Reader["📡 RFID Reader"]
             RC["Detects card\nwirelessly"]
         end
+        subgraph Scale["⚖️ Load Cell (GPIO34)"]
+            LC["Measures serving weight\n(grams) before tap"]
+        end
         subgraph Controller["⚡ ESP32 Microcontroller"]
             FW["🧠 Firmware\nruns the system flow above"]
-            NVS[("💾 On-device Config\nWiFi · Vendor · Auth token")]
+            NVS[("💾 On-device Config\nWiFi · Vendor · Auth token\nscale_factor · tare_offset")]
             WiFi["📶 Secure WiFi\nencryption built into chip"]
         end
     end
@@ -444,15 +461,15 @@ flowchart LR
     GH["🐙 GitHub\nSource Code Repository"]
 
     GH -->|"Code push\nauto deploys"| Vercel2["☁️ Vercel\nWeb App\nnightmarket-web.vercel.app"]
-    GH -->|"Code push\nauto deploys"| Railway2["🚂 Railway\nBackend API\nclaudeproject-production-5b22.up.railway.app"]
-    Railway2 -->|"Secure connection\nserver side only"| Supa2["🐘 Supabase\nCloud Database\nschema applied manually"]
+    GH -->|"Code push\nauto deploys"| Render2["🎨 Render\nBackend API\nwarungtek-backend.onrender.com"]
+    Render2 -->|"Secure connection\nserver side only"| Supa2["🐘 Supabase\nCloud Database\nschema applied manually"]
 
     Dev["💻 Developer Machine"] -->|"USB cable\nflash firmware"| ESP322["⚡ ESP32\nVendor Terminal\nconnects to Railway + Supabase"]
     Dev -->|"SD card setup\nruns locally"| Pi2["🖥️ Raspberry Pi\nKiosk — local only"]
 
     style GH fill:#f0f0f0,stroke:#555
     style Vercel2 fill:#fdebd0,stroke:#e67e22
-    style Railway2 fill:#e8f8f0,stroke:#27ae60
+    style Render2 fill:#e8f8f0,stroke:#27ae60
     style Supa2 fill:#f5eef8,stroke:#8e44ad
     style ESP322 fill:#e8f4fd,stroke:#2980b9
     style Pi2 fill:#fff4cc,stroke:#b08800
@@ -504,15 +521,15 @@ erDiagram
 ```mermaid
 %%{init: {"flowchart": {"curve": "linear"}} }%%
 flowchart LR
-    Now["✅ Completed\nVendor Terminal\nOnline tap & pay\nSecure authentication"]
-    Next["🟡 Next Up\nDirectory Kiosk\n4 screen panels\nNFC card reader"]
+    Now["✅ Completed\nVendor Terminal + Load Cell\nKiosk 8 panels\nAI Chat + Meal Advisor\nVendor Onboarding App"]
+    Fix["🟡 Fix Needed\nKiosk TopUp QR code\nMeal → stall navigation\nUID format normalization"]
     Parked["🔵 On Hold\nMarket Selfie\nCamera at kiosk\nPhoto memory per visit"]
-    Future["⬜ Ideas\nAI Nutrition Advisor\nVendor Sales Chat\nPrinted receipt"]
+    Future["⬜ Ideas\nVendor Sales Chat\nPrinted receipt\nLoad cell auto-calibration UI"]
 
-    Now --> Next --> Parked --> Future
+    Now --> Fix --> Parked --> Future
 
     style Now fill:#d4f4dd,stroke:#2d8a4f,color:#1a5c33
-    style Next fill:#fff4cc,stroke:#b08800,color:#7a5c00
+    style Fix fill:#fff4cc,stroke:#b08800,color:#7a5c00
     style Parked fill:#dce8ff,stroke:#3366cc,color:#1a3a7a
     style Future fill:#f0f0f0,stroke:#999,color:#444
 ```
@@ -538,4 +555,4 @@ Camera module on the Raspberry Pi kiosk captures a photo after each card tap. St
 
 ---
 
-*v2.3 · React + TypeScript + Express + PostgreSQL (Supabase) + Railway + Vercel + ESP32*
+*v2.4 · React + TypeScript + Express + PostgreSQL (Supabase) + Render + Vercel + ESP32 + Raspberry Pi + Gemini 2.0 Flash*
