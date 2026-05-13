@@ -14,25 +14,29 @@ export default function AiChat() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [loadingChat, setLoadingChat] = useState(false)
+  const [chatError, setChatError] = useState('')
 
   // Meal advisor tab
   const [mealPrompt, setMealPrompt] = useState('')
   const [mealBudget, setMealBudget] = useState('600')
   const [suggestions, setSuggestions] = useState<any[]>([])
   const [loadingMeal, setLoadingMeal] = useState(false)
+  const [mealError, setMealError] = useState('')
+  const [hasSearched, setHasSearched] = useState(false)
 
   async function handleAsk(e: React.FormEvent) {
     e.preventDefault()
     if (!input.trim() || loadingChat) return
     const msg = input.trim()
     setInput('')
-    setMessages(m => [...m.slice(-4), { from: 'user', text: msg }])
+    setChatError('')
+    setMessages(m => [...m.slice(-8), { from: 'user', text: msg }])
     setLoadingChat(true)
     try {
       const res = await askAi(msg, card?.role) as any
       setMessages(m => [...m, { from: 'ai', text: res.reply ?? 'No response.' }])
-    } catch {
-      setMessages(m => [...m, { from: 'ai', text: 'Sorry, I could not process that.' }])
+    } catch (err: any) {
+      setChatError(err?.message ?? 'Request failed. Please try again.')
     } finally { setLoadingChat(false) }
   }
 
@@ -40,13 +44,18 @@ export default function AiChat() {
     e.preventDefault()
     if (!mealPrompt.trim() || loadingMeal) return
     setLoadingMeal(true)
+    setMealError('')
     setSuggestions([])
+    setHasSearched(false)
     try {
       const res = await getMealAdvice(mealPrompt, parseFloat(mealBudget) || 600) as any
       setSuggestions(res.suggestions ?? [])
-    } catch {
-      setSuggestions([])
-    } finally { setLoadingMeal(false) }
+    } catch (err: any) {
+      setMealError(err?.message ?? 'Could not load suggestions. Please try again.')
+    } finally {
+      setLoadingMeal(false)
+      setHasSearched(true)
+    }
   }
 
   return (
@@ -62,7 +71,7 @@ export default function AiChat() {
 
       {/* Panel */}
       {open && (
-        <div className="fixed bottom-36 right-4 z-30 w-80 bg-white rounded-2xl shadow-xl border border-gray-100 flex flex-col" style={{ maxHeight: '420px' }}>
+        <div className="fixed bottom-36 right-4 z-30 w-80 bg-white rounded-2xl shadow-xl border border-gray-100 flex flex-col" style={{ maxHeight: '460px' }}>
           {/* Header + tabs */}
           <div className="px-4 pt-3 pb-0">
             <p className="text-sm font-semibold mb-2">AI Assistant</p>
@@ -74,7 +83,6 @@ export default function AiChat() {
 
           {tab === 'ask' ? (
             <>
-              {/* Messages */}
               <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2" style={{ minHeight: '200px' }}>
                 {messages.length === 0 && (
                   <p className="text-xs text-gray-400 text-center pt-6">Ask anything about NightMarket</p>
@@ -92,7 +100,7 @@ export default function AiChat() {
                   </div>
                 )}
               </div>
-              {/* Input */}
+              {chatError && <p className="text-xs text-red-500 px-4 pb-1">{chatError}</p>}
               <form onSubmit={handleAsk} className="flex gap-2 p-3 border-t">
                 <input
                   className="flex-1 text-xs border rounded-lg px-3 py-2 outline-none"
@@ -108,7 +116,7 @@ export default function AiChat() {
               <form onSubmit={handleMeal} className="space-y-2">
                 <input
                   className="w-full text-xs border rounded-lg px-3 py-2 outline-none"
-                  placeholder="What are you craving? (e.g. spicy, light)"
+                  placeholder="What are you craving? (e.g. spicy, light, rice)"
                   value={mealPrompt}
                   onChange={e => setMealPrompt(e.target.value)}
                 />
@@ -126,6 +134,12 @@ export default function AiChat() {
 
               {loadingMeal && <p className="text-xs text-gray-400 text-center">Finding meals…</p>}
 
+              {mealError && <p className="text-xs text-red-500 text-center">{mealError}</p>}
+
+              {!loadingMeal && !mealError && !hasSearched && (
+                <p className="text-xs text-gray-400 text-center pt-2">Describe what you want to eat above</p>
+              )}
+
               {suggestions.map((s, i) => (
                 <div key={i} className="bg-gray-50 rounded-xl p-3 space-y-0.5">
                   <p className="text-xs font-semibold">{s.food_name}</p>
@@ -137,8 +151,9 @@ export default function AiChat() {
                   <p className="text-xs text-gray-400 italic">{s.reason}</p>
                 </div>
               ))}
-              {!loadingMeal && suggestions.length === 0 && mealPrompt && (
-                <p className="text-xs text-gray-400 text-center">No suggestions yet.</p>
+
+              {!loadingMeal && !mealError && hasSearched && suggestions.length === 0 && (
+                <p className="text-xs text-gray-400 text-center">No matching items found. Try different keywords.</p>
               )}
             </div>
           )}
