@@ -95,6 +95,18 @@ router.post('/:id/enrol', validate(enrolSchema), async (req: Request, res: Respo
   res.status(201).json({ success: true, data })
 })
 
+// GET /api/kiosk/foods — all available food items with vendor + grid position
+router.get('/kiosk/foods', async (_req: Request, res: Response): Promise<void> => {
+  const { data, error } = await supabase
+    .from('food_items')
+    .select('food_id, name, calories, price_in_points, vendors(vendor_id, business_name, grid_x, grid_y)')
+    .eq('is_available', true)
+    .not('calories', 'is', null)
+    .limit(100)
+  if (error) throw error
+  res.json({ success: true, data: data ?? [] })
+})
+
 // POST /api/kiosk/tap
 // Directory rebate tap — called by kiosk React app on card scan
 router.post('/kiosk/tap', validate(kioskTapSchema), async (req: Request, res: Response): Promise<void> => {
