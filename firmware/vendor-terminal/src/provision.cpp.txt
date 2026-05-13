@@ -33,12 +33,12 @@ void setup() {
 
     prefs.begin("config", false);
 
-    prefs.putString("wifi_ssid",  "YOUR_WIFI_SSID");
-    prefs.putString("wifi_pass",  "YOUR_WIFI_PASSWORD");
-    prefs.putString("vendor_id",  "YOUR_VENDOR_UUID");
-    prefs.putString("food_id",    "YOUR_FOOD_UUID");
-    prefs.putString("api_url",    "https://your-app.up.railway.app");
-    prefs.putString("auth_token", "PASTE_TERMINAL_AUTH_TOKEN_HERE");
+    prefs.putString("wifi_ssid",  "Gilbert");
+    prefs.putString("wifi_pass",  "gilbert123");
+    prefs.putString("vendor_id",  "14d599d9-1ce1-4a98-bedf-6f7486b2e44c");
+    prefs.putString("food_id",    "a942a610-079a-4763-b61b-5599a5515c9b");
+    prefs.putString("api_url",    "https://warungtek-backend.onrender.com");
+    prefs.putString("auth_token", "nightmarket-terminal-2024");
 
     // Load cell calibration — run ml/train_calibration.py to get these values
     prefs.putInt  ("adc_pin",      34);      // GPIO34 — ADC1, do not change

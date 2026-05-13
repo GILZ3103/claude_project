@@ -254,23 +254,26 @@ void loop() {
         connectWiFi();
     }
 
-    // ── Serving detection — weight monitoring ─────────────────────────────────
-    int current = readADCStable();
-    if (!baselineSet) {
-        stableBaseline = current;
-        baselineSet    = true;
-    }
-    int delta = stableBaseline - current;
-    if (delta > 50) {           // significant drop threshold (~50 ADC units)
-        stableCount++;
-        if (stableCount >= 3) { // confirm stable new lower reading
-            lastServingGrams = adcToGrams(delta);
-            stableBaseline   = current;
-            stableCount      = 0;
-            Serial.println("Serving detected: " + String(lastServingGrams, 1) + "g");
+    // ── Serving detection — only runs when load cell is calibrated ───────────
+    // scaleFactorNVS defaults to 1.0 (placeholder). Skip if not yet calibrated.
+    if (scaleFactorNVS != 1.0f && tareOffset != 0) {
+        int current = readADCStable();
+        if (!baselineSet) {
+            stableBaseline = current;
+            baselineSet    = true;
         }
-    } else {
-        stableCount = 0;
+        int delta = stableBaseline - current;
+        if (delta > 50) {
+            stableCount++;
+            if (stableCount >= 3) {
+                lastServingGrams = adcToGrams(delta);
+                stableBaseline   = current;
+                stableCount      = 0;
+                Serial.println("Serving detected: " + String(lastServingGrams, 1) + "g");
+            }
+        } else {
+            stableCount = 0;
+        }
     }
 
     // Wait for card
