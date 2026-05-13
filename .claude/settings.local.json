@@ -25,7 +25,18 @@
       "Bash(git commit -m ' *)",
       "Bash(git push *)",
       "Bash(Get-ChildItem -Recurse -Force)",
-      "Bash(Select-Object -First 100 FullName)"
+      "Bash(Select-Object -First 100 FullName)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\HUAWEI\\\\claude_project\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Bash(Test-Path \"C:\\\\Users\\\\HUAWEI\\\\.platformio\\\\packages\\\\toolchain-xtensa-esp32\\\\bin\\\\xtensa-esp32-elf-gcc.exe\")",
+      "Read(//c/Users/HUAWEI/.platformio/packages/toolchain-xtensa-esp32/bin/**)",
+      "Read(//c/Users/HUAWEI/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include/**)",
+      "Read(//c/Users/HUAWEI/.platformio/packages/toolchain-xtensa-esp32/xtensa-esp32-elf/include/**)",
+      "Read(//c/Users/HUAWEI/.platformio/packages/toolchain-xtensa-esp32/**)",
+      "Read(//c/Users/HUAWEI/.platformio/packages/**)",
+      "PowerShell([System.IO.Directory]::GetFiles\\(\"C:\\\\Users\\\\HUAWEI\\\\.platformio\\\\packages\\\\toolchain-xtensa-esp32\\\\xtensa-esp32-elf\\\\include\"\\) | Select-Object -First 20)",
+      "PowerShell([System.IO.File]::Exists\\(\"C:\\\\Users\\\\HUAWEI\\\\.platformio\\\\packages\\\\toolchain-xtensa-esp32\\\\xtensa-esp32-elf\\\\include\\\\stdint.h\"\\); [System.IO.Directory]::GetDirectories\\(\"C:\\\\Users\\\\HUAWEI\\\\.platformio\\\\packages\\\\toolchain-xtensa-esp32\\\\lib\\\\gcc\\\\xtensa-esp32-elf\"\\) | Select-Object -First 5)",
+      "PowerShell([System.IO.Directory]::GetFiles\\(\"C:\\\\Users\\\\HUAWEI\\\\.platformio\\\\packages\\\\framework-arduinoespressif32\\\\tools\\\\sdk\\\\esp32\\\\include\", \"protocomm.h\", [System.IO.SearchOption]::AllDirectories\\) | Select-Object -First 2)"
     ]
   },
   "enabledPlugins": {
