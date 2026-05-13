@@ -42,3 +42,20 @@ export const getMap = () => request('/api/map')
 
 // Vendors
 export const getVendors = () => request('/api/vendors')
+
+// All foods with vendor + grid info (kiosk food browser)
+export const getAllFoods = () => request('/api/kiosk/foods')
+
+// AI meal suggestion
+export const getMealSuggestion = (calorie_budget: number) =>
+  request('/api/ai/meal-advisor', {
+    method: 'POST',
+    body: JSON.stringify({ calorie_budget, prompt: 'suggest a main dish and two side dishes within my calorie budget' }),
+  })
+
+// Save calorie limit to card
+export const updateCalorieLimit = (uid: string, calorie_limit: number) =>
+  request(`/api/cards/${uid}/calorie-limit`, {
+    method: 'PATCH',
+    body: JSON.stringify({ calorie_limit }),
+  })
