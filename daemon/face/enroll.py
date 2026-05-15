@@ -23,6 +23,7 @@ from pathlib import Path
 import cv2
 
 from . import config, faces_db
+from .pipeline.augment import augment_face, should_augment
 from .pipeline.recognizer import FaceRecognizer
 
 
@@ -36,8 +37,14 @@ def enroll_photo(
     photo_path: Path,
     source_label: str | None = None,
     recognizer: FaceRecognizer | None = None,
+    auto_augment: bool = False,
 ) -> bool:
-    """Embed a single photo and add to faces.db. Returns True on success."""
+    """
+    Embed a single photo and add to faces.db. Returns True on success.
+
+    If auto_augment=True, generates 8 augmented variants from the one photo
+    and enrolls all of them — compensating for having only a single source image.
+    """
     if recognizer is None:
         recognizer = FaceRecognizer()
 
@@ -50,6 +57,21 @@ def enroll_photo(
         log.error(f"Failed to read image: {photo_path}")
         return False
 
+    if auto_augment:
+        variants = augment_face(frame)
+        success = 0
+        for i, variant in enumerate(variants):
+            emb = recognizer.embed_photo(variant)
+            if emb is None:
+                continue
+            label = f"{source_label or photo_path.stem}_aug{i}"
+            faces_db.add_embedding(uid=uid, owner_name=owner_name,
+                                   embedding=emb, photo_url=str(photo_path),
+                                   source_label=label)
+            success += 1
+        log.info(f"✅ Enrolled {success}/{len(variants)} augmented variants of {photo_path.name} for {owner_name}")
+        return success > 0
+
     emb = recognizer.embed_photo(frame)
     if emb is None:
         log.warning(f"No face detected in {photo_path}")
@@ -57,11 +79,8 @@ def enroll_photo(
 
     label = source_label or photo_path.stem
     embedding_id = faces_db.add_embedding(
-        uid=uid,
-        owner_name=owner_name,
-        embedding=emb,
-        photo_url=str(photo_path),
-        source_label=label,
+        uid=uid, owner_name=owner_name, embedding=emb,
+        photo_url=str(photo_path), source_label=label,
     )
     log.info(f"✅ Enrolled {photo_path.name} for {owner_name} ({uid}) — embedding_id={embedding_id}")
     return True
@@ -93,9 +112,14 @@ def enroll_folder(
     faces_db.upsert_person(uid=uid, owner_name=owner_name, has_physical_card=False, photo_url=None)
 
     recognizer = FaceRecognizer()
+    # Auto-augment if fewer than 4 real photos — turns 1 photo into 8 embeddings
+    do_augment = should_augment(len(photos))
+    if do_augment:
+        log.info(f"Only {len(photos)} photo(s) — auto-augmentation enabled (8 variants per photo)")
+
     success = 0
     for photo in photos:
-        if enroll_photo(uid, owner_name, photo, recognizer=recognizer):
+        if enroll_photo(uid, owner_name, photo, recognizer=recognizer, auto_augment=do_augment):
             success += 1
 
     log.info(f"Enrolled {success}/{len(photos)} photos for {owner_name}")
@@ -122,7 +146,9 @@ def main():
         if args.clear:
             faces_db.clear_embeddings_for(args.uid)
         faces_db.upsert_person(uid=args.uid, owner_name=args.name, has_physical_card=False, photo_url=None)
-        ok = enroll_photo(args.uid, args.name, Path(args.photo), source_label=args.label)
+        # Single photo — always auto-augment
+        ok = enroll_photo(args.uid, args.name, Path(args.photo),
+                          source_label=args.label, auto_augment=True)
         sys.exit(0 if ok else 1)
 
 
