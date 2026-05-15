@@ -69,6 +69,14 @@ SMOOTHING_VOTES_REQUIRED = 4        # Need N-of-buffer agreement to confirm
 # How long a confirmed match stays "active" before requiring re-detection
 MATCH_TTL_SECONDS = 3.0
 
+# ── Display stream (MJPEG) ───────────────────────────────────────────────────
+
+# Resolution for the /stream MJPEG endpoint — lower = faster encode
+DISPLAY_WIDTH = 640
+DISPLAY_HEIGHT = 480
+DISPLAY_JPEG_QUALITY = 60      # 0–100; 60 is good quality at fast encode speed
+DISPLAY_FPS = 30               # Target FPS for the MJPEG stream
+
 # ── Flask Daemon ─────────────────────────────────────────────────────────────
 
 DAEMON_HOST = "0.0.0.0"
