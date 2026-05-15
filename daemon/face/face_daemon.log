@@ -1,0 +1,8 @@
+2026-05-15 22:11:06,326 [INFO] Loaded 0 embeddings from faces.db
+2026-05-15 22:11:06,326 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-05-15 22:11:07,721 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.35.133.152:5002
+2026-05-15 22:11:07,721 [INFO] [33mPress CTRL+C to quit[0m
+2026-05-15 22:11:11,423 [INFO] Camera opened. Starting recognition loop.
