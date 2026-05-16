@@ -26,7 +26,7 @@ export default function AuthPage() {
   const [fullName, setFullName] = useState('')
 
   // Signup-only fields
-  const [cardUid, setCardUid] = useState('')
+  const [cardUid, setCardUid] = useState('')  // set after registration for the success screen
   const [phone, setPhone] = useState('')
 
   // Vendor-only signup
@@ -72,7 +72,6 @@ export default function AuthPage() {
     setSubmitting(true)
     try {
       const baseBody: any = {
-        uid: cardUid,
         owner_name: fullName,
         owner_email: email,
         password,
@@ -84,12 +83,14 @@ export default function AuthPage() {
         baseBody.department = department
       }
 
-      await registerCard(baseBody)
+      const registered = await registerCard(baseBody) as any
+      const newUid = registered.uid  // backend auto-generates if not provided
+      setCardUid(newUid) // store for the success screen
 
       // If vendor, follow up with vendor registration (creates PENDING_REVIEW vendor record)
       if (role === 'vendor') {
         await registerVendor({
-          owner_card_uid: cardUid,
+          owner_card_uid: newUid,
           business_name: businessName,
           ssm_registration_number: ssm,
           phone_number: phone,
@@ -254,10 +255,6 @@ export default function AuthPage() {
               className="space-y-4"
             >
               <div>
-                <label className={labelCls}>Card UID</label>
-                <input type="text" required value={cardUid} onChange={e => setCardUid(e.target.value)} className={inputCls} placeholder="e.g. CARD12345" />
-              </div>
-              <div>
                 <label className={labelCls}>Full Name</label>
                 <input type="text" required value={fullName} onChange={e => setFullName(e.target.value)} className={inputCls} />
               </div>
@@ -301,6 +298,12 @@ export default function AuthPage() {
                   <span className="text-xs font-semibold text-gray-500 group-hover:text-gray-700">Upload coming soon</span>
                 </div>
               </div>
+
+              {role === 'consumer' && (
+                <div className="bg-blue-50 text-blue-800 text-xs font-medium px-3 py-2 rounded-lg border border-blue-200">
+                  📇 You'll collect your physical NFC card at the WarungTek kiosk and link it to your account afterwards.
+                </div>
+              )}
 
               {role === 'vendor' && (
                 <div className="bg-amber-50 text-amber-800 text-xs font-medium px-3 py-2 rounded-lg border border-amber-200">

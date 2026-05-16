@@ -6,8 +6,13 @@ import { validate } from '../middleware/validate'
 
 const router = Router()
 
+function generateUserUid(): string {
+  const random = Math.random().toString(36).substring(2, 10).toUpperCase()
+  return `USER-${random}`
+}
+
 const registerSchema = z.object({
-  uid: z.string().min(4).max(20),
+  uid: z.string().min(4).max(20).optional(),
   owner_name: z.string().max(100),
   owner_email: z.string().email(),
   phone_number: z.string().regex(/^(\+?6?01)[0-46-9]-*[0-9]{7,8}$/, 'Invalid Malaysian phone number').optional(),
@@ -16,6 +21,10 @@ const registerSchema = z.object({
   photo_url: z.string().url().optional(),
   authority_id: z.string().max(50).optional(),
   department: z.string().max(100).optional(),
+})
+
+const linkCardSchema = z.object({
+  new_uid: z.string().min(4).max(20)
 })
 
 const topupSchema = z.object({
@@ -30,15 +39,37 @@ const calorieLimitSchema = z.object({
 router.post('/register', validate(registerSchema), async (req: Request, res: Response): Promise<void> => {
   const { uid, owner_name, owner_email, phone_number, password, role, photo_url, authority_id, department } = req.body
 
-  const { data: existing } = await supabase
-    .from('cards')
-    .select('uid')
-    .eq('uid', uid)
-    .single()
-
-  if (existing) {
-    res.status(409).json({ success: false, error: 'CARD_ALREADY_REGISTERED', message: 'This card UID is already registered.' })
-    return
+  // Auto-generate a temporary UID if user didn't provide one — they'll link a physical NFC card later
+  let finalUid = uid
+  if (!finalUid) {
+    // Try up to 5 times to find an unused random UID
+    for (let i = 0; i < 5; i++) {
+      const candidate = generateUserUid()
+      const { data: existing } = await supabase
+        .from('cards')
+        .select('uid')
+        .eq('uid', candidate)
+        .single()
+      if (!existing) {
+        finalUid = candidate
+        break
+      }
+    }
+    if (!finalUid) {
+      res.status(500).json({ success: false, error: 'UID_GENERATION_FAILED', message: 'Could not generate a unique card UID. Please try again.' })
+      return
+    }
+  } else {
+    // User supplied a UID — make sure it's not taken
+    const { data: existing } = await supabase
+      .from('cards')
+      .select('uid')
+      .eq('uid', finalUid)
+      .single()
+    if (existing) {
+      res.status(409).json({ success: false, error: 'CARD_ALREADY_REGISTERED', message: 'This card UID is already registered.' })
+      return
+    }
   }
 
   // Admins must provide authority_id
@@ -52,7 +83,7 @@ router.post('/register', validate(registerSchema), async (req: Request, res: Res
   const { data, error } = await supabase
     .from('cards')
     .insert({
-      uid,
+      uid: finalUid,
       owner_name,
       owner_email,
       phone_number: phone_number ?? null,
@@ -68,6 +99,34 @@ router.post('/register', validate(registerSchema), async (req: Request, res: Res
   if (error) throw error
 
   res.status(201).json({ success: true, data })
+})
+
+// PATCH /api/cards/:uid/link — replace the auto-generated UID with a real NFC card UID
+router.patch('/:uid/link', validate(linkCardSchema), async (req: Request, res: Response): Promise<void> => {
+  const { uid } = req.params
+  const { new_uid } = req.body
+
+  // Check the new_uid isn't already taken
+  const { data: existing } = await supabase.from('cards').select('uid').eq('uid', new_uid).single()
+  if (existing) {
+    res.status(409).json({ success: false, error: 'CARD_ALREADY_REGISTERED', message: 'That NFC card is already linked to another account.' })
+    return
+  }
+
+  // Update — note: this cascades through foreign key constraints
+  const { data, error } = await supabase
+    .from('cards')
+    .update({ uid: new_uid })
+    .eq('uid', uid)
+    .select()
+    .single()
+
+  if (error || !data) {
+    res.status(404).json({ success: false, error: 'CARD_NOT_FOUND', message: 'Card not found.' })
+    return
+  }
+
+  res.json({ success: true, data })
 })
 
 // GET /api/cards/:uid

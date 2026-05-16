@@ -24,6 +24,9 @@ export const loginVendor = (email: string, password: string) =>
 export const loginAdmin = (authority_id: string, email: string, password: string) =>
   request('/api/auth/admin/login', { method: 'POST', body: JSON.stringify({ authority_id, email, password }) })
 
+export const linkNfcCard = (current_uid: string, new_uid: string) =>
+  request(`/api/cards/${current_uid}/link`, { method: 'PATCH', body: JSON.stringify({ new_uid }) })
+
 // Cards
 export const getCard = (uid: string) => request(`/api/cards/${uid}`)
 
