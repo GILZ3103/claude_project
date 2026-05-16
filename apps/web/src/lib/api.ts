@@ -12,16 +12,17 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 }
 
 // Auth
-export const registerCard = (body: {
-  uid: string
-  owner_name: string
-  owner_email: string
-  phone_number: string
-  password: string
-}) => request('/api/cards/register', { method: 'POST', body: JSON.stringify(body) })
+export const registerCard = (body: Record<string, any>) =>
+  request('/api/cards/register', { method: 'POST', body: JSON.stringify(body) })
 
 export const loginConsumer = (email: string, password: string) =>
   request('/api/auth/consumer/login', { method: 'POST', body: JSON.stringify({ email, password }) })
+
+export const loginVendor = (email: string, password: string) =>
+  request('/api/auth/vendor/login', { method: 'POST', body: JSON.stringify({ email, password }) })
+
+export const loginAdmin = (authority_id: string, email: string, password: string) =>
+  request('/api/auth/admin/login', { method: 'POST', body: JSON.stringify({ authority_id, email, password }) })
 
 // Cards
 export const getCard = (uid: string) => request(`/api/cards/${uid}`)

@@ -1,0 +1,5 @@
+# MCP server configs (contains API tokens)
+.mcp.json
+
+# Figma Make code exports — local design reference only, not part of the app
+design-export/

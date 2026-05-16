@@ -1,7 +1,9 @@
-# Smart Night Market — Master Overview
-**Version 2.4** · [Technical specs → TECHNICAL.md](TECHNICAL.md) · [Setup → README.md](README.md)
+# WarungTek (Smart Night Market) — Master Overview
+**Version 3.0 (WarungTek Phase 1)** · [Technical specs → TECHNICAL.md](TECHNICAL.md) · [Setup → README.md](README.md)
 
-A unified night market platform: consumers tap a physical NFC card at vendor stalls to spend points, track calories, and earn campaign vouchers. Vendors register, upload food, and claim government subsidies. A kiosk acts as a digital directory.
+> Project renamed from NightMarket → **WarungTek** in May 2026 as part of a Figma-driven redesign. Three roles now supported: Consumer, Vendor, Admin (Authority).
+
+A unified night market platform: consumers tap a physical NFC card at vendor stalls to spend points, track calories, and earn campaign vouchers. Vendors register their stall (with admin approval), upload menu items with load-cell weight-based pricing, manage compliance documents, and claim government subsidies. Authority admins approve vendor applications, manage stall allocation, and review compliance. A kiosk acts as a digital directory.
 
 ---
 

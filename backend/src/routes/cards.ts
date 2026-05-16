@@ -10,8 +10,12 @@ const registerSchema = z.object({
   uid: z.string().min(4).max(20),
   owner_name: z.string().max(100),
   owner_email: z.string().email(),
-  phone_number: z.string().regex(/^(\+?6?01)[0-46-9]-*[0-9]{7,8}$/, 'Invalid Malaysian phone number'),
-  password: z.string().min(8).max(100)
+  phone_number: z.string().regex(/^(\+?6?01)[0-46-9]-*[0-9]{7,8}$/, 'Invalid Malaysian phone number').optional(),
+  password: z.string().min(8).max(100),
+  role: z.enum(['CONSUMER', 'VENDOR', 'ADMIN']).default('CONSUMER'),
+  photo_url: z.string().url().optional(),
+  authority_id: z.string().max(50).optional(),
+  department: z.string().max(100).optional(),
 })
 
 const topupSchema = z.object({
@@ -24,7 +28,7 @@ const calorieLimitSchema = z.object({
 
 // POST /api/cards/register
 router.post('/register', validate(registerSchema), async (req: Request, res: Response): Promise<void> => {
-  const { uid, owner_name, owner_email, phone_number, password } = req.body
+  const { uid, owner_name, owner_email, phone_number, password, role, photo_url, authority_id, department } = req.body
 
   const { data: existing } = await supabase
     .from('cards')
@@ -37,12 +41,28 @@ router.post('/register', validate(registerSchema), async (req: Request, res: Res
     return
   }
 
+  // Admins must provide authority_id
+  if (role === 'ADMIN' && !authority_id) {
+    res.status(400).json({ success: false, error: 'AUTHORITY_ID_REQUIRED', message: 'Admin registration requires authority_id and department.' })
+    return
+  }
+
   const password_hash = await bcrypt.hash(password, 10)
 
   const { data, error } = await supabase
     .from('cards')
-    .insert({ uid, owner_name, owner_email, phone_number, password_hash, role: 'CONSUMER' })
-    .select('uid, owner_name, owner_email, phone_number, points_balance, calorie_limit, role, registered_at, is_active')
+    .insert({
+      uid,
+      owner_name,
+      owner_email,
+      phone_number: phone_number ?? null,
+      password_hash,
+      role,
+      photo_url: photo_url ?? null,
+      authority_id: authority_id ?? null,
+      department: department ?? null,
+    })
+    .select('uid, owner_name, owner_email, phone_number, points_balance, calorie_limit, role, registered_at, is_active, photo_url')
     .single()
 
   if (error) throw error

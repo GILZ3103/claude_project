@@ -268,6 +268,68 @@ router.get('/:id/claims', async (req: Request, res: Response): Promise<void> => 
   res.json({ success: true, data: data ?? [] })
 })
 
+// --- ADMIN: Vendor application approval workflow ---
+
+const approvalSchema = z.object({
+  action: z.enum(['APPROVE', 'REJECT']),
+  rejection_reason: z.string().max(500).optional(),
+})
+
+async function requireAdmin(req: Request, res: Response): Promise<string | null> {
+  const raw = req.headers['x-card-uid']
+  const cardUid = Array.isArray(raw) ? raw[0] : raw
+  if (!cardUid) {
+    res.status(403).json({ success: false, error: 'UNAUTHORIZED', message: 'x-card-uid header required.' })
+    return null
+  }
+  const { data: card } = await supabase.from('cards').select('role').eq('uid', cardUid).single()
+  if (!card || card.role !== 'ADMIN') {
+    res.status(403).json({ success: false, error: 'NOT_AN_ADMIN', message: 'Admin role required.' })
+    return null
+  }
+  return cardUid
+}
+
+// GET /api/vendors/pending — admin lists pending vendor applications
+router.get('/admin/pending', async (req: Request, res: Response): Promise<void> => {
+  const adminUid = await requireAdmin(req, res)
+  if (!adminUid) return
+
+  const { data, error } = await supabase
+    .from('vendors')
+    .select('*, owner_card_uid')
+    .eq('application_status', 'PENDING_REVIEW')
+    .order('registered_at', { ascending: true })
+
+  if (error) throw error
+  res.json({ success: true, data: data ?? [] })
+})
+
+// POST /api/vendors/:id/admin/review — admin approves or rejects a vendor
+router.post('/:id/admin/review', validate(approvalSchema), async (req: Request, res: Response): Promise<void> => {
+  const adminUid = await requireAdmin(req, res)
+  if (!adminUid) return
+  const id = String(req.params.id)
+  const { action, rejection_reason } = req.body
+
+  const updates: Record<string, any> = {
+    application_status: action === 'APPROVE' ? 'APPROVED' : 'REJECTED',
+    approved_at: action === 'APPROVE' ? new Date().toISOString() : null,
+    approved_by: adminUid,
+    rejection_reason: action === 'REJECT' ? (rejection_reason ?? null) : null,
+  }
+
+  const { data, error } = await supabase
+    .from('vendors')
+    .update(updates)
+    .eq('vendor_id', id)
+    .select()
+    .single()
+
+  if (error) throw error
+  res.json({ success: true, data })
+})
+
 const complianceSchema = z.object({
   record_type: z.enum(['INCOME_TAX', 'ELECTRIC_BILL', 'BUSINESS_TAX', 'OTHER']),
   period_label: z.string().min(1).max(50),

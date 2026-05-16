@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import type { ReactNode } from 'react'
-import { getCard, loginConsumer } from '../lib/api'
+import { getCard } from '../lib/api'
 
 interface Voucher {
   voucher_id: string
@@ -13,26 +13,32 @@ interface CardSession {
   uid: string
   owner_name: string
   owner_email: string
-  phone_number: string
-  role: string
+  phone_number: string | null
+  role: 'CONSUMER' | 'VENDOR' | 'ADMIN'
   points_balance: number
   calorie_limit: number
   calories_today: number
   checkpoints_today: string[]
   active_vouchers: Voucher[]
+  photo_url: string | null
   // Vendor fields (only populated when role === 'VENDOR')
   vendor_id: string | null
   business_name: string | null
   ssm_registration_number: string | null
   grid_x: number | null
   grid_y: number | null
+  application_status: 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED' | null
+  rejection_reason: string | null
+  // Admin fields (only populated when role === 'ADMIN')
+  authority_id: string | null
+  department: string | null
 }
 
 interface CardContextValue {
   card: CardSession | null
   loading: boolean
   error: string | null
-  loginCard: (email: string, password: string) => Promise<boolean>
+  setSessionFromLogin: (data: any) => void
   refreshCard: () => Promise<void>
   unlinkCard: () => void
 }
@@ -62,21 +68,13 @@ export function CardProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  async function loginCard(email: string, password: string): Promise<boolean> {
-    setLoading(true)
+  function setSessionFromLogin(data: any) {
+    localStorage.setItem('linked_card_uid', data.uid)
+    setCard(data as CardSession)
     setError(null)
-    try {
-      const data = await loginConsumer(email, password) as CardSession
-      localStorage.setItem('linked_card_uid', data.uid)
-      const full = await getCard(data.uid) as CardSession
-      setCard(full)
-      return true
-    } catch (e: any) {
-      setError(e.message ?? 'Login failed')
-      setCard(null)
-      return false
-    } finally {
-      setLoading(false)
+    // Refresh from full /api/cards/:uid to get vouchers, calories, etc.
+    if (data.role === 'CONSUMER' || data.role === 'VENDOR') {
+      restoreSession(data.uid)
     }
   }
 
@@ -91,7 +89,7 @@ export function CardProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <CardContext.Provider value={{ card, loading, error, loginCard, refreshCard, unlinkCard }}>
+    <CardContext.Provider value={{ card, loading, error, setSessionFromLogin, refreshCard, unlinkCard }}>
       {children}
     </CardContext.Provider>
   )

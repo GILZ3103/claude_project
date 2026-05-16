@@ -2,8 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { BrowserRouter, Routes, Route, NavLink, useLocation } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { CardProvider, useCard } from './context/CardContext'
-import Landing from './pages/Landing'
-import Register from './pages/Register'
+import Auth from './pages/Auth'
 import Dashboard from './pages/Dashboard'
 import Calories from './pages/Calories'
 import Campaigns from './pages/Campaigns'
@@ -17,7 +16,7 @@ import VendorClaim from './pages/VendorClaim'
 import VendorSummary from './pages/VendorSummary'
 import AiChat from './components/AiChat'
 
-const NO_NAV = ['/', '/register']
+const NO_NAV = ['/', '/admin']
 
 type AppMode = 'consumer' | 'vendor'
 
@@ -83,7 +82,8 @@ function VendorNav() {
 function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => void }) {
   const { pathname } = useLocation()
   const { card } = useCard()
-  const showNav = !NO_NAV.includes(pathname)
+  const isAdmin = card?.role === 'ADMIN'
+  const showNav = !NO_NAV.includes(pathname) && !isAdmin
   const showToggle = showNav && card?.role === 'VENDOR'
   const topPad = showToggle ? 'pt-12' : ''
 
@@ -92,8 +92,7 @@ function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => 
       {showToggle && <ModeToggle mode={mode} setMode={setMode} />}
       {showNav && <AiChat />}
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Auth />} />
         {/* Consumer routes */}
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/calories" element={<Calories />} />
@@ -108,8 +107,30 @@ function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => 
         <Route path="/vendor/campaigns" element={<Campaigns />} />
         <Route path="/vendor/claim" element={<VendorClaim />} />
         <Route path="/vendor/summary" element={<VendorSummary />} />
+        {/* Admin route — full dashboard built in Phase 3 */}
+        <Route path="/admin" element={<AdminPlaceholder />} />
       </Routes>
       {showNav && (mode === 'vendor' && card?.role === 'VENDOR' ? <VendorNav /> : <ConsumerNav />)}
+    </div>
+  )
+}
+
+function AdminPlaceholder() {
+  const { card, unlinkCard } = useCard()
+  return (
+    <div className="min-h-screen flex items-center justify-center p-6 bg-[#FAFAFA]">
+      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center space-y-4">
+        <div className="w-12 h-12 mx-auto bg-blue-50 text-blue-500 rounded-full flex items-center justify-center">
+          🛡️
+        </div>
+        <h1 className="text-xl font-bold">Admin Dashboard</h1>
+        <p className="text-sm text-gray-500">Signed in as <strong>{card?.owner_name}</strong></p>
+        <p className="text-xs text-gray-400">{card?.department}</p>
+        <p className="text-xs text-amber-600 bg-amber-50 px-3 py-2 rounded-lg">
+          Full admin dashboard coming in Phase 3 — vendor approval, slot allocation, compliance review.
+        </p>
+        <button onClick={unlinkCard} className="text-sm text-red-500 hover:underline">Sign out</button>
+      </div>
     </div>
   )
 }
