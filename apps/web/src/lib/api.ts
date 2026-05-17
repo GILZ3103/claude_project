@@ -130,5 +130,25 @@ export const applyCampaign = (body: {
 export const getVendorCampaignApplications = (vendor_id: string, card_uid: string) =>
   request(`/api/campaigns/applications?vendor_id=${vendor_id}&card_uid=${card_uid}`)
 
+// Admin functions
+export const getAdminPendingVendors = (card_uid: string) =>
+  request('/api/vendors/admin/pending', { headers: { 'x-card-uid': card_uid } } as any)
+
+export const reviewVendor = (vendor_id: string, card_uid: string, action: 'APPROVE' | 'REJECT', rejection_reason?: string) =>
+  request(`/api/vendors/${vendor_id}/admin/review`, {
+    method: 'POST',
+    body: JSON.stringify({ action, rejection_reason }),
+    headers: { 'x-card-uid': card_uid }
+  } as any)
+
+export const getAdminCampaignApplications = (card_uid: string) =>
+  request(`/api/campaigns/applications/admin?card_uid=${card_uid}`)
+
+export const reviewCampaignApplication = (app_id: string, card_uid: string, action: 'APPROVE' | 'REJECT', rejection_reason?: string) =>
+  request(`/api/campaigns/applications/${app_id}/review`, {
+    method: 'POST',
+    body: JSON.stringify({ card_uid, action, rejection_reason })
+  })
+
 // Map
 export const getMap = () => request('/api/map')

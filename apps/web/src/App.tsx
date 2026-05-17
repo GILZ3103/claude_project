@@ -14,6 +14,7 @@ import VendorDashboard from './pages/VendorDashboard'
 import VendorInformation from './pages/VendorInformation'
 import VendorClaim from './pages/VendorClaim'
 import VendorSummary from './pages/VendorSummary'
+import AdminDashboard from './pages/AdminDashboard'
 import Vouchers from './pages/Vouchers'
 import AiChat from './components/AiChat'
 import { TopNav } from './components/TopNav'
@@ -49,31 +50,12 @@ function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => 
         <Route path="/vendor/claim" element={<VendorClaim />} />
         <Route path="/vendor/summary" element={<VendorSummary />} />
         {/* Admin route */}
-        <Route path="/admin" element={<AdminPlaceholder />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </div>
   )
 }
 
-function AdminPlaceholder() {
-  const { card, unlinkCard } = useCard()
-  return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-[#FAFAFA]">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center space-y-4">
-        <div className="w-12 h-12 mx-auto bg-blue-50 text-blue-500 rounded-full flex items-center justify-center">
-          🛡️
-        </div>
-        <h1 className="text-xl font-bold">Admin Dashboard</h1>
-        <p className="text-sm text-gray-500">Signed in as <strong>{card?.owner_name}</strong></p>
-        <p className="text-xs text-gray-400">{card?.department}</p>
-        <p className="text-xs text-amber-600 bg-amber-50 px-3 py-2 rounded-lg">
-          Full admin dashboard coming in Phase 3 — vendor approval, slot allocation, compliance review.
-        </p>
-        <button onClick={unlinkCard} className="text-sm text-red-500 hover:underline">Sign out</button>
-      </div>
-    </div>
-  )
-}
 
 function ServerWakeBanner() {
   const [show, setShow] = useState(false)

@@ -62,23 +62,43 @@ export function TopNav({ mode, setMode }: TopNavProps) {
         <span className="font-bold text-[#1A1A1A] tracking-tight hidden sm:inline">WarungTek</span>
       </div>
 
-      {/* Desktop nav links */}
-      <div className="hidden md:flex items-center space-x-5 mx-4">
-        {links.map(link => (
-          <NavLink
-            key={link.href}
-            to={link.href}
-            className={({ isActive }) =>
-              `flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider transition-colors ${isActive ? 'text-[#FF8A00]' : 'text-gray-600 hover:text-[#FF8A00]'}`
-            }
-          >
-            {link.icon}
-            <span>{link.label}</span>
-          </NavLink>
-        ))}
-      </div>
+      {/* Desktop nav links — consumer only in center */}
+      {!isVendor && !isAdmin && (
+        <div className="hidden md:flex items-center space-x-5 mx-4">
+          {consumerLinks.map(link => (
+            <NavLink
+              key={link.href}
+              to={link.href}
+              className={({ isActive }) =>
+                `flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider transition-colors ${isActive ? 'text-[#FF8A00]' : 'text-gray-600 hover:text-[#FF8A00]'}`
+              }
+            >
+              {link.icon}
+              <span>{link.label}</span>
+            </NavLink>
+          ))}
+        </div>
+      )}
 
       <div className="flex items-center space-x-2">
+        {/* Vendor / Admin links on the right, before language */}
+        {(isVendor || isAdmin) && (
+          <div className="hidden md:flex items-center space-x-3 mr-1 border-r border-gray-200 pr-3">
+            {links.map(link => (
+              <NavLink
+                key={link.href}
+                to={link.href}
+                className={({ isActive }) =>
+                  `flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider transition-colors ${isActive ? 'text-[#FF8A00]' : 'text-gray-600 hover:text-[#FF8A00]'}`
+                }
+              >
+                {link.icon}
+                <span>{link.label}</span>
+              </NavLink>
+            ))}
+          </div>
+        )}
+
         {/* Language placeholder */}
         <div className="relative">
           <button

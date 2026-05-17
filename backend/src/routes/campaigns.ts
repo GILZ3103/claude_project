@@ -260,6 +260,70 @@ router.post('/apply', validate(campaignApplicationSchema), async (req: Request, 
   res.status(201).json({ success: true, data })
 })
 
+// GET /api/campaigns/applications/admin?card_uid= — all applications (admin only)
+router.get('/applications/admin', async (req: Request, res: Response): Promise<void> => {
+  const { card_uid } = req.query
+  if (!card_uid) { res.status(400).json({ success: false, error: 'MISSING_PARAMS' }); return }
+
+  const { data: adminCard } = await supabase.from('cards').select('role').eq('uid', card_uid as string).single()
+  if (!adminCard || adminCard.role !== 'ADMIN') {
+    res.status(403).json({ success: false, error: 'FORBIDDEN', message: 'Admin access required.' })
+    return
+  }
+
+  const { data, error } = await supabase
+    .from('campaign_applications')
+    .select('*, vendors(business_name, owner_card_uid)')
+    .order('created_at', { ascending: false })
+
+  if (error) throw error
+  res.json({ success: true, data: data ?? [] })
+})
+
+// POST /api/campaigns/applications/:id/review — admin approves or rejects a campaign application
+router.post('/applications/:id/review', async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params
+  const { card_uid, action, rejection_reason } = req.body
+
+  if (!card_uid || !action) { res.status(400).json({ success: false, error: 'MISSING_PARAMS' }); return }
+  if (!['APPROVE', 'REJECT'].includes(action)) { res.status(400).json({ success: false, error: 'INVALID_ACTION' }); return }
+
+  const { data: adminCard } = await supabase.from('cards').select('role').eq('uid', card_uid).single()
+  if (!adminCard || adminCard.role !== 'ADMIN') {
+    res.status(403).json({ success: false, error: 'FORBIDDEN', message: 'Admin access required.' })
+    return
+  }
+
+  const { data: app } = await supabase.from('campaign_applications').select('*').eq('application_id', id).single()
+  if (!app) { res.status(404).json({ success: false, error: 'NOT_FOUND' }); return }
+
+  const newStatus = action === 'APPROVE' ? 'APPROVED' : 'REJECTED'
+  await supabase.from('campaign_applications').update({
+    status: newStatus,
+    rejection_reason: rejection_reason ?? null,
+    reviewed_by: card_uid,
+    reviewed_at: new Date().toISOString()
+  }).eq('application_id', id)
+
+  // If approved, create actual campaign record
+  if (action === 'APPROVE') {
+    await supabase.from('campaigns').insert({
+      name: app.name,
+      description: app.description,
+      condition_type: app.condition_type,
+      condition_threshold: app.condition_threshold,
+      reward_type: 'VOUCHER',
+      reward_value: app.reward_value,
+      applicable_vendor_ids: [app.vendor_id],
+      is_active: true,
+      start_date: app.period_start,
+      end_date: app.period_end,
+    })
+  }
+
+  res.json({ success: true, data: { application_id: id, status: newStatus } })
+})
+
 // GET /api/campaigns/applications?vendor_id=&card_uid= — list vendor's own applications
 router.get('/applications', async (req: Request, res: Response): Promise<void> => {
   const { vendor_id, card_uid } = req.query
