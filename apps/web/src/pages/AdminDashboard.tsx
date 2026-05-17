@@ -353,11 +353,15 @@ export default function AdminDashboard() {
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                 {[
-                  { label: 'Active Vendors', value: vendors.length, color: 'text-green-500', bg: 'hover:bg-green-50 hover:border-green-300', desc: 'Fully approved & operating' },
-                  { label: 'Pending Applications', value: pendingVendors.length, color: 'text-yellow-500', bg: 'hover:bg-yellow-50 hover:border-yellow-300', desc: 'Awaiting admin review' },
-                  { label: 'Pending Campaigns', value: pendingCampaignApps.length, color: 'text-red-500', bg: 'hover:bg-red-50 hover:border-red-300', desc: 'Campaign applications to review' },
+                  { label: 'Active Vendors', value: vendors.length, color: 'text-green-500', bg: 'hover:bg-green-50 hover:border-green-300', desc: 'Fully approved & operating', tab: 'vendors' as AdminTab },
+                  { label: 'Pending Applications', value: pendingVendors.length, color: 'text-yellow-500', bg: 'hover:bg-yellow-50 hover:border-yellow-300', desc: 'Click to review', tab: 'applications' as AdminTab },
+                  { label: 'Pending Campaigns', value: pendingCampaignApps.length, color: 'text-red-500', bg: 'hover:bg-red-50 hover:border-red-300', desc: 'Click to review', tab: 'applications' as AdminTab },
                 ].map(stat => (
-                  <div key={stat.label} className={`bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm flex flex-col items-center text-center cursor-pointer transition-colors ${stat.bg}`}>
+                  <div
+                    key={stat.label}
+                    onClick={() => setActiveTab(stat.tab)}
+                    className={`bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm flex flex-col items-center text-center cursor-pointer transition-colors ${stat.bg}`}
+                  >
                     <p className={`text-4xl font-bold mb-1 ${stat.color}`}>{stat.value}</p>
                     <p className="text-sm font-semibold text-[#1A1A1A]">{stat.label}</p>
                     <p className="text-xs text-[#6B7280] mt-1">{stat.desc}</p>

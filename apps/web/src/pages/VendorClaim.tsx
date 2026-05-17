@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useCard } from '../context/CardContext'
 import { submitClaim, getVendorClaims, getVendorSummary, getComplianceRecords, addComplianceRecord, deleteComplianceRecord } from '../lib/api'
 import toast from 'react-hot-toast'
@@ -24,6 +25,7 @@ const EMPTY_RECORD = { record_type: 'INCOME_TAX', period_label: '', submitted_at
 
 export default function VendorClaim() {
   const { card } = useCard()
+  const navigate = useNavigate()
 
   // Compliance state
   const [records, setRecords] = useState<any[]>([])
@@ -124,6 +126,12 @@ export default function VendorClaim() {
 
   return (
     <div className="p-6 max-w-lg mx-auto space-y-5 pb-24">
+      <button
+        onClick={() => navigate('/vendor/dashboard')}
+        className="flex items-center gap-2 text-sm font-semibold text-[#6B7280] hover:text-[#1A1A1A] transition-colors mb-2"
+      >
+        ← Back to Dashboard
+      </button>
       <h1 className="text-xl font-bold">Compliance & Submissions</h1>
 
       {/* Government portal links */}

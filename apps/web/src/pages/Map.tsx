@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import {
   MapPin, Search, Navigation, Flame, XCircle,
   Map as MapIcon, ShieldCheck, ZoomIn, ZoomOut, Bluetooth, Filter, X
 } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { getVendorFood } from '../lib/api'
+import { getVendorFood, getAllFood } from '../lib/api'
 
-type QuickFilter = 'all' | 'meals' | 'snacks' | 'drinks'
+type QuickFilter = 'all' | 'meals' | 'snacks' | 'drinks' | 'low-calorie'
+
+const LOW_CAL_THRESHOLD = 400 // kcal — foods at or below this count as low-calorie
 
 const CATEGORY_COLORS: Record<string, string> = {
   Meals: 'bg-orange-500',
@@ -16,13 +19,21 @@ const CATEGORY_COLORS: Record<string, string> = {
   Default: 'bg-purple-500',
 }
 
+const BASE_W = 900
+const BASE_H = 600
+
 export default function Map() {
+  const [searchParams] = useSearchParams()
   const [vendors, setVendors] = useState<any[]>([])
   const [mapData, setMapData] = useState<any | null>(null)
   const [loading, setLoading] = useState(true)
+  const [lowCalVendorIds, setLowCalVendorIds] = useState<Set<string>>(new Set())
+
+  const initialFilter = (searchParams.get('filter') as QuickFilter) ?? 'all'
+  const maxCalParam = searchParams.get('max_calories')
 
   const [searchQuery, setSearchQuery] = useState('')
-  const [quickFilter, setQuickFilter] = useState<QuickFilter>('all')
+  const [quickFilter, setQuickFilter] = useState<QuickFilter>(initialFilter)
   const [mapScale, setMapScale] = useState(1)
 
   const [selectedVendorId, setSelectedVendorId] = useState<string | null>(null)
@@ -34,12 +45,21 @@ export default function Map() {
   const [btAllowed, setBtAllowed] = useState(false)
 
   useEffect(() => {
+    const threshold = maxCalParam ? parseInt(maxCalParam) : LOW_CAL_THRESHOLD
     Promise.all([
       fetch(`${import.meta.env.VITE_API_URL}/api/vendors`).then(r => r.json()),
       fetch(`${import.meta.env.VITE_API_URL}/api/map`).then(r => r.json()),
-    ]).then(([vRes, mRes]) => {
+      getAllFood() as Promise<any[]>,
+    ]).then(([vRes, mRes, food]) => {
       setVendors(vRes.data ?? [])
       setMapData(mRes.data ?? null)
+      // Build set of vendor IDs that have at least one food item under the threshold
+      const ids = new Set<string>()
+      ;(food ?? []).forEach((f: any) => {
+        const cal = f.calories ?? (f.calories_per_100g ? f.calories_per_100g : null)
+        if (cal != null && cal <= threshold && f.vendor_id) ids.add(f.vendor_id)
+      })
+      setLowCalVendorIds(ids)
     }).catch(() => toast.error('Failed to load map')).finally(() => setLoading(false))
   }, [])
 
@@ -70,7 +90,8 @@ export default function Map() {
       quickFilter === 'all' ? true :
       quickFilter === 'meals' ? cat === 'meals' :
       quickFilter === 'snacks' ? cat === 'snacks' :
-      quickFilter === 'drinks' ? cat === 'drinks' : true
+      quickFilter === 'drinks' ? cat === 'drinks' :
+      quickFilter === 'low-calorie' ? lowCalVendorIds.has(v.vendor_id) : true
     return matchSearch && matchFilter
   })
 
@@ -122,14 +143,12 @@ export default function Map() {
 
         {/* Scrollable map canvas */}
         <div className="w-full h-full overflow-auto cursor-grab active:cursor-grabbing [&::-webkit-scrollbar]:hidden">
-          <motion.div
+          <div
             className="relative"
             style={{
-              width: 900,
-              height: 600,
-              transform: `scale(${mapScale})`,
-              transformOrigin: 'top left',
-              transition: 'transform 0.3s'
+              width: BASE_W * mapScale,
+              height: BASE_H * mapScale,
+              transition: 'width 0.3s, height 0.3s'
             }}
           >
             {/* Grid background */}
@@ -214,7 +233,7 @@ export default function Map() {
                 </motion.div>
               )
             })}
-          </motion.div>
+          </div>
         </div>
 
         {/* Selected vendor overlay card */}
@@ -316,6 +335,7 @@ export default function Map() {
             { key: 'meals', label: 'Meals', icon: <Flame size={12} /> },
             { key: 'snacks', label: 'Snacks', icon: null },
             { key: 'drinks', label: 'Drinks', icon: null },
+            { key: 'low-calorie', label: `≤${maxCalParam ?? LOW_CAL_THRESHOLD} kcal`, icon: null },
           ] as const).map(f => (
             <button
               key={f.key}

@@ -614,17 +614,6 @@ export default function VendorDashboard() {
             </div>
           )}
 
-          {/* Subsidy claim link */}
-          <button onClick={() => navigate('/vendor/claim')} className="w-full bg-white rounded-2xl border border-gray-200 p-5 flex items-center justify-between hover:bg-gray-50 transition-colors">
-            <div className="flex items-center gap-3">
-              <ReceiptText size={20} className="text-blue-500" />
-              <div className="text-left">
-                <p className="font-semibold text-[#1A1A1A]">Subsidy Claims</p>
-                <p className="text-xs text-[#6B7280]">Once a campaign is approved and consumers complete it, claim your reimbursements here.</p>
-              </div>
-            </div>
-            <ArrowRight size={18} className="text-gray-400" />
-          </button>
         </motion.div>
       )}
 

@@ -211,7 +211,7 @@ export default function HealthTracking() {
           {/* Find low-cal vendors */}
           <motion.button
             whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-            onClick={() => navigate('/map')}
+            onClick={() => navigate(`/map?filter=low-calorie&max_calories=${remaining > 0 ? remaining : 400}`)}
             className="w-full mt-6 py-3.5 rounded-2xl font-medium flex items-center justify-center space-x-2 shadow-sm transition-all bg-white border border-gray-200 hover:border-green-300 hover:shadow-md text-[#1A1A1A]"
           >
             <Search size={16} className="text-green-500" />
