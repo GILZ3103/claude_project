@@ -143,7 +143,7 @@ export default function Dashboard() {
       </div>
 
       {/* Active vouchers */}
-      {card.active_vouchers.length > 0 && (
+      {(card.active_vouchers ?? []).length > 0 && (
         <div className="bg-white rounded-xl shadow p-4">
           <p className="text-sm font-medium mb-2">Active Vouchers</p>
           {card.active_vouchers.map((v: any) => (

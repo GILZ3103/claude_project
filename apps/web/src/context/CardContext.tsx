@@ -69,8 +69,26 @@ export function CardProvider({ children }: { children: ReactNode }) {
   }
 
   function setSessionFromLogin(data: any) {
+    // Fill defaults for fields not returned by login endpoints to prevent render crashes
+    const fullData: CardSession = {
+      points_balance: 0,
+      calorie_limit: 2000,
+      calories_today: 0,
+      checkpoints_today: [],
+      active_vouchers: [],
+      vendor_id: null,
+      business_name: null,
+      ssm_registration_number: null,
+      grid_x: null,
+      grid_y: null,
+      application_status: null,
+      rejection_reason: null,
+      authority_id: null,
+      department: null,
+      ...data,
+    }
     localStorage.setItem('linked_card_uid', data.uid)
-    setCard(data as CardSession)
+    setCard(fullData)
     setError(null)
     // Refresh from full /api/cards/:uid to get vouchers, calories, etc.
     if (data.role === 'CONSUMER' || data.role === 'VENDOR') {
