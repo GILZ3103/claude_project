@@ -236,6 +236,13 @@ export default function AdminDashboard() {
           {activeTab === 'applications' && (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
 
+              <button
+                onClick={() => setActiveTab('compliance')}
+                className="flex items-center gap-2 text-sm font-semibold text-[#6B7280] hover:text-[#1A1A1A] transition-colors"
+              >
+                ← Back to Compliance
+              </button>
+
               {/* Vendor registrations */}
               <div>
                 <div className="flex items-center gap-3 mb-4">

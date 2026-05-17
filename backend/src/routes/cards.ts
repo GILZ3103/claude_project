@@ -15,7 +15,7 @@ const registerSchema = z.object({
   uid: z.string().min(4).max(20).optional(),
   owner_name: z.string().max(100),
   owner_email: z.string().email(),
-  phone_number: z.string().regex(/^(\+?6?01)[0-46-9]-*[0-9]{7,8}$/, 'Invalid Malaysian phone number').optional(),
+  phone_number: z.string().min(7).max(20).optional(),
   password: z.string().min(8).max(100),
   role: z.enum(['CONSUMER', 'VENDOR', 'ADMIN']).default('CONSUMER'),
   photo_url: z.string().url().optional(),

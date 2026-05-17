@@ -93,7 +93,7 @@ export default function AuthPage() {
           owner_card_uid: newUid,
           business_name: businessName,
           ssm_registration_number: ssm,
-          phone_number: phone,
+          ...(phone ? { phone_number: phone } : {}),
         })
       }
 

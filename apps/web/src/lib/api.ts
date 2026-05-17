@@ -52,7 +52,7 @@ export const registerVendor = (body: {
   owner_card_uid: string
   business_name: string
   ssm_registration_number: string
-  phone_number: string
+  phone_number?: string
   category?: string
   description?: string
   grid_x?: number

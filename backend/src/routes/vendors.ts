@@ -9,7 +9,7 @@ const registerSchema = z.object({
   owner_card_uid: z.string().min(4).max(20),
   business_name: z.string().max(100),
   ssm_registration_number: z.string().min(5).max(50),
-  phone_number: z.string().regex(/^(\+?6?01)[0-46-9]-*[0-9]{7,8}$/, 'Invalid Malaysian phone number'),
+  phone_number: z.string().min(7).max(20).optional(),
   category: z.string().max(50).optional(),
   description: z.string().optional(),
   grid_x: z.number().int().optional(),
