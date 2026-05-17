@@ -119,5 +119,16 @@ export const enrolCampaign = (campaign_id: string, card_uid: string) =>
 // All food items (for recommendations)
 export const getAllFood = () => request('/api/vendors/food')
 
+// Campaign applications (vendor-side)
+export const applyCampaign = (body: {
+  vendor_id: string; card_uid: string; name: string; description?: string;
+  period_start?: string; period_end?: string;
+  condition_type: string; condition_threshold: number;
+  point_deduction?: number; reward_value: number;
+}) => request('/api/campaigns/apply', { method: 'POST', body: JSON.stringify(body) })
+
+export const getVendorCampaignApplications = (vendor_id: string, card_uid: string) =>
+  request(`/api/campaigns/applications?vendor_id=${vendor_id}&card_uid=${card_uid}`)
+
 // Map
 export const getMap = () => request('/api/map')

@@ -11,7 +11,8 @@ import toast from 'react-hot-toast'
 import { useCard } from '../context/CardContext'
 import {
   getVendorSummary, getVendorFood, addFoodItem,
-  getComplianceRecords, addComplianceRecord, deleteComplianceRecord
+  getComplianceRecords, addComplianceRecord, deleteComplianceRecord,
+  applyCampaign, getVendorCampaignApplications
 } from '../lib/api'
 
 type Tab = 'overview' | 'compliance' | 'operations' | 'menu' | 'campaigns' | 'reviews'
@@ -39,6 +40,7 @@ export default function VendorDashboard() {
   const [summary, setSummary] = useState<any>(null)
   const [foodItems, setFoodItems] = useState<any[]>([])
   const [complianceRecords, setComplianceRecords] = useState<any[]>([])
+  const [campaignApplications, setCampaignApplications] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
   // Menu modal
@@ -65,6 +67,18 @@ export default function VendorDashboard() {
   const [sopSubmitted, setSopSubmitted] = useState(() => localStorage.getItem('sop_date') === new Date().toDateString())
   const allSopChecked = sopChecked.every(Boolean)
 
+  // Campaign application modal
+  const [campModalOpen, setCampModalOpen] = useState(false)
+  const [campName, setCampName] = useState('')
+  const [campDesc, setCampDesc] = useState('')
+  const [campStart, setCampStart] = useState('')
+  const [campEnd, setCampEnd] = useState('')
+  const [campCondType, setCampCondType] = useState('SPEND_POINTS')
+  const [campThreshold, setCampThreshold] = useState('')
+  const [campPointDeduction, setCampPointDeduction] = useState('')
+  const [campRewardValue, setCampRewardValue] = useState('')
+  const [submittingCamp, setSubmittingCamp] = useState(false)
+
   // Slot change modal
   const [slotModalOpen, setSlotModalOpen] = useState(false)
   const [selectedSlot, setSelectedSlot] = useState<number | null>(null)
@@ -77,14 +91,16 @@ export default function VendorDashboard() {
   async function loadAll() {
     setLoading(true)
     try {
-      const [sum, food, comp] = await Promise.all([
+      const [sum, food, comp, apps] = await Promise.all([
         getVendorSummary(card!.vendor_id!, card!.uid) as Promise<any>,
         getVendorFood(card!.vendor_id!) as Promise<any[]>,
         getComplianceRecords(card!.vendor_id!, card!.uid) as Promise<any[]>,
+        getVendorCampaignApplications(card!.vendor_id!, card!.uid) as Promise<any[]>,
       ])
       setSummary(sum)
       setFoodItems(food ?? [])
       setComplianceRecords(comp ?? [])
+      setCampaignApplications(apps ?? [])
     } catch { /* ignore */ } finally {
       setLoading(false)
     }
@@ -145,6 +161,34 @@ export default function VendorDashboard() {
     } catch (err: any) {
       toast.error(err.message ?? 'Failed to delete')
     }
+  }
+
+  async function handleApplyCampaign(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    if (!card?.vendor_id || !campName || !campThreshold || !campRewardValue) return
+    setSubmittingCamp(true)
+    try {
+      await applyCampaign({
+        vendor_id: card.vendor_id,
+        card_uid: card.uid,
+        name: campName,
+        description: campDesc || undefined,
+        period_start: campStart || undefined,
+        period_end: campEnd || undefined,
+        condition_type: campCondType,
+        condition_threshold: parseFloat(campThreshold),
+        point_deduction: campPointDeduction ? parseFloat(campPointDeduction) : undefined,
+        reward_value: parseFloat(campRewardValue),
+      })
+      toast.success('Application submitted — pending admin review')
+      setCampModalOpen(false)
+      setCampName(''); setCampDesc(''); setCampStart(''); setCampEnd('')
+      setCampThreshold(''); setCampPointDeduction(''); setCampRewardValue('')
+      const apps = await getVendorCampaignApplications(card.vendor_id, card.uid) as any[]
+      setCampaignApplications(apps ?? [])
+    } catch (err: any) {
+      toast.error(err.message ?? 'Failed to submit application')
+    } finally { setSubmittingCamp(false) }
   }
 
   function handleSopSubmit() {
@@ -505,38 +549,78 @@ export default function VendorDashboard() {
 
       {/* ── CAMPAIGNS TAB ── */}
       {activeTab === 'campaigns' && (
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
-          <div className="bg-white border border-gray-100 border-t-4 border-t-[#22C55E] shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-[2rem] p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <Tag size={20} className="text-green-500" />
-              <h3 className="text-xl font-bold text-[#1A1A1A]">Subsidy Campaigns</h3>
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+          {/* Header */}
+          <div className="flex justify-between items-center">
+            <div>
+              <h3 className="text-xl font-bold text-[#1A1A1A]">Campaign Applications</h3>
+              <p className="text-sm text-[#6B7280] mt-0.5">Propose a campaign — when approved, consumers can join and earn vouchers at your stall.</p>
             </div>
-
-            {summary?.campaigns?.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {summary.campaigns.map((c: any, i: number) => (
-                  <div key={i} className="bg-gradient-to-br from-[#22C55E] to-[#86EFAC] p-6 rounded-[2rem] text-white shadow-md relative overflow-hidden">
-                    <div className="absolute -right-10 -top-10 w-32 h-32 bg-white/20 rounded-full blur-2xl" />
-                    <span className="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full border border-white/30 inline-block mb-3">Active</span>
-                    <h4 className="font-bold text-xl mb-1">{c.campaign_name ?? 'Subsidy Campaign'}</h4>
-                    <p className="text-green-50 text-sm">RM {Number(c.total_subsidy_owed ?? 0).toFixed(2)} owed</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-10 text-[#6B7280]">
-                <Tag size={32} className="mx-auto mb-2 text-gray-200" />
-                <p className="text-sm">No subsidy campaigns running yet.</p>
-              </div>
-            )}
+            <motion.button
+              whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+              onClick={() => setCampModalOpen(true)}
+              className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-md transition-colors"
+            >
+              <Plus size={16} /> Apply for Campaign
+            </motion.button>
           </div>
 
+          {/* Applications list */}
+          {campaignApplications.length === 0 ? (
+            <div className="text-center py-16 bg-white rounded-[2rem] border border-dashed border-gray-200 text-[#6B7280]">
+              <Tag size={36} className="mx-auto mb-3 text-gray-200" />
+              <p className="font-medium text-sm">No applications yet</p>
+              <p className="text-xs mt-1">Submit a campaign proposal — the admin team will review and approve it.</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {campaignApplications.map((app: any) => {
+                const statusStyle =
+                  app.status === 'APPROVED' ? 'bg-green-50 text-green-700 border-green-200' :
+                  app.status === 'REJECTED' ? 'bg-red-50 text-red-700 border-red-200' :
+                  'bg-yellow-50 text-yellow-700 border-yellow-200'
+                const borderTop =
+                  app.status === 'APPROVED' ? 'border-t-green-500' :
+                  app.status === 'REJECTED' ? 'border-t-red-400' :
+                  'border-t-yellow-400'
+                return (
+                  <div key={app.application_id} className={`bg-white rounded-[2rem] border border-gray-100 border-t-4 ${borderTop} p-6 shadow-sm`}>
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3 mb-2">
+                          <h4 className="font-bold text-[#1A1A1A] text-base">{app.name}</h4>
+                          <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${statusStyle}`}>
+                            {app.status}
+                          </span>
+                        </div>
+                        {app.description && <p className="text-sm text-[#6B7280] mb-3 line-clamp-2">{app.description}</p>}
+                        <div className="flex flex-wrap gap-x-5 gap-y-1 text-xs text-[#6B7280]">
+                          {app.period_start && <span>Period: {app.period_start} → {app.period_end ?? '—'}</span>}
+                          <span>Condition: {app.condition_type === 'SPEND_POINTS' ? `Spend RM ${app.condition_threshold}` : `Visit ${app.condition_threshold} stalls`}</span>
+                          <span>Reward: RM {Number(app.reward_value).toFixed(2)} voucher</span>
+                          {app.point_deduction && <span>Point deduction: RM {Number(app.point_deduction).toFixed(2)}</span>}
+                        </div>
+                        {app.status === 'REJECTED' && app.rejection_reason && (
+                          <p className="text-xs text-red-600 bg-red-50 px-3 py-2 rounded-xl mt-3 border border-red-100">
+                            Reason: {app.rejection_reason}
+                          </p>
+                        )}
+                      </div>
+                      <p className="text-xs text-[#6B7280] shrink-0">{new Date(app.created_at).toLocaleDateString('en-MY')}</p>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+
+          {/* Subsidy claim link */}
           <button onClick={() => navigate('/vendor/claim')} className="w-full bg-white rounded-2xl border border-gray-200 p-5 flex items-center justify-between hover:bg-gray-50 transition-colors">
             <div className="flex items-center gap-3">
               <ReceiptText size={20} className="text-blue-500" />
               <div className="text-left">
                 <p className="font-semibold text-[#1A1A1A]">Subsidy Claims</p>
-                <p className="text-xs text-[#6B7280]">Submit and track your subsidy reimbursements</p>
+                <p className="text-xs text-[#6B7280]">Once a campaign is approved and consumers complete it, claim your reimbursements here.</p>
               </div>
             </div>
             <ArrowRight size={18} className="text-gray-400" />
@@ -649,6 +733,76 @@ export default function VendorDashboard() {
                 </div>
                 <button type="submit" disabled={savingComp} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl shadow-md disabled:opacity-50 transition-colors">
                   {savingComp ? 'Saving…' : 'Add Record'}
+                </button>
+              </form>
+            </motion.div>
+          </div>
+        )}
+
+        {/* Campaign Apply Modal */}
+        {campModalOpen && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center px-4 overflow-y-auto">
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setCampModalOpen(false)} className="absolute inset-0 bg-[#1A1A1A]/60 backdrop-blur-sm" />
+            <motion.div initial={{ scale: 0.95, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.95, opacity: 0, y: 20 }} className="relative w-full max-w-lg bg-white rounded-[2rem] p-8 shadow-2xl my-8">
+              <div className="flex justify-between items-center mb-6">
+                <div>
+                  <h3 className="text-xl font-bold text-[#1A1A1A]">Apply for Campaign</h3>
+                  <p className="text-xs text-[#6B7280] mt-0.5">Submitted for admin review. Approved campaigns go live for consumers to join.</p>
+                </div>
+                <button onClick={() => setCampModalOpen(false)} className="text-gray-400 hover:text-gray-600 p-1 bg-gray-50 rounded-full"><X size={20} /></button>
+              </div>
+              <form onSubmit={handleApplyCampaign} className="space-y-4">
+                <div>
+                  <label className={labelCls}>Campaign Name *</label>
+                  <input type="text" required value={campName} onChange={e => setCampName(e.target.value)} className={inputCls} placeholder="e.g. Buka Puasa Special" />
+                </div>
+                <div>
+                  <label className={labelCls}>Description</label>
+                  <textarea rows={2} value={campDesc} onChange={e => setCampDesc(e.target.value)} className={`${inputCls} resize-none`} placeholder="Describe what the campaign offers consumers…" />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className={labelCls}>Start Date</label>
+                    <input type="date" value={campStart} onChange={e => setCampStart(e.target.value)} className={inputCls} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>End Date</label>
+                    <input type="date" value={campEnd} onChange={e => setCampEnd(e.target.value)} className={inputCls} />
+                  </div>
+                </div>
+                <div>
+                  <label className={labelCls}>Condition Type *</label>
+                  <select value={campCondType} onChange={e => setCampCondType(e.target.value)} className={inputCls}>
+                    <option value="SPEND_POINTS">Consumer Spends RM (points)</option>
+                    <option value="VISIT_STALLS">Consumer Visits Stalls</option>
+                  </select>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className={labelCls}>{campCondType === 'SPEND_POINTS' ? 'Min. Spend (RM) *' : 'Stalls to Visit *'}</label>
+                    <input type="number" required min="1" step={campCondType === 'SPEND_POINTS' ? '0.01' : '1'} value={campThreshold} onChange={e => setCampThreshold(e.target.value)} className={inputCls} placeholder={campCondType === 'SPEND_POINTS' ? 'e.g. 20' : 'e.g. 3'} />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Point Deduction (RM)</label>
+                    <input type="number" min="0" step="0.01" value={campPointDeduction} onChange={e => setCampPointDeduction(e.target.value)} className={inputCls} placeholder="Optional" />
+                  </div>
+                </div>
+                <div>
+                  <label className={labelCls}>Reward Voucher Value (RM) *</label>
+                  <input type="number" required min="0.01" step="0.01" value={campRewardValue} onChange={e => setCampRewardValue(e.target.value)} className={inputCls} placeholder="e.g. 5.00" />
+                  <p className="text-[10px] text-[#6B7280] mt-1">This is the voucher amount consumers receive when they complete the campaign.</p>
+                </div>
+                {/* Live preview */}
+                {campName && campRewardValue && (
+                  <div className="p-4 border-2 border-dashed border-green-200 rounded-2xl bg-green-50 text-center">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-green-600 bg-white px-2 py-0.5 rounded-full border border-green-200">Preview</span>
+                    <h4 className="font-bold text-[#1A1A1A] mt-2">{campName}</h4>
+                    <p className="text-green-600 font-bold">RM {Number(campRewardValue || 0).toFixed(2)} voucher</p>
+                    <p className="text-xs text-[#6B7280] mt-1">{campCondType === 'SPEND_POINTS' ? `Spend RM ${campThreshold || '?'}` : `Visit ${campThreshold || '?'} stalls`} to earn</p>
+                  </div>
+                )}
+                <button type="submit" disabled={submittingCamp} className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3.5 rounded-xl shadow-md disabled:opacity-50 transition-colors">
+                  {submittingCamp ? 'Submitting…' : 'Submit Application'}
                 </button>
               </form>
             </motion.div>

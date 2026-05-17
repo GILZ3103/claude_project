@@ -9,6 +9,19 @@ const enrolSchema = z.object({
   card_uid: z.string().min(4).max(20)
 })
 
+const campaignApplicationSchema = z.object({
+  vendor_id: z.string().uuid(),
+  card_uid: z.string().min(4).max(20),
+  name: z.string().min(3).max(100),
+  description: z.string().max(500).optional(),
+  period_start: z.string().optional(),
+  period_end: z.string().optional(),
+  condition_type: z.enum(['VISIT_STALLS', 'SPEND_POINTS', 'DIRECTORY_REBATE']).default('SPEND_POINTS'),
+  condition_threshold: z.number().positive(),
+  point_deduction: z.number().min(0).optional(),
+  reward_value: z.number().positive(),
+})
+
 const kioskTapSchema = z.object({
   card_uid: z.string().min(4).max(20),
   kiosk_id: z.string().uuid(),
@@ -224,6 +237,51 @@ router.post('/kiosk/tap', validate(kioskTapSchema), async (req: Request, res: Re
       tap_event_id: tapEvent?.event_id ?? null
     }
   })
+})
+
+// POST /api/campaigns/apply — vendor submits a campaign proposal for admin review
+router.post('/apply', validate(campaignApplicationSchema), async (req: Request, res: Response): Promise<void> => {
+  const { vendor_id, card_uid, name, description, period_start, period_end, condition_type, condition_threshold, point_deduction, reward_value } = req.body
+
+  // Verify card owns this vendor
+  const { data: vendor } = await supabase.from('vendors').select('vendor_id').eq('vendor_id', vendor_id).eq('owner_card_uid', card_uid).single()
+  if (!vendor) {
+    res.status(403).json({ success: false, error: 'FORBIDDEN', message: 'Card does not own this vendor.' })
+    return
+  }
+
+  const { data, error } = await supabase
+    .from('campaign_applications')
+    .insert({ vendor_id, name, description: description ?? null, period_start: period_start ?? null, period_end: period_end ?? null, condition_type, condition_threshold, point_deduction: point_deduction ?? null, reward_value })
+    .select()
+    .single()
+
+  if (error) throw error
+  res.status(201).json({ success: true, data })
+})
+
+// GET /api/campaigns/applications?vendor_id=&card_uid= — list vendor's own applications
+router.get('/applications', async (req: Request, res: Response): Promise<void> => {
+  const { vendor_id, card_uid } = req.query
+  if (!vendor_id || !card_uid) {
+    res.status(400).json({ success: false, error: 'MISSING_PARAMS', message: 'vendor_id and card_uid are required.' })
+    return
+  }
+
+  const { data: vendor } = await supabase.from('vendors').select('vendor_id').eq('vendor_id', vendor_id as string).eq('owner_card_uid', card_uid as string).single()
+  if (!vendor) {
+    res.status(403).json({ success: false, error: 'FORBIDDEN', message: 'Access denied.' })
+    return
+  }
+
+  const { data, error } = await supabase
+    .from('campaign_applications')
+    .select('*')
+    .eq('vendor_id', vendor_id as string)
+    .order('created_at', { ascending: false })
+
+  if (error) throw error
+  res.json({ success: true, data: data ?? [] })
 })
 
 export default router

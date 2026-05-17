@@ -32,8 +32,6 @@ export function TopNav({ mode, setMode }: TopNavProps) {
 
   const vendorLinks = [
     { href: '/vendor/dashboard', label: 'Dashboard', icon: <Store size={13} /> },
-    { href: '/vendor/information', label: 'Menu', icon: <Store size={13} /> },
-    { href: '/vendor/claim', label: 'Compliance', icon: <Shield size={13} /> },
     { href: '/settings', label: 'Settings', icon: <Settings size={13} /> },
   ]
 
