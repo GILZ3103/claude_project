@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink, useNavigate, useLocation } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import { Zap, Bell, Globe, User, Store, Shield, Settings, Home, Flame, Map, Gift } from 'lucide-react'
 import { useCard } from '../context/CardContext'
@@ -12,9 +12,8 @@ interface TopNavProps {
 }
 
 export function TopNav({ mode, setMode }: TopNavProps) {
-  const { card, unlinkCard } = useCard()
+  const { card } = useCard()
   const navigate = useNavigate()
-  const { pathname } = useLocation()
   const [showLang, setShowLang] = useState(false)
   const [showNotif, setShowNotif] = useState(false)
 
@@ -49,11 +48,6 @@ export function TopNav({ mode, setMode }: TopNavProps) {
     setMode(newMode)
     if (newMode === 'vendor') navigate('/vendor/dashboard')
     else navigate('/dashboard')
-  }
-
-  function handleSignOut() {
-    unlinkCard()
-    navigate('/')
   }
 
   // Pill position for vendor toggle

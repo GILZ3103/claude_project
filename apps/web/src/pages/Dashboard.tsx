@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import {
   Plus, Flame, CreditCard, Navigation, History, Gift,
-  CheckCircle, ShieldCheck, Clock, XCircle, Zap, QrCode
+  CheckCircle, ShieldCheck, Zap, QrCode
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCard } from '../context/CardContext'

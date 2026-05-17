@@ -18,8 +18,6 @@ import Vouchers from './pages/Vouchers'
 import AiChat from './components/AiChat'
 import { TopNav } from './components/TopNav'
 
-const NO_NAV = ['/', '/admin']
-
 type AppMode = 'consumer' | 'vendor'
 
 function ConsumerNav() {

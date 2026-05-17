@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import {
-  MapPin, Search, Navigation, Flame, Heart, XCircle,
+  MapPin, Search, Navigation, Flame, XCircle,
   Map as MapIcon, ShieldCheck, ZoomIn, ZoomOut, Bluetooth, Filter, X
 } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { getVendors, getVendorFood } from '../lib/api'
+import { getVendorFood } from '../lib/api'
 
 type QuickFilter = 'all' | 'meals' | 'snacks' | 'drinks'
 
