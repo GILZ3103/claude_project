@@ -16,38 +16,11 @@ import VendorClaim from './pages/VendorClaim'
 import VendorSummary from './pages/VendorSummary'
 import Vouchers from './pages/Vouchers'
 import AiChat from './components/AiChat'
+import { TopNav } from './components/TopNav'
 
 const NO_NAV = ['/', '/admin']
 
 type AppMode = 'consumer' | 'vendor'
-
-function ModeToggle({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => void }) {
-  const { card } = useCard()
-  if (card?.role !== 'VENDOR') return null
-
-  return (
-    <div className="fixed top-0 left-0 right-0 z-20 bg-white border-b border-gray-100 px-4 py-2 flex justify-center">
-      <div className="bg-gray-200 rounded-full p-0.5 flex relative w-48">
-        <div
-          className="absolute top-0.5 bottom-0.5 w-1/2 bg-black rounded-full transition-all duration-300"
-          style={{ left: mode === 'consumer' ? '2px' : 'calc(50% - 2px)' }}
-        />
-        <button
-          onClick={() => setMode('consumer')}
-          className={`flex-1 z-10 py-1.5 text-xs font-semibold rounded-full transition-colors ${mode === 'consumer' ? 'text-white' : 'text-gray-500'}`}
-        >
-          Consumer
-        </button>
-        <button
-          onClick={() => setMode('vendor')}
-          className={`flex-1 z-10 py-1.5 text-xs font-semibold rounded-full transition-colors ${mode === 'vendor' ? 'text-white' : 'text-gray-500'}`}
-        >
-          Vendor
-        </button>
-      </div>
-    </div>
-  )
-}
 
 function ConsumerNav() {
   const base = 'text-xs font-medium px-2 py-2 rounded-lg transition-colors'
@@ -85,13 +58,13 @@ function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => 
   const { pathname } = useLocation()
   const { card } = useCard()
   const isAdmin = card?.role === 'ADMIN'
-  const showNav = !NO_NAV.includes(pathname) && !isAdmin
-  const showToggle = showNav && card?.role === 'VENDOR'
-  const topPad = showToggle ? 'pt-12' : ''
+  const onAuthPage = pathname === '/'
+  const showNav = !onAuthPage && !isAdmin
+  const showTopNav = !onAuthPage && !!card
 
   return (
-    <div className={`pb-16 min-h-screen bg-gray-50 ${topPad}`}>
-      {showToggle && <ModeToggle mode={mode} setMode={setMode} />}
+    <div className={`min-h-screen bg-gray-50 ${showTopNav ? 'pt-14' : ''} ${showNav ? 'pb-16' : ''}`}>
+      {showTopNav && <TopNav mode={mode} setMode={setMode} />}
       {showNav && <AiChat />}
       <Routes>
         <Route path="/" element={<Auth />} />
