@@ -68,6 +68,33 @@ async function authoriseVendor(req: Request, res: Response<any, any>, vendorId: 
 }
 
 // GET /api/vendors
+// GET /api/food — all active food items with vendor name (for recommendations)
+router.get('/food', async (_req: Request, res: Response): Promise<void> => {
+  const { data, error } = await supabase
+    .from('food_items')
+    .select('food_item_id, name, calories, calories_per_100g, price_in_points, price_per_100g, vendors(vendor_id, business_name, is_active)')
+    .eq('is_active', true)
+    .order('calories', { ascending: true })
+
+  if (error) throw error
+
+  const items = (data ?? [])
+    .filter((i: any) => i.vendors?.is_active)
+    .map((i: any) => ({
+      food_item_id: i.food_item_id,
+      name: i.name,
+      calories: i.calories ?? null,
+      calories_per_100g: i.calories_per_100g ?? null,
+      price_in_points: i.price_in_points ?? null,
+      price_per_100g: i.price_per_100g ?? null,
+      vendor_id: i.vendors?.vendor_id,
+      vendor_name: i.vendors?.business_name
+    }))
+
+  res.json({ success: true, data: items })
+})
+
+// GET /api/vendors
 router.get('/', async (_req: Request, res: Response): Promise<void> => {
   const { data, error } = await supabase
     .from('vendors')

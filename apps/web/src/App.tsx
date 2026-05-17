@@ -14,6 +14,7 @@ import VendorDashboard from './pages/VendorDashboard'
 import VendorInformation from './pages/VendorInformation'
 import VendorClaim from './pages/VendorClaim'
 import VendorSummary from './pages/VendorSummary'
+import Vouchers from './pages/Vouchers'
 import AiChat from './components/AiChat'
 
 const NO_NAV = ['/', '/admin']
@@ -58,6 +59,7 @@ function ConsumerNav() {
       <NavLink to="/calories" className={({ isActive }) => isActive ? active : inactive}>Calories</NavLink>
       <NavLink to="/campaigns" className={({ isActive }) => isActive ? active : inactive}>Campaigns</NavLink>
       <NavLink to="/vendors" className={({ isActive }) => isActive ? active : inactive}>Vendors</NavLink>
+      <NavLink to="/vouchers" className={({ isActive }) => isActive ? active : inactive}>Vouchers</NavLink>
       <NavLink to="/nfc" className={({ isActive }) => isActive ? active : inactive}>NFC</NavLink>
       <NavLink to="/settings" className={({ isActive }) => isActive ? active : inactive}>Settings</NavLink>
     </nav>
@@ -100,6 +102,7 @@ function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => 
         <Route path="/vendors" element={<Vendors />} />
         <Route path="/map" element={<Map />} />
         <Route path="/nfc" element={<NfcConnect />} />
+        <Route path="/vouchers" element={<Vouchers />} />
         <Route path="/settings" element={<Settings />} />
         {/* Vendor routes */}
         <Route path="/vendor/dashboard" element={<VendorDashboard />} />

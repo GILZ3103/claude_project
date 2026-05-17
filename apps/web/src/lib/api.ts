@@ -116,5 +116,8 @@ export const enrolCampaign = (campaign_id: string, card_uid: string) =>
     body: JSON.stringify({ card_uid }),
   })
 
+// All food items (for recommendations)
+export const getAllFood = () => request('/api/vendors/food')
+
 // Map
 export const getMap = () => request('/api/map')
