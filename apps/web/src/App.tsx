@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { BrowserRouter, Routes, Route, NavLink, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { CardProvider, useCard } from './context/CardContext'
 import Auth from './pages/Auth'
@@ -20,50 +20,17 @@ import { TopNav } from './components/TopNav'
 
 type AppMode = 'consumer' | 'vendor'
 
-function ConsumerNav() {
-  const base = 'text-xs font-medium px-2 py-2 rounded-lg transition-colors'
-  const active = `${base} bg-black text-white`
-  const inactive = `${base} text-gray-500`
-  return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex justify-around py-2 z-10">
-      <NavLink to="/dashboard" className={({ isActive }) => isActive ? active : inactive}>Home</NavLink>
-      <NavLink to="/calories" className={({ isActive }) => isActive ? active : inactive}>Calories</NavLink>
-      <NavLink to="/campaigns" className={({ isActive }) => isActive ? active : inactive}>Campaigns</NavLink>
-      <NavLink to="/vendors" className={({ isActive }) => isActive ? active : inactive}>Vendors</NavLink>
-      <NavLink to="/vouchers" className={({ isActive }) => isActive ? active : inactive}>Vouchers</NavLink>
-      <NavLink to="/nfc" className={({ isActive }) => isActive ? active : inactive}>NFC</NavLink>
-      <NavLink to="/settings" className={({ isActive }) => isActive ? active : inactive}>Settings</NavLink>
-    </nav>
-  )
-}
-
-function VendorNav() {
-  const base = 'text-xs font-medium px-2 py-2 rounded-lg transition-colors'
-  const active = `${base} bg-black text-white`
-  const inactive = `${base} text-gray-500`
-  return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 flex justify-around py-2 z-10">
-      <NavLink to="/vendor/dashboard" className={({ isActive }) => isActive ? active : inactive}>Home</NavLink>
-      <NavLink to="/vendor/information" className={({ isActive }) => isActive ? active : inactive}>Info</NavLink>
-      <NavLink to="/vendor/campaigns" className={({ isActive }) => isActive ? active : inactive}>Campaigns</NavLink>
-      <NavLink to="/vendor/claim" className={({ isActive }) => isActive ? active : inactive}>Claim</NavLink>
-      <NavLink to="/settings" className={({ isActive }) => isActive ? active : inactive}>Settings</NavLink>
-    </nav>
-  )
-}
-
 function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => void }) {
   const { pathname } = useLocation()
   const { card } = useCard()
-  const isAdmin = card?.role === 'ADMIN'
   const onAuthPage = pathname === '/'
-  const showNav = !onAuthPage && !isAdmin
   const showTopNav = !onAuthPage && !!card
+  const showAiChat = showTopNav && card?.role !== 'ADMIN'
 
   return (
-    <div className={`min-h-screen bg-gray-50 ${showTopNav ? 'pt-14' : ''} ${showNav ? 'pb-16' : ''}`}>
+    <div className={`min-h-screen bg-gray-50 ${showTopNav ? 'pt-14' : ''}`}>
       {showTopNav && <TopNav mode={mode} setMode={setMode} />}
-      {showNav && <AiChat />}
+      {showAiChat && <AiChat />}
       <Routes>
         <Route path="/" element={<Auth />} />
         {/* Consumer routes */}
@@ -81,10 +48,9 @@ function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => 
         <Route path="/vendor/campaigns" element={<Campaigns />} />
         <Route path="/vendor/claim" element={<VendorClaim />} />
         <Route path="/vendor/summary" element={<VendorSummary />} />
-        {/* Admin route — full dashboard built in Phase 3 */}
+        {/* Admin route */}
         <Route path="/admin" element={<AdminPlaceholder />} />
       </Routes>
-      {showNav && (mode === 'vendor' && card?.role === 'VENDOR' ? <VendorNav /> : <ConsumerNav />)}
     </div>
   )
 }

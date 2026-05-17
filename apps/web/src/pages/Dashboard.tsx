@@ -161,7 +161,7 @@ export default function Dashboard() {
       </motion.div>
 
       {/* Voucher Panel */}
-      <div className="mb-6 z-10">
+      <div className="mb-6 z-10 mt-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <Gift className="text-orange-500" size={20} />

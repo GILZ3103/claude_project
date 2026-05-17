@@ -24,7 +24,7 @@ export function TopNav({ mode, setMode }: TopNavProps) {
 
   const consumerLinks = [
     { href: '/dashboard', label: 'Home', icon: <Home size={13} /> },
-    { href: '/calories', label: 'Calories', icon: <Flame size={13} /> },
+    { href: '/calories', label: 'Health Tracking', icon: <Flame size={13} /> },
     { href: '/vouchers', label: 'Vouchers', icon: <Gift size={13} /> },
     { href: '/map', label: 'Map', icon: <Map size={13} /> },
     { href: '/settings', label: 'Settings', icon: <Settings size={13} /> },
