@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
-import { User, Lock, Bluetooth, HelpCircle, ChevronDown, CreditCard, LogOut } from 'lucide-react'
-import toast from 'react-hot-toast'
+import { User, Lock, Bluetooth, HelpCircle, ChevronDown, CreditCard, LogOut, ArrowRight } from 'lucide-react'
 import { useCard } from '../context/CardContext'
-import { linkNfcCard } from '../lib/api'
 
 const FAQS = [
   {
@@ -40,29 +38,7 @@ export default function Settings() {
   // Accordion state
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
-  // NFC link state
-  const [nfcUid, setNfcUid] = useState('')
-  const [linkingNfc, setLinkingNfc] = useState(false)
-  const [showLinkForm, setShowLinkForm] = useState(false)
-
   const hasPhysicalCard = card && !card.uid.startsWith('USER-')
-
-  async function handleLinkCard() {
-    if (!card || !nfcUid.trim()) return
-    setLinkingNfc(true)
-    try {
-      await linkNfcCard(card.uid, nfcUid.trim())
-      toast.success('NFC card linked successfully!')
-      setShowLinkForm(false)
-      setNfcUid('')
-      // Reload the page to refresh session with new UID
-      window.location.reload()
-    } catch (e: any) {
-      toast.error(e.message ?? 'Failed to link card')
-    } finally {
-      setLinkingNfc(false)
-    }
-  }
 
   function handleSignOut() {
     unlinkCard()
@@ -141,8 +117,14 @@ export default function Settings() {
                 <span className="text-sm font-mono font-medium text-[#1A1A1A]">{card.uid}</span>
               </div>
             </div>
-            <div className="px-6 pb-5 pt-2">
-              <p className="text-xs text-[#6B7280]">Your physical NFC card is linked. Tap it at any vendor terminal to pay.</p>
+            <div className="px-6 pb-4 pt-1">
+              <button
+                onClick={() => navigate('/nfc')}
+                className="flex items-center gap-2 text-xs text-[#6B7280] hover:text-[#1A1A1A] transition-colors"
+              >
+                <span>View NFC & tap history</span>
+                <ArrowRight size={12} />
+              </button>
             </div>
           </>
         ) : (
@@ -153,38 +135,15 @@ export default function Settings() {
             </div>
             <div className="px-6 pb-5 pt-2 space-y-3">
               <p className="text-xs text-[#6B7280]">
-                You don't have a physical NFC card yet. Collect yours at the WarungTek kiosk, then enter the UID below to link it.
+                Collect your physical NFC card at the WarungTek kiosk, then tap it to your phone to link it automatically.
               </p>
-              {!showLinkForm ? (
-                <button
-                  onClick={() => setShowLinkForm(true)}
-                  className="w-full bg-[#1A1A1A] text-white rounded-xl py-2.5 text-sm font-semibold hover:bg-gray-800 transition-colors"
-                >
-                  Link NFC Card
-                </button>
-              ) : (
-                <AnimatePresence>
-                  <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="space-y-2">
-                    <input
-                      type="text"
-                      placeholder="Enter card UID (e.g. A1B2C3D4)"
-                      value={nfcUid}
-                      onChange={e => setNfcUid(e.target.value.toUpperCase())}
-                      className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-mono focus:border-[#FF8A00] focus:ring-4 focus:ring-orange-100 outline-none"
-                    />
-                    <div className="flex gap-2">
-                      <button onClick={() => { setShowLinkForm(false); setNfcUid('') }} className="flex-1 bg-gray-100 text-gray-700 rounded-xl py-2.5 text-sm font-semibold">Cancel</button>
-                      <button
-                        onClick={handleLinkCard}
-                        disabled={linkingNfc || !nfcUid.trim()}
-                        className="flex-1 bg-[#1A1A1A] text-white rounded-xl py-2.5 text-sm font-semibold disabled:opacity-40"
-                      >
-                        {linkingNfc ? 'Linking…' : 'Confirm'}
-                      </button>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              )}
+              <button
+                onClick={() => navigate('/nfc')}
+                className="w-full bg-[#1A1A1A] text-white rounded-xl py-2.5 text-sm font-semibold hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
+              >
+                <Bluetooth size={15} />
+                Link NFC Card
+              </button>
             </div>
           </>
         )}
