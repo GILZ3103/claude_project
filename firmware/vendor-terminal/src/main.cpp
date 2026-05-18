@@ -1,16 +1,21 @@
 /*
- * Smart Night Market — Vendor Terminal Firmware (Clean)
- * Hardware: ESP32 DevKit v1 + RC522 RFID Reader
+ * Smart Night Market — Vendor Terminal Firmware
+ * Hardware: ESP32 DevKit v1 + RC522 RFID + HX711 Load Cell Amp + Push Button
  * Communication: WiFi + HTTPS → POST /api/tap
  * Output: Serial monitor (115200 baud)
  *
- * Pin Wiring (RC522):
- *   SS(SDA)=21  MOSI=23  MISO=19  SCK=18  RST=22  VCC=3.3V  GND=GND
+ * Pin Wiring:
+ *   RC522 SS=21  MOSI=23  MISO=19  SCK=18  RST=22  VCC=3.3V  GND=GND
+ *   HX711 DOUT=4  SCK=5  VCC=3.3V  GND=GND
+ *   Button on GPIO27 → GND (uses internal pull-up)
  *
- * NVS keys required (provision.cpp.txt):
- *   wifi_ssid, wifi_pass, vendor_id, food_id, api_url, auth_token
+ * Flow:
+ *   1. Vendor presses button       → capture initial weight (state: MEASURING)
+ *   2. Vendor scoops food, presses button again → capture final weight, compute weight_g (state: READY)
+ *   3. Customer taps card           → POST /api/tap with weight_g → reset (state: IDLE)
  *
- * Load cell code lives in main.cpp.bak — restore when hardware is ready.
+ * NVS keys (provision.cpp.txt):
+ *   wifi_ssid, wifi_pass, vendor_id, food_id, api_url, auth_token, scale_factor
  */
 
 #include <Arduino.h>
@@ -20,24 +25,46 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include <Preferences.h>
+#include <HX711.h>
 #include <time.h>
 
-#define SS_PIN   21
-#define RST_PIN  22
-#define MOSI_PIN 23
-#define MISO_PIN 19
-#define SCK_PIN  18
+// ── Pin definitions ───────────────────────────────────────────────────────────
+#define SS_PIN          21
+#define RST_PIN         22
+#define MOSI_PIN        23
+#define MISO_PIN        19
+#define SCK_PIN         18
+#define HX711_DOUT      4
+#define HX711_SCK       5
+#define BUTTON_PIN      27
 
+// ── Objects ───────────────────────────────────────────────────────────────────
 MFRC522     mfrc522(SS_PIN, RST_PIN);
+HX711       scale;
 Preferences prefs;
 
+// ── Config (loaded from NVS at boot) ─────────────────────────────────────────
 String wifiSSID;
 String wifiPass;
 String vendorId;
 String foodId;
 String apiUrl;
 String authToken;
+float  scaleFactor = 1.0f;   // HX711 calibration factor (grams per raw unit)
 
+// ── State machine ─────────────────────────────────────────────────────────────
+enum SessionState { IDLE, MEASURING, READY };
+SessionState  state           = IDLE;
+float         initialWeight   = 0.0f;
+float         finalWeight     = 0.0f;
+float         weightServedG   = 0.0f;
+unsigned long stateEnteredAt  = 0;
+const unsigned long STATE_TIMEOUT_MS = 60000;  // 60s auto-reset
+
+// Button debounce
+bool          lastButtonState = HIGH;
+
+// ── WiFi ──────────────────────────────────────────────────────────────────────
 void connectWiFi() {
     Serial.print("Connecting to WiFi");
     WiFi.mode(WIFI_STA);
@@ -56,6 +83,7 @@ void connectWiFi() {
     Serial.println("WiFi connected: " + WiFi.localIP().toString());
 }
 
+// ── NTP timestamp → ISO 8601 (MYT = UTC+8) ────────────────────────────────────
 String getTimestamp() {
     struct tm timeinfo;
     if (!getLocalTime(&timeinfo)) {
@@ -66,6 +94,7 @@ String getTimestamp() {
     return String(buf);
 }
 
+// ── Read UID from RC522 → uppercase hex string ────────────────────────────────
 String readUID() {
     String uid = "";
     for (byte i = 0; i < mfrc522.uid.size; i++) {
@@ -76,17 +105,74 @@ String readUID() {
     return uid;
 }
 
-void handleTap(const String& uid) {
-    Serial.println("Card detected: " + uid);
+// ── State helpers ─────────────────────────────────────────────────────────────
+void resetToIdle(const char* reason) {
+    state           = IDLE;
+    initialWeight   = 0.0f;
+    finalWeight     = 0.0f;
+    weightServedG   = 0.0f;
+    stateEnteredAt  = millis();
+    if (reason) Serial.println(reason);
+}
 
+// ── Button: handle press transition (active LOW with pull-up) ────────────────
+void handleButton() {
+    bool current = digitalRead(BUTTON_PIN);
+    if (lastButtonState == HIGH && current == LOW) {
+        delay(20);  // simple debounce
+        if (digitalRead(BUTTON_PIN) != LOW) return;
+
+        if (state == IDLE) {
+            initialWeight  = scale.get_units(10);
+            state          = MEASURING;
+            stateEnteredAt = millis();
+            Serial.println("Weighing started — initial " + String(initialWeight, 1) + "g");
+
+        } else if (state == MEASURING) {
+            finalWeight    = scale.get_units(10);
+            weightServedG  = initialWeight - finalWeight;
+            if (weightServedG <= 0.0f) {
+                resetToIdle("No weight change detected — resetting");
+            } else {
+                state          = READY;
+                stateEnteredAt = millis();
+                Serial.println("Serving captured: " + String(weightServedG, 1) + "g — tap card to pay");
+            }
+
+        } else if (state == READY) {
+            Serial.println("Already ready — tap card to pay (or wait 60s to reset)");
+        }
+
+        // wait for release to prevent re-trigger
+        while (digitalRead(BUTTON_PIN) == LOW) delay(10);
+    }
+    lastButtonState = current;
+}
+
+// ── Auto-reset if state held too long ────────────────────────────────────────
+void handleStateTimeout() {
+    if (state != IDLE && (millis() - stateEnteredAt > STATE_TIMEOUT_MS)) {
+        resetToIdle("Timeout — measurement cancelled");
+    }
+}
+
+// ── POST /api/tap ─────────────────────────────────────────────────────────────
+void handleTap(const String& uid) {
+    if (state != READY) {
+        Serial.println("Card detected (" + uid + ") — but no serving captured. Press button to weigh first.");
+        return;
+    }
+
+    Serial.println("Card detected: " + uid);
     String timestamp = getTimestamp();
 
-    StaticJsonDocument<256> reqDoc;
+    StaticJsonDocument<320> reqDoc;
     reqDoc["card_uid"]          = uid;
     reqDoc["vendor_id"]         = vendorId;
     reqDoc["food_id"]           = foodId;
     reqDoc["device_timestamp"]  = timestamp;
     reqDoc["synced_from_queue"] = false;
+    reqDoc["weight_g"]          = weightServedG;
 
     String payload;
     serializeJson(reqDoc, payload);
@@ -107,6 +193,7 @@ void handleTap(const String& uid) {
         if (deserializeJson(res, body) != DeserializationError::Ok) {
             Serial.println("Error: bad JSON response");
             http.end();
+            resetToIdle(nullptr);
             return;
         }
 
@@ -122,6 +209,7 @@ void handleTap(const String& uid) {
 
         Serial.println("-------------------------------");
         Serial.println("OK  -" + String(finalCost, 2) + "pts  +" + String(caloriesAdded) + "kcal");
+        Serial.println("Weight served: " + String(weightServedG, 1) + "g");
         Serial.println("Balance: " + String(balance, 2) + "pts");
         Serial.println("Calories today: " + String(caloriesToday) + "kcal");
 
@@ -157,20 +245,24 @@ void handleTap(const String& uid) {
     }
 
     http.end();
+    resetToIdle(nullptr);  // always reset session after a tap attempt
 }
 
+// ── Setup ─────────────────────────────────────────────────────────────────────
 void setup() {
     Serial.begin(115200);
     delay(500);
     Serial.println("\n--- Vendor Terminal Booting ---");
 
+    // Load NVS config
     prefs.begin("config", true);
-    wifiSSID  = prefs.getString("wifi_ssid",  "");
-    wifiPass  = prefs.getString("wifi_pass",  "");
-    vendorId  = prefs.getString("vendor_id",  "");
-    foodId    = prefs.getString("food_id",    "");
-    apiUrl    = prefs.getString("api_url",    "");
-    authToken = prefs.getString("auth_token", "");
+    wifiSSID    = prefs.getString("wifi_ssid",    "");
+    wifiPass    = prefs.getString("wifi_pass",    "");
+    vendorId    = prefs.getString("vendor_id",    "");
+    foodId      = prefs.getString("food_id",      "");
+    apiUrl      = prefs.getString("api_url",      "");
+    authToken   = prefs.getString("auth_token",   "");
+    scaleFactor = prefs.getFloat ("scale_factor", 1.0f);
     prefs.end();
 
     if (wifiSSID.isEmpty() || vendorId.isEmpty() || foodId.isEmpty()
@@ -179,11 +271,23 @@ void setup() {
         while (true) delay(5000);
     }
 
+    // Button
+    pinMode(BUTTON_PIN, INPUT_PULLUP);
+
+    // HX711 load cell
+    scale.begin(HX711_DOUT, HX711_SCK);
+    if (scale.wait_ready_timeout(2000)) {
+        scale.set_scale(scaleFactor);
+        scale.tare();
+        Serial.println("HX711 ready (scale factor " + String(scaleFactor, 2) + ")");
+    } else {
+        Serial.println("WARNING: HX711 not detected — load cell readings will be invalid");
+    }
+
+    // RC522
     SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN, SS_PIN);
     mfrc522.PCD_Init();
     delay(50);
-
-    // Confirm RC522 is responding
     byte version = mfrc522.PCD_ReadRegister(MFRC522::VersionReg);
     Serial.println("RC522 firmware version: 0x" + String(version, HEX));
     if (version == 0x00 || version == 0xFF) {
@@ -206,23 +310,26 @@ void setup() {
     Serial.println();
     Serial.println(ntpTries < 10 ? "Time synced: " + getTimestamp() : "NTP failed — timestamps may be wrong");
 
-    Serial.println("System Ready — tap a card");
+    state          = IDLE;
+    stateEnteredAt = millis();
+    Serial.println("System Ready — press button to start weighing");
 }
 
+// ── Loop ──────────────────────────────────────────────────────────────────────
 void loop() {
     if (WiFi.status() != WL_CONNECTED) {
         Serial.println("WiFi lost — reconnecting...");
         connectWiFi();
     }
 
-    if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) {
-        return;
+    handleButton();
+    handleStateTimeout();
+
+    if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+        String uid = readUID();
+        handleTap(uid);
+        mfrc522.PICC_HaltA();
+        mfrc522.PCD_StopCrypto1();
+        delay(2000);
     }
-
-    String uid = readUID();
-    handleTap(uid);
-
-    mfrc522.PICC_HaltA();
-    mfrc522.PCD_StopCrypto1();
-    delay(2000);
 }
