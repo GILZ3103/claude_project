@@ -7,7 +7,7 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
     ...restOptions,
   })
   const json = await res.json()
-  if (!json.success) throw new Error(json.error ?? 'API error')
+  if (!json.success) throw new Error(json.message ?? json.error ?? 'API error')
   return json.data
 }
 
