@@ -93,12 +93,9 @@ export const deleteComplianceRecord = (vendor_id: string, card_uid: string, reco
     method: 'DELETE', headers: { 'x-card-uid': card_uid }
   } as any)
 
-// AI agent
-export const askAi = (message: string, role?: string) =>
-  request('/api/ai/chat', { method: 'POST', body: JSON.stringify({ message, role }) })
-
-export const getMealAdvice = (prompt: string, calorie_budget: number) =>
-  request('/api/ai/meal-advisor', { method: 'POST', body: JSON.stringify({ prompt, calorie_budget }) })
+// AI agent (function-calling, single endpoint)
+export const askAgent = (message: string, card_uid: string) =>
+  request('/api/ai/agent', { method: 'POST', body: JSON.stringify({ message, card_uid }) })
 
 // Vendors
 export const getVendors = () => request('/api/vendors')

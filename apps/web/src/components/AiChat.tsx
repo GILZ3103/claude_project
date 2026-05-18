@@ -1,164 +1,171 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
+import { Sparkles, X, Send } from 'lucide-react'
 import { useCard } from '../context/CardContext'
-import { askAi, getMealAdvice } from '../lib/api'
+import { askAgent } from '../lib/api'
 
-type Tab = 'ask' | 'meal'
 type Message = { from: 'user' | 'ai'; text: string }
 
 export default function AiChat() {
-  const { card } = useCard()
+  const { card, refreshCard } = useCard()
   const [open, setOpen] = useState(false)
-  const [tab, setTab] = useState<Tab>('ask')
-
-  // Ask tab
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
-  const [loadingChat, setLoadingChat] = useState(false)
-  const [chatError, setChatError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const scrollRef = useRef<HTMLDivElement>(null)
 
-  // Meal advisor tab
-  const [mealPrompt, setMealPrompt] = useState('')
-  const [mealBudget, setMealBudget] = useState('600')
-  const [suggestions, setSuggestions] = useState<any[]>([])
-  const [loadingMeal, setLoadingMeal] = useState(false)
-  const [mealError, setMealError] = useState('')
-  const [hasSearched, setHasSearched] = useState(false)
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
+  }, [messages, loading])
 
-  async function handleAsk(e: React.FormEvent) {
+  if (!card) return null
+
+  async function handleSend(e: React.FormEvent) {
     e.preventDefault()
-    if (!input.trim() || loadingChat) return
+    if (!input.trim() || loading || !card) return
     const msg = input.trim()
     setInput('')
-    setChatError('')
-    setMessages(m => [...m.slice(-8), { from: 'user', text: msg }])
-    setLoadingChat(true)
+    setError('')
+    setMessages(m => [...m.slice(-9), { from: 'user', text: msg }])
+    setLoading(true)
     try {
-      const res = await askAi(msg, card?.role) as any
+      const res = await askAgent(msg, card.uid) as any
       setMessages(m => [...m, { from: 'ai', text: res.reply ?? 'No response.' }])
+      // If the agent might have made a write (calorie limit, campaign join), refresh card silently
+      const lowered = msg.toLowerCase()
+      if (lowered.includes('calorie') || lowered.includes('goal') || lowered.includes('join') || lowered.includes('sign me up')) {
+        refreshCard()
+      }
     } catch (err: any) {
-      setChatError(err?.message ?? 'Request failed. Please try again.')
-    } finally { setLoadingChat(false) }
-  }
-
-  async function handleMeal(e: React.FormEvent) {
-    e.preventDefault()
-    if (!mealPrompt.trim() || loadingMeal) return
-    setLoadingMeal(true)
-    setMealError('')
-    setSuggestions([])
-    setHasSearched(false)
-    try {
-      const res = await getMealAdvice(mealPrompt, parseFloat(mealBudget) || 600) as any
-      setSuggestions(res.suggestions ?? [])
-    } catch (err: any) {
-      setMealError(err?.message ?? 'Could not load suggestions. Please try again.')
+      setError(err?.message ?? 'Request failed. Try again.')
     } finally {
-      setLoadingMeal(false)
-      setHasSearched(true)
+      setLoading(false)
     }
   }
 
   return (
     <>
       {/* Floating button */}
-      <button
+      <motion.button
         onClick={() => setOpen(v => !v)}
-        className="fixed bottom-20 right-4 z-30 w-12 h-12 bg-black text-white rounded-full shadow-lg flex items-center justify-center text-lg"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="fixed bottom-6 right-6 z-40 w-14 h-14 bg-gradient-to-br from-[#FF8A00] to-[#FFD166] text-white rounded-full shadow-xl flex items-center justify-center"
         aria-label="AI Assistant"
       >
-        {open ? '✕' : '✦'}
-      </button>
+        <AnimatePresence mode="wait">
+          {open ? (
+            <motion.div key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
+              <X size={22} />
+            </motion.div>
+          ) : (
+            <motion.div key="spark" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
+              <Sparkles size={22} fill="currentColor" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.button>
 
       {/* Panel */}
-      {open && (
-        <div className="fixed bottom-36 right-4 z-30 w-80 bg-white rounded-2xl shadow-xl border border-gray-100 flex flex-col" style={{ maxHeight: '460px' }}>
-          {/* Header + tabs */}
-          <div className="px-4 pt-3 pb-0">
-            <p className="text-sm font-semibold mb-2">AI Assistant</p>
-            <div className="flex gap-1 border-b">
-              <button onClick={() => setTab('ask')} className={`text-xs px-3 py-1.5 font-medium border-b-2 transition-colors ${tab === 'ask' ? 'border-black text-black' : 'border-transparent text-gray-400'}`}>Ask</button>
-              <button onClick={() => setTab('meal')} className={`text-xs px-3 py-1.5 font-medium border-b-2 transition-colors ${tab === 'meal' ? 'border-black text-black' : 'border-transparent text-gray-400'}`}>Meal Advisor</button>
-            </div>
-          </div>
-
-          {tab === 'ask' ? (
-            <>
-              <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2" style={{ minHeight: '200px' }}>
-                {messages.length === 0 && (
-                  <p className="text-xs text-gray-400 text-center pt-6">Ask anything about NightMarket</p>
-                )}
-                {messages.map((m, i) => (
-                  <div key={i} className={`flex ${m.from === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[85%] text-xs px-3 py-2 rounded-xl leading-relaxed ${m.from === 'user' ? 'bg-black text-white' : 'bg-gray-100 text-gray-800'}`}>
-                      {m.text}
-                    </div>
-                  </div>
-                ))}
-                {loadingChat && (
-                  <div className="flex justify-start">
-                    <div className="bg-gray-100 text-gray-400 text-xs px-3 py-2 rounded-xl">Thinking…</div>
-                  </div>
-                )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ type: 'spring', bounce: 0.25 }}
+            className="fixed bottom-24 right-6 z-40 w-[360px] max-w-[calc(100vw-3rem)] bg-white rounded-[1.75rem] shadow-2xl border border-gray-100 flex flex-col overflow-hidden"
+            style={{ height: 520, maxHeight: 'calc(100vh - 8rem)' }}
+          >
+            {/* Header */}
+            <div className="px-5 py-4 bg-gradient-to-r from-[#FF8A00] to-[#FFD166] text-white flex items-center gap-3">
+              <div className="w-8 h-8 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center">
+                <Sparkles size={16} />
               </div>
-              {chatError && <p className="text-xs text-red-500 px-4 pb-1">{chatError}</p>}
-              <form onSubmit={handleAsk} className="flex gap-2 p-3 border-t">
-                <input
-                  className="flex-1 text-xs border rounded-lg px-3 py-2 outline-none"
-                  placeholder="Ask a question…"
-                  value={input}
-                  onChange={e => setInput(e.target.value)}
-                />
-                <button type="submit" disabled={loadingChat || !input.trim()} className="bg-black text-white text-xs px-3 py-2 rounded-lg disabled:opacity-40">Send</button>
-              </form>
-            </>
-          ) : (
-            <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
-              <form onSubmit={handleMeal} className="space-y-2">
-                <input
-                  className="w-full text-xs border rounded-lg px-3 py-2 outline-none"
-                  placeholder="What are you craving? (e.g. spicy, light, rice)"
-                  value={mealPrompt}
-                  onChange={e => setMealPrompt(e.target.value)}
-                />
-                <div className="flex gap-2">
-                  <input
-                    type="number"
-                    className="flex-1 text-xs border rounded-lg px-3 py-2 outline-none"
-                    placeholder="Calorie budget (kcal)"
-                    value={mealBudget}
-                    onChange={e => setMealBudget(e.target.value)}
-                  />
-                  <button type="submit" disabled={loadingMeal || !mealPrompt.trim()} className="bg-black text-white text-xs px-3 py-2 rounded-lg disabled:opacity-40 shrink-0">Go</button>
+              <div>
+                <p className="font-bold text-sm">WarungTek Assistant</p>
+                <p className="text-[10px] opacity-90">Ask about your balance, calories, food, or campaigns</p>
+              </div>
+            </div>
+
+            {/* Message list */}
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 py-4 space-y-3 bg-[#FAFAFA]">
+              {messages.length === 0 && (
+                <div className="text-center pt-6 space-y-3">
+                  <p className="text-xs font-semibold text-[#6B7280] uppercase tracking-wider">Try asking</p>
+                  <div className="space-y-2">
+                    {[
+                      'How many points do I have?',
+                      'What did I eat yesterday?',
+                      'Find me spicy food under 500 cal',
+                      'Am I close to any rewards?',
+                    ].map(prompt => (
+                      <button
+                        key={prompt}
+                        onClick={() => setInput(prompt)}
+                        className="block w-full text-xs text-left px-4 py-2 bg-white rounded-xl border border-gray-100 hover:border-orange-200 hover:bg-orange-50 transition-colors text-[#1A1A1A]"
+                      >
+                        {prompt}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </form>
-
-              {loadingMeal && <p className="text-xs text-gray-400 text-center">Finding meals…</p>}
-
-              {mealError && <p className="text-xs text-red-500 text-center">{mealError}</p>}
-
-              {!loadingMeal && !mealError && !hasSearched && (
-                <p className="text-xs text-gray-400 text-center pt-2">Describe what you want to eat above</p>
               )}
 
-              {suggestions.map((s, i) => (
-                <div key={i} className="bg-gray-50 rounded-xl p-3 space-y-0.5">
-                  <p className="text-xs font-semibold">{s.food_name}</p>
-                  <p className="text-xs text-gray-500">{s.vendor_name}</p>
-                  <div className="flex justify-between text-xs text-gray-500 mt-1">
-                    <span>{s.calories} kcal</span>
-                    <span>RM {Number(s.price_in_points).toFixed(2)}</span>
+              {messages.map((m, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`flex ${m.from === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-[85%] text-xs px-3.5 py-2.5 rounded-2xl leading-relaxed shadow-sm ${
+                      m.from === 'user'
+                        ? 'bg-[#1A1A1A] text-white rounded-br-sm'
+                        : 'bg-white text-[#1A1A1A] border border-gray-100 rounded-bl-sm'
+                    }`}
+                  >
+                    {m.text}
                   </div>
-                  <p className="text-xs text-gray-400 italic">{s.reason}</p>
-                </div>
+                </motion.div>
               ))}
 
-              {!loadingMeal && !mealError && hasSearched && suggestions.length === 0 && (
-                <p className="text-xs text-gray-400 text-center">No matching items found. Try different keywords.</p>
+              {loading && (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex justify-start">
+                  <div className="bg-white border border-gray-100 text-[#6B7280] text-xs px-3.5 py-2.5 rounded-2xl rounded-bl-sm shadow-sm flex items-center gap-1.5">
+                    <motion.span animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1.2, repeat: Infinity }} className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
+                    <motion.span animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1.2, repeat: Infinity, delay: 0.2 }} className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
+                    <motion.span animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 1.2, repeat: Infinity, delay: 0.4 }} className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
+                  </div>
+                </motion.div>
               )}
             </div>
-          )}
-        </div>
-      )}
+
+            {error && <p className="text-xs text-red-500 px-5 pt-1">{error}</p>}
+
+            {/* Input */}
+            <form onSubmit={handleSend} className="flex gap-2 p-3 border-t border-gray-100 bg-white">
+              <input
+                className="flex-1 text-xs bg-[#FAFAFA] border border-gray-200 rounded-xl px-4 py-2.5 outline-none focus:border-[#FF8A00] focus:ring-2 focus:ring-orange-100 transition-all"
+                placeholder="Ask anything…"
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                disabled={loading}
+              />
+              <motion.button
+                type="submit"
+                disabled={loading || !input.trim()}
+                whileTap={{ scale: 0.95 }}
+                className="bg-gradient-to-br from-[#FF8A00] to-[#FFD166] text-white w-10 h-10 rounded-xl shadow-md disabled:opacity-40 flex items-center justify-center"
+              >
+                <Send size={15} />
+              </motion.button>
+            </form>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }
