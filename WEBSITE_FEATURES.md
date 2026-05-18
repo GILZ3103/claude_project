@@ -16,6 +16,48 @@ Last updated: May 2026 · Live at [nightmarket-web.vercel.app](https://nightmark
 
 14 React pages · 33 API endpoints · 1 shared TopNav · 1 floating AI chat
 
+### Role × Feature map
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart LR
+    subgraph CONSUMER["👤 CONSUMER"]
+        direction TB
+        C1["🏠 Dashboard\nwallet + calorie ring"]
+        C2["🥗 Health Tracking\nring + bar chart + AI recs"]
+        C3["🎟️ Vouchers\nticket cards + NFC gate"]
+        C4["🗺️ Map\nzoom grid + filters"]
+        C5["💳 NFC\ntap-to-link + history"]
+        C6["⚙️ Settings\naccount + FAQs"]
+    end
+    subgraph VENDOR["🏪 VENDOR"]
+        direction TB
+        V1["🏠 Dashboard ▸ 6 tabs\noverview · compliance · ops\nmenu · campaigns · reviews"]
+        V2["📋 VendorInformation\nfull menu CRUD"]
+        V3["📄 VendorClaim\ncompliance + subsidy"]
+        V4["📊 VendorSummary\nearnings by campaign"]
+    end
+    subgraph ADMIN["🛡️ ADMIN"]
+        direction TB
+        A1["🏠 AdminDashboard ▸ 4 tabs\nvendors · applications\ncompliance · slots"]
+    end
+    subgraph SHARED["🌐 SHARED"]
+        direction TB
+        S1["🔐 Auth\n3-role login + signup"]
+        S2["✨ AI Agent\nfloating chat · 8 tools"]
+        S3["🧭 TopNav\nrole-aware nav"]
+    end
+
+    SHARED --> CONSUMER
+    SHARED --> VENDOR
+    SHARED --> ADMIN
+
+    style CONSUMER fill:#dbeafe,stroke:#3b82f6,color:#1e3a8a
+    style VENDOR fill:#fef3c7,stroke:#d97706,color:#92400e
+    style ADMIN fill:#fee2e2,stroke:#dc2626,color:#7f1d1d
+    style SHARED fill:#d4f4dd,stroke:#2d8a4f,color:#1a5c33
+```
+
 ---
 
 ## 2. Tech Stack
@@ -230,21 +272,35 @@ After vendor signup, `VendorDashboard` first checks `card.application_status`:
 
 Floating ✦ button (orange gradient) bottom-right, present on all logged-in pages.
 
-### Architecture
-```
-User types in AiChat panel
-  ↓ POST /api/ai/agent { message, card_uid }
-Backend verifies card exists in DB
-  ↓
-Runner reads persona from backend/agent/warungtek-agent.md
-  ↓
-Gemini chat.sendMessage() with 8 tools declared
-  ↓
-LOOP (max 5 iterations):
-  if response.functionCalls() → execute tools in parallel → send results back
-  else → return text reply
-  ↓
-Frontend renders reply, refreshes CardContext if write tool likely fired
+### Function-calling loop architecture
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart TB
+    Start(["💬 User types in AiChat"])
+    Start --> Post[/"📤 POST /api/ai/agent<br/>{ message, card_uid }"/]
+    Post --> Verify{"🔐 Card exists<br/>in DB?"}
+    Verify -->|❌ no| Err404["📛 404 CARD_NOT_FOUND"]
+    Verify -->|✅ yes| Persona["📄 Read backend/agent/<br/>warungtek-agent.md<br/>(cached after first read)"]
+    Persona --> Init["🤖 Gemini chat.startChat()<br/>+ 8 tool schemas"]
+    Init --> Send["📨 chat.sendMessage(userMessage)"]
+    Send --> Loop{"🔄 Iteration < 5?"}
+    Loop -->|no| Fallback["⚠️ 'Could not complete'"]
+    Loop -->|yes| Calls{"functionCalls()<br/>present?"}
+    Calls -->|no| Reply["💬 response.text()<br/>→ final reply"]
+    Calls -->|yes| Exec[/"⚙️ executeTool() per call<br/>in parallel<br/>(card_uid injected from ToolContext)"/]
+    Exec --> Back["📨 chat.sendMessage(fnResponses)"]
+    Back --> Loop
+    Reply --> Done(["✨ Frontend renders reply<br/>refreshCard() if write fired"])
+    Err404 --> Done
+    Fallback --> Done
+
+    style Start fill:#dbeafe,stroke:#3b82f6
+    style Done fill:#d4f4dd,stroke:#2d8a4f
+    style Err404 fill:#fee2e2,stroke:#dc2626
+    style Fallback fill:#fef3c7,stroke:#d97706
+    style Persona fill:#fef3c7,stroke:#d97706
+    style Exec fill:#e9d5ff,stroke:#9333ea
 ```
 
 ### 8 Tools
@@ -279,43 +335,52 @@ Every request logs to Render console:
 
 ## 8. Architecture Overview
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  Vercel (frontend)                                              │
-│  apps/web — React 19 + Vite + Tailwind                          │
-│    ├ pages/      14 routes (consumer + vendor + admin)          │
-│    ├ components/ TopNav, AiChat                                 │
-│    ├ context/    CardContext (single source of truth)           │
-│    └ lib/api.ts  fetch wrappers — all calls go through here     │
-└────────────────────┬────────────────────────────────────────────┘
-                     │ HTTPS, CORS-allowed origin
-                     ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  Render (backend)                                               │
-│  Node + Express + TypeScript                                    │
-│    ├ /api/auth        consumer/vendor/admin login               │
-│    ├ /api/cards       balance, history, vouchers, NFC linking   │
-│    ├ /api/vendors     vendor + menu + compliance + admin review │
-│    ├ /api/campaigns   join, apply, admin review                 │
-│    ├ /api/tap         per-tap (ESP32) + sync (offline batches)  │
-│    ├ /api/map         grid_size + vendors + kiosks              │
-│    └ /api/ai/agent    Gemini function-calling runner            │
-└────────┬──────────────────────────────┬─────────────────────────┘
-         │ Service-role key             │ GEMINI_API_KEY
-         ▼                              ▼
-┌──────────────────────┐  ┌──────────────────────────────────────┐
-│  Supabase Postgres   │  │  Google Gemini 2.0 Flash             │
-│  10 tables, no RLS   │  │  Function-calling, free tier         │
-│  (server-only access)│  │                                      │
-└──────────────────────┘  └──────────────────────────────────────┘
-         ▲
-         │ Bearer auth
-         │
-┌──────────────────────┐
-│  ESP32 Terminal      │
-│  RC522 NFC +         │
-│  HX711 load cell     │
-└──────────────────────┘
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart TB
+    subgraph CLIENT["🌐 CLIENT — Vercel"]
+        direction TB
+        FE["⚛️ React 19 + Vite + Tailwind\n14 pages · CardContext · api.ts"]
+        AC["✨ AiChat (floating)"]
+        TN["🧭 TopNav (role-aware)"]
+        FE --- AC
+        FE --- TN
+    end
+
+    subgraph SERVER["⚙️ SERVER — Render"]
+        direction TB
+        API["🛠️ Express + TypeScript"]
+        R1["/api/auth — consumer/vendor/admin login"]
+        R2["/api/cards — balance · history · vouchers · NFC link"]
+        R3["/api/vendors — menu · compliance · admin review"]
+        R4["/api/campaigns — join · apply · admin review"]
+        R5["/api/tap + /sync — ESP32 ingest"]
+        R6["/api/map — grid + kiosks"]
+        R7["/api/ai/agent — Gemini function-calling"]
+        API --> R1 & R2 & R3 & R4 & R5 & R6 & R7
+    end
+
+    subgraph DATA["🗄️ DATA LAYER"]
+        direction TB
+        DB[("🐘 Supabase Postgres\n10 tables · no RLS\nservice-role key")]
+        AI["🤖 Google Gemini 2.0 Flash\nfunction-calling · free tier"]
+    end
+
+    subgraph HW["⚡ HARDWARE"]
+        direction TB
+        ESP["📟 ESP32 Terminal\nRC522 NFC + HX711 load cell"]
+        KIOSK["🖥️ Raspberry Pi Kiosk\nPN532 NFC daemon"]
+    end
+
+    CLIENT -->|HTTPS · CORS| SERVER
+    SERVER -->|service role| DB
+    SERVER -->|GEMINI_API_KEY| AI
+    HW -->|Bearer auth| SERVER
+
+    style CLIENT fill:#dbeafe,stroke:#3b82f6,color:#1e3a8a
+    style SERVER fill:#d4f4dd,stroke:#2d8a4f,color:#1a5c33
+    style DATA fill:#fef3c7,stroke:#d97706,color:#92400e
+    style HW fill:#e9d5ff,stroke:#9333ea,color:#581c87
 ```
 
 ---
@@ -323,47 +388,86 @@ Every request logs to Render console:
 ## 9. Data Flow Examples
 
 ### A. Consumer taps NFC at a vendor stall
-```
-1. Vendor's ESP32 terminal: RC522 reads card UID, load cell reads weight
-2. ESP32 POSTs to /api/tap with bearer auth + { card_uid, weight_g, food_id }
-3. Backend looks up food_item; if price_per_100g set, computes base_cost from weight,
-   else uses fixed price_in_points
-4. Inserts tap_event row, deducts points_balance, runs campaign-progress hook:
-   if any active campaign condition is met → insert voucher, update card balance
-5. Returns { points_balance, voucher_issued?, campaign_completed? }
-6. ESP32 displays result on its OLED + buzzer
-7. Next time consumer opens Dashboard, CardContext.refreshCard() pulls
-   updated balance + calories + active vouchers
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor C as 👤 Consumer
+    participant E as 📟 ESP32 Terminal
+    participant B as ⚙️ Backend
+    participant DB as 🗄️ Supabase
+    participant W as 🌐 Web App
+    C->>E: Tap NFC card on terminal,<br/>place food on load cell
+    E->>E: RC522 reads UID,<br/>HX711 reads weight
+    E->>B: POST /api/tap (Bearer)<br/>{ card_uid, weight_g, food_id }
+    B->>DB: SELECT food_items
+    DB-->>B: row with price_per_100g (or fixed)
+    B->>B: Compute base_cost from weight<br/>(if per-gram pricing)
+    B->>DB: INSERT tap_event,<br/>UPDATE cards.points_balance
+    B->>DB: Check campaign_progress rules
+    DB-->>B: progress updated; voucher issued if completed
+    B-->>E: { points_balance, voucher_issued?, campaign_completed? }
+    E->>E: OLED + buzzer feedback
+    Note over W,B: Next page load → CardContext.refreshCard()<br/>pulls fresh balance + vouchers
 ```
 
-### B. Vendor submits a campaign proposal
-```
-1. Vendor → VendorDashboard → Campaigns tab → "Apply for Campaign"
-2. Fills modal (name, description, period, condition, threshold, reward)
-3. Frontend → POST /api/campaigns/apply with card_uid + vendor_id
-4. Backend verifies vendor ownership of card_uid, inserts into campaign_applications
-   with status='PENDING'
-5. Admin → AdminDashboard → Applications tab → sees the proposal
-6. Admin approves → POST /api/campaigns/applications/:id/review with action='APPROVE'
-7. Backend updates application status='APPROVED' + INSERTS a new row into
-   campaigns table with is_active=true
-8. Consumers can now see + join this campaign from /campaigns page
-9. Vendor sees status flip to APPROVED in their dashboard on next refresh
+### B. Vendor submits a campaign proposal → admin approves
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor V as 🏪 Vendor
+    actor A as 🛡️ Admin
+    participant W as 🌐 Web App
+    participant B as ⚙️ Backend
+    participant DB as 🗄️ Supabase
+    V->>W: Open VendorDashboard ▸ Campaigns ▸ "Apply for Campaign"
+    V->>W: Fill modal (name, period, condition, reward)
+    W->>B: POST /api/campaigns/apply<br/>{ vendor_id, card_uid, ... }
+    B->>DB: Verify vendor_id owned by card_uid
+    B->>DB: INSERT campaign_applications<br/>status = 'PENDING'
+    B-->>W: success
+    W-->>V: Toast: "Submitted — pending admin review"
+    Note over A,DB: Later…
+    A->>W: AdminDashboard ▸ Applications tab
+    W->>B: GET /api/campaigns/applications/admin
+    B->>DB: SELECT all applications
+    DB-->>W: list (with PENDING badge)
+    A->>W: Click Approve
+    W->>B: POST /api/campaigns/applications/:id/review<br/>{ action: 'APPROVE' }
+    B->>DB: UPDATE application status='APPROVED'
+    B->>DB: INSERT live campaigns row<br/>is_active = true
+    B-->>W: success
+    Note over V,DB: Vendor sees APPROVED on next refresh<br/>Consumers can now join on /campaigns
 ```
 
 ### C. Consumer asks AI: "Can I afford nasi lemak?"
-```
-1. AiChat → POST /api/ai/agent { message, card_uid: "USER-XYZ" }
-2. Runner reads warungtek-agent.md → constructs Gemini chat
-3. Gemini decides to call TWO tools in parallel:
-   - getMyBalance({}) → { balance_rm: 23 }
-   - searchFood({ query: "nasi lemak" }) → [{vendor, food, kcal, price_rm: 8.50}, ...]
-4. Runner injects card_uid from ToolContext (never passed in tool args)
-5. Tool results sent back to Gemini in iteration 2
-6. Gemini composes final text: "You have RM 23, and Nasi Lemak Ayam is RM 8.50 at
-   Auntie Ling's — you can easily afford 2 plates."
-7. Returned to frontend, rendered in chat panel
-8. Render console logs the full trace
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor C as 👤 Consumer
+    participant W as ✨ AiChat
+    participant B as ⚙️ Agent Runner
+    participant G as 🤖 Gemini 2.0 Flash
+    participant DB as 🗄️ Supabase
+    C->>W: Type "can i afford nasi lemak?"
+    W->>B: POST /api/ai/agent<br/>{ message, card_uid }
+    B->>DB: Verify card exists
+    B->>G: chat.sendMessage(userMessage)<br/>with persona + 8 tool schemas
+    G-->>B: functionCalls() =<br/>[getMyBalance, searchFood({query:"nasi lemak"})]
+    par execute in parallel
+        B->>DB: SELECT points_balance
+        DB-->>B: 23.00
+    and
+        B->>DB: SELECT food ILIKE 'nasi lemak'
+        DB-->>B: [{ vendor, food, kcal, 8.50 }, ...]
+    end
+    B->>G: send back functionResponses<br/>(card_uid stays out of args)
+    G-->>B: "You have RM 23, and Nasi Lemak Ayam is RM 8.50 at Auntie Ling's<br/>— you can easily afford 2 plates."
+    B-->>W: { reply }
+    W-->>C: Render reply in chat bubble
+    Note over B: Render console logs entire trace<br/>[AI] User · Tools · Results · Reply · Duration
 ```
 
 ---
@@ -371,34 +475,106 @@ Every request logs to Render console:
 ## 10. User Journey Maps
 
 ### Consumer first-time journey
-1. Land on Auth page → Sign Up (Consumer tab)
-2. Enter name/email/phone/password → backend creates card with auto-generated `USER-XXXXXXXX` UID
-3. Bluetooth permission popup (placeholder) → Success screen with NFC card illustration
-4. Continue → Dashboard (wallet 0 RM, no taps yet)
-5. Visit kiosk in real life → collect physical NFC card
-6. Open Settings → Bluetooth & NFC Card → "Link NFC Card" → redirected to `/nfc`
-7. Tap card on phone (Web NFC) OR enter UID manually → backend swaps `USER-` UID for physical UID via `PATCH /api/cards/:uid/link`
-8. Session reloads, card linked, vouchers now usable
-9. Top up → Browse vendors via Map → Tap at stall → balance deducts, calories tally up
-10. Join campaign on Campaigns page → after fulfilling condition, voucher auto-issued
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart LR
+    Start(["🌐 Open WarungTek"])
+    Start --> Auth["🔐 Auth Page<br/>Consumer tab → Sign Up"]
+    Auth -->|fill name/email/phone/pw| Reg[/"📝 POST /api/cards/register<br/>backend auto-generates USER-XXXXX UID"/]
+    Reg --> BTPop["📡 Bluetooth permission popup<br/>(placeholder)"]
+    BTPop --> Success["✅ Success screen<br/>NFC card illustration"]
+    Success --> Dash["🏠 Dashboard<br/>wallet 0 RM, no taps yet"]
+    Dash -.->|"go to kiosk in real life"| Kiosk[/"🖥️ Collect physical NFC card"/]
+    Kiosk -.-> NFCPage["💳 /nfc page<br/>tap card on phone (Web NFC)<br/>or enter UID manually"]
+    NFCPage --> Link[/"🔗 PATCH /api/cards/:uid/link<br/>swap USER- UID for physical"/]
+    Link --> Linked["✅ Card linked,<br/>vouchers now usable"]
+    Linked --> TopUp[/"💰 Top Up<br/>RM 10/20/50/100"/]
+    TopUp --> Browse["🗺️ Browse vendors via Map"]
+    Browse -->|"tap at stall"| Tap[/"📟 ESP32 tap<br/>balance deducts, calories tally"/]
+    Tap --> Join["🎯 Join campaign<br/>fulfil condition → auto voucher"]
+
+    style Reg fill:#dbeafe,stroke:#3b82f6
+    style Link fill:#dbeafe,stroke:#3b82f6
+    style TopUp fill:#dbeafe,stroke:#3b82f6
+    style Tap fill:#dbeafe,stroke:#3b82f6
+    style Success fill:#d4f4dd,stroke:#2d8a4f
+    style Linked fill:#d4f4dd,stroke:#2d8a4f
+```
 
 ### Vendor first-time journey
-1. Auth page → Sign Up (Vendor tab) → fills business info
-2. Two API calls happen behind the scenes: `registerCard` then `registerVendor`
-3. Vendor lands in VendorDashboard → sees "Application Submitted, pending review" screen
-4. Admin (in a separate session) approves → vendor refreshes → full 6-tab dashboard appears
-5. Adds menu items (Menu tab) — chooses fixed price or per-gram pricing
-6. Submits campaign proposals (Campaigns tab) → admin approves → goes live
-7. Logs daily SOP checklist (Operations tab) before opening stall
-8. Tracks compliance records (Compliance tab) — LHDN, TNB, SST submissions
-9. After consumers complete approved campaigns and use vouchers at this stall, vendor submits a subsidy claim (VendorClaim page) covering a date range
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart LR
+    Start(["🏪 Vendor Sign Up"]) --> Auth["🔐 Auth Page<br/>Vendor tab"]
+    Auth -->|"name, email, business name,<br/>SSM number, password"| Reg[/"📝 registerCard + registerVendor<br/>two backend calls"/]
+    Reg --> Pending["⏳ VendorDashboard<br/>'Application Submitted'<br/>PENDING_REVIEW state"]
+    Pending -.->|"admin approves<br/>(separate session)"| Approved["✅ Refresh →<br/>full 6-tab dashboard"]
+    Approved --> Menu["🍽️ Menu tab<br/>add items: fixed or per-gram"]
+    Menu --> CampApply["🎯 Campaigns tab<br/>Apply for Campaign"]
+    CampApply -.->|"admin approves"| CampLive["📢 Campaign goes live<br/>consumers can join"]
+    Approved --> SOP["✅ Operations tab<br/>Daily SOP checklist"]
+    Approved --> Comp["📄 Compliance tab<br/>log LHDN/TNB/SST"]
+    CampLive -.->|"consumers tap & complete"| Voucher["🎟️ Vouchers used at stall"]
+    Voucher --> Claim["📤 VendorClaim<br/>submit subsidy claim<br/>(date range)"]
+
+    style Reg fill:#fef3c7,stroke:#d97706
+    style Pending fill:#fef3c7,stroke:#d97706
+    style Approved fill:#d4f4dd,stroke:#2d8a4f
+    style CampLive fill:#d4f4dd,stroke:#2d8a4f
+    style Claim fill:#fef3c7,stroke:#d97706
+```
 
 ### Admin journey
-1. Auth page → Admin tab → Authority ID + Email + Password (account created separately by superadmin via API)
-2. Lands on AdminDashboard → red badge shows pending application count
-3. Applications tab → reviews each pending vendor + campaign proposal → Approve or Reject (with reason)
-4. Compliance tab → quick stats overview, click pending cards to jump to Applications
-5. Slots tab → reviews slot-change requests, reassigns vendors visually on the 15-slot grid
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart LR
+    Start(["🛡️ Admin Sign In"]) --> Auth["🔐 Auth Page ▸ Admin tab<br/>Authority ID + Email + Password"]
+    Auth --> Dash["🏠 AdminDashboard<br/>🔴 red badge = pending count"]
+
+    Dash -->|tab| Vendors["🏪 Vendors tab<br/>searchable table<br/>expandable detail rows"]
+    Dash -->|tab| Apps["📋 Applications tab<br/>Vendor regs + Campaign apps"]
+    Dash -->|tab| CompT["📊 Compliance tab<br/>3 clickable stat cards"]
+    Dash -->|tab| Slots["🗺️ Slots tab<br/>15-slot interactive grid"]
+
+    Apps -->|"approve / reject"| Review[/"🎯 POST /api/.../review<br/>updates DB · auto-creates campaign on approve"/]
+    CompT -.->|"click pending card"| Apps
+    Slots -->|"click slot"| SidePanel["👁️ Side panel<br/>requested / occupied / empty<br/>approve / reject / reassign"]
+
+    style Auth fill:#fee2e2,stroke:#dc2626
+    style Dash fill:#fee2e2,stroke:#dc2626
+    style Review fill:#d4f4dd,stroke:#2d8a4f
+```
+
+---
+
+### Vendor application lifecycle (state machine)
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+stateDiagram-v2
+    [*] --> PENDING_REVIEW: vendor signs up
+    PENDING_REVIEW --> APPROVED: admin clicks Approve
+    PENDING_REVIEW --> REJECTED: admin clicks Reject<br/>+ reason
+    REJECTED --> [*]: contact support<br/>(out of band)
+    APPROVED --> [*]: full dashboard unlocked
+```
+
+### Campaign application lifecycle
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+stateDiagram-v2
+    [*] --> PENDING: vendor submits proposal
+    PENDING --> APPROVED: admin approves<br/>→ live campaigns row created
+    PENDING --> REJECTED: admin rejects<br/>+ optional reason
+    APPROVED --> ConsumerJoinable: visible on /campaigns
+    ConsumerJoinable --> ConsumerCompleted: condition fulfilled<br/>→ voucher auto-issued
+    ConsumerCompleted --> VendorClaim: vendor submits subsidy claim
+    REJECTED --> [*]
+```
 
 ---
 
