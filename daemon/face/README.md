@@ -35,48 +35,268 @@ The kiosk does everything **on-device**:
 
 ---
 
+## System Architecture
+
+End-to-end view: camera → on-device pipeline → React kiosk → backend cloud.
+🟢 = local (Pi) · 🟡 = cloud · 🔵 = customer-facing UI
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart TB
+    subgraph Hardware["📷 HARDWARE  —  Raspberry Pi 5"]
+        direction LR
+        Cam["📹 Camera\nArducam CSI (prod)\nLaptop webcam (dev)"]
+        Pi["🥧 Pi 5\nlabwc Wayland"]
+        RC["💳 RC522\nNFC reader"]
+    end
+
+    subgraph FaceDaemon["🧠 FACE DAEMON  —  Python · port 5002"]
+        direction TB
+        Capture["📸 Capture thread\n30 FPS"]
+        Detect["🔬 Detection thread\n~2 FPS"]
+        Embed[("💾 faces.db\n512-d embeddings\nSQLite — local only")]
+        API["🌐 Flask HTTP\n/face/recognized · /stream"]
+    end
+
+    subgraph KioskUI["🖥️ KIOSK UI  —  React · Chromium kiosk"]
+        direction TB
+        Poll["🔄 Poll every 1s\nGET /face/recognized"]
+        Modal["🎉 FaceRecognizedModal\n+ UserBar slides in"]
+    end
+
+    subgraph Backend["☁️ BACKEND  —  Render"]
+        direction TB
+        API2["🔀 Express API\nGET /api/cards/:uid"]
+        SB[("🗄️ Supabase\nPostgres")]
+    end
+
+    Cam --> Capture
+    Capture --> Detect
+    Detect --> Embed
+    Detect --> API
+    RC -.-> Pi
+    API --> Poll
+    Poll --> Modal
+    Modal --> API2
+    API2 --> SB
+    SB --> API2
+    API2 --> Modal
+
+    style Hardware fill:#fff4cc,stroke:#b08800,color:#5c4400
+    style FaceDaemon fill:#d4f4dd,stroke:#2d8a4f,color:#1a5c33
+    style KioskUI fill:#d4e8ff,stroke:#1a5fb4,color:#0d3e7a
+    style Backend fill:#ffe0d6,stroke:#c44b1a,color:#7a2e0d
+```
+
+---
+
 ## Pipeline — Stage by Stage
 
+The recognition pipeline runs as a 6-stage chain. Each stage **rejects early** to avoid wasting compute on frames that can't produce a reliable match.
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart TB
+    Frame(["📹 Camera frame\nBGR · 1280×720 · 30 FPS"])
+    Frame --> S1
+
+    S1["1️⃣ Quality pre-filter ✅\nquality.py\n⏱ ~1 ms"]
+    S1 -->|"❌ blurry / dark"| Drop1[/"🗑 drop frame"/]
+    S1 -->|"✅ usable"| S2
+
+    S2["2️⃣ RetinaFace detect ✅\ndetector.py · insightface\n⏱ ~450 ms"]
+    S2 -->|"❌ no face"| Drop2[/"🗑 clear bbox"/]
+    S2 -->|"✅ closest face\n+ embedding"| S3
+
+    S3["3️⃣ Proximity gate ✅\nquality.py\n⏱ ~0.1 ms"]
+    S3 -->|"❌ too far / too small"| Drop3[/"🗑 skip frame"/]
+    S3 -->|"✅ close enough"| S4
+
+    S4["4️⃣ Cosine matcher ✅\nmatcher.py\n⏱ ~0.1 ms"]
+    S4 -->|"sim < 0.25"| Drop4[/"❓ unknown"/]
+    S4 -->|"0.25 ≤ sim < 0.40"| Pending[/"⏳ possible"/]
+    S4 -->|"sim ≥ 0.40"| S5
+
+    S5["5️⃣ Temporal smoother ✅\nsmoother.py\n3-of-5 voting"]
+    S5 -->|"< 3 votes"| Drop5[/"⏳ pending"/]
+    S5 -->|"≥ 3 votes"| S6
+
+    S6["6️⃣ /face/recognized 📡\nFlask · TTL 10s"]
+    S6 --> Out(["✅ Confirmed\n{uid, name, conf}"])
+
+    Pending -.->|"wait for more frames"| S5
+    Drop4 -.-> S5
+
+    style S1 fill:#d4f4dd,stroke:#2d8a4f
+    style S2 fill:#d4f4dd,stroke:#2d8a4f
+    style S3 fill:#d4f4dd,stroke:#2d8a4f
+    style S4 fill:#d4f4dd,stroke:#2d8a4f
+    style S5 fill:#d4f4dd,stroke:#2d8a4f
+    style S6 fill:#d4e8ff,stroke:#1a5fb4
+    style Frame fill:#fff4cc,stroke:#b08800
+    style Out fill:#c5f4d0,stroke:#1a5c33
+    style Drop1 fill:#ffd6d6,stroke:#c44b1a
+    style Drop2 fill:#ffd6d6,stroke:#c44b1a
+    style Drop3 fill:#ffd6d6,stroke:#c44b1a
+    style Drop4 fill:#fff4cc,stroke:#b08800
+    style Drop5 fill:#fff4cc,stroke:#b08800
+    style Pending fill:#fff4cc,stroke:#b08800
 ```
-Camera frame (BGR, 1280×720, 30 FPS)
-        │
-        ▼
-┌──────────────────────┐
-│ 1. Quality pre-filter│ ← Reject blurry / too dark / too bright frames before
-│  (quality.py)         │   spending compute on the heavy models
-└──────────┬───────────┘
-           │ passes
-           ▼
-┌──────────────────────┐
-│ 2. RetinaFace detect │ ← Find the face, return bbox + 5 landmarks +
-│  (detector.py)        │   ArcFace embedding in one shot
-└──────────┬───────────┘
-           │ closest face only
-           ▼
-┌──────────────────────┐
-│ 3. Proximity gate    │ ← Reject faces too far / too small for accurate
-│  (quality.py)         │   recognition (PROXIMITY_BBOX_RATIO)
-└──────────┬───────────┘
-           │ close enough
-           ▼
-┌──────────────────────┐
-│ 4. Multi-embedding   │ ← Cosine similarity against every embedding in
-│    matcher           │   faces.db; max similarity per person wins
-│  (matcher.py)         │
-└──────────┬───────────┘
-           │ (uid, similarity, decision)
-           ▼
-┌──────────────────────┐
-│ 5. Temporal smoother │ ← Need 3-of-5 frame agreement before declaring
-│  (smoother.py)        │   "confirmed" — kills false positives
-└──────────┬───────────┘
-           │ confirmed
-           ▼
-┌──────────────────────┐
-│ 6. /face/recognized  │ ← Flask endpoint; TTL 10s
-│    endpoint           │   React kiosk polls this every 1s
-└──────────────────────┘
+
+---
+
+## Threading Model
+
+The daemon runs **two parallel threads** so the video stream stays smooth even when the slow detection model is busy.
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart LR
+    subgraph T1["🎥 Capture Thread  —  30 FPS"]
+        direction TB
+        C1["Read frame from camera"]
+        C2["Overlay last bbox + name"]
+        C3["JPEG encode → _latest_frame"]
+        C1 --> C2 --> C3
+    end
+
+    subgraph Shared["🔒 Shared State (locks)"]
+        direction TB
+        Bbox[("📦 _last_bbox")]
+        Name[("👤 _current.owner_name")]
+        Frame[("🖼 _latest_frame")]
+    end
+
+    subgraph T2["🔬 Detection Thread  —  ~2 FPS"]
+        direction TB
+        D1["Read _latest_capture"]
+        D2["Quality + detect + match"]
+        D3["Update _current state"]
+        D1 --> D2 --> D3
+    end
+
+    C1 -->|writes| Shared
+    T2 -->|reads + writes| Shared
+    Shared -->|"reads bbox"| C2
+    Shared -->|"reads name"| C2
+
+    Stream[/"🌐 /stream MJPEG\n→ React app / browser"/]
+    C3 --> Stream
+
+    Endpoint[/"🌐 /face/recognized\n→ React app polls 1s"/]
+    Shared --> Endpoint
+
+    style T1 fill:#d4e8ff,stroke:#1a5fb4
+    style T2 fill:#d4f4dd,stroke:#2d8a4f
+    style Shared fill:#fff4cc,stroke:#b08800
+    style Stream fill:#e8d4ff,stroke:#7a1ab4
+    style Endpoint fill:#e8d4ff,stroke:#7a1ab4
 ```
+
+---
+
+## Decision Logic — Match Thresholds
+
+Every frame's match similarity falls into one of three bands. Only **confirmed** matches that survive smoothing reach the React kiosk.
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart LR
+    Q(["🔢 Cosine similarity\n(query vs enrolled)"])
+    Q --> C{"Compare to thresholds"}
+
+    C -->|"sim ≥ 0.40 ✅"| Conf["🟢 CONFIRMED\nuid + name returned"]
+    C -->|"0.25 ≤ sim < 0.40"| Poss["🟡 POSSIBLE\nwait for more frames"]
+    C -->|"sim < 0.25"| Unk["🔴 UNKNOWN\nstay guest mode"]
+
+    Conf --> Smooth["🗳 Smoother\nneed 3-of-5 frames"]
+    Smooth -->|"votes ≥ 3"| Final["🎉 /face/recognized\nreturns 200"]
+    Smooth -->|"votes < 3"| Wait[/"⏳ keep polling"/]
+
+    Poss -.->|"vote: uid"| Smooth
+    Unk -.->|"vote: None"| Smooth
+
+    style Conf fill:#d4f4dd,stroke:#2d8a4f,color:#1a5c33
+    style Poss fill:#fff4cc,stroke:#b08800,color:#5c4400
+    style Unk fill:#ffd6d6,stroke:#c44b1a,color:#7a2e0d
+    style Final fill:#c5f4d0,stroke:#1a5c33
+    style Q fill:#d4e8ff,stroke:#1a5fb4
+```
+
+---
+
+## Enrollment Workflow
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart LR
+    P1[/"📸 Photo(s)\ndir or single"/]
+    P1 --> E1["enroll.py CLI"]
+
+    E1 --> Count{"How many\nphotos?"}
+    Count -->|"≥ 4"| Direct["Use as-is"]
+    Count -->|"< 4"| Aug["🎨 augment.py\nGenerate 8 variants:\n• rotate ±5°, +10°\n• brightness ±20%\n• flip · blur"]
+
+    Direct --> Detect["🔬 RetinaFace\nFind face in each"]
+    Aug --> Detect
+
+    Detect --> Embed["🧬 ArcFace\n→ 512-d vector"]
+    Embed --> Save[("💾 faces.db\nINSERT BLOB rows")]
+
+    Save --> Reload["📡 POST /reload\nDaemon refreshes cache"]
+    Reload --> Ready["✅ Ready to recognise"]
+
+    style P1 fill:#fff4cc,stroke:#b08800
+    style E1 fill:#d4e8ff,stroke:#1a5fb4
+    style Detect fill:#d4f4dd,stroke:#2d8a4f
+    style Embed fill:#d4f4dd,stroke:#2d8a4f
+    style Save fill:#e8d4ff,stroke:#7a1ab4
+    style Ready fill:#c5f4d0,stroke:#1a5c33
+```
+
+---
+
+## Privacy Boundary — What Stays On-Device
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart LR
+    subgraph Pi["🥧 RASPBERRY PI  —  Trusted Zone"]
+        direction TB
+        Photo["📸 Raw photo"]
+        Emb["🧬 512-d embedding"]
+        DB[("💾 faces.db\nSQLite")]
+        Match["🔍 Match logic"]
+    end
+
+    subgraph Net["🌐 NETWORK BOUNDARY"]
+        direction TB
+        Wall["🚧 No image data\nleaves the Pi"]
+    end
+
+    subgraph Cloud["☁️ CLOUD  —  Backend + DB"]
+        direction TB
+        API["⚙️ Express API"]
+        Supa[("🗄️ Supabase\ncards table")]
+        Photos[("🖼 Enrollment\nphotos bucket")]
+    end
+
+    Photo --> Emb
+    Emb --> DB
+    DB --> Match
+    Match -->|"uid only\n(after match)"| Wall
+    Wall -->|"GET /api/cards/:uid"| API
+    API --> Supa
+
+    Photos -.->|"sync service\ndownloads photos"| Photo
+
+    style Pi fill:#d4f4dd,stroke:#2d8a4f,color:#1a5c33
+    style Net fill:#ffd6d6,stroke:#c44b1a,color:#7a2e0d
+    style Cloud fill:#d4e8ff,stroke:#1a5fb4,color:#0d3e7a
+    style Wall fill:#ff9999,stroke:#7a0d0d,color:#fff
+```
+
+**Key:** Only the `uid` ever crosses the network boundary — and only **after** local recognition succeeds. The face image itself, the 512-d embedding, and the SQLite database stay on the Pi. The cloud sees the same data shape it would receive from an NFC tap.
 
 ---
 
@@ -264,17 +484,69 @@ To set expectations clearly:
 
 ## End-to-end timing budget (Pi 5)
 
+```mermaid
+%%{init: {"gantt": {"barHeight": 22}} }%%
+gantt
+    title Per-frame detection cycle  (Pi 5 CPU, ~480 ms total)
+    dateFormat  X
+    axisFormat  %L ms
+
+    section Frame
+    Camera capture                  :done, cap,   0,   33
+    section Pipeline
+    Quality pre-filter              :done, q,    33,   34
+    RetinaFace + ArcFace (combined) :crit, det,  34,  484
+    Cosine match (16 embeddings)    :done, m,   484,  485
+    Smoother + state update         :done, s,   485,  486
+```
+
 | Stage | Cost |
 |---|---|
 | Camera capture | ~33 ms |
 | Quality pre-filter | ~1 ms |
-| RetinaFace + ArcFace (combined `app.get`) | ~450 ms |
+| 🔥 RetinaFace + ArcFace (combined `app.get`) | **~450 ms** ← bottleneck |
 | Cosine similarity (16 embeddings) | ~0.1 ms |
 | Smoother + state update | ~0.1 ms |
 | **Total per detection cycle** | **~480 ms** → ~2 FPS detection |
-| Time to first confirmed match (3 frames) | ~1.5 s |
+| Time to first confirmed match (3 frames) | **~1.5 s** |
 
 The 1.5s feels instant to a customer walking up to a kiosk — by the time they're settled and looking at the screen, the UserBar is already there.
+
+---
+
+## Customer Journey — Face Recognition Branches
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart TB
+    Start(["🚶 Customer approaches kiosk"])
+    Start --> Look["👀 Look at camera"]
+    Look --> Det{"🔬 Face detected?"}
+
+    Det -->|"❌ No / too far"| Guest1["👤 Stay guest mode\n(default kiosk view)"]
+    Det -->|"✅ Yes"| Match{"🧬 Match in DB?"}
+
+    Match -->|"❌ Not enrolled"| Guest2["👤 Stay guest mode\n(silent — no UI change)"]
+    Match -->|"✅ Confirmed"| Lookup["☁️ GET /api/cards/:uid"]
+
+    Lookup --> Card{"💳 has_physical_card?"}
+
+    Card -->|"true"| BranchA["🟢 SCENARIO A\nUserBar slides in\n+ Modal: 'Tap card to earn 5 pts'"]
+    Card -->|"false"| BranchB["🟡 SCENARIO B\nUserBar slides in\n+ Modal: 'Visit counter to get a card'"]
+
+    BranchA --> NfcTap{"📡 Customer\ntaps card?"}
+    NfcTap -->|"✅ Yes"| Reward["🎉 +5 pts\nWalletPanel opens"]
+    NfcTap -->|"❌ 15s timeout"| Dismiss1["Modal auto-dismisses\nUserBar stays"]
+
+    BranchB --> Dismiss2["Modal auto-dismisses\nin 15s · UserBar stays"]
+
+    style Start fill:#d4e8ff,stroke:#1a5fb4
+    style BranchA fill:#d4f4dd,stroke:#2d8a4f,color:#1a5c33
+    style BranchB fill:#fff4cc,stroke:#b08800,color:#5c4400
+    style Reward fill:#c5f4d0,stroke:#1a5c33
+    style Guest1 fill:#f0f0f0,stroke:#666
+    style Guest2 fill:#f0f0f0,stroke:#666
+```
 
 ---
 
