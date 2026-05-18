@@ -3,3 +3,16 @@
 
 # Figma Make code exports — local design reference only, not part of the app
 design-export/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Face daemon — local data, never commit
+daemon/face/faces.db
+daemon/face/face_daemon.log
+daemon/face/sync_tmp/
+
+# Claude local settings
+.claude/settings.local.json
