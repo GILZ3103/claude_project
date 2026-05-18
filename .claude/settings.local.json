@@ -36,7 +36,23 @@
       "Read(//c/Users/HUAWEI/.platformio/packages/**)",
       "PowerShell([System.IO.Directory]::GetFiles\\(\"C:\\\\Users\\\\HUAWEI\\\\.platformio\\\\packages\\\\toolchain-xtensa-esp32\\\\xtensa-esp32-elf\\\\include\"\\) | Select-Object -First 20)",
       "PowerShell([System.IO.File]::Exists\\(\"C:\\\\Users\\\\HUAWEI\\\\.platformio\\\\packages\\\\toolchain-xtensa-esp32\\\\xtensa-esp32-elf\\\\include\\\\stdint.h\"\\); [System.IO.Directory]::GetDirectories\\(\"C:\\\\Users\\\\HUAWEI\\\\.platformio\\\\packages\\\\toolchain-xtensa-esp32\\\\lib\\\\gcc\\\\xtensa-esp32-elf\"\\) | Select-Object -First 5)",
-      "PowerShell([System.IO.Directory]::GetFiles\\(\"C:\\\\Users\\\\HUAWEI\\\\.platformio\\\\packages\\\\framework-arduinoespressif32\\\\tools\\\\sdk\\\\esp32\\\\include\", \"protocomm.h\", [System.IO.SearchOption]::AllDirectories\\) | Select-Object -First 2)"
+      "PowerShell([System.IO.Directory]::GetFiles\\(\"C:\\\\Users\\\\HUAWEI\\\\.platformio\\\\packages\\\\framework-arduinoespressif32\\\\tools\\\\sdk\\\\esp32\\\\include\", \"protocomm.h\", [System.IO.SearchOption]::AllDirectories\\) | Select-Object -First 2)",
+      "Bash(git check-ignore *)",
+      "Bash(mkdir -p \"c:/Users/HUAWEI/claude_project/design-export\")",
+      "Bash(powershell -Command \"Expand-Archive -Path 'C:\\\\Users\\\\HUAWEI\\\\Downloads\\\\Consumer Dashboard Interface.zip' -DestinationPath 'c:\\\\Users\\\\HUAWEI\\\\claude_project\\\\design-export' -Force\")",
+      "Bash(git reset *)",
+      "Bash(git rm *)",
+      "Read(//c/Users/HUAWEI/Downloads/**)",
+      "Bash(python -c \"import zipfile; z = zipfile.ZipFile\\('Kiosk UI.zip'\\); print\\('\\\\n'.join\\(z.namelist\\(\\)\\)\\)\")",
+      "Bash(git commit *)",
+      "Bash(grep -E '\\\\.py$')",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\HUAWEI\\\\claude_project\\\\apps\\\\kiosk\\\\src\" -Recurse -File)",
+      "Bash(Select-Object FullName)",
+      "Bash(cat)",
+      "Read(//tmp/**)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\HUAWEI\\Downloads\\KioskUI\\src\\app\\components\\figma"
     ]
   },
   "enabledPlugins": {
