@@ -207,6 +207,7 @@ router.get('/:uid', async (req: Request, res: Response): Promise<void> => {
       is_active: card.is_active,
       calories_today,
       checkpoints_today,
+      has_physical_card: card.has_physical_card ?? false,
       active_vouchers: active_vouchers ?? [],
       vendor_id,
       business_name,

@@ -261,6 +261,12 @@ def _encode_frame(frame) -> None:
 app = Flask(__name__)
 
 
+@app.after_request
+def add_cors(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
+
+
 @app.get("/face/recognized")
 def get_recognized():
     """
