@@ -50,7 +50,9 @@
       "Bash(Select-Object FullName)",
       "Bash(cat)",
       "Read(//tmp/**)",
-      "Bash(xargs grep -l \"react\\\\.svg\\\\|vite\\\\.svg\\\\|hero\\\\.png\\\\|App\\\\.css\")"
+      "Bash(xargs grep -l \"react\\\\.svg\\\\|vite\\\\.svg\\\\|hero\\\\.png\\\\|App\\\\.css\")",
+      "Bash(ls \"C:\\\\Users\\\\HUAWEI\\\\claude_project\\\\\" 2>&1 | head -30)",
+      "Read(//c/Users/HUAWEI/**)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HUAWEI\\Downloads\\KioskUI\\src\\app\\components\\figma"
