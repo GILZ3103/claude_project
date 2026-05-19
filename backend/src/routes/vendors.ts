@@ -73,7 +73,7 @@ router.get('/food', async (_req: Request, res: Response): Promise<void> => {
   const { data, error } = await supabase
     .from('food_items')
     .select('food_item_id, name, calories, calories_per_100g, price_in_points, price_per_100g, vendors(vendor_id, business_name, is_active)')
-    .eq('is_active', true)
+    .eq('is_available', true)
     .order('calories', { ascending: true })
 
   if (error) throw error

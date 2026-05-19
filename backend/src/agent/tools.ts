@@ -152,7 +152,7 @@ const searchFood: Tool = {
     let q = supabase
       .from('food_items')
       .select('name, calories, price_in_points, calories_per_100g, price_per_100g, vendors!inner(business_name, is_active)')
-      .eq('is_active', true)
+      .eq('is_available', true)
       .ilike('name', `%${query}%`)
       .limit(20)
     if (maxCal != null) q = q.lte('calories', maxCal)
@@ -197,7 +197,7 @@ const getVendor: Tool = {
       .from('food_items')
       .select('name, calories, price_in_points')
       .eq('vendor_id', vendor.vendor_id)
-      .eq('is_active', true)
+      .eq('is_available', true)
       .limit(15)
     return {
       vendor: vendor.business_name,
