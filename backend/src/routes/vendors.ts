@@ -72,7 +72,7 @@ async function authoriseVendor(req: Request, res: Response<any, any>, vendorId: 
 router.get('/food', async (_req: Request, res: Response): Promise<void> => {
   const { data, error } = await supabase
     .from('food_items')
-    .select('food_item_id, name, calories, calories_per_100g, price_in_points, price_per_100g, vendors(vendor_id, business_name, is_active)')
+    .select('food_id, name, calories, calories_per_100g, price_in_points, price_per_100g, vendors(vendor_id, business_name, is_active)')
     .eq('is_available', true)
     .order('calories', { ascending: true })
 
@@ -81,7 +81,7 @@ router.get('/food', async (_req: Request, res: Response): Promise<void> => {
   const items = (data ?? [])
     .filter((i: any) => i.vendors?.is_active)
     .map((i: any) => ({
-      food_item_id: i.food_item_id,
+      food_item_id: i.food_id,
       name: i.name,
       calories: i.calories ?? null,
       calories_per_100g: i.calories_per_100g ?? null,
