@@ -82,47 +82,78 @@ GND       → Pin 6
 
 ## High-level Data Flow
 
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart TB
+    subgraph Pi["🥧 RASPBERRY PI 5  —  On-device"]
+        direction TB
+        Card["💳 NFC Card\n(customer taps)"]
+        Reader["📡 Card Reader\nRC522 via SPI"]
+        NFCDaemon["🐍 NFC Service\nport 5001"]
+        Cam["📹 Camera\nArducam / webcam"]
+        FaceDaemon["🧠 Face Recognition Service\nport 5002"]
+        KioskApp["🖥️ Kiosk App\nChromium · port 8080"]
+    end
+
+    subgraph Cloud["☁️  CLOUD"]
+        direction TB
+        Backend["⚙️ REST API\nRender · auto-deploy from GitHub"]
+        DB[("🗄️ Database\nSupabase · PostgreSQL\ncustomer cards · vendors · campaigns\nfood items · tap history · vouchers")]
+    end
+
+    Card -->|"tap"| Reader
+    Reader --> NFCDaemon
+    NFCDaemon -->|"card identity\nevery 1.5 s poll"| KioskApp
+    Cam --> FaceDaemon
+    FaceDaemon -->|"recognised face\nevery 1 s poll"| KioskApp
+    KioskApp -->|"load card profile\naward points\nfetch vouchers"| Backend
+    Backend <-->|"read / write"| DB
+
+    style Pi fill:#fff4cc,stroke:#b08800,color:#5c4400
+    style Cloud fill:#d4e8ff,stroke:#1a5fb4,color:#0d3e7a
 ```
-                 ┌────────────────────────────────────────┐
-                 │           KIOSK (Pi 5)                 │
-                 │                                        │
-  RC522 NFC ─────►  nfc_daemon.py (:5001)                 │
-                 │       ↓ GET /nfc                       │
-                 │   React App (Chromium kiosk mode)      │
-                 │       ↑ GET /face/recognized           │
-  Webcam ────────►  face_daemon.py (:5002)                │
-                 │                                        │
-                 └──────────────────┬─────────────────────┘
-                                    │ HTTPS
-                                    ▼
-                 ┌────────────────────────────────────────┐
-                 │      Backend (Render)                  │
-                 │  Express + Supabase REST adapter       │
-                 └──────────────────┬─────────────────────┘
-                                    │ Postgres
-                                    ▼
-                 ┌────────────────────────────────────────┐
-                 │      Supabase (PostgreSQL)             │
-                 │  cards, vendors, foods, tap_events,    │
-                 │  vouchers, campaigns, kiosks           │
-                 └────────────────────────────────────────┘
-```
+
+---
 
 ### NFC tap flow
-1. Customer holds card on RC522 → `nfc_daemon` reads UID, stores with 3s TTL
-2. React app polls `/nfc` every 1.5s → detects new UID
-3. App calls `GET /api/cards/:uid` → loads owner name, balance, calories, vouchers
-4. App calls `POST /api/kiosk/tap` → logs directory tap, awards +5 pts
-5. NFC login animation plays → WalletPanel opens
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart LR
+    A(["💳 Customer\nholds card on reader"])
+    A --> B["Card reader detects\ncard identity"]
+    B --> C["NFC service stores\ncard identity for 3 seconds"]
+    C --> D["Kiosk app picks up\nnew card identity"]
+    D --> E["Load customer profile\nfrom cloud database"]
+    E --> F["Log kiosk visit\naward +5 points"]
+    F --> G(["🎉 Login animation\nWallet opens with\nreal balance + vouchers"])
+
+    style A fill:#fff4cc,stroke:#b08800
+    style G fill:#c5f4d0,stroke:#1a5c33
+```
 
 ### Face recognition flow
-1. Camera frame captured → quality pre-filter (blur, brightness)
-2. RetinaFace detects face → ArcFace generates 512-dim embedding
-3. Cosine similarity match against `faces.db` (local SQLite, embeddings only)
-4. Temporal smoothing (3-of-5 frames) → confirmed match
-5. React polls `/face/recognized` every 1s → calls `GET /api/cards/:uid` on match
-6. `has_physical_card=true` → modal: "Tap card to earn 5 pts"
-7. `has_physical_card=false` → modal: "Visit counter to get a card"
+
+```mermaid
+%%{init: {"flowchart": {"curve": "linear"}} }%%
+flowchart LR
+    A(["📹 Camera frame\ncaptured"])
+    A --> B["Quality check\nblur · brightness"]
+    B -->|"poor quality"| Drop[/"🗑 skip frame"/]
+    B -->|"good"| C["Face detected\n+ identity embedding"]
+    C --> D["Match against\nenrolled faces\non-device only"]
+    D -->|"no match"| Guest["Stay guest mode"]
+    D -->|"match confirmed\n3 of 5 frames"| E["Load customer profile\nfrom cloud"]
+    E --> F{"Has physical\nNFC card?"}
+    F -->|"Yes"| G(["🟢 'Tap your card\nto earn 5 points'"])
+    F -->|"No"| H(["🟡 'Visit counter\nto get a card'"])
+
+    style A fill:#fff4cc,stroke:#b08800
+    style G fill:#c5f4d0,stroke:#1a5c33
+    style H fill:#fff4cc,stroke:#b08800
+    style Drop fill:#ffd6d6,stroke:#c44b1a
+    style Guest fill:#f0f0f0,stroke:#666
+```
 
 ---
 
@@ -156,7 +187,7 @@ apps/kiosk/
 │       ├── tailwind.css           Tailwind directives
 │       ├── theme.css              CSS variables (colours, radii)
 │       └── fonts.css              Font imports
-├── .env                           VITE_API_URL, VITE_NFC_DAEMON_URL, VITE_FACE_DAEMON_URL, VITE_KIOSK_ID
+├── .env                           Backend address, NFC service address, Face service address, Kiosk identity
 └── package.json
 ```
 
@@ -188,12 +219,12 @@ DISPLAY=:0 chromium --kiosk --noerrdialogs --disable-infobars http://localhost:8
 The Pi serves the built `dist/` via a simple Python `http.server` on port 8080 (`kiosk-web.service`).
 
 ### Environment variables (`.env`)
-| Key | Default | Notes |
+| Variable | Default value | What it points to |
 |---|---|---|
-| `VITE_API_URL` | `https://warungtek-backend.onrender.com` | Render backend |
-| `VITE_NFC_DAEMON_URL` | `http://localhost:5001` | Pi-local NFC daemon |
-| `VITE_FACE_DAEMON_URL` | `http://localhost:5002` | Pi-local face daemon (change to laptop LAN IP for prototype cross-device testing) |
-| `VITE_KIOSK_ID` | `d0000001-0001-0001-0001-000000000001` | Supabase `kiosks.kiosk_id` for this terminal |
+| Backend API address | `https://warungtek-backend.onrender.com` | Cloud REST API on Render |
+| NFC service address | `http://localhost:5001` | Card reader service running on the Pi |
+| Face recognition service address | `http://localhost:5002` | Face service on Pi (change to laptop LAN IP for cross-device prototype testing) |
+| Kiosk terminal identity | `d0000001-0001-0001-0001-000000000001` | This terminal's ID in the database |
 
 ---
 
@@ -215,9 +246,9 @@ The Pi serves the built `dist/` via a simple Python `http.server` on port 8080 (
 ## Known constraints / future work
 
 - **Render cold starts** — free tier sleeps after inactivity; first card tap after a quiet period takes 20–30s. Fix: paid tier or self-host.
-- **Face thresholds are laptop-tuned** — `PROXIMITY_BBOX_RATIO=0.10`, `THRESHOLD_CONFIRMED=0.40`, `QUALITY_BLUR_THRESHOLD=20`. Restore to defaults (0.25 / 0.65 / 100) when Arducam arrives.
-- **NFC card write cycle** — not yet implemented. Plan exists for writing balance back to card block 8 after each tap.
-- **Faces.db is local** — embeddings live only on the Pi, never synced to cloud (privacy by design). Sync service (`SYNC_INTERVAL_SECONDS=300`) downloads enrollment photos from backend `/api/face/photos`.
+- **Face thresholds are laptop-tuned** — detection sensitivity, minimum face size, and blur tolerance are all relaxed for a laptop webcam at desk distance. Restore to stricter production values when Arducam arrives at fixed arm's-length distance.
+- **NFC card write cycle** — not yet implemented. Plan exists for writing updated points balance back to the card's memory chip after each tap, so cards work offline.
+- **Face embeddings are local** — the mathematical face fingerprints live only on the Pi in a local database, never synced to cloud (privacy by design). A background sync service downloads enrollment photos every 5 minutes to keep the local database fresh.
 
 ---
 
