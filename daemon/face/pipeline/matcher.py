@@ -24,8 +24,12 @@ class MatchResult:
 
 
 def cosine_similarity(a: np.ndarray, b: np.ndarray) -> float:
-    """Cosine similarity between two L2-normalised embeddings."""
-    return float(np.dot(a, b))
+    """Cosine similarity — normalises both vectors so result is always in [-1, 1]."""
+    a_norm = np.linalg.norm(a)
+    b_norm = np.linalg.norm(b)
+    if a_norm == 0 or b_norm == 0:
+        return 0.0
+    return float(np.dot(a / a_norm, b / b_norm))
 
 
 def match_against_db(query_emb: np.ndarray, db_rows: list[dict]) -> MatchResult:

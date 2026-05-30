@@ -31,43 +31,43 @@ DETECT_EVERY_N_FRAMES = 2
 
 # ── Quality Pre-Filter ───────────────────────────────────────────────────────
 
-QUALITY_BLUR_THRESHOLD = 20         # Laplacian variance — lowered for laptop webcam
+QUALITY_BLUR_THRESHOLD = 100        # Laplacian variance — Arducam fixed mount (was 20 for webcam)
 QUALITY_BRIGHTNESS_MIN = 40         # 0–255 mean pixel
 QUALITY_BRIGHTNESS_MAX = 220
 
 # ── Detection (RetinaFace) ───────────────────────────────────────────────────
 
 # Proximity trigger — face bbox width as fraction of frame width
-# 0.10 = laptop webcam at desk distance; raise to 0.25 for kiosk arm's-length
-PROXIMITY_BBOX_RATIO = 0.10
+# 0.25 = kiosk arm's-length (Arducam); was 0.10 for laptop webcam at desk distance
+PROXIMITY_BBOX_RATIO = 0.25
 
 # Minimum face size before we even consider it
-MIN_FACE_PIXELS = 50
+MIN_FACE_PIXELS = 80
 
 # RetinaFace variant — "buffalo_l" (R50, most accurate) or "buffalo_sc" (MobileNet, faster)
 INSIGHTFACE_MODEL_PACK = "buffalo_l"
 
 # ── Quality Gates (post-detection) ───────────────────────────────────────────
 
-MAX_POSE_DEGREES = 40               # Reject faces tilted more than 40° yaw/pitch
-MIN_LANDMARK_VISIBILITY = 0.70      # 70% of landmarks must be visible (relaxed for webcam)
+MAX_POSE_DEGREES = 30               # Reject faces tilted more than 30° yaw/pitch (Arducam)
+MIN_LANDMARK_VISIBILITY = 0.90      # 90% of landmarks must be visible (Arducam)
 
 # ── Recognition ──────────────────────────────────────────────────────────────
 
 EMBEDDING_DIM = 512                 # ArcFace buffalo_l output dimension
 
 # Tiered match thresholds (cosine similarity)
-THRESHOLD_CONFIRMED = 0.40          # >= this → confirmed match (lowered for webcam)
-THRESHOLD_POSSIBLE = 0.25           # >= this but < CONFIRMED → wait for more frames
+THRESHOLD_CONFIRMED = 0.62          # stranger scores ~0.4x; genuine ~0.65+ (raise to 0.65 for Arducam)
+THRESHOLD_POSSIBLE = 0.50           # >= this but < CONFIRMED → wait for more frames
                                     # < POSSIBLE → unknown
 
 # ── Temporal Smoothing ───────────────────────────────────────────────────────
 
 SMOOTHING_BUFFER_SIZE = 5           # Keep last N frames' predictions
-SMOOTHING_VOTES_REQUIRED = 3        # Need N-of-buffer agreement to confirm (relaxed for webcam)
+SMOOTHING_VOTES_REQUIRED = 4        # Need N-of-buffer agreement to confirm
 
 # How long a confirmed match stays "active" before requiring re-detection
-MATCH_TTL_SECONDS = 10.0
+MATCH_TTL_SECONDS = 3.0
 
 # ── Display stream (MJPEG) ───────────────────────────────────────────────────
 

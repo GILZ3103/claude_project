@@ -106,19 +106,18 @@ def _capture_loop():
     Fast thread — just reads frames from camera at full speed and encodes
     them for the /frame display endpoint. No detection here.
     """
-    cap = cv2.VideoCapture(config.CAMERA_INDEX)
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, config.CAMERA_WIDTH)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, config.CAMERA_HEIGHT)
-    cap.set(cv2.CAP_PROP_FPS, config.CAMERA_FPS)
-
-    if not cap.isOpened():
-        log.error(f"Camera at index {config.CAMERA_INDEX} failed to open.")
+    from .pipeline.camera import Camera
+    cam = Camera(config.CAMERA_WIDTH, config.CAMERA_HEIGHT, config.CAMERA_FPS)
+    try:
+        cam.open()
+    except Exception as e:
+        log.error(f"Camera failed to open: {e}")
         return
 
-    log.info("Camera opened. Capture loop running.")
+    log.info("Capture loop running.")
 
     while True:
-        ok, frame = cap.read()
+        ok, frame = cam.read()
         if not ok or frame is None:
             time.sleep(0.01)
             continue
@@ -136,7 +135,7 @@ def _capture_loop():
 
         display = frame.copy()
         if bbox:
-            _annotate_frame(display, bbox, name, conf)
+            _annotate_frame(display, bbox, name, conf, conf)
 
         _encode_frame(display)
 
@@ -206,8 +205,12 @@ def _camera_loop():
             embeddings = list(_embeddings_cache)
         result = match_against_db(face["embedding"], embeddings)
 
-        # Temporal smoothing
-        smoothed = smoother.add(result.uid, result.similarity, result.owner_name)
+        # Only confirmed per-frame decisions contribute a uid vote to the smoother.
+        # "possible" frames pass None so strangers can't accumulate votes via
+        # low-confidence frames alone.
+        uid_for_smoother = result.uid if result.decision == "confirmed" else None
+        name_for_smoother = result.owner_name if result.decision == "confirmed" else None
+        smoothed = smoother.add(uid_for_smoother, result.similarity, name_for_smoother)
 
         # Update shared state
         if smoothed.decision == "confirmed" and smoothed.uid is not None:
@@ -227,22 +230,32 @@ def _camera_loop():
         with _state_lock:
             name = _current.owner_name if (time.monotonic() - _current.seen_at) < config.MATCH_TTL_SECONDS else None
             conf = _current.confidence if name else 0.0
-        _annotate_frame(frame, face["bbox"], name, conf)
+        _annotate_frame(frame, face["bbox"], name, conf, result.similarity)
         _encode_frame(frame)
 
 
 # ── Frame annotation helpers ─────────────────────────────────────────────────
 
-def _annotate_frame(frame: np.ndarray, bbox: tuple, name, confidence) -> None:
+def _annotate_frame(frame: np.ndarray, bbox: tuple, name, confidence, raw_sim: float = 0.0) -> None:
     import cv2 as _cv2
     x1, y1, x2, y2 = bbox
     color = (0, 220, 80) if name else (0, 200, 255)
     _cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
     label = name if name else "Identifying..."
     _cv2.putText(frame, label, (x1, y1 - 8), _cv2.FONT_HERSHEY_SIMPLEX, 0.65, color, 2)
-    if name and confidence:
-        _cv2.putText(frame, f"conf:{confidence:.1f}", (x1, y2 + 18),
-                     _cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1)
+
+    # Confidence bar below the face box
+    bar_y = y2 + 4
+    bar_h = 14
+    bar_w = max(1, x2 - x1)
+    fill_w = int(bar_w * min(1.0, max(0.0, raw_sim)))
+    thresh_x = x1 + int(bar_w * config.THRESHOLD_CONFIRMED)
+
+    _cv2.rectangle(frame, (x1, bar_y), (x2, bar_y + bar_h), (60, 60, 60), -1)
+    _cv2.rectangle(frame, (x1, bar_y), (x1 + fill_w, bar_y + bar_h), (0, 200, 80), -1)
+    _cv2.line(frame, (thresh_x, bar_y - 2), (thresh_x, bar_y + bar_h + 2), (0, 0, 255), 2)
+    _cv2.putText(frame, f"sim:{raw_sim:.2f}  need:{config.THRESHOLD_CONFIRMED}",
+                 (x1, bar_y + bar_h + 14), _cv2.FONT_HERSHEY_SIMPLEX, 0.4, (200, 200, 200), 1)
 
 
 def _encode_frame(frame) -> None:
