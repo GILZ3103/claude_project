@@ -6,7 +6,7 @@ const router = Router()
 // GET /api/map
 // Returns full grid data — all active vendors and kiosks with positions
 router.get('/', async (_req: Request, res: Response): Promise<void> => {
-  const [vendorsResult, kiosksResult] = await Promise.all([
+  const [vendorsResult, kiosksResult, anchorsResult] = await Promise.all([
     supabase
       .from('vendors')
       .select('vendor_id, business_name, category, grid_x, grid_y')
@@ -16,11 +16,19 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
     supabase
       .from('kiosks')
       .select('kiosk_id, label, grid_x, grid_y')
+      .eq('is_active', true),
+    // BLE positioning beacons — the browser uses these to trilaterate the user's
+    // live position (see apps/web/src/lib/useLivePosition.ts).
+    supabase
+      .from('positioning_anchors')
+      .select('anchor_id, label, beacon_minor, grid_x, grid_y, rssi_at_1m, path_loss_n')
       .eq('is_active', true)
   ])
 
   if (vendorsResult.error) throw vendorsResult.error
   if (kiosksResult.error) throw kiosksResult.error
+  // Anchors are optional (table may not exist yet on older DBs) — degrade gracefully.
+  const anchors = anchorsResult.error ? [] : (anchorsResult.data ?? [])
 
   // Derive grid size from max positions
   const allX = [
@@ -40,7 +48,8 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
     data: {
       grid_size: { cols, rows },
       vendors: vendorsResult.data ?? [],
-      kiosks: kiosksResult.data ?? []
+      kiosks: kiosksResult.data ?? [],
+      anchors
     }
   })
 })

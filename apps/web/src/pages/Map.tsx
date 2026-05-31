@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { getVendorFood, getAllFood } from '../lib/api'
+import { useLivePosition, METERS_PER_GRID_CELL, type PositioningAnchor } from '../lib/useLivePosition'
 
 type QuickFilter = 'all' | 'meals' | 'snacks' | 'drinks' | 'low-calorie'
 
@@ -42,7 +43,6 @@ export default function Map() {
 
   const [isNavigating, setIsNavigating] = useState(false)
   const [showBtPopup, setShowBtPopup] = useState(false)
-  const [btAllowed, setBtAllowed] = useState(false)
 
   useEffect(() => {
     const threshold = maxCalParam ? parseInt(maxCalParam) : LOW_CAL_THRESHOLD
@@ -75,13 +75,28 @@ export default function Map() {
   }
 
   function handleStartNavigation() {
-    if (!btAllowed) { setShowBtPopup(true) }
+    if (live.scanState === 'scanning') { setIsNavigating(true); return }
+    // Offer to turn on live tracking if the device supports it; otherwise just
+    // navigate with the static path (fallback for iPhone / unflagged browsers).
+    if (live.support === 'supported') { setShowBtPopup(true) }
     else { setIsNavigating(true) }
   }
 
   const cols = mapData?.grid_size?.cols ?? 10
   const rows = mapData?.grid_size?.rows ?? 10
   const kiosks: any[] = mapData?.kiosks ?? []
+
+  // BLE positioning anchors (served by /api/map) → live position via Web Bluetooth.
+  const anchors: PositioningAnchor[] = (mapData?.anchors ?? []).map((a: any) => ({
+    anchor_id: a.anchor_id,
+    label: a.label,
+    beacon_minor: Number(a.beacon_minor),
+    grid_x: Number(a.grid_x),
+    grid_y: Number(a.grid_y),
+    rssi_at_1m: Number(a.rssi_at_1m),
+    path_loss_n: Number(a.path_loss_n),
+  }))
+  const live = useLivePosition(anchors)
 
   const filteredVendors = vendors.filter(v => {
     const matchSearch = v.business_name?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -131,6 +146,27 @@ export default function Map() {
         className="w-full bg-orange-50/30 rounded-[2rem] border border-gray-100 border-t-4 border-t-[#FF8A00] shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden relative mb-6"
         style={{ height: 420 }}
       >
+        {/* Live-tracking status badge */}
+        {(isNavigating || live.scanState === 'scanning') && (
+          <div className="absolute top-3 left-3 z-20 max-w-[62%]">
+            {live.scanState === 'scanning' && live.position ? (
+              <span className="inline-flex items-center gap-1.5 bg-blue-600 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full shadow">
+                <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                Live · {live.beaconCount} beacon{live.beaconCount === 1 ? '' : 's'} · ±{(live.position.accuracy * METERS_PER_GRID_CELL).toFixed(1)}m
+              </span>
+            ) : live.scanState === 'scanning' ? (
+              <span className="inline-flex items-center gap-1.5 bg-white text-gray-600 text-[11px] font-semibold px-2.5 py-1 rounded-full shadow border border-gray-200">
+                <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
+                Searching for beacons…
+              </span>
+            ) : live.support === 'unsupported' ? (
+              <span className="inline-block bg-amber-50 text-amber-700 text-[11px] font-medium px-2.5 py-1 rounded-full shadow border border-amber-200">
+                Live tracking unavailable here — showing directions
+              </span>
+            ) : null}
+          </div>
+        )}
+
         {/* Zoom controls */}
         <div className="absolute top-3 right-3 z-20 flex flex-col space-y-2">
           <button onClick={() => setMapScale(s => Math.min(s + 0.25, 2.5))} className="bg-white p-2 rounded-xl shadow border border-gray-200 text-gray-600 hover:text-orange-500 transition-colors">
@@ -165,22 +201,38 @@ export default function Map() {
               <span className="text-gray-400 text-xs font-bold uppercase tracking-widest opacity-60">Zone B — Beverages</span>
             </div>
 
-            {/* Navigation path */}
-            {isNavigating && selectedVendor && (
-              <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <motion.path
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 2, ease: 'easeInOut' }}
-                  d={`M 10,90 L 10,${toY(selectedVendor.grid_y)} L ${toX(selectedVendor.grid_x)},${toY(selectedVendor.grid_y)}`}
-                  fill="none" stroke="#3B82F6" strokeWidth="0.5" strokeDasharray="1.5 1"
-                />
-              </svg>
-            )}
+            {/* Navigation path — starts at the live position if we have one,
+                otherwise from the entrance corner (static fallback). */}
+            {isNavigating && selectedVendor && (() => {
+              const startX = live.position ? toX(live.position.x) : 10
+              const startY = live.position ? toY(live.position.y) : 90
+              return (
+                <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 100 100" preserveAspectRatio="none">
+                  <motion.path
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 2, ease: 'easeInOut' }}
+                    d={`M ${startX},${startY} L ${startX},${toY(selectedVendor.grid_y)} L ${toX(selectedVendor.grid_x)},${toY(selectedVendor.grid_y)}`}
+                    fill="none" stroke="#3B82F6" strokeWidth="0.5" strokeDasharray="1.5 1"
+                  />
+                </svg>
+              )
+            })()}
 
-            {/* Bluetooth user dot */}
-            {btAllowed && (
-              <div className="absolute z-20 pointer-events-none" style={{ left: '10%', top: '88%' }}>
+            {/* Live user dot (real position computed on-device from beacon RSSI) */}
+            {live.position && (
+              <div
+                className="absolute z-20 pointer-events-none -translate-x-1/2 -translate-y-1/2"
+                style={{ left: `${toX(live.position.x)}%`, top: `${toY(live.position.y)}%` }}
+              >
+                {/* Accuracy halo — radius scales with the trilateration residual */}
+                <div
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-400/15 border border-blue-400/30"
+                  style={{
+                    width: Math.max(16, (live.position.accuracy / cols) * BASE_W * mapScale * 2),
+                    height: Math.max(16, (live.position.accuracy / rows) * BASE_H * mapScale * 2),
+                  }}
+                />
                 <div className="w-4 h-4 bg-blue-500 rounded-full border-2 border-white shadow-md relative">
                   <motion.div
                     animate={{ scale: [1, 2.5, 1], opacity: [0.6, 0, 0.6] }}
@@ -413,11 +465,13 @@ export default function Map() {
               <div className="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-5 border-4 border-blue-100">
                 <Bluetooth size={28} />
               </div>
-              <h3 className="text-xl font-bold text-[#1A1A1A] mb-2">Bluetooth Required</h3>
-              <p className="text-sm text-[#6B7280] mb-8">Allow Bluetooth access for accurate indoor navigation and stall tracking.</p>
+              <h3 className="text-xl font-bold text-[#1A1A1A] mb-2">Enable Live Tracking</h3>
+              <p className="text-sm text-[#6B7280] mb-2">Allow Bluetooth so your phone can sense the stall beacons and show your live position on the map.</p>
+              {live.error && <p className="text-xs text-red-500 mb-2">{live.error}</p>}
+              <p className="text-[11px] text-gray-400 mb-6">Works on Android Chrome. Keep this page open while you walk.</p>
               <div className="flex space-x-3">
-                <button onClick={() => setShowBtPopup(false)} className="flex-1 py-3.5 bg-gray-100 text-[#1A1A1A] font-semibold rounded-xl">Later</button>
-                <button onClick={() => { setBtAllowed(true); setShowBtPopup(false); setIsNavigating(true) }} className="flex-1 py-3.5 bg-blue-600 text-white font-semibold rounded-xl shadow-md">Allow</button>
+                <button onClick={() => { setShowBtPopup(false); setIsNavigating(true) }} className="flex-1 py-3.5 bg-gray-100 text-[#1A1A1A] font-semibold rounded-xl">Later</button>
+                <button onClick={async () => { setShowBtPopup(false); setIsNavigating(true); await live.start() }} className="flex-1 py-3.5 bg-blue-600 text-white font-semibold rounded-xl shadow-md">Allow</button>
               </div>
             </motion.div>
           </div>

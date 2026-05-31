@@ -108,7 +108,7 @@ export default function App() {
           const data = await res.json()
           if (data.uid && data.uid !== lastFaceUid.current) {
             lastFaceUid.current = data.uid
-            const success = await handleFaceTap(data.uid)
+            const success = await handleFaceTap(data.uid, data.confidence ?? 0)
             if (!success) lastFaceUid.current = null  // allow retry on next poll
           }
         }
@@ -161,13 +161,19 @@ export default function App() {
     return card
   }
 
-  async function handleFaceTap(uid: string): Promise<boolean> {
+  async function handleFaceTap(uid: string, confidence: number): Promise<boolean> {
     try {
       const encodedUid = encodeURIComponent(uid)
       const card = await loadCardData(uid, encodedUid)
       if (!card) return false
       setIsUserMode(true)
       setShowFaceModal(true)
+      // Log face login event to backend (non-critical)
+      fetch(`${BASE_API}/api/face/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ card_uid: uid, kiosk_id: KIOSK_ID, confidence, device_timestamp: new Date().toISOString() }),
+      }).catch(() => {})
       return true
     } catch {
       return false

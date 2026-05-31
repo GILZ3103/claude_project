@@ -132,10 +132,11 @@ def _capture_loop():
             name = _current.owner_name if (time.monotonic() - _current.seen_at) < config.MATCH_TTL_SECONDS else None
             conf = _current.confidence if name else 0.0
             bbox = getattr(_current, "_last_bbox", None)
+            raw_sim = getattr(_current, "_last_raw_sim", 0.0)
 
         display = frame.copy()
         if bbox:
-            _annotate_frame(display, bbox, name, conf, conf)
+            _annotate_frame(display, bbox, name, conf, raw_sim)
 
         _encode_frame(display)
 
@@ -193,6 +194,7 @@ def _camera_loop():
         # Store bbox for display overlay
         with _state_lock:
             _current._last_bbox = face["bbox"]
+            _current._last_raw_sim = 0.0  # reset until match result below
 
         # Proximity + size gate
         ok, reason = quality.is_face_usable(face["bbox"], frame.shape[1])
@@ -211,6 +213,10 @@ def _camera_loop():
         uid_for_smoother = result.uid if result.decision == "confirmed" else None
         name_for_smoother = result.owner_name if result.decision == "confirmed" else None
         smoothed = smoother.add(uid_for_smoother, result.similarity, name_for_smoother)
+
+        # Store raw sim for display regardless of decision
+        with _state_lock:
+            _current._last_raw_sim = result.similarity
 
         # Update shared state
         if smoothed.decision == "confirmed" and smoothed.uid is not None:
@@ -256,6 +262,12 @@ def _annotate_frame(frame: np.ndarray, bbox: tuple, name, confidence, raw_sim: f
     _cv2.line(frame, (thresh_x, bar_y - 2), (thresh_x, bar_y + bar_h + 2), (0, 0, 255), 2)
     _cv2.putText(frame, f"sim:{raw_sim:.2f}  need:{config.THRESHOLD_CONFIRMED}",
                  (x1, bar_y + bar_h + 14), _cv2.FONT_HERSHEY_SIMPLEX, 0.4, (200, 200, 200), 1)
+
+    # Banner at top of frame when confirmed
+    if name:
+        banner = f"Recognised: {name}  @ {confidence:.0%}"
+        _cv2.rectangle(frame, (0, 0), (frame.shape[1], 28), (0, 160, 60), -1)
+        _cv2.putText(frame, banner, (8, 20), _cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
 
 
 def _encode_frame(frame) -> None:

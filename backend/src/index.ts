@@ -10,6 +10,7 @@ import campaignsRouter from './routes/campaigns'
 import mapRouter from './routes/map'
 import authRouter from './routes/auth'
 import aiRouter from './routes/ai'
+import faceRouter from './routes/face'
 import { errorHandler } from './middleware/errors'
 
 const app = express()
@@ -44,6 +45,7 @@ app.use('/api/campaigns', campaignsRouter)
 app.use('/api', campaignsRouter)   // mounts /api/kiosk/tap
 app.use('/api/map', mapRouter)
 app.use('/api/ai', aiRouter)
+app.use('/api/face', faceRouter)
 
 // 404
 app.use((_req, res) => {
