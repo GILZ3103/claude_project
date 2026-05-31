@@ -193,10 +193,14 @@ export function TopNav({ mode, setMode }: TopNavProps) {
         <div className="relative">
           <button
             onClick={() => navigate('/settings')}
-            className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF8A00] to-[#FFD166] flex items-center justify-center text-white font-bold text-sm shadow-sm hover:shadow-md transition-shadow"
+            className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF8A00] to-[#FFD166] flex items-center justify-center text-white font-bold text-sm shadow-sm hover:shadow-md transition-shadow overflow-hidden"
             title={card.owner_name}
           >
-            {(card.owner_name ?? 'U')[0].toUpperCase()}
+            {card.photo_url ? (
+              <img src={card.photo_url} alt="" className="w-full h-full object-cover" />
+            ) : (
+              (card.owner_name ?? 'U')[0].toUpperCase()
+            )}
           </button>
         </div>
       </div>

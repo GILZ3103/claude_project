@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
-import { User, Lock, Bluetooth, HelpCircle, ChevronDown, CreditCard, LogOut, ArrowRight } from 'lucide-react'
+import { User, Lock, Bluetooth, HelpCircle, ChevronDown, CreditCard, LogOut, ArrowRight, Camera, Loader } from 'lucide-react'
+import toast from 'react-hot-toast'
 import { useCard } from '../context/CardContext'
+import { uploadCardPhoto } from '../lib/api'
+import { fileToResizedDataUrl } from '../lib/image'
 
 const FAQS = [
   {
@@ -32,13 +35,31 @@ const FAQS = [
 ]
 
 export default function Settings() {
-  const { card, unlinkCard } = useCard()
+  const { card, unlinkCard, refreshCard } = useCard()
   const navigate = useNavigate()
 
   // Accordion state
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
+  const [uploadingPhoto, setUploadingPhoto] = useState(false)
   const hasPhysicalCard = card && !card.uid.startsWith('USER-')
+
+  async function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const f = e.target.files?.[0]
+    if (!f || !card) return
+    setUploadingPhoto(true)
+    try {
+      const dataUrl = await fileToResizedDataUrl(f, 400, 0.85)
+      await uploadCardPhoto(card.uid, dataUrl)
+      await refreshCard()
+      toast.success('Profile photo updated')
+    } catch (err: any) {
+      toast.error(err?.message ?? 'Upload failed')
+    } finally {
+      setUploadingPhoto(false)
+      e.target.value = ''
+    }
+  }
 
   function handleSignOut() {
     unlinkCard()
@@ -62,6 +83,25 @@ export default function Settings() {
           </div>
           <h2 className="text-sm font-bold text-[#1A1A1A]">Account Settings</h2>
         </div>
+        {/* Photo upload row */}
+        <div className="flex items-center gap-4 px-6 py-4 border-b border-gray-50">
+          <label className="relative w-16 h-16 rounded-full bg-gradient-to-br from-[#FF8A00] to-[#FFD166] flex items-center justify-center text-white font-bold text-2xl shadow-sm overflow-hidden cursor-pointer group">
+            {card.photo_url ? (
+              <img src={card.photo_url} alt="profile" className="w-full h-full object-cover" />
+            ) : (
+              <span>{(card.owner_name ?? 'U')[0].toUpperCase()}</span>
+            )}
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              {uploadingPhoto ? <Loader size={16} className="text-white animate-spin" /> : <Camera size={16} className="text-white" />}
+            </div>
+            <input type="file" accept="image/*" className="hidden" disabled={uploadingPhoto} onChange={handlePhotoChange} />
+          </label>
+          <div>
+            <p className="text-sm font-semibold text-[#1A1A1A]">Profile Photo</p>
+            <p className="text-xs text-[#6B7280]">Tap to {card.photo_url ? 'change' : 'upload'}</p>
+          </div>
+        </div>
+
         {[
           { label: 'Full Name', value: card.owner_name },
           { label: 'Email', value: card.owner_email },

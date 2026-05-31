@@ -27,6 +27,9 @@ export const loginAdmin = (authority_id: string, email: string, password: string
 export const linkNfcCard = (current_uid: string, new_uid: string) =>
   request(`/api/cards/${current_uid}/link`, { method: 'PATCH', body: JSON.stringify({ new_uid }) })
 
+export const uploadCardPhoto = (uid: string, dataUrl: string) =>
+  request(`/api/cards/${uid}/photo`, { method: 'POST', body: JSON.stringify({ dataUrl }) })
+
 // Cards
 export const getCard = (uid: string) => request(`/api/cards/${uid}`)
 
@@ -148,4 +151,19 @@ export const reviewCampaignApplication = (app_id: string, card_uid: string, acti
   })
 
 // Map
-export const getMap = () => request('/api/map')
+export interface MapAnchor {
+  anchor_id: string
+  label: string | null
+  beacon_minor: number
+  grid_x: number
+  grid_y: number
+  rssi_at_1m: number
+  path_loss_n: number
+}
+export interface MapData {
+  grid_size: { cols: number; rows: number }
+  vendors: any[]
+  kiosks: any[]
+  anchors: MapAnchor[]
+}
+export const getMap = () => request<MapData>('/api/map')

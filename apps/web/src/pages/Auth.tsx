@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from 'motion/react'
 import { Bluetooth, Camera, CheckCircle, Shield, Store, User } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCard } from '../context/CardContext'
-import { registerCard, loginConsumer, loginVendor, loginAdmin, registerVendor } from '../lib/api'
+import { registerCard, loginConsumer, loginVendor, loginAdmin, registerVendor, uploadCardPhoto } from '../lib/api'
+import { fileToResizedDataUrl } from '../lib/image'
 
 type Role = 'consumer' | 'vendor' | 'admin'
 type Mode = 'login' | 'signup'
@@ -28,6 +29,9 @@ export default function AuthPage() {
   // Signup-only fields
   const [cardUid, setCardUid] = useState('')  // set after registration for the success screen
   const [phone, setPhone] = useState('')
+
+  // Profile photo (signup)
+  const [photoDataUrl, setPhotoDataUrl] = useState<string>('')
 
   // Vendor-only signup
   const [businessName, setBusinessName] = useState('')
@@ -86,6 +90,15 @@ export default function AuthPage() {
       const registered = await registerCard(baseBody) as any
       const newUid = registered.uid  // backend auto-generates if not provided
       setCardUid(newUid) // store for the success screen
+
+      // Upload profile photo (best-effort — won't block registration if it fails)
+      if (photoDataUrl) {
+        try {
+          await uploadCardPhoto(newUid, photoDataUrl)
+        } catch (e: any) {
+          console.warn('Photo upload failed:', e?.message)
+        }
+      }
 
       // If vendor, follow up with vendor registration (creates PENDING_REVIEW vendor record)
       if (role === 'vendor') {
@@ -292,11 +305,37 @@ export default function AuthPage() {
               </div>
 
               <div className="pt-2">
-                <label className={labelCls}>Identity Photo (optional)</label>
-                <div className="w-full h-24 bg-[#FAFAFA] border-2 border-dashed border-gray-300 hover:border-gray-400 rounded-xl flex flex-col items-center justify-center cursor-pointer transition-colors group">
-                  <Camera className="text-gray-400 group-hover:text-gray-600 mb-1" size={20} />
-                  <span className="text-xs font-semibold text-gray-500 group-hover:text-gray-700">Upload coming soon</span>
-                </div>
+                <label className={labelCls}>Profile Photo (optional)</label>
+                <label className="relative w-full h-24 bg-[#FAFAFA] border-2 border-dashed border-gray-300 hover:border-[#FF8A00] rounded-xl flex items-center justify-center cursor-pointer transition-colors group overflow-hidden">
+                  {photoDataUrl ? (
+                    <>
+                      <img src={photoDataUrl} alt="preview" className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span className="text-white text-xs font-semibold">Change photo</span>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex flex-col items-center">
+                      <Camera className="text-gray-400 group-hover:text-[#FF8A00] mb-1" size={20} />
+                      <span className="text-xs font-semibold text-gray-500 group-hover:text-[#FF8A00]">Tap to upload</span>
+                    </div>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const f = e.target.files?.[0]
+                      if (!f) return
+                      try {
+                        const url = await fileToResizedDataUrl(f, 400, 0.85)
+                        setPhotoDataUrl(url)
+                      } catch (err: any) {
+                        toast.error(err?.message ?? 'Could not process image')
+                      }
+                    }}
+                  />
+                </label>
               </div>
 
               {role === 'consumer' && (

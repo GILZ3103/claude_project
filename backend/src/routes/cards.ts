@@ -101,6 +101,60 @@ router.post('/register', validate(registerSchema), async (req: Request, res: Res
   res.status(201).json({ success: true, data })
 })
 
+// POST /api/cards/:uid/photo — upload profile picture as base64 data URL,
+// stores in Supabase Storage 'avatars' bucket, saves public URL to cards.photo_url
+router.post('/:uid/photo', async (req: Request, res: Response): Promise<void> => {
+  const { uid } = req.params
+  const { dataUrl } = req.body
+
+  if (!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image/')) {
+    res.status(400).json({ success: false, error: 'INVALID_IMAGE', message: 'Expected a base64 image data URL.' })
+    return
+  }
+
+  const match = dataUrl.match(/^data:image\/(jpeg|jpg|png|webp);base64,(.+)$/)
+  if (!match) {
+    res.status(400).json({ success: false, error: 'INVALID_FORMAT', message: 'Image must be jpg, png, or webp.' })
+    return
+  }
+
+  const ext = match[1] === 'jpeg' ? 'jpg' : match[1]
+  const buffer = Buffer.from(match[2], 'base64')
+
+  if (buffer.length > 500_000) {
+    res.status(400).json({ success: false, error: 'IMAGE_TOO_LARGE', message: 'Image must be under 500KB after resize.' })
+    return
+  }
+
+  const filename = `${uid}.${ext}`
+  const { error: uploadErr } = await supabase.storage
+    .from('avatars')
+    .upload(filename, buffer, {
+      contentType: `image/${match[1]}`,
+      upsert: true,
+    })
+
+  if (uploadErr) {
+    res.status(500).json({ success: false, error: 'UPLOAD_FAILED', message: uploadErr.message })
+    return
+  }
+
+  const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(filename)
+  const photo_url = `${urlData.publicUrl}?v=${Date.now()}` // cache-bust on re-upload
+
+  const { error: updateErr } = await supabase
+    .from('cards')
+    .update({ photo_url })
+    .eq('uid', uid)
+
+  if (updateErr) {
+    res.status(500).json({ success: false, error: 'DB_UPDATE_FAILED', message: updateErr.message })
+    return
+  }
+
+  res.json({ success: true, data: { photo_url } })
+})
+
 // PATCH /api/cards/:uid/link — replace the auto-generated UID with a real NFC card UID
 router.patch('/:uid/link', validate(linkCardSchema), async (req: Request, res: Response): Promise<void> => {
   const { uid } = req.params
