@@ -56,7 +56,9 @@
       "PowerShell(Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.InterfaceAlias -match 'Wi-Fi|Wireless|WLAN' -and $_.IPAddress -ne '127.0.0.1' } | Select-Object InterfaceAlias, IPAddress)",
       "PowerShell(node tmp_verify_trilat.mjs)",
       "PowerShell(Set-Location C:\\\\Users\\\\HUAWEI\\\\claude_project\\\\apps\\\\web; npx tsc -b --force 2>&1 | Select-Object -First 80; Write-Output \"EXIT=$LASTEXITCODE\")",
-      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\HUAWEI\\\\claude_project\\\\daemon\\\\face\" -Name -Depth 1)"
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\HUAWEI\\\\claude_project\\\\daemon\\\\face\" -Name -Depth 1)",
+      "Bash(node -e \"const p=require\\('./package.json'\\); console.log\\('--- scripts ---'\\); console.log\\(JSON.stringify\\(p.scripts,null,2\\)\\); console.log\\('--- typescript in deps? ---', !!\\(p.dependencies&&p.dependencies.typescript\\)\\); console.log\\('--- typescript in devDeps? ---', !!\\(p.devDependencies&&p.devDependencies.typescript\\)\\); console.log\\('--- @types in devDeps ---', Object.keys\\(p.devDependencies||{}\\).filter\\(k=>k.startsWith\\('@types'\\)\\)\\);\")",
+      "Bash(npm uninstall *)"
     ],
     "additionalDirectories": [
       "C:\\Users\\HUAWEI\\Downloads\\KioskUI\\src\\app\\components\\figma"
