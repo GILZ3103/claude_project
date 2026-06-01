@@ -1,7 +1,17 @@
-import { SchemaType, FunctionDeclaration } from '@google/generative-ai'
 import { supabase } from '../lib/supabase'
 
-// Tool context — what the runner injects, not visible to Gemini
+// OpenAI-compatible (DeepSeek) function declaration — plain JSON Schema.
+export interface FunctionDeclaration {
+  name: string
+  description: string
+  parameters: {
+    type: 'object'
+    properties: Record<string, { type: 'string' | 'number' | 'boolean'; description?: string }>
+    required?: string[]
+  }
+}
+
+// Tool context — what the runner injects, not visible to the model
 export interface ToolContext {
   card_uid: string
 }
@@ -20,7 +30,7 @@ const getMyBalance: Tool = {
   schema: {
     name: 'getMyBalance',
     description: "Look up the current user's wallet balance in RM. Use whenever the user asks about points, money, balance, or whether they can afford something.",
-    parameters: { type: SchemaType.OBJECT, properties: {} },
+    parameters: { type: 'object', properties: {} },
   },
   async execute(_args, { card_uid }) {
     const { data, error } = await supabase
@@ -37,7 +47,7 @@ const getMyCaloriesToday: Tool = {
   schema: {
     name: 'getMyCaloriesToday',
     description: "Look up the user's calorie intake today vs their daily target. Use when user asks about calories, how much they ate, if they're over their limit, or how much they can still eat.",
-    parameters: { type: SchemaType.OBJECT, properties: {} },
+    parameters: { type: 'object', properties: {} },
   },
   async execute(_args, { card_uid }) {
     const today = new Date().toISOString().split('T')[0]
@@ -69,9 +79,9 @@ const getMyHistory: Tool = {
     name: 'getMyHistory',
     description: "List the user's recent tap-purchase history. Use when user asks 'what did I eat', 'recent purchases', or specifies a recent day. Default 3 days, max 30.",
     parameters: {
-      type: SchemaType.OBJECT,
+      type: 'object',
       properties: {
-        days: { type: SchemaType.NUMBER, description: 'How many days back to look (default 3, max 30)' },
+        days: { type: 'number', description: 'How many days back to look (default 3, max 30)' },
       },
     },
   },
@@ -100,7 +110,7 @@ const getMyCampaigns: Tool = {
   schema: {
     name: 'getMyCampaigns',
     description: "List active campaigns with the user's progress. Use when user asks about rewards, vouchers, what campaigns they're in, or how close to earning something.",
-    parameters: { type: SchemaType.OBJECT, properties: {} },
+    parameters: { type: 'object', properties: {} },
   },
   async execute(_args, { card_uid }) {
     const { data: campaigns } = await supabase
@@ -137,10 +147,10 @@ const searchFood: Tool = {
     name: 'searchFood',
     description: 'Search the market food menu. Use when user wants recommendations, asks for spicy/sweet/cheap food, or wants something under a calorie limit. Returns up to 10 items with vendor, food name, calories, and price.',
     parameters: {
-      type: SchemaType.OBJECT,
+      type: 'object',
       properties: {
-        query: { type: SchemaType.STRING, description: 'Food name, descriptor, or category (e.g. "spicy", "nasi lemak", "dessert")' },
-        max_calories: { type: SchemaType.NUMBER, description: 'Optional calorie ceiling (only return items at or below this kcal)' },
+        query: { type: 'string', description: 'Food name, descriptor, or category (e.g. "spicy", "nasi lemak", "dessert")' },
+        max_calories: { type: 'number', description: 'Optional calorie ceiling (only return items at or below this kcal)' },
       },
       required: ['query'],
     },
@@ -175,9 +185,9 @@ const getVendor: Tool = {
     name: 'getVendor',
     description: "Look up a specific vendor by name and return their menu. Use when user asks 'what's at <vendor>' or 'tell me about <vendor>'.",
     parameters: {
-      type: SchemaType.OBJECT,
+      type: 'object',
       properties: {
-        name: { type: SchemaType.STRING, description: 'Vendor business name (partial match OK)' },
+        name: { type: 'string', description: 'Vendor business name (partial match OK)' },
       },
       required: ['name'],
     },
@@ -222,9 +232,9 @@ const joinCampaign: Tool = {
     name: 'joinCampaign',
     description: 'Enrol the user in an active campaign by its name. Use when user says "join", "sign me up", or "enrol me in" a campaign. Look up the exact campaign first via getMyCampaigns if unsure.',
     parameters: {
-      type: SchemaType.OBJECT,
+      type: 'object',
       properties: {
-        campaign_name: { type: SchemaType.STRING, description: 'Name of the campaign (partial match OK)' },
+        campaign_name: { type: 'string', description: 'Name of the campaign (partial match OK)' },
       },
       required: ['campaign_name'],
     },
@@ -268,9 +278,9 @@ const setMyCalorieGoal: Tool = {
     name: 'setMyCalorieGoal',
     description: "Update the user's daily calorie limit. Use when user says 'change my goal', 'set my limit to X', or 'I want to track N calories per day'. Range: 1200–4000 kcal.",
     parameters: {
-      type: SchemaType.OBJECT,
+      type: 'object',
       properties: {
-        kcal: { type: SchemaType.NUMBER, description: 'New daily calorie limit (1200–4000)' },
+        kcal: { type: 'number', description: 'New daily calorie limit (1200–4000)' },
       },
       required: ['kcal'],
     },
