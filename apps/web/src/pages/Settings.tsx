@@ -44,6 +44,27 @@ export default function Settings() {
   const [uploadingPhoto, setUploadingPhoto] = useState(false)
   const hasPhysicalCard = card && !card.uid.startsWith('USER-')
 
+  // Bluetooth permission
+  const btSupported = typeof navigator !== 'undefined' && 'bluetooth' in navigator
+  const [btAllowed, setBtAllowed] = useState<boolean>(() => localStorage.getItem('bt_allowed') === 'true')
+
+  async function handleEnableBluetooth() {
+    if (!btSupported) return
+    try {
+      await (navigator as any).bluetooth.requestDevice({ acceptAllDevices: true })
+      localStorage.setItem('bt_allowed', 'true')
+      setBtAllowed(true)
+      toast.success('Bluetooth enabled')
+    } catch (err: any) {
+      // User cancelled the chooser or denied permission
+      localStorage.setItem('bt_allowed', 'false')
+      setBtAllowed(false)
+      if (err?.name === 'NotAllowedError' || err?.name === 'SecurityError') {
+        toast.error('Bluetooth permission denied')
+      }
+    }
+  }
+
   async function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
     const f = e.target.files?.[0]
     if (!f || !card) return
@@ -143,6 +164,35 @@ export default function Settings() {
           </div>
           <h2 className="text-sm font-bold text-[#1A1A1A]">Bluetooth & NFC Card</h2>
         </div>
+
+        {/* Bluetooth permission */}
+        {btSupported ? (
+          <div className={rowCls}>
+            <div>
+              <p className="text-sm text-[#1A1A1A]">Bluetooth</p>
+              <p className="text-xs text-[#6B7280]">
+                {btAllowed ? 'Enabled on this device' : 'Allow Bluetooth to connect your card'}
+              </p>
+            </div>
+            <button
+              onClick={handleEnableBluetooth}
+              className={`text-xs font-semibold px-3 py-1.5 rounded-lg border transition-colors ${
+                btAllowed
+                  ? 'text-green-600 bg-green-50 border-green-100'
+                  : 'text-blue-600 bg-blue-50 border-blue-100 hover:bg-blue-100'
+              }`}
+            >
+              {btAllowed ? 'Enabled' : 'Enable Bluetooth'}
+            </button>
+          </div>
+        ) : (
+          <div className={rowCls}>
+            <span className="text-sm text-[#6B7280]">Bluetooth</span>
+            <span className="text-xs text-gray-400 bg-gray-50 px-2 py-1 rounded-lg border border-gray-200 text-right max-w-[55%]">
+              Bluetooth not supported on this browser
+            </span>
+          </div>
+        )}
 
         {hasPhysicalCard ? (
           <>
