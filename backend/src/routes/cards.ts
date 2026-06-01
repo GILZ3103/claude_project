@@ -259,6 +259,7 @@ router.get('/:uid', async (req: Request, res: Response): Promise<void> => {
       points_balance: card.points_balance,
       calorie_limit: card.calorie_limit,
       is_active: card.is_active,
+      photo_url: card.photo_url ?? null,
       calories_today,
       checkpoints_today,
       has_physical_card: card.has_physical_card ?? false,
