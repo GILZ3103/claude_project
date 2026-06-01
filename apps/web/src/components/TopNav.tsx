@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import { Zap, Bell, Globe, User, Store, Shield, Settings, Home, Flame, Map, Gift } from 'lucide-react'
@@ -51,7 +51,14 @@ export function TopNav({ mode, setMode }: TopNavProps) {
   // Pill position for vendor toggle
   const pillLeft = mode === 'consumer' ? '2px' : 'calc(50% - 2px)'
 
+  // Larger icons for mobile bottom nav
+  const mobileLinks = links.map(link => ({
+    ...link,
+    icon: React.cloneElement(link.icon as React.ReactElement<any>, { size: 22 }),
+  }))
+
   return (
+    <>
     <nav className="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-white/80 border-b border-white/50 px-4 sm:px-6 py-3.5 flex items-center justify-between shadow-sm">
       {/* Logo */}
       <div
@@ -205,5 +212,59 @@ export function TopNav({ mode, setMode }: TopNavProps) {
         </div>
       </div>
     </nav>
+
+    {/* ── Mobile bottom navigation bar ── */}
+    <nav className="fixed bottom-0 left-0 right-0 md:hidden z-50 bg-white/95 backdrop-blur-xl border-t border-gray-100 shadow-[0_-4px_24px_rgba(0,0,0,0.06)]">
+      <div className="flex items-stretch px-1 py-1">
+        {mobileLinks.map(link => (
+          <NavLink
+            key={link.href}
+            to={link.href}
+            className={({ isActive }) =>
+              `flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1 rounded-xl transition-all ${
+                isActive ? 'text-[#FF8A00]' : 'text-[#9CA3AF]'
+              }`
+            }
+          >
+            {({ isActive }: { isActive: boolean }) => (
+              <>
+                <span className={`flex items-center justify-center w-9 h-9 rounded-xl transition-colors ${isActive ? 'bg-orange-50' : ''}`}>
+                  {link.icon}
+                </span>
+                <span className="text-[10px] font-semibold leading-tight tracking-tight">
+                  {link.label === 'Health Tracking' ? 'Health' : link.label === 'Admin Console' ? 'Admin' : link.label}
+                </span>
+              </>
+            )}
+          </NavLink>
+        ))}
+
+        {/* Vendor mode toggle — VENDOR role only */}
+        {isVendor && (
+          <div className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 px-1">
+            <div className="relative flex items-center bg-gray-100 rounded-xl border border-gray-200 w-full h-9 overflow-hidden">
+              <div
+                className="absolute inset-y-0.5 w-[calc(50%-2px)] bg-white rounded-lg shadow-sm transition-all duration-200"
+                style={{ left: mode === 'consumer' ? '2px' : 'calc(50%)' }}
+              />
+              <button
+                onClick={() => handleVendorModeSwitch('consumer')}
+                className={`relative z-10 flex-1 flex items-center justify-center gap-0.5 text-[10px] font-bold transition-colors ${mode === 'consumer' ? 'text-[#FF8A00]' : 'text-gray-400'}`}
+              >
+                <User size={11} />C
+              </button>
+              <button
+                onClick={() => handleVendorModeSwitch('vendor')}
+                className={`relative z-10 flex-1 flex items-center justify-center gap-0.5 text-[10px] font-bold transition-colors ${mode === 'vendor' ? 'text-[#FF8A00]' : 'text-gray-400'}`}
+              >
+                <Store size={11} />V
+              </button>
+            </div>
+            <span className="text-[10px] font-semibold text-[#9CA3AF] leading-tight">Mode</span>
+          </div>
+        )}
+      </div>
+    </nav>
+    </>
   )
 }

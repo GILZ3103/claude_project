@@ -29,7 +29,7 @@ function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => 
   const showAiChat = showTopNav && card?.role !== 'ADMIN'
 
   return (
-    <div className={`min-h-screen bg-gray-50 ${showTopNav ? 'pt-14' : ''}`}>
+    <div className={`min-h-screen bg-gray-50 ${showTopNav ? 'pt-14 pb-16 md:pb-0' : ''}`}>
       {showTopNav && <TopNav mode={mode} setMode={setMode} />}
       {showAiChat && <AiChat />}
       <Routes>
