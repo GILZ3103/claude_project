@@ -15,8 +15,10 @@ export default function Information() {
   const [saving, setSaving] = useState(false)
   const [form, setForm] = useState({
     name: '', calories: '', price_in_points: '',
+    calories_per_100g: '', price_per_100g: '',
     photo_url: '', protein_g: '', carbs_g: '', fat_g: ''
   })
+  const [weightBased, setWeightBased] = useState(false)
 
   useEffect(() => {
     if (!vendorId) return
@@ -42,15 +44,22 @@ export default function Information() {
     try {
       await addFoodItem(vendorId, {
         name: form.name,
-        calories: parseInt(form.calories),
-        price_in_points: parseFloat(form.price_in_points),
+        ...(weightBased
+          ? {
+              calories_per_100g: parseFloat(form.calories_per_100g),
+              price_per_100g: parseFloat(form.price_per_100g),
+            }
+          : {
+              calories: parseInt(form.calories),
+              price_in_points: parseFloat(form.price_in_points),
+            }),
         photo_url: form.photo_url || undefined,
         protein_g: form.protein_g ? parseFloat(form.protein_g) : undefined,
         carbs_g: form.carbs_g ? parseFloat(form.carbs_g) : undefined,
         fat_g: form.fat_g ? parseFloat(form.fat_g) : undefined,
       } as any)
       toast.success('Item added!')
-      setForm({ name: '', calories: '', price_in_points: '', photo_url: '', protein_g: '', carbs_g: '', fat_g: '' })
+      setForm({ name: '', calories: '', price_in_points: '', calories_per_100g: '', price_per_100g: '', photo_url: '', protein_g: '', carbs_g: '', fat_g: '' })
       setShowForm(false)
       loadFood()
     } catch (e: any) {
@@ -121,10 +130,29 @@ export default function Information() {
         <form onSubmit={handleAdd} className="bg-white rounded-xl shadow p-4 space-y-3">
           <p className="text-sm font-medium">New Food Item</p>
           <input required className="w-full border rounded-lg px-3 py-2 text-sm" placeholder="Item name" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} />
-          <div className="grid grid-cols-2 gap-2">
-            <input required type="number" className="border rounded-lg px-3 py-2 text-sm" placeholder="Calories (kcal)" value={form.calories} onChange={e => setForm(f => ({ ...f, calories: e.target.value }))} />
-            <input required type="number" step="0.01" className="border rounded-lg px-3 py-2 text-sm" placeholder="Price (RM)" value={form.price_in_points} onChange={e => setForm(f => ({ ...f, price_in_points: e.target.value }))} />
-          </div>
+
+          {/* Weight-based toggle */}
+          <label className="flex items-center gap-2 cursor-pointer select-none">
+            <div
+              onClick={() => setWeightBased(v => !v)}
+              className={`w-10 h-6 rounded-full transition-colors flex items-center px-1 ${weightBased ? 'bg-black' : 'bg-gray-300'}`}
+            >
+              <div className={`w-4 h-4 rounded-full bg-white transition-transform ${weightBased ? 'translate-x-4' : ''}`} />
+            </div>
+            <span className="text-sm text-gray-600">Sold by weight (load cell)</span>
+          </label>
+
+          {weightBased ? (
+            <div className="grid grid-cols-2 gap-2">
+              <input required type="number" step="0.1" className="border rounded-lg px-3 py-2 text-sm" placeholder="Calories per 100g" value={form.calories_per_100g} onChange={e => setForm(f => ({ ...f, calories_per_100g: e.target.value }))} />
+              <input required type="number" step="0.01" className="border rounded-lg px-3 py-2 text-sm" placeholder="Price per 100g (RM)" value={form.price_per_100g} onChange={e => setForm(f => ({ ...f, price_per_100g: e.target.value }))} />
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-2">
+              <input required type="number" className="border rounded-lg px-3 py-2 text-sm" placeholder="Calories (kcal)" value={form.calories} onChange={e => setForm(f => ({ ...f, calories: e.target.value }))} />
+              <input required type="number" step="0.01" className="border rounded-lg px-3 py-2 text-sm" placeholder="Price (RM)" value={form.price_in_points} onChange={e => setForm(f => ({ ...f, price_in_points: e.target.value }))} />
+            </div>
+          )}
           <p className="text-xs text-gray-500 font-medium">Macros (optional)</p>
           <div className="grid grid-cols-3 gap-2">
             <input type="number" step="0.1" className="border rounded-lg px-3 py-2 text-sm" placeholder="Protein (g)" value={form.protein_g} onChange={e => setForm(f => ({ ...f, protein_g: e.target.value }))} />

@@ -18,10 +18,13 @@ from .enroll import enroll_photo
 log = logging.getLogger("sync_service")
 
 
-def sync_from_backend() -> int:
+def sync_from_backend(force: bool = False) -> int:
     """
     Fetch all registered face photos from backend, enroll any that are
     new or changed (detected via photo_url difference), reload daemon cache.
+
+    If force=True, re-enroll everyone regardless of whether their photo URL
+    has changed (used on startup to ensure faces.db always matches backend).
 
     Returns number of people newly enrolled or updated.
     """
@@ -52,10 +55,11 @@ def sync_from_backend() -> int:
 
         backend_uids.add(uid)
 
-        # 2. Skip if already enrolled with the same photo URL
-        existing = faces_db.get_person(uid)
-        if existing and existing.get("photo_url") == photo_url:
-            continue
+        # 2. Skip if already enrolled with the same photo URL (unless force=True)
+        if not force:
+            existing = faces_db.get_person(uid)
+            if existing and existing.get("photo_url") == photo_url:
+                continue
 
         # 3. Download photo to tmp dir
         tmp_path: Path = config.SYNC_TMP_DIR / f"{uid}.jpg"

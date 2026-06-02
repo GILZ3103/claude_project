@@ -390,7 +390,7 @@ def _sync_loop():
     """Background thread — syncs face photos from backend at startup then every SYNC_INTERVAL_SECONDS."""
     from .sync_service import sync_from_backend
     try:
-        n = sync_from_backend()
+        n = sync_from_backend(force=True)
         log.info(f"Startup sync complete: {n} people enrolled/updated")
     except Exception as e:
         log.error(f"Startup sync failed: {e}")
