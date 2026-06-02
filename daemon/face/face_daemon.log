@@ -8603,3 +8603,13 @@
 2026-05-31 21:57:06,898 [INFO] Camera opened via OpenCV (USB webcam)
 2026-05-31 21:57:06,898 [INFO] Capture loop running.
 2026-05-31 21:57:38,948 [INFO] 127.0.0.1 - - [31/May/2026 21:57:38] "GET /stream HTTP/1.1" 200 -
+2026-06-02 14:29:51,188 [INFO] Loaded 16 embeddings from faces.db
+2026-06-02 14:29:51,189 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-02 14:29:51,191 [INFO] Detection loop running.
+2026-06-02 14:29:52,727 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.193.197.61:5002
+2026-06-02 14:29:52,727 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-02 14:29:54,963 [INFO] Camera opened via OpenCV (USB webcam)
+2026-06-02 14:29:54,964 [INFO] Capture loop running.

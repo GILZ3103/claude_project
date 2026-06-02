@@ -245,10 +245,12 @@ router.get('/:uid', async (req: Request, res: Response): Promise<void> => {
   let ssm_registration_number: string | null = null
   let grid_x: number | null = null
   let grid_y: number | null = null
+  let application_status: string | null = null
+  let rejection_reason: string | null = null
   if (card.role === 'VENDOR') {
     const { data: vendor } = await supabase
       .from('vendors')
-      .select('vendor_id, business_name, ssm_registration_number, grid_x, grid_y')
+      .select('vendor_id, business_name, ssm_registration_number, grid_x, grid_y, application_status, rejection_reason')
       .eq('owner_card_uid', uid)
       .eq('is_active', true)
       .single()
@@ -257,6 +259,8 @@ router.get('/:uid', async (req: Request, res: Response): Promise<void> => {
     ssm_registration_number = vendor?.ssm_registration_number ?? null
     grid_x = vendor?.grid_x ?? null
     grid_y = vendor?.grid_y ?? null
+    application_status = vendor?.application_status ?? null
+    rejection_reason = vendor?.rejection_reason ?? null
   }
 
   res.json({
@@ -279,7 +283,9 @@ router.get('/:uid', async (req: Request, res: Response): Promise<void> => {
       business_name,
       ssm_registration_number,
       grid_x,
-      grid_y
+      grid_y,
+      application_status,
+      rejection_reason
     }
   })
 })
