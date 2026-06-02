@@ -423,4 +423,44 @@ router.delete('/:id/compliance/:rec_id', async (req: Request, res: Response): Pr
   res.json({ success: true })
 })
 
+const calibrationSchema = z.object({
+  scale_factor: z.number().positive(),
+  tare_offset: z.number().int()
+})
+
+// GET /api/vendors/:id/calibration
+router.get('/:id/calibration', async (req: Request, res: Response): Promise<void> => {
+  const id = String(req.params.id)
+  const authorised = await authoriseVendor(req, res, id)
+  if (!authorised) return
+
+  const { data, error } = await supabase
+    .from('terminal_calibration')
+    .select('*')
+    .eq('vendor_id', id)
+    .single()
+
+  if (error && error.code !== 'PGRST116') throw error
+  res.json({ success: true, data: data ?? null })
+})
+
+// PUT /api/vendors/:id/calibration
+router.put('/:id/calibration', validate(calibrationSchema), async (req: Request, res: Response): Promise<void> => {
+  const id = String(req.params.id)
+  const authorised = await authoriseVendor(req, res, id)
+  if (!authorised) return
+
+  const { data, error } = await supabase
+    .from('terminal_calibration')
+    .upsert(
+      { vendor_id: id, scale_factor: req.body.scale_factor, tare_offset: req.body.tare_offset, updated_at: new Date().toISOString() },
+      { onConflict: 'vendor_id' }
+    )
+    .select()
+    .single()
+
+  if (error) throw error
+  res.json({ success: true, data })
+})
+
 export default router

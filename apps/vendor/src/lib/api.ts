@@ -67,3 +67,13 @@ export const submitClaim = (vendor_id: string, claim_period_start: string, claim
 
 export const getVendorClaims = (vendor_id: string) =>
   request(`/api/vendors/${vendor_id}/claims`, undefined, getUid())
+
+// Terminal calibration
+export const getCalibration = (vendor_id: string) =>
+  request(`/api/vendors/${vendor_id}/calibration`, undefined, getUid())
+
+export const saveCalibration = (vendor_id: string, scale_factor: number, tare_offset: number) =>
+  request(`/api/vendors/${vendor_id}/calibration`, {
+    method: 'PUT',
+    body: JSON.stringify({ scale_factor, tare_offset }),
+  }, getUid())

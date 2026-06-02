@@ -33,6 +33,16 @@ export default function Settings() {
         ))}
       </div>
 
+      {/* Terminal */}
+      <div className="bg-white rounded-xl shadow p-4">
+        <button
+          onClick={() => navigate('/calibration')}
+          className="w-full bg-gray-900 text-white rounded-lg py-2 text-sm font-medium"
+        >
+          Terminal Calibration
+        </button>
+      </div>
+
       {/* Sign out */}
       <div className="bg-white rounded-xl shadow p-4">
         <button

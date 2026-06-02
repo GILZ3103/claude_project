@@ -10,6 +10,8 @@ import Summary from './pages/Summary'
 import Claim from './pages/Claim'
 import VendorCampaigns from './pages/VendorCampaigns'
 import Settings from './pages/Settings'
+import Calibration from './pages/Calibration'
+import Menu from './pages/Menu'
 
 function Nav() {
   const base = 'text-xs font-medium px-2 py-2 rounded-lg transition-colors'
@@ -57,6 +59,8 @@ function AppRouter() {
         <Route path="/summary" element={<Summary />} />
         <Route path="/claim" element={<Claim />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/calibration" element={<Calibration />} />
+        <Route path="/menu" element={<Menu />} />
       </Routes>
       <Nav />
     </div>

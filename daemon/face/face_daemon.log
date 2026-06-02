@@ -8664,3 +8664,27 @@
 2026-06-02 15:56:47,753 [INFO] Loaded 24 embeddings from faces.db
 2026-06-02 15:56:47,758 [INFO] Cache reloaded — 3 changes total
 2026-06-02 15:56:47,799 [INFO] Startup sync complete: 3 people enrolled/updated
+2026-06-02 16:00:31,545 [INFO] Loaded 24 embeddings from faces.db
+2026-06-02 16:00:31,546 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-02 16:00:31,548 [INFO] Detection loop running.
+2026-06-02 16:00:32,893 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.193.197.61:5002
+2026-06-02 16:00:32,894 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-02 16:00:34,091 [INFO] Startup sync complete: 0 people enrolled/updated
+2026-06-02 16:00:36,372 [INFO] Camera opened via OpenCV (USB webcam)
+2026-06-02 16:00:36,373 [INFO] Capture loop running.
+2026-06-02 16:01:50,655 [INFO] 127.0.0.1 - - [02/Jun/2026 16:01:50] "GET /stream HTTP/1.1" 200 -
+2026-06-02 16:02:44,080 [INFO] Loaded 24 embeddings from faces.db
+2026-06-02 16:02:44,080 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-02 16:02:44,083 [INFO] Detection loop running.
+2026-06-02 16:02:45,400 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.193.197.61:5002
+2026-06-02 16:02:45,400 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-02 16:02:46,145 [INFO] Startup sync complete: 0 people enrolled/updated
+2026-06-02 16:02:48,770 [INFO] Camera opened via OpenCV (USB webcam)
+2026-06-02 16:02:48,770 [INFO] Capture loop running.
+2026-06-02 16:03:21,400 [INFO] 127.0.0.1 - - [02/Jun/2026 16:03:21] "GET /stream HTTP/1.1" 200 -

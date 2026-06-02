@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useVendor } from '../context/VendorContext'
 import { getVendorFood, addFoodItem } from '../lib/api'
+import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
 const CELL = 48
 
 export default function Information() {
   const { card, vendorId } = useVendor()
+  const navigate = useNavigate()
   const [items, setItems] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -159,6 +161,12 @@ export default function Information() {
               </div>
             ))
       }
+      <button
+        onClick={() => navigate('/menu')}
+        className="w-full border border-gray-300 rounded-xl py-3 text-sm font-medium text-gray-600"
+      >
+        Weight-Based Items (load cell) →
+      </button>
     </div>
   )
 }
