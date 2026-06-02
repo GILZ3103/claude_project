@@ -37,8 +37,6 @@ export default function App() {
   const lastUid = useRef<string | null>(null)
 
   // Card linking state (activated at kiosk after face login)
-  const [isLinkingCard, setIsLinkingCard] = useState(false)
-  const [linkingUid, setLinkingUid] = useState<string | null>(null)
   const [cardLinkStatus, setCardLinkStatus] = useState<'idle' | 'linking' | 'done' | 'error'>('idle')
 
   // Face recognition state
@@ -391,6 +389,8 @@ export default function App() {
         <NfcCardOfferModal
           onClose={() => setActiveOverlay(null)}
           onConfirmCollect={() => setActiveOverlay(null)}
+          linkStatus={cardLinkStatus}
+          onLinkComplete={() => setCardLinkStatus('done')}
           language={language}
         />
       )}
