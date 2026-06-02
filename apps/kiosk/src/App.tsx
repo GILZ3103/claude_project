@@ -38,6 +38,8 @@ export default function App() {
 
   // Card linking state (activated at kiosk after face login)
   const [cardLinkStatus, setCardLinkStatus] = useState<'idle' | 'linking' | 'done' | 'error'>('idle')
+  const cardLinkStatusRef = useRef<'idle' | 'linking' | 'done' | 'error'>('idle')
+  const cardDataRef = useRef<any>(null)
 
   // Face recognition state
   const [loginSource, setLoginSource] = useState<'nfc' | 'face' | null>(null)
@@ -68,6 +70,10 @@ export default function App() {
   const [activeStall, setActiveStall] = useState<Stall | null>(null)
   const [navDestination, setNavDestination] = useState<Stall | null>(null)
 
+  // Keep refs in sync so poll closures always see current values
+  useEffect(() => { cardLinkStatusRef.current = cardLinkStatus }, [cardLinkStatus])
+  useEffect(() => { cardDataRef.current = cardData }, [cardData])
+
   // ── Load stalls from backend ───────────────────────────────────────────────
 
   useEffect(() => {
@@ -89,7 +95,11 @@ export default function App() {
         const data = await res.json()
         if (data.uid && data.uid !== lastUid.current) {
           lastUid.current = data.uid
-          handleNfcTap(data.uid)
+          if (cardLinkStatusRef.current === 'linking') {
+            handleNfcLink(data.uid)
+          } else {
+            handleNfcTap(data.uid)
+          }
           setTimeout(() => { lastUid.current = null }, 4000)
         }
       } catch {
@@ -254,6 +264,31 @@ export default function App() {
     }
   }
 
+  async function handleNfcLink(newUid: string) {
+    const current = cardDataRef.current
+    if (!current?.uid) return
+    setCardLinkStatus('linking')
+    try {
+      const encodedOldUid = encodeURIComponent(current.uid)
+      const res = await fetch(`${BASE_API}/api/cards/${encodedOldUid}/link`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ new_uid: newUid }),
+      })
+      const json = await res.json()
+      if (json.success) {
+        setCardData((prev: any) => ({ ...prev, uid: newUid, has_physical_card: true }))
+        setCardLinkStatus('done')
+      } else {
+        toast.error(json.message ?? 'Card linking failed')
+        setCardLinkStatus('error')
+      }
+    } catch {
+      toast.error('Failed to link card — check connection')
+      setCardLinkStatus('error')
+    }
+  }
+
   function handleLogout() {
     setIsUserMode(false)
     setCardData(null)
@@ -261,6 +296,7 @@ export default function App() {
     setPoints(0)
     setActiveCampaigns(0)
     setLoginSource(null)
+    setCardLinkStatus('idle')
     lastUid.current = null
     lastFaceUid.current = null
   }
@@ -396,10 +432,10 @@ export default function App() {
       {/* NFC card offer — shown after face login when user has no physical card */}
       {activeOverlay === 'card-offer' && (
         <NfcCardOfferModal
-          onClose={() => setActiveOverlay(null)}
-          onConfirmCollect={() => setActiveOverlay(null)}
+          onClose={() => { setActiveOverlay(null); setCardLinkStatus('idle') }}
+          onConfirmCollect={() => setCardLinkStatus('linking')}
           linkStatus={cardLinkStatus}
-          onLinkComplete={() => setCardLinkStatus('done')}
+          onLinkComplete={() => { setActiveOverlay(null); setCardLinkStatus('idle') }}
           language={language}
         />
       )}
