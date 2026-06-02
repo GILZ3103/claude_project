@@ -116,7 +116,7 @@ export default function App() {
           if (data.uid && data.uid !== lastFaceUid.current) {
             lastFaceUid.current = data.uid
             const success = await handleFaceTap(data.uid, data.confidence ?? 0, data.owner_name ?? '')
-            if (!success) lastFaceUid.current = null
+            if (!success) setTimeout(() => { lastFaceUid.current = null }, 15000)
           }
         }
       } catch {
@@ -131,7 +131,7 @@ export default function App() {
 
 
   async function loadCardData(_uid: string, encodedUid: string) {
-    const cardRes = await fetch(`${BASE_API}/api/cards/${encodedUid}`, { signal: AbortSignal.timeout(8000) })
+    const cardRes = await fetch(`${BASE_API}/api/cards/${encodedUid}`, { signal: AbortSignal.timeout(30000) })
     const cardJson = await cardRes.json()
     if (!cardJson.success) return null
 
