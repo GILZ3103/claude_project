@@ -18,7 +18,13 @@ CREATE TABLE IF NOT EXISTS cards (
     points_balance      DECIMAL(10,2) DEFAULT 0,
     calorie_limit       INTEGER DEFAULT 2000,
     role                VARCHAR(20) DEFAULT 'CONSUMER'
-                        CHECK (role IN ('CONSUMER', 'VENDOR')),
+                        CHECK (role IN ('CONSUMER', 'VENDOR', 'ADMIN')),
+    photo_url           TEXT,
+    has_physical_card   BOOLEAN DEFAULT FALSE,
+    face_enrolled_at    TIMESTAMPTZ,
+    face_consent        BOOLEAN DEFAULT FALSE,
+    authority_id        VARCHAR(50),
+    department          VARCHAR(100),
     registered_at       TIMESTAMPTZ DEFAULT NOW(),
     is_active           BOOLEAN DEFAULT TRUE
 );
@@ -35,6 +41,14 @@ CREATE TABLE IF NOT EXISTS vendors (
     grid_x                  INTEGER,
     grid_y                  INTEGER,
     is_active               BOOLEAN DEFAULT TRUE,
+    application_status      VARCHAR(20) DEFAULT 'PENDING_REVIEW'
+                            CHECK (application_status IN ('PENDING_REVIEW', 'APPROVED', 'REJECTED')),
+    business_license_url    TEXT,
+    typhoid_cert_url        TEXT,
+    food_handling_cert_url  TEXT,
+    rejection_reason        TEXT,
+    approved_at             TIMESTAMPTZ,
+    approved_by             VARCHAR(20),
     registered_at           TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -165,6 +179,71 @@ ALTER TABLE food_items
 
 ALTER TABLE tap_events
   ADD COLUMN IF NOT EXISTS weight_g NUMERIC(8,2);
+
+-- cards: add new columns for existing tables set up with old schema
+ALTER TABLE cards
+  ADD COLUMN IF NOT EXISTS photo_url         TEXT,
+  ADD COLUMN IF NOT EXISTS has_physical_card BOOLEAN DEFAULT FALSE,
+  ADD COLUMN IF NOT EXISTS face_enrolled_at  TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS face_consent      BOOLEAN DEFAULT FALSE,
+  ADD COLUMN IF NOT EXISTS authority_id      VARCHAR(50),
+  ADD COLUMN IF NOT EXISTS department        VARCHAR(100);
+
+-- cards: expand role check to include ADMIN
+ALTER TABLE cards DROP CONSTRAINT IF EXISTS cards_role_check;
+ALTER TABLE cards ADD CONSTRAINT cards_role_check
+  CHECK (role IN ('CONSUMER', 'VENDOR', 'ADMIN'));
+
+-- vendors: add application workflow columns for existing tables
+ALTER TABLE vendors
+  ADD COLUMN IF NOT EXISTS application_status      VARCHAR(20) DEFAULT 'PENDING_REVIEW',
+  ADD COLUMN IF NOT EXISTS business_license_url    TEXT,
+  ADD COLUMN IF NOT EXISTS typhoid_cert_url         TEXT,
+  ADD COLUMN IF NOT EXISTS food_handling_cert_url   TEXT,
+  ADD COLUMN IF NOT EXISTS rejection_reason         TEXT,
+  ADD COLUMN IF NOT EXISTS approved_at              TIMESTAMPTZ,
+  ADD COLUMN IF NOT EXISTS approved_by              VARCHAR(20);
+
+ALTER TABLE vendors DROP CONSTRAINT IF EXISTS vendors_application_status_check;
+ALTER TABLE vendors ADD CONSTRAINT vendors_application_status_check
+  CHECK (application_status IN ('PENDING_REVIEW', 'APPROVED', 'REJECTED'));
+
+UPDATE vendors SET application_status = 'APPROVED', approved_at = NOW()
+  WHERE application_status IS NULL;
+
+
+CREATE TABLE IF NOT EXISTS campaign_applications (
+    application_id      UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    vendor_id           UUID NOT NULL REFERENCES vendors(vendor_id) ON DELETE CASCADE,
+    name                VARCHAR(100) NOT NULL,
+    description         TEXT,
+    period_start        DATE,
+    period_end          DATE,
+    condition_type      VARCHAR(30) NOT NULL DEFAULT 'SPEND_POINTS'
+                        CHECK (condition_type IN ('VISIT_STALLS','SPEND_POINTS','DIRECTORY_REBATE')),
+    condition_threshold NUMERIC(10,2) NOT NULL DEFAULT 1,
+    point_deduction     NUMERIC(10,2),
+    reward_value        NUMERIC(10,2) NOT NULL DEFAULT 0,
+    status              VARCHAR(20) NOT NULL DEFAULT 'PENDING'
+                        CHECK (status IN ('PENDING','APPROVED','REJECTED')),
+    rejection_reason    TEXT,
+    reviewed_by         VARCHAR(20) REFERENCES cards(uid),
+    reviewed_at         TIMESTAMPTZ,
+    created_at          TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS positioning_anchors (
+    anchor_id     UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    label         VARCHAR(100),
+    beacon_minor  INTEGER NOT NULL,
+    grid_x        NUMERIC(6,2) NOT NULL,
+    grid_y        NUMERIC(6,2) NOT NULL,
+    rssi_at_1m    INTEGER      NOT NULL DEFAULT -59,
+    path_loss_n   NUMERIC(4,2) NOT NULL DEFAULT 2.5,
+    is_active     BOOLEAN      DEFAULT TRUE,
+    created_at    TIMESTAMPTZ  DEFAULT NOW(),
+    UNIQUE (beacon_minor)
+);
 
 
 -- ============================================================
