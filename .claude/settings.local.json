@@ -58,10 +58,20 @@
       "PowerShell(Set-Location C:\\\\Users\\\\HUAWEI\\\\claude_project\\\\apps\\\\web; npx tsc -b --force 2>&1 | Select-Object -First 80; Write-Output \"EXIT=$LASTEXITCODE\")",
       "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\HUAWEI\\\\claude_project\\\\daemon\\\\face\" -Name -Depth 1)",
       "Bash(node -e \"const p=require\\('./package.json'\\); console.log\\('--- scripts ---'\\); console.log\\(JSON.stringify\\(p.scripts,null,2\\)\\); console.log\\('--- typescript in deps? ---', !!\\(p.dependencies&&p.dependencies.typescript\\)\\); console.log\\('--- typescript in devDeps? ---', !!\\(p.devDependencies&&p.devDependencies.typescript\\)\\); console.log\\('--- @types in devDeps ---', Object.keys\\(p.devDependencies||{}\\).filter\\(k=>k.startsWith\\('@types'\\)\\)\\);\")",
-      "Bash(npm uninstall *)"
+      "Bash(npm uninstall *)",
+      "Bash(Write-Host \"User request: Explore KioskUI and claude_project codebases to understand full structure, entry points, components, API calls, state management, and user journey.\")",
+      "Bash(Write-Host \"Command purpose: List all files and directories recursively in the figma component directory.\")",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\HUAWEI\\\\Downloads\\\\KioskUI\\\\src\\\\app\\\\components\\\\figma\" -Recurse -Force)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(Format-List)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\HUAWEI\\\\claude_project\\\\backend\" -Recurse -Include \"*.ts\",\"*.js\" -Depth 3)",
+      "Bash(Format-Table)",
+      "Bash(Remove-Item \"C:\\\\Users\\\\HUAWEI\\\\Downloads\\\\KioskUI\\\\src\\\\app\\\\components\\\\FaceDetectionModal.tsx\" -Force)",
+      "Bash(Remove-Item \"C:\\\\Users\\\\HUAWEI\\\\claude_project\\\\apps\\\\kiosk\\\\src\\\\app\\\\components\\\\FaceRecognizedModal.tsx\" -Force)"
     ],
     "additionalDirectories": [
-      "C:\\Users\\HUAWEI\\Downloads\\KioskUI\\src\\app\\components\\figma"
+      "C:\\Users\\HUAWEI\\Downloads\\KioskUI\\src\\app\\components\\figma",
+      "C:\\Users\\HUAWEI\\Downloads\\KioskUI\\src\\app"
     ]
   },
   "enabledPlugins": {

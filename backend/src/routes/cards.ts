@@ -72,6 +72,17 @@ router.post('/register', validate(registerSchema), async (req: Request, res: Res
     }
   }
 
+  // Check for duplicate email
+  const { data: emailExists } = await supabase
+    .from('cards')
+    .select('uid')
+    .eq('owner_email', owner_email)
+    .single()
+  if (emailExists) {
+    res.status(409).json({ success: false, error: 'EMAIL_ALREADY_REGISTERED', message: 'An account with this email already exists.' })
+    return
+  }
+
   // Admins must provide authority_id
   if (role === 'ADMIN' && !authority_id) {
     res.status(400).json({ success: false, error: 'AUTHORITY_ID_REQUIRED', message: 'Admin registration requires authority_id and department.' })

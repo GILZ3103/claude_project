@@ -13,7 +13,7 @@ import { WalletPanel } from './app/components/WalletPanel'
 import { HelpDrawer, EmergencyModal } from './app/components/HelpAndEmergency'
 import { SettingsModal } from './app/components/SettingsModal'
 import { UserBar } from './app/components/UserBar'
-import { FaceRecognizedModal } from './app/components/FaceRecognizedModal'
+import { NfcCardOfferModal } from './app/components/NfcCardOfferModal'
 import { fetchStalls } from './lib/transforms'
 import toast, { Toaster } from 'react-hot-toast'
 
@@ -36,7 +36,7 @@ export default function App() {
   const lastUid = useRef<string | null>(null)
 
   // Face recognition state
-  const [showFaceModal, setShowFaceModal] = useState(false)
+  const [loginSource, setLoginSource] = useState<'nfc' | 'face' | null>(null)
   const lastFaceUid = useRef<string | null>(null)
 
   // Wallet state (populated from real card on NFC tap)
@@ -56,7 +56,7 @@ export default function App() {
     distance: [], voucher: null, availability: [],
   })
 
-  type Overlay = 'stall' | 'nav' | 'nfc' | 'vouchers' | 'help' | 'emergency' | 'settings' | null
+  type Overlay = 'stall' | 'nav' | 'nfc' | 'vouchers' | 'help' | 'emergency' | 'settings' | 'card-offer' | null
   const [activeOverlay, setActiveOverlay] = useState<Overlay>(null)
   const [activeStall, setActiveStall] = useState<Stall | null>(null)
   const [navDestination, setNavDestination] = useState<Stall | null>(null)
@@ -166,14 +166,23 @@ export default function App() {
       const encodedUid = encodeURIComponent(uid)
       const card = await loadCardData(uid, encodedUid)
       if (!card) return false
-      setIsUserMode(true)
-      setShowFaceModal(true)
+
       // Log face login event to backend (non-critical)
       fetch(`${BASE_API}/api/face/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ card_uid: uid, kiosk_id: KIOSK_ID, confidence, device_timestamp: new Date().toISOString() }),
       }).catch(() => {})
+
+      setLoginSource('face')
+      setShowLoginAnim(true)
+      setTimeout(() => {
+        setIsUserMode(true)
+        setShowLoginAnim(false)
+        setLoginSource(null)
+        if (!card.has_physical_card) setActiveOverlay('card-offer')
+      }, 1500)
+
       return true
     } catch {
       return false
@@ -181,6 +190,7 @@ export default function App() {
   }
 
   async function handleNfcTap(uid: string) {
+    setLoginSource('nfc')
     setShowLoginAnim(true)
     const encodedUid = encodeURIComponent(uid)
 
@@ -201,7 +211,7 @@ export default function App() {
         setTimeout(() => {
           setIsUserMode(true)
           setShowLoginAnim(false)
-          setShowFaceModal(false)  // close face modal if open
+          setLoginSource(null)
           setActiveOverlay('nfc')
         }, 1500)
       } else {
@@ -221,7 +231,7 @@ export default function App() {
     setBalance(0)
     setPoints(0)
     setActiveCampaigns(0)
-    setShowFaceModal(false)
+    setLoginSource(null)
     lastUid.current = null
     lastFaceUid.current = null
   }
@@ -292,6 +302,8 @@ export default function App() {
         onLogoClick={handleLogoClick}
         onIconClick={handleIconClick}
         language={language}
+        isUserMode={isUserMode}
+        cardData={cardData ? { owner_name: cardData.owner_name, points_balance: points } : null}
       />
 
       {/* User mode top bar — replaces floating badge */}
@@ -351,26 +363,27 @@ export default function App() {
         <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-30 transition-opacity" onClick={() => setActiveOverlay(null)} />
       )}
 
-      {/* Face Recognized Modal */}
-      {showFaceModal && cardData && (
-        <FaceRecognizedModal
-          ownerName={cardData.owner_name}
-          hasPhysicalCard={cardData.has_physical_card ?? false}
-          onDismiss={() => setShowFaceModal(false)}
+      {/* NFC card offer — shown after face login when user has no physical card */}
+      {activeOverlay === 'card-offer' && (
+        <NfcCardOfferModal
+          onClose={() => setActiveOverlay(null)}
+          onConfirmCollect={() => setActiveOverlay(null)}
           language={language}
         />
       )}
 
-      {/* NFC Login Animation */}
+      {/* Login Animation */}
       {showLoginAnim && (
         <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
           <div className="flex flex-col items-center">
             <div className="w-24 h-24 bg-white/20 rounded-full animate-ping flex items-center justify-center mb-4">
               <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.8)]">
-                <span className="text-3xl">💳</span>
+                <span className="text-3xl">{loginSource === 'face' ? '👤' : '💳'}</span>
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-white tracking-widest uppercase">NFC Detected</h2>
+            <h2 className="text-2xl font-bold text-white tracking-widest uppercase">
+              {loginSource === 'face' ? 'Face Recognized' : 'NFC Detected'}
+            </h2>
             {cardData && <p className="text-white/70 mt-2">Welcome, {cardData.owner_name}</p>}
           </div>
         </div>

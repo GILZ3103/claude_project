@@ -9,9 +9,11 @@ interface HeaderProps {
   onLogoClick: () => void;
   onIconClick: (overlay: string) => void;
   language: 'en' | 'ms' | 'zh';
+  isUserMode?: boolean;
+  cardData?: { owner_name: string; points_balance: number } | null;
 }
 
-export function Header({ searchQuery, setSearchQuery, onLogoClick, onIconClick, language }: HeaderProps) {
+export function Header({ searchQuery, setSearchQuery, onLogoClick, onIconClick, language, isUserMode, cardData }: HeaderProps) {
   const t = translations[language];
   const [isFocused, setIsFocused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -99,6 +101,15 @@ export function Header({ searchQuery, setSearchQuery, onLogoClick, onIconClick, 
 
       {/* Right: Actions */}
       <div className="flex items-center space-x-2">
+        {isUserMode && cardData && (
+          <div className="flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-full px-3 py-1 mr-2">
+            <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+              {cardData.owner_name[0].toUpperCase()}
+            </div>
+            <span className="text-sm font-semibold text-orange-800">{cardData.owner_name}</span>
+            <span className="text-xs text-orange-600 font-medium">{cardData.points_balance} pts</span>
+          </div>
+        )}
         <IconButton icon={<Settings className="w-5 h-5" />} onClick={() => onIconClick('settings')} />
         <IconButton icon={<Wallet className="w-5 h-5" />} onClick={() => onIconClick('nfc')} />
         <IconButton icon={<Ticket className="w-5 h-5" />} onClick={() => onIconClick('vouchers')} />
