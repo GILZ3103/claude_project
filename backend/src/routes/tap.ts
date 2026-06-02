@@ -47,10 +47,13 @@ async function processTap(
   synced_from_queue: boolean,
   weight_g?: number
 ): Promise<{ status: number; body: object }> {
-  // 1. Fetch card
-  const { data: card } = await supabase.from('cards').select('*').eq('uid', card_uid).single()
+  // 1. Fetch card — try uid first, then nfc_uid (hardware uid from terminal)
+  let cardRow = (await supabase.from('cards').select('*').eq('uid', card_uid).single()).data
+  if (!cardRow) cardRow = (await supabase.from('cards').select('*').eq('nfc_uid', card_uid).single()).data
+  const card = cardRow
   if (!card) return { status: 404, body: { success: false, error: 'CARD_NOT_FOUND', message: 'Card not found.' } }
   if (!card.is_active) return { status: 403, body: { success: false, error: 'CARD_INACTIVE', message: 'Card is inactive.' } }
+  const stable_uid = card.uid
 
   // 2. Fetch vendor
   const { data: vendor } = await supabase.from('vendors').select('*').eq('vendor_id', vendor_id).single()
@@ -68,7 +71,7 @@ async function processTap(
   const { data: existingTap } = await supabase
     .from('tap_events')
     .select('event_id')
-    .eq('card_uid', card_uid)
+    .eq('card_uid', stable_uid)
     .eq('vendor_id', vendor_id)
     .eq('event_type', 'TAP_PURCHASE')
     .gte(synced_from_queue ? 'device_timestamp' : 'server_timestamp', `${checkDate}T00:00:00+08:00`)
@@ -83,7 +86,7 @@ async function processTap(
   const { data: vouchers } = await supabase
     .from('vouchers')
     .select('*')
-    .eq('card_uid', card_uid)
+    .eq('card_uid', stable_uid)
     .eq('status', 'ACTIVE')
     .or(`applicable_vendor_ids.is.null,applicable_vendor_ids.cs.["${vendor_id}"]`)
     .limit(1)
@@ -139,7 +142,7 @@ async function processTap(
   const { error: balanceErr } = await supabase
     .from('cards')
     .update({ points_balance: new_balance })
-    .eq('uid', card_uid)
+    .eq('uid', stable_uid)
   if (balanceErr) throw balanceErr
 
   // b. Mark voucher used
@@ -155,7 +158,7 @@ async function processTap(
   const { data: tapEvent, error: tapErr } = await supabase
     .from('tap_events')
     .insert({
-      card_uid,
+      card_uid: stable_uid,
       vendor_id,
       event_type: 'TAP_PURCHASE',
       device_timestamp,
@@ -170,7 +173,7 @@ async function processTap(
 
   // d. Points log — purchase
   await supabase.from('points_log').insert({
-    card_uid,
+    card_uid: stable_uid,
     delta: -final_cost,
     reason: 'TAP_PURCHASE',
     reference_id: tapEvent.event_id
@@ -179,7 +182,7 @@ async function processTap(
   // e. Points log — voucher discount
   if (voucher && discount_applied > 0) {
     await supabase.from('points_log').insert({
-      card_uid,
+      card_uid: stable_uid,
       delta: discount_applied,
       reason: 'VOUCHER_DISCOUNT',
       reference_id: voucher.voucher_id
@@ -201,7 +204,7 @@ async function processTap(
       const { data: progress } = await supabase
         .from('campaign_progress')
         .select('*')
-        .eq('card_uid', card_uid)
+        .eq('card_uid', stable_uid)
         .eq('campaign_id', campaign.campaign_id)
         .single()
 
@@ -215,7 +218,7 @@ async function processTap(
         const { data: alreadyVisited } = await supabase
           .from('tap_events')
           .select('event_id')
-          .eq('card_uid', card_uid)
+          .eq('card_uid', stable_uid)
           .eq('vendor_id', vendor_id)
           .eq('event_type', 'TAP_PURCHASE')
           .neq('event_id', tapEvent.event_id)
@@ -241,7 +244,7 @@ async function processTap(
         const { data: newVoucher } = await supabase
           .from('vouchers')
           .insert({
-            card_uid,
+            card_uid: stable_uid,
             campaign_id: campaign.campaign_id,
             discount_value: campaign.reward_value,
             applicable_vendor_ids: campaign.applicable_vendor_ids,
@@ -262,7 +265,7 @@ async function processTap(
   const { data: todayTaps } = await supabase
     .from('tap_events')
     .select('metadata')
-    .eq('card_uid', card_uid)
+    .eq('card_uid', stable_uid)
     .eq('event_type', 'TAP_PURCHASE')
     .gte('server_timestamp', `${today}T00:00:00+08:00`)
 

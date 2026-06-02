@@ -6,6 +6,13 @@ import { validate } from '../middleware/validate'
 
 const router = Router()
 
+async function findCard(uid: string) {
+  const { data: byUid } = await supabase.from('cards').select('*').eq('uid', uid).single()
+  if (byUid) return byUid
+  const { data: byNfc } = await supabase.from('cards').select('*').eq('nfc_uid', uid).single()
+  return byNfc ?? null
+}
+
 function generateUserUid(): string {
   const random = Math.random().toString(36).substring(2, 10).toUpperCase()
   return `USER-${random}`
@@ -181,7 +188,7 @@ router.patch('/:uid/link', validate(linkCardSchema), async (req: Request, res: R
   // Update — note: this cascades through foreign key constraints
   const { data, error } = await supabase
     .from('cards')
-    .update({ uid: new_uid, has_physical_card: true })
+    .update({ nfc_uid: new_uid, has_physical_card: true })
     .eq('uid', uid)
     .select()
     .single()
@@ -198,13 +205,8 @@ router.patch('/:uid/link', validate(linkCardSchema), async (req: Request, res: R
 router.get('/:uid', async (req: Request, res: Response): Promise<void> => {
   const { uid } = req.params
 
-  const { data: card, error } = await supabase
-    .from('cards')
-    .select('*')
-    .eq('uid', uid)
-    .single()
-
-  if (error || !card) {
+  const card = await findCard(uid)
+  if (!card) {
     res.status(404).json({ success: false, error: 'CARD_NOT_FOUND', message: 'Card not found.' })
     return
   }
