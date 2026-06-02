@@ -173,14 +173,15 @@ router.post('/:uid/photo', async (req: Request, res: Response): Promise<void> =>
   res.json({ success: true, data: { photo_url } })
 })
 
-// PATCH /api/cards/:uid/link — replace the auto-generated UID with a real NFC card UID
+// PATCH /api/cards/:uid/link — store physical NFC card uid in nfc_uid column (uid is never changed)
 router.patch('/:uid/link', validate(linkCardSchema), async (req: Request, res: Response): Promise<void> => {
   const { uid } = req.params
   const { new_uid } = req.body
 
-  // Check the new_uid isn't already taken
-  const { data: existing } = await supabase.from('cards').select('uid').eq('uid', new_uid).single()
-  if (existing) {
+  // Check the new_uid isn't already taken as either a uid or nfc_uid
+  const { data: existingByUid } = await supabase.from('cards').select('uid').eq('uid', new_uid).single()
+  const { data: existingByNfc } = await supabase.from('cards').select('uid').eq('nfc_uid', new_uid).single()
+  if (existingByUid || existingByNfc) {
     res.status(409).json({ success: false, error: 'CARD_ALREADY_REGISTERED', message: 'That NFC card is already linked to another account.' })
     return
   }
@@ -213,11 +214,13 @@ router.get('/:uid', async (req: Request, res: Response): Promise<void> => {
 
   const today = new Date().toISOString().split('T')[0]
 
+  const stableUid = card.uid
+
   // Calories today
   const { data: taps } = await supabase
     .from('tap_events')
     .select('metadata')
-    .eq('card_uid', uid)
+    .eq('card_uid', stableUid)
     .eq('event_type', 'TAP_PURCHASE')
     .gte('server_timestamp', `${today}T00:00:00+08:00`)
     .lte('server_timestamp', `${today}T23:59:59+08:00`)
@@ -228,7 +231,7 @@ router.get('/:uid', async (req: Request, res: Response): Promise<void> => {
   const { data: checkpoints } = await supabase
     .from('tap_events')
     .select('vendor_id')
-    .eq('card_uid', uid)
+    .eq('card_uid', stableUid)
     .gte('server_timestamp', `${today}T00:00:00+08:00`)
     .lte('server_timestamp', `${today}T23:59:59+08:00`)
 
@@ -238,7 +241,7 @@ router.get('/:uid', async (req: Request, res: Response): Promise<void> => {
   const { data: active_vouchers } = await supabase
     .from('vouchers')
     .select('voucher_id, discount_value, applicable_vendor_ids, expires_at')
-    .eq('card_uid', uid)
+    .eq('card_uid', stableUid)
     .eq('status', 'ACTIVE')
 
   // Vendor info (if VENDOR role)
@@ -253,7 +256,7 @@ router.get('/:uid', async (req: Request, res: Response): Promise<void> => {
     const { data: vendor } = await supabase
       .from('vendors')
       .select('vendor_id, business_name, ssm_registration_number, grid_x, grid_y, application_status, rejection_reason')
-      .eq('owner_card_uid', uid)
+      .eq('owner_card_uid', stableUid)
       .eq('is_active', true)
       .single()
     vendor_id = vendor?.vendor_id ?? null
