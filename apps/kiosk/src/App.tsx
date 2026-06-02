@@ -44,6 +44,7 @@ export default function App() {
   const lastFaceUid = useRef<string | null>(null)
   const [faceConfidence, setFaceConfidence] = useState(0)
   const [faceDaemonOnline, setFaceDaemonOnline] = useState(false)
+  const [faceAnimLoading, setFaceAnimLoading] = useState(false)
 
   // Wallet state (populated from real card on NFC tap)
   const [balance, setBalance] = useState(0)
@@ -172,21 +173,25 @@ export default function App() {
   async function handleFaceTap(uid: string, confidence: number, ownerName: string): Promise<boolean> {
     setLoginSource('face')
     setFaceConfidence(confidence)
+    setFaceAnimLoading(true)
     setCardData({ owner_name: ownerName, has_physical_card: false, points_balance: 0, calorie_limit: calorieTarget } as any)
     setShowLoginAnim(true)
 
     try {
       const encodedUid = encodeURIComponent(uid)
       const card = await loadCardData(uid, encodedUid)
+      setFaceAnimLoading(false)
+
       if (!card) {
-        setShowLoginAnim(false)
-        setLoginSource(null)
-        setCardData(null)
-        toast.error('Face not linked to a registered card')
+        setTimeout(() => {
+          setShowLoginAnim(false)
+          setLoginSource(null)
+          setCardData(null)
+          toast.error('Face not linked to a registered card')
+        }, 1500)
         return false
       }
 
-      // Log face login event to backend (non-critical)
       fetch(`${BASE_API}/api/face/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -202,9 +207,13 @@ export default function App() {
 
       return true
     } catch {
-      setShowLoginAnim(false)
-      setLoginSource(null)
-      setCardData(null)
+      setFaceAnimLoading(false)
+      setTimeout(() => {
+        setShowLoginAnim(false)
+        setLoginSource(null)
+        setCardData(null)
+        toast.error('Connection timeout — please try again')
+      }, 1500)
       return false
     }
   }
@@ -401,6 +410,7 @@ export default function App() {
           loginSource={loginSource}
           ownerName={cardData?.owner_name}
           confidence={loginSource === 'face' ? faceConfidence : undefined}
+          isLoading={faceAnimLoading}
         />
       )}
 

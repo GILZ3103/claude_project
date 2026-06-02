@@ -8760,3 +8760,2023 @@
 2026-06-02 16:32:47,145 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.657 after 5 frames
 2026-06-02 16:32:48,452 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.665 after 5 frames
 2026-06-02 16:32:49,166 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.660 after 5 frames
+2026-06-02 20:55:49,680 [INFO] Loaded 32 embeddings from faces.db
+2026-06-02 20:55:49,681 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-02 20:55:49,685 [INFO] Detection loop running.
+2026-06-02 20:55:51,159 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.78.229.4:5002
+2026-06-02 20:55:51,161 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-02 20:55:55,045 [INFO] Camera opened via OpenCV (USB webcam)
+2026-06-02 20:55:55,051 [INFO] Capture loop running.
+2026-06-02 20:55:55,873 [INFO] Startup sync complete: 0 people enrolled/updated
+2026-06-02 20:56:13,052 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.409 after 3 frames
+2026-06-02 20:56:38,609 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.528 after 3 frames
+2026-06-02 20:56:39,485 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.533 after 4 frames
+2026-06-02 20:56:40,039 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.533 after 5 frames
+2026-06-02 20:56:40,597 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.523 after 5 frames
+2026-06-02 20:56:41,163 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.560 after 5 frames
+2026-06-02 20:56:41,984 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 20:56:42,753 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.561 after 5 frames
+2026-06-02 20:56:43,828 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 20:56:44,589 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 5 frames
+2026-06-02 20:56:45,350 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 20:56:45,978 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 20:56:46,576 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 20:56:47,153 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 20:56:47,700 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 20:56:48,278 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 20:56:48,874 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 20:56:49,481 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 20:56:50,128 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 20:56:50,824 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 20:56:51,726 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.558 after 5 frames
+2026-06-02 20:56:52,380 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.548 after 5 frames
+2026-06-02 20:56:52,965 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.547 after 5 frames
+2026-06-02 20:56:53,536 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 20:56:54,107 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 20:56:54,674 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 20:56:55,257 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.617 after 5 frames
+2026-06-02 20:56:55,850 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.636 after 5 frames
+2026-06-02 20:56:56,428 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.640 after 5 frames
+2026-06-02 20:56:57,021 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.635 after 5 frames
+2026-06-02 20:56:57,585 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.620 after 5 frames
+2026-06-02 20:56:58,162 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 20:56:58,801 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 20:56:59,415 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 20:57:00,029 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.554 after 5 frames
+2026-06-02 20:57:00,627 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.557 after 5 frames
+2026-06-02 20:57:01,421 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 5 frames
+2026-06-02 20:57:02,111 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 20:57:02,761 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 20:57:03,453 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 20:57:04,079 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 20:57:05,190 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 20:57:06,235 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 20:57:07,216 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 5 frames
+2026-06-02 20:57:07,832 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.525 after 5 frames
+2026-06-02 20:57:08,495 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.524 after 5 frames
+2026-06-02 20:57:09,155 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.531 after 5 frames
+2026-06-02 20:57:10,502 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.521 after 5 frames
+2026-06-02 20:57:12,147 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.523 after 5 frames
+2026-06-02 20:57:13,382 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 20:57:15,548 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.560 after 5 frames
+2026-06-02 20:57:16,487 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 20:57:17,312 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 20:57:18,034 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 20:57:18,749 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 20:57:19,622 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 20:57:20,564 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 20:57:21,281 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 5 frames
+2026-06-02 20:57:21,895 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 20:57:22,522 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 20:57:23,162 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.607 after 5 frames
+2026-06-02 20:57:23,833 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.622 after 5 frames
+2026-06-02 20:57:24,545 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.637 after 5 frames
+2026-06-02 20:57:25,266 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.636 after 5 frames
+2026-06-02 20:57:25,944 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.630 after 5 frames
+2026-06-02 20:57:26,625 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.632 after 5 frames
+2026-06-02 20:57:27,308 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.616 after 5 frames
+2026-06-02 20:57:28,061 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.609 after 5 frames
+2026-06-02 20:57:28,938 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.615 after 5 frames
+2026-06-02 20:57:29,706 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.621 after 5 frames
+2026-06-02 20:57:30,819 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.617 after 5 frames
+2026-06-02 20:57:32,889 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.624 after 5 frames
+2026-06-02 20:57:34,161 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.617 after 5 frames
+2026-06-02 20:57:35,684 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.603 after 5 frames
+2026-06-02 20:57:37,176 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 20:57:38,627 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 20:57:39,574 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 20:57:40,338 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.581 after 5 frames
+2026-06-02 20:57:41,835 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 4 frames
+2026-06-02 20:57:42,795 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 4 frames
+2026-06-02 20:57:43,545 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 4 frames
+2026-06-02 20:57:45,151 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 4 frames
+2026-06-02 20:57:46,119 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 4 frames
+2026-06-02 20:57:46,947 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 20:57:47,786 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 20:57:48,822 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 20:57:49,778 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.561 after 5 frames
+2026-06-02 20:57:50,678 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 20:57:51,419 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 20:57:52,050 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 20:57:52,640 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 20:57:53,257 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 20:57:53,863 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.581 after 5 frames
+2026-06-02 20:57:54,500 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 20:57:55,203 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 20:57:55,848 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 20:57:56,451 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 20:57:57,064 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 20:57:57,708 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.594 after 5 frames
+2026-06-02 20:57:58,353 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 20:58:05,910 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.484 after 3 frames
+2026-06-02 20:58:07,037 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.507 after 4 frames
+2026-06-02 20:58:07,630 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.520 after 5 frames
+2026-06-02 20:58:08,272 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.548 after 5 frames
+2026-06-02 20:58:08,931 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 20:58:09,736 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 20:58:10,402 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.554 after 5 frames
+2026-06-02 20:58:11,070 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.536 after 5 frames
+2026-06-02 20:58:11,700 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.524 after 4 frames
+2026-06-02 20:58:12,305 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.501 after 3 frames
+2026-06-02 20:58:30,001 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.525 after 3 frames
+2026-06-02 20:58:30,580 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.534 after 4 frames
+2026-06-02 20:58:31,159 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.537 after 4 frames
+2026-06-02 20:58:31,715 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.539 after 5 frames
+2026-06-02 20:58:32,265 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.529 after 5 frames
+2026-06-02 20:58:32,803 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.537 after 5 frames
+2026-06-02 20:58:33,341 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.537 after 5 frames
+2026-06-02 20:58:33,875 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.533 after 5 frames
+2026-06-02 20:58:34,527 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.539 after 5 frames
+2026-06-02 20:58:35,121 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.545 after 5 frames
+2026-06-02 20:58:35,692 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 20:58:36,265 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 20:58:36,899 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.568 after 5 frames
+2026-06-02 20:58:37,508 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 20:58:38,148 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 20:58:38,874 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 20:58:39,433 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 20:58:40,011 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 20:58:40,565 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 20:58:41,134 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.562 after 5 frames
+2026-06-02 20:58:41,745 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.558 after 5 frames
+2026-06-02 20:58:42,320 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.551 after 5 frames
+2026-06-02 20:58:42,965 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 20:58:43,588 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 20:58:44,218 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 20:58:45,006 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.584 after 5 frames
+2026-06-02 20:58:45,605 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 20:58:46,477 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 20:58:47,313 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 20:58:48,171 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.602 after 5 frames
+2026-06-02 20:58:48,939 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.610 after 5 frames
+2026-06-02 20:58:49,737 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.614 after 5 frames
+2026-06-02 20:58:50,484 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.622 after 5 frames
+2026-06-02 20:58:50,756 [INFO] 10.193.197.61 - - [02/Jun/2026 20:58:50] "GET /health HTTP/1.1" 200 -
+2026-06-02 20:58:51,256 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.634 after 5 frames
+2026-06-02 20:58:51,678 [INFO] 10.193.197.61 - - [02/Jun/2026 20:58:51] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-06-02 20:58:52,120 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.628 after 5 frames
+2026-06-02 20:58:52,855 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.623 after 5 frames
+2026-06-02 20:58:53,771 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.628 after 5 frames
+2026-06-02 20:58:54,529 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.613 after 5 frames
+2026-06-02 20:58:55,485 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.614 after 5 frames
+2026-06-02 20:58:56,151 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 20:58:56,787 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.546 after 5 frames
+2026-06-02 20:58:57,440 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.526 after 4 frames
+2026-06-02 20:58:58,035 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.511 after 3 frames
+2026-06-02 20:58:58,681 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.460 after 3 frames
+2026-06-02 20:58:59,291 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.508 after 3 frames
+2026-06-02 20:58:59,864 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.546 after 3 frames
+2026-06-02 20:59:00,486 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 4 frames
+2026-06-02 20:59:01,038 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 20:59:01,668 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 20:59:02,254 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 20:59:02,872 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 20:59:03,504 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 20:59:04,480 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 20:59:05,102 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.584 after 5 frames
+2026-06-02 20:59:05,750 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 20:59:06,397 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.603 after 5 frames
+2026-06-02 20:59:07,005 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.607 after 5 frames
+2026-06-02 20:59:07,628 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.610 after 5 frames
+2026-06-02 20:59:08,204 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.609 after 5 frames
+2026-06-02 20:59:08,814 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.608 after 5 frames
+2026-06-02 20:59:09,412 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 5 frames
+2026-06-02 20:59:09,982 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 20:59:10,652 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 20:59:11,285 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 20:59:11,922 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 20:59:12,522 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 20:59:13,087 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.600 after 5 frames
+2026-06-02 20:59:13,729 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 20:59:14,338 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 20:59:14,967 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 20:59:15,583 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 20:59:16,190 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 20:59:16,796 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.584 after 5 frames
+2026-06-02 20:59:17,407 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 20:59:18,028 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 20:59:18,592 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 20:59:19,189 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 20:59:19,774 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 20:59:20,339 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.562 after 5 frames
+2026-06-02 20:59:20,947 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 20:59:21,572 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.562 after 5 frames
+2026-06-02 20:59:22,185 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.562 after 5 frames
+2026-06-02 20:59:22,819 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.560 after 5 frames
+2026-06-02 20:59:23,424 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 20:59:24,037 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 20:59:24,591 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 20:59:25,185 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 20:59:25,725 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.581 after 5 frames
+2026-06-02 20:59:26,297 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 20:59:27,016 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 5 frames
+2026-06-02 20:59:27,621 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.550 after 5 frames
+2026-06-02 20:59:28,484 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.551 after 5 frames
+2026-06-02 20:59:29,174 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 20:59:29,816 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.557 after 5 frames
+2026-06-02 20:59:30,453 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 20:59:31,042 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 20:59:31,628 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 20:59:32,225 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 20:59:32,838 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 20:59:33,405 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 20:59:33,978 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 4 frames
+2026-06-02 20:59:34,557 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 4 frames
+2026-06-02 20:59:35,134 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 4 frames
+2026-06-02 20:59:35,700 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.533 after 4 frames
+2026-06-02 20:59:36,294 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.517 after 4 frames
+2026-06-02 20:59:36,906 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.514 after 5 frames
+2026-06-02 20:59:37,510 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.526 after 5 frames
+2026-06-02 20:59:38,118 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.536 after 5 frames
+2026-06-02 20:59:38,689 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 20:59:39,274 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 20:59:39,855 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 20:59:40,455 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 20:59:41,053 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 5 frames
+2026-06-02 20:59:41,635 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 20:59:42,213 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 20:59:42,900 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 20:59:43,482 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 20:59:44,064 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 20:59:44,665 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 20:59:45,255 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 20:59:45,834 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.545 after 5 frames
+2026-06-02 20:59:46,435 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.546 after 5 frames
+2026-06-02 20:59:47,027 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.547 after 5 frames
+2026-06-02 20:59:47,622 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 20:59:48,201 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 20:59:48,816 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 20:59:49,498 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 20:59:50,130 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 4 frames
+2026-06-02 20:59:50,966 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 3 frames
+2026-06-02 20:59:51,896 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 3 frames
+2026-06-02 20:59:52,503 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.601 after 3 frames
+2026-06-02 20:59:53,301 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.620 after 3 frames
+2026-06-02 20:59:54,092 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.620 after 3 frames
+2026-06-02 20:59:54,882 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 4 frames
+2026-06-02 20:59:55,580 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 4 frames
+2026-06-02 20:59:56,197 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 4 frames
+2026-06-02 20:59:56,831 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.539 after 4 frames
+2026-06-02 20:59:57,438 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.544 after 5 frames
+2026-06-02 20:59:58,044 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 20:59:58,673 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.562 after 5 frames
+2026-06-02 20:59:59,298 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 20:59:59,858 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:00:00,445 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.550 after 5 frames
+2026-06-02 21:00:01,035 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:00:01,661 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:00:02,266 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:00:02,857 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 5 frames
+2026-06-02 21:00:03,405 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.622 after 5 frames
+2026-06-02 21:00:04,011 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.613 after 5 frames
+2026-06-02 21:00:04,634 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.608 after 5 frames
+2026-06-02 21:00:05,212 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 21:00:05,792 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:00:06,395 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:00:06,987 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:00:07,591 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:00:08,169 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.615 after 5 frames
+2026-06-02 21:00:08,748 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.622 after 5 frames
+2026-06-02 21:00:09,342 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.634 after 5 frames
+2026-06-02 21:00:10,000 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.644 after 5 frames
+2026-06-02 21:00:10,600 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.649 after 5 frames
+2026-06-02 21:00:11,354 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.638 after 5 frames
+2026-06-02 21:00:12,070 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.628 after 5 frames
+2026-06-02 21:00:13,092 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.614 after 5 frames
+2026-06-02 21:00:14,174 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.568 after 5 frames
+2026-06-02 21:00:15,202 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 21:00:15,889 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.557 after 5 frames
+2026-06-02 21:00:16,550 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:00:17,180 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.557 after 5 frames
+2026-06-02 21:00:17,789 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:00:18,404 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.616 after 5 frames
+2026-06-02 21:00:19,000 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.612 after 5 frames
+2026-06-02 21:00:19,622 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.605 after 5 frames
+2026-06-02 21:00:20,209 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.605 after 5 frames
+2026-06-02 21:00:21,084 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:00:21,897 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 5 frames
+2026-06-02 21:00:22,582 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 21:00:23,240 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 21:00:23,920 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:00:24,555 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 5 frames
+2026-06-02 21:00:25,128 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 21:00:25,729 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 21:00:26,061 [INFO] 10.193.197.62 - - [02/Jun/2026 21:00:26] "GET /health HTTP/1.1" 200 -
+2026-06-02 21:00:26,309 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 4 frames
+2026-06-02 21:00:26,853 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 3 frames
+2026-06-02 21:00:27,449 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.516 after 3 frames
+2026-06-02 21:00:29,152 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.438 after 3 frames
+2026-06-02 21:00:29,696 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.438 after 3 frames
+2026-06-02 21:00:30,277 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.454 after 3 frames
+2026-06-02 21:00:30,917 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.490 after 4 frames
+2026-06-02 21:00:31,507 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.526 after 4 frames
+2026-06-02 21:00:32,099 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 4 frames
+2026-06-02 21:00:32,695 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 21:00:33,297 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.603 after 5 frames
+2026-06-02 21:00:33,911 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.608 after 5 frames
+2026-06-02 21:00:34,518 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.609 after 5 frames
+2026-06-02 21:00:35,157 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.610 after 5 frames
+2026-06-02 21:00:35,744 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.605 after 5 frames
+2026-06-02 21:00:36,338 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 5 frames
+2026-06-02 21:00:36,929 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:00:37,564 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 21:00:38,148 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:00:38,874 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:00:39,515 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 21:00:40,119 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 21:00:40,768 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:00:41,477 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:00:42,072 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.602 after 5 frames
+2026-06-02 21:00:42,659 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.600 after 5 frames
+2026-06-02 21:00:43,522 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 5 frames
+2026-06-02 21:00:44,193 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.602 after 5 frames
+2026-06-02 21:00:44,770 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:00:45,380 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:00:45,955 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:00:46,542 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:00:47,119 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.600 after 5 frames
+2026-06-02 21:00:47,699 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 21:00:48,302 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:00:48,999 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.602 after 5 frames
+2026-06-02 21:00:49,617 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.603 after 5 frames
+2026-06-02 21:00:50,199 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:00:50,789 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:00:51,373 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 5 frames
+2026-06-02 21:00:51,939 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:00:52,537 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:00:53,139 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:00:53,720 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:00:54,306 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 5 frames
+2026-06-02 21:00:54,965 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:00:55,635 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 5 frames
+2026-06-02 21:00:56,320 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:00:57,115 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:00:57,848 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:00:58,424 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:00:58,983 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 21:00:59,635 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.603 after 5 frames
+2026-06-02 21:01:00,208 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 21:01:00,763 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 21:01:01,437 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 5 frames
+2026-06-02 21:01:02,100 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:01:02,835 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 4 frames
+2026-06-02 21:01:03,436 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 4 frames
+2026-06-02 21:01:04,021 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 4 frames
+2026-06-02 21:01:04,593 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 4 frames
+2026-06-02 21:01:05,171 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 4 frames
+2026-06-02 21:01:05,748 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 4 frames
+2026-06-02 21:01:06,342 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.539 after 3 frames
+2026-06-02 21:01:06,931 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.548 after 3 frames
+2026-06-02 21:01:07,571 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.527 after 3 frames
+2026-06-02 21:01:08,175 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.515 after 3 frames
+2026-06-02 21:01:08,782 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.521 after 4 frames
+2026-06-02 21:01:09,327 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.516 after 5 frames
+2026-06-02 21:01:09,917 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.512 after 5 frames
+2026-06-02 21:01:10,487 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.516 after 5 frames
+2026-06-02 21:01:11,074 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.517 after 5 frames
+2026-06-02 21:01:12,034 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.512 after 5 frames
+2026-06-02 21:01:12,941 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.512 after 5 frames
+2026-06-02 21:01:13,915 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.514 after 5 frames
+2026-06-02 21:01:14,636 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.508 after 5 frames
+2026-06-02 21:01:15,249 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.507 after 5 frames
+2026-06-02 21:01:15,849 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.512 after 5 frames
+2026-06-02 21:01:16,438 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.517 after 5 frames
+2026-06-02 21:01:17,036 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.521 after 5 frames
+2026-06-02 21:01:17,624 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.522 after 5 frames
+2026-06-02 21:01:18,203 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.527 after 5 frames
+2026-06-02 21:01:18,790 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.526 after 5 frames
+2026-06-02 21:01:19,322 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.512 after 5 frames
+2026-06-02 21:01:19,866 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.504 after 5 frames
+2026-06-02 21:01:20,395 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.508 after 5 frames
+2026-06-02 21:01:20,930 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.494 after 5 frames
+2026-06-02 21:01:21,459 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.485 after 5 frames
+2026-06-02 21:01:22,008 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.488 after 5 frames
+2026-06-02 21:01:22,571 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.486 after 5 frames
+2026-06-02 21:01:23,120 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.484 after 5 frames
+2026-06-02 21:01:23,684 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.493 after 5 frames
+2026-06-02 21:01:24,240 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.502 after 5 frames
+2026-06-02 21:01:24,805 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.521 after 5 frames
+2026-06-02 21:01:25,362 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.532 after 5 frames
+2026-06-02 21:01:25,949 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.538 after 5 frames
+2026-06-02 21:01:26,515 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.548 after 5 frames
+2026-06-02 21:01:27,077 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:01:27,623 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:01:28,159 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 21:01:28,705 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:01:29,254 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:01:29,817 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:01:30,365 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:01:30,948 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:01:31,482 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 21:01:32,044 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:01:32,603 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.551 after 5 frames
+2026-06-02 21:01:33,150 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.536 after 5 frames
+2026-06-02 21:01:33,725 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.543 after 5 frames
+2026-06-02 21:01:34,278 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.542 after 5 frames
+2026-06-02 21:01:34,842 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.543 after 5 frames
+2026-06-02 21:01:35,397 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.544 after 5 frames
+2026-06-02 21:01:35,986 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.544 after 5 frames
+2026-06-02 21:01:36,591 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.540 after 5 frames
+2026-06-02 21:01:37,136 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.533 after 5 frames
+2026-06-02 21:01:37,696 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.531 after 5 frames
+2026-06-02 21:01:38,266 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.533 after 5 frames
+2026-06-02 21:01:38,801 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.529 after 5 frames
+2026-06-02 21:01:39,361 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.531 after 5 frames
+2026-06-02 21:01:39,937 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.534 after 5 frames
+2026-06-02 21:01:40,482 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.535 after 5 frames
+2026-06-02 21:01:41,038 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.538 after 5 frames
+2026-06-02 21:01:41,592 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.540 after 5 frames
+2026-06-02 21:01:42,157 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.537 after 5 frames
+2026-06-02 21:01:42,720 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.529 after 5 frames
+2026-06-02 21:01:43,278 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.511 after 5 frames
+2026-06-02 21:01:43,794 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.489 after 5 frames
+2026-06-02 21:01:44,343 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.484 after 5 frames
+2026-06-02 21:01:44,912 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.475 after 5 frames
+2026-06-02 21:01:45,462 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.472 after 5 frames
+2026-06-02 21:01:46,034 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.479 after 5 frames
+2026-06-02 21:01:46,597 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.488 after 5 frames
+2026-06-02 21:01:47,132 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.499 after 5 frames
+2026-06-02 21:01:47,692 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.498 after 5 frames
+2026-06-02 21:01:48,239 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.508 after 5 frames
+2026-06-02 21:01:48,830 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.505 after 5 frames
+2026-06-02 21:01:49,388 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.512 after 5 frames
+2026-06-02 21:01:49,937 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.496 after 5 frames
+2026-06-02 21:01:50,486 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.512 after 5 frames
+2026-06-02 21:01:51,043 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.525 after 5 frames
+2026-06-02 21:01:51,592 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.542 after 5 frames
+2026-06-02 21:01:52,132 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:01:52,691 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:01:53,237 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 21:01:53,811 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:01:54,390 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:01:55,032 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:01:55,607 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.546 after 5 frames
+2026-06-02 21:01:56,246 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 21:01:56,863 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:01:57,469 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:01:58,022 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:01:58,624 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:01:59,184 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:01:59,796 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:02:00,396 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:02:01,024 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:02:01,600 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:02:02,182 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:02:02,756 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 5 frames
+2026-06-02 21:02:03,326 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 21:02:03,901 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.594 after 5 frames
+2026-06-02 21:02:04,487 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:02:05,033 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:02:05,598 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:02:06,155 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:02:06,739 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:02:07,420 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 21:02:08,007 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:02:08,564 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:02:09,198 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:02:09,820 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:02:10,442 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 21:02:11,034 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.602 after 5 frames
+2026-06-02 21:02:11,682 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.601 after 5 frames
+2026-06-02 21:02:12,338 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.607 after 5 frames
+2026-06-02 21:02:12,955 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.609 after 5 frames
+2026-06-02 21:02:13,742 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.610 after 5 frames
+2026-06-02 21:02:14,362 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.617 after 5 frames
+2026-06-02 21:02:14,944 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.617 after 5 frames
+2026-06-02 21:02:15,536 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.612 after 5 frames
+2026-06-02 21:02:16,118 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.613 after 5 frames
+2026-06-02 21:02:16,701 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 21:02:17,273 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:02:17,831 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 21:02:18,408 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.594 after 5 frames
+2026-06-02 21:02:18,436 [INFO] 10.193.197.62 - - [02/Jun/2026 21:02:18] "GET /health HTTP/1.1" 200 -
+2026-06-02 21:02:19,013 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:02:19,605 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:02:20,190 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:02:20,790 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:02:21,399 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:02:22,027 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:02:22,646 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:02:23,237 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:02:23,795 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:02:24,362 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:02:24,969 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:02:25,581 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:02:26,208 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:02:26,832 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 21:02:27,453 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:02:28,227 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.600 after 5 frames
+2026-06-02 21:02:28,864 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.603 after 5 frames
+2026-06-02 21:02:29,521 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.607 after 5 frames
+2026-06-02 21:02:30,165 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.611 after 5 frames
+2026-06-02 21:02:30,852 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.614 after 5 frames
+2026-06-02 21:02:31,475 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.613 after 5 frames
+2026-06-02 21:02:32,131 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.609 after 5 frames
+2026-06-02 21:02:32,774 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.606 after 5 frames
+2026-06-02 21:02:33,434 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.600 after 5 frames
+2026-06-02 21:02:34,020 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 5 frames
+2026-06-02 21:02:34,620 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 21:02:35,215 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:02:35,814 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 5 frames
+2026-06-02 21:02:36,392 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.602 after 5 frames
+2026-06-02 21:02:36,983 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.603 after 5 frames
+2026-06-02 21:02:37,594 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.607 after 5 frames
+2026-06-02 21:02:38,351 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.610 after 5 frames
+2026-06-02 21:02:39,139 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.611 after 5 frames
+2026-06-02 21:02:40,341 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.611 after 5 frames
+2026-06-02 21:02:41,587 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.616 after 5 frames
+2026-06-02 21:02:41,696 [INFO] 127.0.0.1 - - [02/Jun/2026 21:02:41] "GET /stream HTTP/1.1" 200 -
+2026-06-02 21:02:42,572 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.623 after 5 frames
+2026-06-02 21:02:43,383 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.622 after 5 frames
+2026-06-02 21:02:44,141 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.631 after 5 frames
+2026-06-02 21:02:44,939 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.642 after 5 frames
+2026-06-02 21:02:45,683 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.645 after 5 frames
+2026-06-02 21:02:46,429 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.645 after 5 frames
+2026-06-02 21:02:47,110 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.651 after 5 frames
+2026-06-02 21:02:47,772 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.642 after 5 frames
+2026-06-02 21:02:48,514 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.636 after 5 frames
+2026-06-02 21:02:49,415 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.637 after 5 frames
+2026-06-02 21:02:50,268 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.623 after 5 frames
+2026-06-02 21:02:51,148 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.625 after 5 frames
+2026-06-02 21:02:51,800 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.628 after 5 frames
+2026-06-02 21:02:52,437 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.626 after 5 frames
+2026-06-02 21:02:53,052 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.624 after 5 frames
+2026-06-02 21:02:53,649 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.631 after 5 frames
+2026-06-02 21:02:54,241 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.625 after 5 frames
+2026-06-02 21:02:55,013 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.622 after 5 frames
+2026-06-02 21:02:55,979 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.619 after 5 frames
+2026-06-02 21:02:57,027 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.620 after 5 frames
+2026-06-02 21:02:58,057 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.622 after 5 frames
+2026-06-02 21:02:58,829 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.618 after 5 frames
+2026-06-02 21:02:59,435 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.612 after 5 frames
+2026-06-02 21:03:00,033 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.610 after 5 frames
+2026-06-02 21:03:00,609 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 21:03:42,212 [INFO] Loaded 32 embeddings from faces.db
+2026-06-02 21:03:42,214 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-02 21:03:42,214 [INFO] Detection loop running.
+2026-06-02 21:03:44,185 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.193.197.61:5002
+2026-06-02 21:03:44,186 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-02 21:03:46,125 [INFO] Camera opened via OpenCV (USB webcam)
+2026-06-02 21:03:46,125 [INFO] Capture loop running.
+2026-06-02 21:03:47,199 [INFO] Startup sync complete: 0 people enrolled/updated
+2026-06-02 21:03:52,864 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.603 after 3 frames
+2026-06-02 21:03:53,394 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.607 after 4 frames
+2026-06-02 21:03:53,895 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.607 after 5 frames
+2026-06-02 21:03:54,371 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.607 after 5 frames
+2026-06-02 21:03:54,846 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.607 after 5 frames
+2026-06-02 21:03:55,390 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.612 after 5 frames
+2026-06-02 21:03:55,861 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 21:03:56,172 [INFO] 10.193.197.62 - - [02/Jun/2026 21:03:56] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:03:56,424 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.603 after 5 frames
+2026-06-02 21:03:56,968 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.606 after 5 frames
+2026-06-02 21:03:57,493 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.602 after 5 frames
+2026-06-02 21:03:58,045 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:03:58,657 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.602 after 5 frames
+2026-06-02 21:03:59,198 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.601 after 5 frames
+2026-06-02 21:03:59,813 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.601 after 5 frames
+2026-06-02 21:04:00,430 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.606 after 5 frames
+2026-06-02 21:04:01,024 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.609 after 5 frames
+2026-06-02 21:04:01,548 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.607 after 5 frames
+2026-06-02 21:04:02,106 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.607 after 5 frames
+2026-06-02 21:04:02,653 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.606 after 5 frames
+2026-06-02 21:04:03,299 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.603 after 5 frames
+2026-06-02 21:04:03,858 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 21:04:04,468 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.606 after 5 frames
+2026-06-02 21:04:05,087 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.611 after 5 frames
+2026-06-02 21:04:05,651 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.605 after 5 frames
+2026-06-02 21:04:06,189 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 5 frames
+2026-06-02 21:04:06,781 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:04:07,373 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.601 after 5 frames
+2026-06-02 21:04:07,953 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:04:08,508 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.601 after 5 frames
+2026-06-02 21:04:09,062 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.608 after 5 frames
+2026-06-02 21:04:09,607 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.606 after 5 frames
+2026-06-02 21:04:10,141 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.602 after 5 frames
+2026-06-02 21:04:10,666 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.603 after 5 frames
+2026-06-02 21:04:11,234 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.603 after 5 frames
+2026-06-02 21:04:11,774 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 5 frames
+2026-06-02 21:04:12,417 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.600 after 5 frames
+2026-06-02 21:04:13,081 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:04:13,634 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:04:14,230 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:04:14,808 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:04:15,347 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 21:04:15,903 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:04:16,446 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.603 after 5 frames
+2026-06-02 21:04:16,993 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.608 after 5 frames
+2026-06-02 21:04:17,556 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.606 after 5 frames
+2026-06-02 21:04:18,130 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.600 after 5 frames
+2026-06-02 21:04:18,680 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.600 after 5 frames
+2026-06-02 21:04:19,226 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.603 after 5 frames
+2026-06-02 21:04:19,770 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.602 after 5 frames
+2026-06-02 21:04:20,300 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 21:04:20,877 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.608 after 5 frames
+2026-06-02 21:04:21,425 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 21:04:21,979 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:04:22,517 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:04:23,069 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 21:04:23,605 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:04:24,180 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 21:04:24,724 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.594 after 5 frames
+2026-06-02 21:04:25,334 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.594 after 5 frames
+2026-06-02 21:04:25,889 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 21:04:26,430 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:04:27,009 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:04:27,557 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 21:04:28,089 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 4 frames
+2026-06-02 21:04:28,663 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.594 after 3 frames
+2026-06-02 21:04:29,192 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 3 frames
+2026-06-02 21:04:29,719 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 3 frames
+2026-06-02 21:04:30,336 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 3 frames
+2026-06-02 21:04:30,943 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 4 frames
+2026-06-02 21:04:31,534 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:04:32,112 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:04:32,723 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.584 after 5 frames
+2026-06-02 21:04:33,324 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 21:04:33,880 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 21:04:34,429 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:04:35,008 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:04:35,578 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.562 after 5 frames
+2026-06-02 21:04:36,155 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.560 after 5 frames
+2026-06-02 21:04:36,740 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.560 after 5 frames
+2026-06-02 21:04:37,288 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:04:37,848 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 5 frames
+2026-06-02 21:04:38,405 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.561 after 5 frames
+2026-06-02 21:04:39,000 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.558 after 5 frames
+2026-06-02 21:04:39,618 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:04:40,192 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:04:40,766 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:04:41,320 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.550 after 5 frames
+2026-06-02 21:04:41,961 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.548 after 5 frames
+2026-06-02 21:04:42,619 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.554 after 5 frames
+2026-06-02 21:04:43,198 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.561 after 5 frames
+2026-06-02 21:04:43,810 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 5 frames
+2026-06-02 21:04:44,390 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 21:04:44,974 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:04:45,723 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 21:04:46,318 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 21:04:46,878 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:04:47,431 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:04:48,018 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 21:04:48,559 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.568 after 5 frames
+2026-06-02 21:04:49,112 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:04:49,638 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:04:50,196 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.545 after 5 frames
+2026-06-02 21:04:50,733 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 21:04:51,307 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.550 after 5 frames
+2026-06-02 21:04:51,842 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 5 frames
+2026-06-02 21:04:52,403 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.557 after 5 frames
+2026-06-02 21:04:52,944 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.544 after 5 frames
+2026-06-02 21:04:53,490 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.538 after 5 frames
+2026-06-02 21:04:54,058 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.517 after 5 frames
+2026-06-02 21:04:54,644 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.518 after 5 frames
+2026-06-02 21:04:55,283 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.516 after 5 frames
+2026-06-02 21:04:55,991 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.539 after 5 frames
+2026-06-02 21:04:56,615 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.544 after 5 frames
+2026-06-02 21:04:57,228 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 21:04:57,798 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.521 after 5 frames
+2026-06-02 21:04:58,365 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.513 after 5 frames
+2026-06-02 21:04:58,921 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.503 after 5 frames
+2026-06-02 21:04:59,475 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.485 after 5 frames
+2026-06-02 21:05:00,050 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.476 after 5 frames
+2026-06-02 21:05:00,687 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.474 after 5 frames
+2026-06-02 21:05:01,267 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.450 after 5 frames
+2026-06-02 21:05:01,877 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.454 after 5 frames
+2026-06-02 21:05:02,488 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.467 after 5 frames
+2026-06-02 21:05:03,044 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.489 after 5 frames
+2026-06-02 21:05:03,652 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.509 after 5 frames
+2026-06-02 21:05:04,244 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.519 after 5 frames
+2026-06-02 21:05:04,819 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.505 after 5 frames
+2026-06-02 21:05:05,419 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.490 after 5 frames
+2026-06-02 21:05:06,228 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.480 after 5 frames
+2026-06-02 21:05:06,779 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.482 after 5 frames
+2026-06-02 21:05:07,401 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.489 after 5 frames
+2026-06-02 21:05:07,946 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.505 after 5 frames
+2026-06-02 21:05:08,534 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.530 after 5 frames
+2026-06-02 21:05:09,100 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.548 after 5 frames
+2026-06-02 21:05:09,915 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 21:05:10,825 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.554 after 5 frames
+2026-06-02 21:05:11,753 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:05:12,375 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:05:12,992 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:05:13,632 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:05:14,317 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 21:05:14,953 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:05:15,615 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:05:16,266 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:05:17,049 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:05:17,748 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:05:18,357 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:05:18,933 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 5 frames
+2026-06-02 21:05:19,690 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:05:20,268 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:05:20,866 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:05:21,464 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:05:22,197 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:05:22,884 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 21:05:23,523 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:05:24,113 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 4 frames
+2026-06-02 21:05:24,708 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 4 frames
+2026-06-02 21:05:25,319 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 4 frames
+2026-06-02 21:05:25,905 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 4 frames
+2026-06-02 21:05:26,591 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.537 after 4 frames
+2026-06-02 21:05:27,146 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:05:27,735 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.557 after 5 frames
+2026-06-02 21:05:28,331 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.548 after 5 frames
+2026-06-02 21:05:28,993 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.536 after 5 frames
+2026-06-02 21:05:29,646 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.545 after 5 frames
+2026-06-02 21:05:30,395 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.537 after 5 frames
+2026-06-02 21:05:31,098 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.546 after 5 frames
+2026-06-02 21:05:31,912 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.560 after 5 frames
+2026-06-02 21:05:32,593 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:05:33,181 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:05:33,791 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 21:05:34,394 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:05:34,982 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 4 frames
+2026-06-02 21:05:35,564 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.550 after 4 frames
+2026-06-02 21:05:36,149 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.546 after 4 frames
+2026-06-02 21:05:36,721 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.515 after 4 frames
+2026-06-02 21:05:37,318 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.495 after 4 frames
+2026-06-02 21:05:37,902 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.489 after 5 frames
+2026-06-02 21:05:38,502 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.486 after 5 frames
+2026-06-02 21:05:39,074 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.471 after 5 frames
+2026-06-02 21:05:39,645 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.468 after 5 frames
+2026-06-02 21:05:40,238 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.472 after 5 frames
+2026-06-02 21:05:40,853 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.473 after 5 frames
+2026-06-02 21:05:41,502 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.476 after 5 frames
+2026-06-02 21:05:42,087 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.477 after 5 frames
+2026-06-02 21:05:42,676 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.484 after 5 frames
+2026-06-02 21:05:43,231 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.485 after 5 frames
+2026-06-02 21:05:43,833 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.490 after 5 frames
+2026-06-02 21:05:44,556 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.490 after 5 frames
+2026-06-02 21:05:45,371 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.494 after 5 frames
+2026-06-02 21:05:46,038 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.495 after 5 frames
+2026-06-02 21:05:46,733 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.494 after 5 frames
+2026-06-02 21:05:47,360 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.492 after 5 frames
+2026-06-02 21:05:47,928 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.495 after 5 frames
+2026-06-02 21:05:48,501 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.505 after 5 frames
+2026-06-02 21:05:49,063 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.511 after 5 frames
+2026-06-02 21:05:49,633 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.518 after 5 frames
+2026-06-02 21:05:50,209 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.525 after 5 frames
+2026-06-02 21:05:50,778 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.522 after 5 frames
+2026-06-02 21:05:51,360 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.523 after 5 frames
+2026-06-02 21:05:51,925 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.523 after 5 frames
+2026-06-02 21:05:52,485 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.523 after 5 frames
+2026-06-02 21:05:53,050 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.526 after 5 frames
+2026-06-02 21:05:53,633 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.527 after 5 frames
+2026-06-02 21:05:54,201 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.535 after 5 frames
+2026-06-02 21:05:54,766 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.524 after 5 frames
+2026-06-02 21:05:55,329 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.511 after 5 frames
+2026-06-02 21:05:55,909 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.497 after 5 frames
+2026-06-02 21:05:56,484 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.489 after 5 frames
+2026-06-02 21:05:57,050 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.473 after 5 frames
+2026-06-02 21:05:57,628 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.472 after 5 frames
+2026-06-02 21:05:58,193 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.478 after 5 frames
+2026-06-02 21:05:58,759 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.487 after 5 frames
+2026-06-02 21:05:59,330 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.499 after 5 frames
+2026-06-02 21:05:59,876 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.516 after 5 frames
+2026-06-02 21:06:00,433 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.538 after 5 frames
+2026-06-02 21:06:01,019 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.539 after 5 frames
+2026-06-02 21:06:01,669 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.542 after 5 frames
+2026-06-02 21:06:02,278 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.547 after 5 frames
+2026-06-02 21:06:02,873 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.544 after 5 frames
+2026-06-02 21:06:03,445 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 21:06:04,014 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.562 after 5 frames
+2026-06-02 21:06:04,603 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:06:05,175 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 21:06:05,762 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:06:06,328 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:06:06,905 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:06:07,474 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.558 after 5 frames
+2026-06-02 21:06:08,040 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:06:08,600 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:06:09,185 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:06:09,787 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:06:10,384 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.560 after 5 frames
+2026-06-02 21:06:10,949 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 21:06:11,525 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.558 after 5 frames
+2026-06-02 21:06:12,116 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.537 after 5 frames
+2026-06-02 21:06:12,690 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.541 after 5 frames
+2026-06-02 21:06:13,261 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.547 after 5 frames
+2026-06-02 21:06:13,842 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.546 after 5 frames
+2026-06-02 21:06:14,404 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.544 after 5 frames
+2026-06-02 21:06:14,973 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 21:06:15,543 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.552 after 5 frames
+2026-06-02 21:06:16,102 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 21:06:16,676 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.544 after 5 frames
+2026-06-02 21:06:17,244 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.533 after 5 frames
+2026-06-02 21:06:17,881 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.530 after 5 frames
+2026-06-02 21:06:18,441 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.538 after 5 frames
+2026-06-02 21:06:19,005 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.547 after 5 frames
+2026-06-02 21:06:19,568 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.552 after 5 frames
+2026-06-02 21:06:20,139 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.558 after 5 frames
+2026-06-02 21:06:20,706 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:06:21,283 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:06:21,838 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.562 after 5 frames
+2026-06-02 21:06:22,417 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.544 after 5 frames
+2026-06-02 21:06:22,995 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.536 after 5 frames
+2026-06-02 21:06:23,553 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.527 after 5 frames
+2026-06-02 21:06:24,137 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.522 after 5 frames
+2026-06-02 21:06:24,701 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.521 after 5 frames
+2026-06-02 21:06:25,272 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.544 after 5 frames
+2026-06-02 21:06:25,833 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.551 after 5 frames
+2026-06-02 21:06:26,400 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 21:06:26,962 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:06:27,538 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 21:06:28,089 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 21:06:28,654 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:06:29,208 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 21:06:29,775 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:06:30,348 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 21:06:30,896 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 21:06:31,458 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.568 after 5 frames
+2026-06-02 21:06:32,044 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:06:32,621 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 21:06:33,198 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 21:06:33,768 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:06:34,329 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 21:06:34,880 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 21:06:35,450 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 21:06:36,025 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 21:06:36,586 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:06:37,131 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 21:06:37,702 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:06:38,258 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:06:38,831 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:06:39,394 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:06:39,957 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 21:06:40,512 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:06:41,090 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:06:41,646 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:06:42,206 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:06:42,763 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:06:43,335 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:06:43,893 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:06:44,480 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 21:06:45,036 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:06:45,602 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:06:46,170 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.545 after 5 frames
+2026-06-02 21:06:46,730 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.554 after 5 frames
+2026-06-02 21:06:47,449 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.546 after 5 frames
+2026-06-02 21:06:48,028 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.551 after 5 frames
+2026-06-02 21:06:48,742 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.552 after 5 frames
+2026-06-02 21:06:49,341 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:06:49,921 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:06:50,485 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:06:51,193 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:06:51,820 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 21:06:52,375 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.528 after 5 frames
+2026-06-02 21:06:52,968 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.518 after 5 frames
+2026-06-02 21:06:53,625 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.519 after 5 frames
+2026-06-02 21:06:54,209 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.515 after 5 frames
+2026-06-02 21:06:54,768 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.508 after 5 frames
+2026-06-02 21:06:55,321 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.511 after 5 frames
+2026-06-02 21:06:55,885 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.510 after 5 frames
+2026-06-02 21:06:56,447 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.503 after 5 frames
+2026-06-02 21:06:57,154 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.507 after 5 frames
+2026-06-02 21:06:57,984 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.522 after 5 frames
+2026-06-02 21:06:58,555 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.522 after 5 frames
+2026-06-02 21:06:59,124 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.509 after 5 frames
+2026-06-02 21:06:59,667 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.497 after 5 frames
+2026-06-02 21:07:00,216 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.484 after 5 frames
+2026-06-02 21:07:00,788 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.463 after 5 frames
+2026-06-02 21:07:01,447 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.456 after 5 frames
+2026-06-02 21:07:03,375 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.460 after 4 frames
+2026-06-02 21:07:03,955 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.465 after 4 frames
+2026-06-02 21:07:04,580 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.457 after 4 frames
+2026-06-02 21:07:05,149 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.462 after 4 frames
+2026-06-02 21:07:05,729 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.456 after 4 frames
+2026-06-02 21:07:06,301 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.448 after 5 frames
+2026-06-02 21:07:06,875 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.438 after 5 frames
+2026-06-02 21:07:07,551 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.440 after 4 frames
+2026-06-02 21:07:08,190 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.474 after 4 frames
+2026-06-02 21:07:08,874 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.511 after 4 frames
+2026-06-02 21:07:09,814 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.558 after 4 frames
+2026-06-02 21:07:10,412 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 4 frames
+2026-06-02 21:07:10,977 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:07:11,549 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:07:12,172 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:07:12,765 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:07:13,351 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.594 after 5 frames
+2026-06-02 21:07:13,918 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.594 after 5 frames
+2026-06-02 21:07:14,507 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 21:07:15,089 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:07:15,745 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:07:16,331 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:07:16,895 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:07:17,458 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:07:18,028 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:07:18,600 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:07:19,219 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:07:19,814 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:07:20,547 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 21:07:21,283 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:07:21,918 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:07:22,507 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.594 after 5 frames
+2026-06-02 21:07:23,097 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:07:23,815 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.600 after 5 frames
+2026-06-02 21:07:24,429 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.602 after 5 frames
+2026-06-02 21:07:25,034 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.602 after 5 frames
+2026-06-02 21:07:25,841 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 5 frames
+2026-06-02 21:07:26,601 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:07:27,269 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:07:27,857 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:07:28,502 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 21:07:29,176 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.584 after 5 frames
+2026-06-02 21:07:29,769 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 21:07:30,370 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:07:31,118 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 21:07:31,760 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 21:07:32,371 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:07:32,987 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 21:07:33,603 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.584 after 5 frames
+2026-06-02 21:07:34,230 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:07:34,875 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:07:35,509 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:07:36,122 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:07:36,876 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 21:07:37,718 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.594 after 5 frames
+2026-06-02 21:07:38,605 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:07:39,466 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:07:40,162 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:07:40,952 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:07:42,043 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:07:42,750 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.594 after 5 frames
+2026-06-02 21:07:43,387 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 21:07:44,035 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:07:44,656 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:07:45,299 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 5 frames
+2026-06-02 21:07:45,995 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.584 after 5 frames
+2026-06-02 21:07:46,631 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:07:47,278 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:07:47,922 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:07:48,585 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.601 after 5 frames
+2026-06-02 21:07:49,204 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.609 after 5 frames
+2026-06-02 21:07:49,990 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.606 after 5 frames
+2026-06-02 21:07:50,638 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.602 after 5 frames
+2026-06-02 21:07:51,318 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.600 after 5 frames
+2026-06-02 21:07:51,959 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:07:52,575 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:07:53,179 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:07:53,749 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:07:54,328 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:07:54,931 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.557 after 5 frames
+2026-06-02 21:07:55,615 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:07:56,474 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 5 frames
+2026-06-02 21:07:57,029 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:07:57,683 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:07:58,348 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:07:58,924 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:07:59,453 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:08:00,070 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:08:00,753 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.568 after 5 frames
+2026-06-02 21:08:01,858 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:08:02,527 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 21:08:03,169 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:08:03,744 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:08:04,387 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:08:05,003 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.534 after 5 frames
+2026-06-02 21:08:05,597 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.532 after 5 frames
+2026-06-02 21:08:06,123 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.527 after 5 frames
+2026-06-02 21:08:06,715 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.523 after 5 frames
+2026-06-02 21:08:07,472 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.532 after 5 frames
+2026-06-02 21:08:08,166 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.552 after 5 frames
+2026-06-02 21:08:09,109 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:08:09,671 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:08:10,253 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:08:10,831 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:08:11,391 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:08:11,959 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.584 after 5 frames
+2026-06-02 21:08:12,571 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 21:08:13,143 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 21:08:13,713 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:08:14,282 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 21:08:15,026 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:08:15,673 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:08:16,304 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:08:16,944 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:08:17,561 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:08:18,173 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 21:08:18,751 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 21:08:19,323 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 21:08:19,903 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:08:20,456 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:08:21,018 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 21:08:21,589 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 21:08:22,121 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:08:22,705 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 5 frames
+2026-06-02 21:08:23,271 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 21:08:23,845 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.568 after 5 frames
+2026-06-02 21:08:24,417 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:08:24,964 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:08:25,543 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:08:26,132 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:08:26,738 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:08:27,454 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:08:28,031 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 21:08:28,595 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:08:29,164 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 21:08:29,766 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:08:30,416 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 21:08:31,593 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:08:32,179 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:08:32,784 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:08:33,351 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 21:08:33,911 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:08:34,470 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 5 frames
+2026-06-02 21:08:35,020 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:08:35,725 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:08:36,494 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.558 after 5 frames
+2026-06-02 21:08:37,098 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 21:08:37,688 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.552 after 5 frames
+2026-06-02 21:08:38,272 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.554 after 5 frames
+2026-06-02 21:08:38,886 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.552 after 5 frames
+2026-06-02 21:08:39,457 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 5 frames
+2026-06-02 21:08:40,022 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 21:08:40,608 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:08:41,208 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:08:41,784 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:08:42,346 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.561 after 5 frames
+2026-06-02 21:08:42,908 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.562 after 5 frames
+2026-06-02 21:08:43,461 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.561 after 5 frames
+2026-06-02 21:08:44,003 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.560 after 5 frames
+2026-06-02 21:08:44,553 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.554 after 5 frames
+2026-06-02 21:08:45,119 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.551 after 5 frames
+2026-06-02 21:08:45,666 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.547 after 5 frames
+2026-06-02 21:08:46,213 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 21:08:46,794 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.552 after 5 frames
+2026-06-02 21:08:47,380 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:08:47,973 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 5 frames
+2026-06-02 21:08:48,549 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.568 after 5 frames
+2026-06-02 21:08:49,116 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:08:49,689 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 5 frames
+2026-06-02 21:08:50,271 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:08:51,036 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.557 after 5 frames
+2026-06-02 21:08:51,669 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:08:52,308 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.548 after 5 frames
+2026-06-02 21:08:52,853 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:08:53,402 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.562 after 5 frames
+2026-06-02 21:08:53,968 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:08:54,549 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 5 frames
+2026-06-02 21:08:55,127 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:08:55,693 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:08:56,296 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:08:56,870 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:08:57,288 [INFO] 10.193.197.62 - - [02/Jun/2026 21:08:57] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:08:57,438 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:08:57,978 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 21:08:58,514 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 21:08:59,056 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 5 frames
+2026-06-02 21:08:59,343 [INFO] 10.193.197.62 - - [02/Jun/2026 21:08:59] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:08:59,619 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.552 after 5 frames
+2026-06-02 21:09:00,182 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:09:00,763 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.562 after 5 frames
+2026-06-02 21:09:01,045 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:01] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:01,334 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.562 after 5 frames
+2026-06-02 21:09:01,936 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.561 after 5 frames
+2026-06-02 21:09:02,558 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:09:02,756 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:02] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:03,125 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.547 after 5 frames
+2026-06-02 21:09:03,683 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.552 after 5 frames
+2026-06-02 21:09:04,415 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.550 after 5 frames
+2026-06-02 21:09:04,440 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:04] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:05,049 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.557 after 5 frames
+2026-06-02 21:09:05,731 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.558 after 5 frames
+2026-06-02 21:09:06,062 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:06] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:06,365 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 21:09:06,966 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:09:07,557 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 21:09:07,728 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:07] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:08,125 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:09:08,691 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.552 after 5 frames
+2026-06-02 21:09:09,236 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.548 after 5 frames
+2026-06-02 21:09:09,406 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:09] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:09,797 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.545 after 5 frames
+2026-06-02 21:09:10,550 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.547 after 5 frames
+2026-06-02 21:09:11,059 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:11] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:11,189 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.554 after 5 frames
+2026-06-02 21:09:11,812 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:09:12,395 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 21:09:13,026 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.610 after 5 frames
+2026-06-02 21:09:13,196 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:13] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:13,463 [INFO] 127.0.0.1 - - [02/Jun/2026 21:09:13] "GET /stream HTTP/1.1" 200 -
+2026-06-02 21:09:13,692 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.618 after 5 frames
+2026-06-02 21:09:14,388 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.621 after 5 frames
+2026-06-02 21:09:14,780 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:14] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:15,102 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.615 after 5 frames
+2026-06-02 21:09:15,791 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.616 after 5 frames
+2026-06-02 21:09:16,436 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:16] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:16,646 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.621 after 5 frames
+2026-06-02 21:09:17,439 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.624 after 5 frames
+2026-06-02 21:09:18,083 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.624 after 5 frames
+2026-06-02 21:09:18,477 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:18] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:18,722 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.631 after 5 frames
+2026-06-02 21:09:19,337 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.629 after 5 frames
+2026-06-02 21:09:19,951 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.621 after 5 frames
+2026-06-02 21:09:20,100 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:20] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:20,636 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.616 after 5 frames
+2026-06-02 21:09:21,218 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.620 after 5 frames
+2026-06-02 21:09:21,731 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:21] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:21,818 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.619 after 4 frames
+2026-06-02 21:09:22,412 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.616 after 4 frames
+2026-06-02 21:09:23,009 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 4 frames
+2026-06-02 21:09:23,345 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:23] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:23,628 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 4 frames
+2026-06-02 21:09:24,316 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.581 after 4 frames
+2026-06-02 21:09:24,866 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 5 frames
+2026-06-02 21:09:24,980 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:24] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:25,600 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:09:26,172 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 21:09:26,783 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 21:09:27,377 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:27] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:27,475 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 21:09:28,101 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 21:09:28,671 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 21:09:28,992 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:28] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:29,271 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 21:09:29,837 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 21:09:30,433 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:09:31,038 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 21:09:31,588 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 21:09:32,157 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 21:09:32,728 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 21:09:33,186 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:33] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:33,370 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.557 after 5 frames
+2026-06-02 21:09:34,006 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 21:09:34,626 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 5 frames
+2026-06-02 21:09:35,047 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:35] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:35,247 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 5 frames
+2026-06-02 21:09:35,843 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.552 after 5 frames
+2026-06-02 21:09:36,426 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:09:36,679 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:36] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:37,003 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.568 after 5 frames
+2026-06-02 21:09:37,568 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:09:38,107 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:09:38,458 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:38] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:38,674 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.584 after 5 frames
+2026-06-02 21:09:39,250 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.594 after 5 frames
+2026-06-02 21:09:39,848 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.594 after 5 frames
+2026-06-02 21:09:40,074 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:40] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:40,438 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:09:41,021 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:09:41,631 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.581 after 5 frames
+2026-06-02 21:09:41,715 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:41] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:42,241 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:09:42,848 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:09:43,316 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:43] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:43,428 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:09:44,017 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 21:09:44,615 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 21:09:44,912 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:44] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:45,198 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:09:45,770 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:09:46,373 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:09:46,576 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:46] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:46,996 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:09:47,596 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:09:48,168 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:48] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:48,239 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:09:48,849 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 21:09:49,420 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 21:09:49,820 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:49] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:50,012 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:09:50,645 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.568 after 5 frames
+2026-06-02 21:09:51,240 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:09:51,429 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:51] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:51,808 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 21:09:52,405 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 21:09:52,968 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:09:53,040 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:53] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:53,538 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:09:54,093 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:09:54,655 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 21:09:54,658 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:54] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:55,218 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:09:55,766 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.581 after 5 frames
+2026-06-02 21:09:56,258 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:56] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:56,333 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:09:56,876 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:09:57,472 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 21:09:57,879 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:57] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:58,074 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:09:58,644 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 5 frames
+2026-06-02 21:09:59,202 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 5 frames
+2026-06-02 21:09:59,487 [INFO] 10.193.197.62 - - [02/Jun/2026 21:09:59] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:09:59,791 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 5 frames
+2026-06-02 21:10:00,753 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 21:10:01,138 [INFO] 10.193.197.62 - - [02/Jun/2026 21:10:01] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:10:01,586 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.561 after 5 frames
+2026-06-02 21:10:02,600 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.562 after 5 frames
+2026-06-02 21:10:02,994 [INFO] 10.193.197.62 - - [02/Jun/2026 21:10:02] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:10:03,551 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 21:10:04,353 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:10:04,772 [INFO] 10.193.197.62 - - [02/Jun/2026 21:10:04] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:10:05,057 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 21:10:05,744 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:14:46,360 [INFO] Loaded 32 embeddings from faces.db
+2026-06-02 21:14:46,361 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-02 21:14:46,364 [INFO] Detection loop running.
+2026-06-02 21:14:47,917 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.193.197.61:5002
+2026-06-02 21:14:47,917 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-02 21:14:48,759 [INFO] Startup sync complete: 0 people enrolled/updated
+2026-06-02 21:14:49,282 [INFO] 10.193.197.62 - - [02/Jun/2026 21:14:49] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 21:14:49,977 [INFO] Camera opened via OpenCV (USB webcam)
+2026-06-02 21:14:49,977 [INFO] Capture loop running.
+2026-06-02 21:14:50,352 [INFO] 10.193.197.62 - - [02/Jun/2026 21:14:50] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 21:14:52,206 [INFO] 10.193.197.62 - - [02/Jun/2026 21:14:52] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 21:14:53,391 [INFO] 10.193.197.62 - - [02/Jun/2026 21:14:53] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 21:14:53,395 [INFO] 127.0.0.1 - - [02/Jun/2026 21:14:53] "GET /stream HTTP/1.1" 200 -
+2026-06-02 21:14:54,549 [INFO] 10.193.197.62 - - [02/Jun/2026 21:14:54] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 21:14:55,573 [INFO] 10.193.197.62 - - [02/Jun/2026 21:14:55] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 21:14:56,617 [INFO] 10.193.197.62 - - [02/Jun/2026 21:14:56] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 21:14:57,326 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 3 frames
+2026-06-02 21:14:57,683 [INFO] 10.193.197.62 - - [02/Jun/2026 21:14:57] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:14:57,892 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 4 frames
+2026-06-02 21:14:58,391 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:14:58,900 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:14:59,387 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:14:59,845 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.523 after 5 frames
+2026-06-02 21:15:00,026 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:00] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:00,389 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.519 after 5 frames
+2026-06-02 21:15:00,902 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.526 after 5 frames
+2026-06-02 21:15:01,415 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.533 after 5 frames
+2026-06-02 21:15:01,764 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:01] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:01,955 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.531 after 5 frames
+2026-06-02 21:15:02,471 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:15:02,986 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.568 after 5 frames
+2026-06-02 21:15:03,535 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:03] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:03,687 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.568 after 5 frames
+2026-06-02 21:15:04,253 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:15:04,793 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 21:15:05,216 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:05] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:05,331 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:15:05,878 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.584 after 5 frames
+2026-06-02 21:15:06,414 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:15:06,829 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:06] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:06,981 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 21:15:07,491 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:15:08,031 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:15:08,392 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:08] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:08,603 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 21:15:09,153 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.600 after 5 frames
+2026-06-02 21:15:09,682 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 21:15:10,094 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:10] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:10,296 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:15:10,859 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:15:11,396 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:15:11,732 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:11] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:11,945 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:15:12,465 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:15:13,018 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:15:13,331 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:13] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:13,579 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:15:14,122 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 5 frames
+2026-06-02 21:15:14,644 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:15:14,980 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:14] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:15,222 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.584 after 5 frames
+2026-06-02 21:15:15,768 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:15:16,501 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:15:16,620 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:16] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:17,136 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:15:17,735 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:15:18,246 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:18] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:18,329 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:15:18,909 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:15:19,485 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:15:19,821 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:19] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:20,200 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:15:20,849 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:15:21,517 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:15:21,593 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:21] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:22,111 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 5 frames
+2026-06-02 21:15:22,767 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 21:15:23,463 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.608 after 5 frames
+2026-06-02 21:15:23,671 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:23] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:24,020 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.607 after 5 frames
+2026-06-02 21:15:24,591 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.601 after 5 frames
+2026-06-02 21:15:25,139 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:15:25,243 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:25] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:25,690 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:15:26,273 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.561 after 5 frames
+2026-06-02 21:15:26,847 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.568 after 5 frames
+2026-06-02 21:15:26,849 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:26] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:27,389 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 21:15:27,937 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.611 after 5 frames
+2026-06-02 21:15:28,461 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:28] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:28,487 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.643 after 5 frames
+2026-06-02 21:15:29,046 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.652 after 5 frames
+2026-06-02 21:15:29,603 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.647 after 5 frames
+2026-06-02 21:15:30,067 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:30] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:30,230 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.643 after 5 frames
+2026-06-02 21:15:30,782 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.621 after 5 frames
+2026-06-02 21:15:31,583 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.608 after 5 frames
+2026-06-02 21:15:31,850 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:31] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:32,488 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:15:33,457 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 21:15:33,506 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:33] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:34,150 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:15:34,777 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 21:15:35,146 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:35] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:35,565 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:15:36,206 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:15:36,745 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:36] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:36,801 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 5 frames
+2026-06-02 21:15:37,367 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 21:15:37,911 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:15:38,351 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:38] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:38,484 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:15:39,032 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.607 after 5 frames
+2026-06-02 21:15:39,567 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:15:40,026 [INFO] 10.193.197.62 - - [02/Jun/2026 21:15:40] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:15:40,093 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:15:40,613 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:15:41,168 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 21:15:41,688 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 21:15:42,244 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.581 after 5 frames
+2026-06-02 21:15:42,775 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:15:43,330 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 21:15:43,874 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:15:44,403 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 21:15:44,969 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.581 after 5 frames
+2026-06-02 21:15:45,493 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 21:15:46,038 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.584 after 5 frames
+2026-06-02 21:15:46,554 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 5 frames
+2026-06-02 21:15:47,105 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:15:47,703 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:15:48,273 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:15:48,836 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:15:49,392 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:15:49,915 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:15:50,453 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.584 after 5 frames
+2026-06-02 21:15:51,071 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 21:15:51,676 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 21:15:52,193 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:15:52,847 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:15:53,376 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:15:53,924 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:15:54,556 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:15:55,185 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:15:55,719 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:15:56,254 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:15:56,799 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:15:57,362 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:15:57,896 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:15:58,553 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:15:59,099 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:15:59,667 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:16:00,228 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.581 after 5 frames
+2026-06-02 21:16:00,278 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:00] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:00,763 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.568 after 5 frames
+2026-06-02 21:16:01,297 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.535 after 5 frames
+2026-06-02 21:16:01,865 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.513 after 5 frames
+2026-06-02 21:16:02,019 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:02] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:02,458 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.493 after 4 frames
+2026-06-02 21:16:02,973 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.485 after 4 frames
+2026-06-02 21:16:03,065 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:03] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:03,516 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.492 after 4 frames
+2026-06-02 21:16:04,070 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.526 after 4 frames
+2026-06-02 21:16:04,133 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:04] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:04,614 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.545 after 4 frames
+2026-06-02 21:16:05,184 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:05] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:05,192 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.550 after 5 frames
+2026-06-02 21:16:05,724 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 21:16:06,223 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:06] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:06,284 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:16:06,847 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 21:16:07,277 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:07] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:07,406 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:16:07,959 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:16:08,318 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:08] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:08,538 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:16:09,085 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 21:16:09,377 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:09] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:09,641 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:16:10,194 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:16:10,479 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:10] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:10,809 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:16:11,402 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.581 after 5 frames
+2026-06-02 21:16:11,595 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:11] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:11,998 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:16:12,581 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:16:12,771 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:12] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:13,157 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.608 after 5 frames
+2026-06-02 21:16:13,711 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.612 after 5 frames
+2026-06-02 21:16:13,820 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:13] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:14,251 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.611 after 5 frames
+2026-06-02 21:16:14,803 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.619 after 5 frames
+2026-06-02 21:16:14,874 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:14] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:15,349 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.627 after 5 frames
+2026-06-02 21:16:15,908 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.627 after 5 frames
+2026-06-02 21:16:15,927 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:15] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:16,463 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.623 after 5 frames
+2026-06-02 21:16:16,964 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:16] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:17,008 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.617 after 5 frames
+2026-06-02 21:16:17,523 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.614 after 5 frames
+2026-06-02 21:16:18,085 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.610 after 5 frames
+2026-06-02 21:16:18,683 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.607 after 5 frames
+2026-06-02 21:16:18,720 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:18] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:19,250 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.606 after 5 frames
+2026-06-02 21:16:19,786 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.615 after 5 frames
+2026-06-02 21:16:19,792 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:19] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:20,293 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.609 after 5 frames
+2026-06-02 21:16:20,841 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:20] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:20,902 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.611 after 5 frames
+2026-06-02 21:16:21,471 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.608 after 5 frames
+2026-06-02 21:16:21,888 [INFO] 10.193.197.62 - - [02/Jun/2026 21:16:21] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:16:21,996 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.613 after 5 frames
+2026-06-02 21:16:22,563 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.610 after 5 frames
+2026-06-02 21:16:23,198 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.606 after 5 frames
+2026-06-02 21:16:23,734 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:16:24,300 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 5 frames
+2026-06-02 21:16:24,902 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:16:25,495 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 21:16:26,069 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 5 frames
+2026-06-02 21:16:26,623 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:16:27,212 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 21:16:27,798 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:16:28,343 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:16:28,957 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:16:29,542 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:16:30,076 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:16:30,706 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:16:31,317 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.591 after 5 frames
+2026-06-02 21:16:31,891 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:16:32,557 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:16:33,199 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.612 after 5 frames
+2026-06-02 21:16:33,727 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.629 after 5 frames
+2026-06-02 21:16:34,292 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.646 after 5 frames
+2026-06-02 21:16:34,829 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.664 after 5 frames
+2026-06-02 21:16:35,733 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.677 after 5 frames
+2026-06-02 21:16:36,593 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.672 after 5 frames
+2026-06-02 21:16:37,370 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.668 after 5 frames
+2026-06-02 21:16:37,952 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.672 after 5 frames
+2026-06-02 21:16:38,460 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.672 after 5 frames
+2026-06-02 21:16:39,058 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.662 after 5 frames
+2026-06-02 21:16:39,586 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.655 after 5 frames
+2026-06-02 21:16:40,122 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.658 after 5 frames
+2026-06-02 21:16:40,654 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.650 after 5 frames
+2026-06-02 21:16:41,164 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.652 after 5 frames
+2026-06-02 21:16:41,682 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.655 after 5 frames
+2026-06-02 21:16:42,190 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.660 after 5 frames
+2026-06-02 21:16:42,717 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.658 after 5 frames
+2026-06-02 21:16:43,263 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.662 after 5 frames
+2026-06-02 21:16:43,795 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.664 after 5 frames
+2026-06-02 21:16:44,303 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.667 after 5 frames
+2026-06-02 21:16:44,836 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.659 after 5 frames
+2026-06-02 21:16:45,366 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.662 after 5 frames
+2026-06-02 21:16:45,934 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.663 after 5 frames
+2026-06-02 21:16:46,469 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.661 after 5 frames
+2026-06-02 21:16:46,998 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.659 after 5 frames
+2026-06-02 21:16:47,522 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.672 after 5 frames
+2026-06-02 21:16:48,036 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.668 after 5 frames
+2026-06-02 21:16:48,556 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.669 after 5 frames
+2026-06-02 21:16:49,076 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.669 after 5 frames
+2026-06-02 21:16:49,603 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.669 after 5 frames
+2026-06-02 21:16:50,110 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.661 after 5 frames
+2026-06-02 21:16:50,643 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.661 after 5 frames
+2026-06-02 21:16:51,188 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.655 after 5 frames
+2026-06-02 21:16:51,746 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.655 after 5 frames
+2026-06-02 21:16:52,245 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.652 after 5 frames
+2026-06-02 21:16:52,772 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.657 after 5 frames
+2026-06-02 21:16:53,287 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.655 after 5 frames
+2026-06-02 21:16:53,791 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.642 after 5 frames
+2026-06-02 21:16:54,291 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.643 after 5 frames
+2026-06-02 21:16:54,812 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.651 after 5 frames
+2026-06-02 21:16:55,337 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.647 after 5 frames
+2026-06-02 21:16:55,871 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.651 after 5 frames
+2026-06-02 21:16:56,399 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.667 after 5 frames
+2026-06-02 21:16:56,919 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.665 after 5 frames
+2026-06-02 21:16:57,455 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.660 after 5 frames
+2026-06-02 21:16:58,031 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.661 after 5 frames
+2026-06-02 21:16:58,606 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.656 after 5 frames
+2026-06-02 21:16:59,188 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.651 after 5 frames
+2026-06-02 21:16:59,748 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.649 after 5 frames
+2026-06-02 21:17:00,319 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.647 after 5 frames
+2026-06-02 21:17:00,962 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.641 after 5 frames
+2026-06-02 21:17:01,542 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.643 after 5 frames
+2026-06-02 21:17:02,151 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.638 after 5 frames
+2026-06-02 21:17:02,681 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.635 after 5 frames
+2026-06-02 21:17:03,224 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.633 after 5 frames
+2026-06-02 21:17:03,751 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.637 after 5 frames
+2026-06-02 21:17:04,293 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.639 after 5 frames
+2026-06-02 21:17:04,806 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.636 after 5 frames
+2026-06-02 21:17:05,360 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.636 after 5 frames
+2026-06-02 21:17:05,976 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.639 after 5 frames
+2026-06-02 21:17:06,514 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.634 after 5 frames
+2026-06-02 21:17:07,014 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.634 after 5 frames
+2026-06-02 21:17:07,572 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.637 after 5 frames
+2026-06-02 21:17:08,081 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.635 after 5 frames
+2026-06-02 21:17:08,639 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.636 after 5 frames
+2026-06-02 21:17:09,150 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.639 after 5 frames
+2026-06-02 21:17:09,684 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.640 after 5 frames
+2026-06-02 21:17:10,208 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.651 after 5 frames
+2026-06-02 21:17:10,714 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.658 after 5 frames
+2026-06-02 21:17:11,240 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.650 after 5 frames
+2026-06-02 21:17:11,816 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.649 after 5 frames
+2026-06-02 21:17:12,392 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.645 after 5 frames
+2026-06-02 21:17:12,928 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.629 after 5 frames
+2026-06-02 21:17:13,470 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.623 after 5 frames
+2026-06-02 21:17:13,981 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.629 after 5 frames
+2026-06-02 21:17:14,515 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.627 after 5 frames
+2026-06-02 21:17:15,058 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.628 after 5 frames
+2026-06-02 21:17:15,580 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.640 after 5 frames
+2026-06-02 21:17:16,104 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.644 after 5 frames
+2026-06-02 21:17:16,632 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.649 after 5 frames
+2026-06-02 21:17:17,186 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.654 after 5 frames
+2026-06-02 21:17:17,714 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.647 after 5 frames
+2026-06-02 21:17:18,259 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.650 after 5 frames
+2026-06-02 21:17:18,754 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.650 after 5 frames
+2026-06-02 21:17:19,283 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.651 after 5 frames
+2026-06-02 21:17:19,814 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.649 after 5 frames
+2026-06-02 21:17:20,370 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.658 after 5 frames
+2026-06-02 21:17:20,905 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.652 after 5 frames
+2026-06-02 21:17:21,445 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.656 after 5 frames
+2026-06-02 21:17:21,993 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.647 after 5 frames
+2026-06-02 21:17:22,548 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.647 after 5 frames
+2026-06-02 21:17:23,094 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.643 after 5 frames
+2026-06-02 21:17:23,638 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.645 after 5 frames
+2026-06-02 21:17:24,167 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.645 after 5 frames
+2026-06-02 21:17:24,711 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.649 after 5 frames
+2026-06-02 21:17:25,292 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.651 after 5 frames
+2026-06-02 21:17:25,851 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.657 after 5 frames
+2026-06-02 21:17:26,439 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.652 after 5 frames
+2026-06-02 21:17:27,007 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.649 after 5 frames
+2026-06-02 21:17:27,584 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.649 after 5 frames
+2026-06-02 21:17:28,154 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.648 after 5 frames
+2026-06-02 21:17:28,704 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.650 after 5 frames
+2026-06-02 21:17:29,211 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.655 after 5 frames
+2026-06-02 21:17:29,746 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.650 after 5 frames
+2026-06-02 21:17:30,282 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.645 after 5 frames
+2026-06-02 21:17:30,809 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.644 after 5 frames
+2026-06-02 21:17:31,341 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.633 after 5 frames
+2026-06-02 21:17:31,882 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.633 after 5 frames
+2026-06-02 21:17:32,411 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.640 after 5 frames
+2026-06-02 21:17:32,910 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.647 after 5 frames
+2026-06-02 21:17:33,430 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.648 after 4 frames
+2026-06-02 21:17:33,953 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.657 after 3 frames
+2026-06-02 21:17:34,491 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.664 after 3 frames
+2026-06-02 21:17:35,023 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.663 after 3 frames
+2026-06-02 21:17:35,543 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.659 after 3 frames
+2026-06-02 21:17:36,074 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.644 after 4 frames
+2026-06-02 21:17:36,589 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.642 after 5 frames
+2026-06-02 21:17:37,162 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.637 after 5 frames
+2026-06-02 21:17:37,696 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.636 after 5 frames
+2026-06-02 21:17:38,239 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.633 after 5 frames
+2026-06-02 21:17:38,829 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.636 after 5 frames
+2026-06-02 21:17:39,375 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.638 after 5 frames
+2026-06-02 21:17:39,909 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.640 after 5 frames
+2026-06-02 21:17:40,463 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.635 after 5 frames
+2026-06-02 21:17:41,022 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.639 after 5 frames
+2026-06-02 21:17:41,579 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.650 after 5 frames
+2026-06-02 21:17:42,118 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.652 after 5 frames
+2026-06-02 21:17:42,665 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.653 after 5 frames
+2026-06-02 21:17:43,230 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.657 after 5 frames
+2026-06-02 21:17:43,757 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.661 after 5 frames
+2026-06-02 21:17:44,278 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.650 after 5 frames
+2026-06-02 21:17:44,869 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.637 after 5 frames
+2026-06-02 21:17:45,418 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.635 after 5 frames
+2026-06-02 21:17:45,991 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.627 after 5 frames
+2026-06-02 21:17:46,572 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.611 after 5 frames
+2026-06-02 21:17:47,153 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.616 after 5 frames
+2026-06-02 21:17:47,749 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.623 after 5 frames
+2026-06-02 21:17:48,302 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.614 after 5 frames
+2026-06-02 21:17:48,830 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.618 after 5 frames
+2026-06-02 21:17:49,444 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.626 after 5 frames
+2026-06-02 21:17:50,015 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.623 after 5 frames
+2026-06-02 21:17:50,601 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.617 after 5 frames
+2026-06-02 21:17:51,260 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.620 after 5 frames
+2026-06-02 21:17:51,911 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.611 after 5 frames
+2026-06-02 21:17:52,513 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.601 after 5 frames
+2026-06-02 21:17:53,099 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.597 after 5 frames
+2026-06-02 21:17:53,687 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:17:54,239 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:17:54,783 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:17:55,351 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:17:55,915 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:17:56,455 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:17:57,109 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.557 after 5 frames
+2026-06-02 21:17:57,825 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 5 frames
+2026-06-02 21:17:58,421 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.546 after 5 frames
+2026-06-02 21:17:59,043 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.542 after 5 frames
+2026-06-02 21:17:59,649 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.544 after 5 frames
+2026-06-02 21:18:00,213 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:18:00,805 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:18:01,395 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:18:01,980 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 21:18:02,671 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:18:03,287 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.590 after 5 frames
+2026-06-02 21:18:04,027 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:18:04,666 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 5 frames
+2026-06-02 21:18:05,226 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.602 after 5 frames
+2026-06-02 21:18:05,816 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.599 after 5 frames
+2026-06-02 21:18:06,231 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:06] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:06,389 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:18:07,028 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.562 after 5 frames
+2026-06-02 21:18:07,638 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:18:08,215 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:18:08,800 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:18:09,396 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:18:09,998 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:18:10,534 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 4 frames
+2026-06-02 21:18:11,141 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.548 after 3 frames
+2026-06-02 21:18:11,399 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:11] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:11,716 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 3 frames
+2026-06-02 21:18:12,291 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 3 frames
+2026-06-02 21:18:12,870 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:12] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:12,914 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 3 frames
+2026-06-02 21:18:13,487 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 3 frames
+2026-06-02 21:18:13,946 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:13] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:14,039 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.540 after 4 frames
+2026-06-02 21:18:14,583 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.515 after 3 frames
+2026-06-02 21:18:16,480 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:16] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:16,486 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.521 after 3 frames
+2026-06-02 21:18:17,081 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 3 frames
+2026-06-02 21:18:17,718 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 4 frames
+2026-06-02 21:18:18,365 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.586 after 5 frames
+2026-06-02 21:18:18,965 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.607 after 5 frames
+2026-06-02 21:18:19,572 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.602 after 5 frames
+2026-06-02 21:18:19,609 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:19] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:20,159 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.600 after 5 frames
+2026-06-02 21:18:20,733 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.568 after 5 frames
+2026-06-02 21:18:21,090 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:21] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:21,308 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:18:21,856 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.558 after 5 frames
+2026-06-02 21:18:22,422 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.561 after 5 frames
+2026-06-02 21:18:22,985 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.558 after 5 frames
+2026-06-02 21:18:23,062 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:23] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:23,549 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 21:18:24,128 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:18:24,670 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 21:18:25,203 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:25] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:25,231 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:18:25,784 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:18:26,295 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:26] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:26,351 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.606 after 5 frames
+2026-06-02 21:18:27,072 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 21:18:27,340 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:27] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:27,679 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.561 after 5 frames
+2026-06-02 21:18:28,229 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.557 after 5 frames
+2026-06-02 21:18:28,415 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:28] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:28,829 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.548 after 5 frames
+2026-06-02 21:18:29,385 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.538 after 5 frames
+2026-06-02 21:18:29,993 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 21:18:30,584 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:18:30,768 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:30] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:31,168 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:18:31,820 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:31] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:31,867 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:18:32,428 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:18:32,944 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:32] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:33,027 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:18:33,623 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:18:34,067 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:34] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:34,224 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 21:18:34,859 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:18:35,317 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:35] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:35,509 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 5 frames
+2026-06-02 21:18:36,140 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.568 after 5 frames
+2026-06-02 21:18:36,405 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:36] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:36,781 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:18:37,380 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.560 after 5 frames
+2026-06-02 21:18:37,496 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:37] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:37,932 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 21:18:38,538 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.543 after 5 frames
+2026-06-02 21:18:38,592 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:38] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:39,133 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.523 after 5 frames
+2026-06-02 21:18:39,690 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.526 after 5 frames
+2026-06-02 21:18:39,765 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:39] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:40,273 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.540 after 5 frames
+2026-06-02 21:18:40,823 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.546 after 5 frames
+2026-06-02 21:18:41,408 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.557 after 5 frames
+2026-06-02 21:18:41,994 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:18:42,564 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 21:18:42,926 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:42] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:43,143 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:18:43,718 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:18:44,131 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:44] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:44,293 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.581 after 5 frames
+2026-06-02 21:18:44,865 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 4 frames
+2026-06-02 21:18:45,303 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:45] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:45,430 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.537 after 4 frames
+2026-06-02 21:18:45,988 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.500 after 4 frames
+2026-06-02 21:18:46,393 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:46] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:46,576 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.480 after 4 frames
+2026-06-02 21:18:47,132 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.452 after 4 frames
+2026-06-02 21:18:47,509 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:47] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:47,698 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.452 after 4 frames
+2026-06-02 21:18:48,256 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.469 after 4 frames
+2026-06-02 21:18:48,588 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:48] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:48,843 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.497 after 4 frames
+2026-06-02 21:18:49,392 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.514 after 4 frames
+2026-06-02 21:18:49,652 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:49] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:49,990 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.534 after 4 frames
+2026-06-02 21:18:50,541 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.540 after 5 frames
+2026-06-02 21:18:50,871 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:50] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:51,148 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 21:18:51,714 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:18:52,075 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:52] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:52,279 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.551 after 5 frames
+2026-06-02 21:18:52,866 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:18:53,150 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:53] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:53,500 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.552 after 5 frames
+2026-06-02 21:18:54,114 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 21:18:54,214 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:54] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:54,710 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.527 after 5 frames
+2026-06-02 21:18:55,258 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.532 after 5 frames
+2026-06-02 21:18:55,328 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:55] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:55,858 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.504 after 5 frames
+2026-06-02 21:18:56,418 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.517 after 5 frames
+2026-06-02 21:18:56,466 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:56] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:56,991 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.520 after 5 frames
+2026-06-02 21:18:57,522 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:57] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:57,564 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.546 after 5 frames
+2026-06-02 21:18:58,127 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.550 after 5 frames
+2026-06-02 21:18:58,715 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:18:59,267 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:18:59,498 [INFO] 10.193.197.62 - - [02/Jun/2026 21:18:59] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:18:59,809 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 21:19:00,378 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:19:00,563 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:00] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:00,935 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:19:01,504 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:19:01,692 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:01] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:02,072 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 21:19:02,711 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 21:19:02,758 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:02] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:03,268 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 21:19:03,822 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:19:03,833 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:03] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:04,393 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.581 after 5 frames
+2026-06-02 21:19:04,929 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:19:04,950 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:04] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:05,503 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:19:06,045 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 21:19:06,141 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:06] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:06,638 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 21:19:07,185 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.581 after 5 frames
+2026-06-02 21:19:07,232 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:07] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:07,714 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:19:08,273 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:19:08,290 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:08] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:08,838 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.603 after 5 frames
+2026-06-02 21:19:09,353 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:09] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:09,368 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.605 after 5 frames
+2026-06-02 21:19:09,898 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.611 after 5 frames
+2026-06-02 21:19:10,417 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:10] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:10,448 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 21:19:11,003 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.604 after 5 frames
+2026-06-02 21:19:11,494 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:11] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:11,568 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:19:12,127 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:19:12,597 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:12] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:12,719 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.595 after 5 frames
+2026-06-02 21:19:13,335 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:19:13,719 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:13] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:13,906 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.581 after 5 frames
+2026-06-02 21:19:14,454 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:19:14,983 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.540 after 5 frames
+2026-06-02 21:19:15,533 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.541 after 5 frames
+2026-06-02 21:19:15,742 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:15] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:16,089 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.544 after 5 frames
+2026-06-02 21:19:16,658 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.554 after 5 frames
+2026-06-02 21:19:16,801 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:16] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:17,228 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.561 after 5 frames
+2026-06-02 21:19:17,939 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:19:18,285 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:18] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:18,527 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.585 after 5 frames
+2026-06-02 21:19:19,090 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 21:19:19,375 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:19] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:19,680 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:19:20,257 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 21:19:20,470 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:20] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:20,838 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 21:19:21,404 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:19:21,538 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:21] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:21,980 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 21:19:22,548 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 21:19:22,619 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:22] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:23,110 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:19:23,678 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.571 after 5 frames
+2026-06-02 21:19:23,687 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:23] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:24,264 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:19:24,763 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:24] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:24,860 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:19:25,403 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.561 after 5 frames
+2026-06-02 21:19:25,837 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:25] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:25,995 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:19:26,562 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:19:27,059 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:27] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:27,126 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 21:19:27,698 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:19:28,137 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:28] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:28,289 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:19:28,871 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 21:19:29,443 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 5 frames
+2026-06-02 21:19:29,515 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:29] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:30,025 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:19:30,567 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:30] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:30,589 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 5 frames
+2026-06-02 21:19:31,189 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:19:31,730 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:19:32,294 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:19:32,405 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:32] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:32,846 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 21:19:33,406 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.593 after 5 frames
+2026-06-02 21:19:33,895 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:33] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:33,984 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.594 after 5 frames
+2026-06-02 21:19:34,575 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 5 frames
+2026-06-02 21:19:35,032 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:35] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:35,155 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:19:35,719 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:19:36,100 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:36] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:36,312 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.567 after 5 frames
+2026-06-02 21:19:36,880 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:19:37,266 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:37] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:37,465 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:19:38,037 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:19:38,391 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:38] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:38,596 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:19:39,175 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:19:39,646 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:39] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:39,779 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:19:40,361 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:19:40,913 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:40] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:41,074 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.546 after 5 frames
+2026-06-02 21:19:41,642 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.545 after 5 frames
+2026-06-02 21:19:42,147 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:42] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:42,323 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.544 after 5 frames
+2026-06-02 21:19:42,901 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.541 after 5 frames
+2026-06-02 21:19:43,203 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:43] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:43,504 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.538 after 5 frames
+2026-06-02 21:19:44,071 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.543 after 5 frames
+2026-06-02 21:19:44,513 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:44] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:44,665 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.542 after 5 frames
+2026-06-02 21:19:45,239 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.526 after 5 frames
+2026-06-02 21:19:45,765 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:45] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:45,811 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.525 after 5 frames
+2026-06-02 21:19:46,382 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.527 after 5 frames
+2026-06-02 21:19:46,900 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:46] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:46,930 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.527 after 5 frames
+2026-06-02 21:19:47,509 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.532 after 5 frames
+2026-06-02 21:19:48,064 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.542 after 5 frames
+2026-06-02 21:19:48,641 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:19:48,698 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:48] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:49,233 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 5 frames
+2026-06-02 21:19:49,845 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 21:19:49,853 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:49] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:50,428 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 21:19:51,003 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 5 frames
+2026-06-02 21:19:51,018 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:51] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:51,589 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.541 after 5 frames
+2026-06-02 21:19:52,094 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:52] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:52,162 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.543 after 5 frames
+2026-06-02 21:19:52,726 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.532 after 5 frames
+2026-06-02 21:19:53,205 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:53] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:53,297 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.531 after 5 frames
+2026-06-02 21:19:53,854 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.535 after 5 frames
+2026-06-02 21:19:54,346 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:54] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:54,472 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.539 after 5 frames
+2026-06-02 21:19:55,054 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.542 after 5 frames
+2026-06-02 21:19:55,450 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:55] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:55,636 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.547 after 5 frames
+2026-06-02 21:19:56,199 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:19:56,562 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:56] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:56,793 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.551 after 5 frames
+2026-06-02 21:19:57,365 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.551 after 5 frames
+2026-06-02 21:19:57,730 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:57] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:57,950 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.550 after 5 frames
+2026-06-02 21:19:58,515 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:19:58,803 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:58] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:19:59,085 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.554 after 5 frames
+2026-06-02 21:19:59,654 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:19:59,869 [INFO] 10.193.197.62 - - [02/Jun/2026 21:19:59] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:00,226 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.552 after 5 frames
+2026-06-02 21:20:00,844 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.551 after 5 frames
+2026-06-02 21:20:00,972 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:00] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:01,445 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.547 after 5 frames
+2026-06-02 21:20:02,037 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.544 after 5 frames
+2026-06-02 21:20:02,043 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:02] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:02,618 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.545 after 5 frames
+2026-06-02 21:20:03,094 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:03] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:03,209 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.539 after 5 frames
+2026-06-02 21:20:03,861 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.537 after 5 frames
+2026-06-02 21:20:04,433 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.535 after 4 frames
+2026-06-02 21:20:04,971 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.545 after 4 frames
+2026-06-02 21:20:05,541 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 4 frames
+2026-06-02 21:20:06,115 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.573 after 4 frames
+2026-06-02 21:20:06,670 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.587 after 4 frames
+2026-06-02 21:20:07,212 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.588 after 5 frames
+2026-06-02 21:20:07,762 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.582 after 5 frames
+2026-06-02 21:20:08,307 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.581 after 4 frames
+2026-06-02 21:20:09,225 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.580 after 3 frames
+2026-06-02 21:20:09,686 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:09] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:10,758 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:10] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:11,883 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:11] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:13,003 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:13] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 21:20:13,123 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 3 frames
+2026-06-02 21:20:13,697 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.554 after 4 frames
+2026-06-02 21:20:14,056 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:14] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:14,351 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.554 after 5 frames
+2026-06-02 21:20:14,943 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:20:15,132 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:15] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:15,534 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 5 frames
+2026-06-02 21:20:16,091 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 5 frames
+2026-06-02 21:20:16,283 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:16] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:16,672 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.554 after 5 frames
+2026-06-02 21:20:17,253 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.554 after 5 frames
+2026-06-02 21:20:17,362 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:17] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:17,827 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:20:18,390 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:20:18,431 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:18] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:18,954 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.560 after 5 frames
+2026-06-02 21:20:19,529 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.556 after 5 frames
+2026-06-02 21:20:19,533 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:19] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:20,103 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:20:20,616 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:20] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:20,676 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:20:21,271 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.551 after 5 frames
+2026-06-02 21:20:21,717 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:21] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:21,899 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.550 after 5 frames
+2026-06-02 21:20:22,490 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.552 after 5 frames
+2026-06-02 21:20:22,824 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:22] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:23,044 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 21:20:23,615 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 21:20:23,907 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:23] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:24,202 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.547 after 5 frames
+2026-06-02 21:20:24,884 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.546 after 5 frames
+2026-06-02 21:20:25,514 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.550 after 5 frames
+2026-06-02 21:20:25,840 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:25] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:26,116 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.551 after 5 frames
+2026-06-02 21:20:26,710 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.554 after 5 frames
+2026-06-02 21:20:26,909 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:26] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:27,357 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.560 after 5 frames
+2026-06-02 21:20:27,949 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:20:28,026 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:28] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:28,617 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:20:29,142 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:29] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:29,238 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.574 after 5 frames
+2026-06-02 21:20:29,808 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 21:20:30,241 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:30] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:30,404 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.577 after 5 frames
+2026-06-02 21:20:30,971 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.575 after 5 frames
+2026-06-02 21:20:31,340 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:31] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:31,546 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:20:32,130 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:20:32,464 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:32] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:32,702 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:20:33,279 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.564 after 5 frames
+2026-06-02 21:20:33,553 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:33] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:33,839 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.566 after 5 frames
+2026-06-02 21:20:34,417 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:20:34,621 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:34] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:35,004 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:20:35,581 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:20:35,748 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:35] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:36,158 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:20:36,719 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.561 after 5 frames
+2026-06-02 21:20:36,855 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:36] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:37,322 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:20:37,883 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:20:37,932 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:37] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:38,450 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.555 after 5 frames
+2026-06-02 21:20:39,035 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.553 after 5 frames
+2026-06-02 21:20:39,109 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:39] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:39,640 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.549 after 5 frames
+2026-06-02 21:20:40,167 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:40] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:40,217 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.546 after 5 frames
+2026-06-02 21:20:40,780 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.551 after 5 frames
+2026-06-02 21:20:41,345 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.559 after 5 frames
+2026-06-02 21:20:41,934 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.569 after 5 frames
+2026-06-02 21:20:42,193 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:42] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:42,527 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.576 after 5 frames
+2026-06-02 21:20:43,100 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.589 after 5 frames
+2026-06-02 21:20:43,310 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:43] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:43,657 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.598 after 5 frames
+2026-06-02 21:20:44,245 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.596 after 5 frames
+2026-06-02 21:20:44,732 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:44] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:44,837 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.592 after 5 frames
+2026-06-02 21:20:45,398 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.594 after 5 frames
+2026-06-02 21:20:45,830 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:45] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:46,010 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.583 after 5 frames
+2026-06-02 21:20:46,601 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.578 after 5 frames
+2026-06-02 21:20:46,883 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:46] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:47,201 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.579 after 5 frames
+2026-06-02 21:20:47,794 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.572 after 5 frames
+2026-06-02 21:20:47,924 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:47] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:48,518 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.565 after 5 frames
+2026-06-02 21:20:49,012 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:49] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:49,187 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.570 after 5 frames
+2026-06-02 21:20:49,813 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.560 after 5 frames
+2026-06-02 21:20:50,091 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:50] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 21:20:50,597 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.558 after 5 frames
+2026-06-02 21:20:51,187 [INFO] Recognised:Gilbert (USER-KN2VPHKV) @ 0.563 after 5 frames
+2026-06-02 21:20:51,188 [INFO] 10.193.197.62 - - [02/Jun/2026 21:20:51] "GET /face/recognized HTTP/1.1" 200 -

@@ -27,7 +27,6 @@ export default function AuthPage() {
   const [fullName, setFullName] = useState('')
 
   // Signup-only fields
-  const [cardUid, setCardUid] = useState('')  // set after registration for the success screen
   const [phone, setPhone] = useState('')
 
   // Profile photo (signup)
@@ -89,8 +88,7 @@ export default function AuthPage() {
       }
 
       const registered = await registerCard(baseBody) as any
-      const newUid = registered.uid  // backend auto-generates if not provided
-      setCardUid(newUid) // store for the success screen
+      const newUid = registered.uid
 
       // Upload profile photo (best-effort — won't block registration if it fails)
       if (photoDataUrl) {
