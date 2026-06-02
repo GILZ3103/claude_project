@@ -44,8 +44,8 @@ export const getVendorFood = (vendor_id: string) =>
 
 export const addFoodItem = (vendor_id: string, body: {
   name: string
-  calories: number
-  price_in_points: number
+  calories_per_100g: number
+  price_per_100g: number
   photo_url?: string
 }) => request(`/api/vendors/${vendor_id}/food`, { method: 'POST', body: JSON.stringify(body) }, getUid())
 

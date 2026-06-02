@@ -48,21 +48,11 @@ export default function Settings() {
   const btSupported = typeof navigator !== 'undefined' && 'bluetooth' in navigator
   const [btAllowed, setBtAllowed] = useState<boolean>(() => localStorage.getItem('bt_allowed') === 'true')
 
-  async function handleEnableBluetooth() {
-    if (!btSupported) return
-    try {
-      await (navigator as any).bluetooth.requestDevice({ acceptAllDevices: true })
-      localStorage.setItem('bt_allowed', 'true')
-      setBtAllowed(true)
-      toast.success('Bluetooth enabled')
-    } catch (err: any) {
-      // User cancelled the chooser or denied permission
-      localStorage.setItem('bt_allowed', 'false')
-      setBtAllowed(false)
-      if (err?.name === 'NotAllowedError' || err?.name === 'SecurityError') {
-        toast.error('Bluetooth permission denied')
-      }
-    }
+  function handleEnableBluetooth() {
+    const next = !btAllowed
+    localStorage.setItem('bt_allowed', String(next))
+    setBtAllowed(next)
+    toast.success(next ? 'Bluetooth enabled' : 'Bluetooth disabled')
   }
 
   async function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {

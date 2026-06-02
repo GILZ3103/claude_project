@@ -386,13 +386,31 @@ def post_reload():
 # ── Entry Point ──────────────────────────────────────────────────────────────
 
 
+def _sync_loop():
+    """Background thread — syncs face photos from backend at startup then every SYNC_INTERVAL_SECONDS."""
+    from .sync_service import sync_from_backend
+    try:
+        n = sync_from_backend()
+        log.info(f"Startup sync complete: {n} people enrolled/updated")
+    except Exception as e:
+        log.error(f"Startup sync failed: {e}")
+
+    while True:
+        time.sleep(config.SYNC_INTERVAL_SECONDS)
+        try:
+            n = sync_from_backend()
+            if n > 0:
+                log.info(f"Periodic sync: {n} people updated")
+        except Exception as e:
+            log.error(f"Periodic sync error: {e}")
+
+
 def main():
     reload_embeddings_cache()
     log.info(f"face_daemon starting on {config.DAEMON_HOST}:{config.DAEMON_PORT}")
-    # Fast capture thread — runs at camera FPS for smooth display
     threading.Thread(target=_capture_loop, daemon=True).start()
-    # Slow detection thread — runs at ~2 FPS (model-limited)
     threading.Thread(target=_camera_loop, daemon=True).start()
+    threading.Thread(target=_sync_loop, daemon=True).start()
     app.run(host=config.DAEMON_HOST, port=config.DAEMON_PORT, threaded=True)
 
 

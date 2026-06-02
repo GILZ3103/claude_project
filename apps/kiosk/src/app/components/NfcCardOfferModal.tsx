@@ -1,16 +1,22 @@
-import { useState } from 'react'
-import { CreditCard, ArrowDownRight } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { CreditCard, CheckCircle, Wifi } from 'lucide-react'
 import { translations } from '../translations'
 
 interface NfcCardOfferModalProps {
   onClose: () => void
   onConfirmCollect: () => void
+  linkStatus: 'idle' | 'linking' | 'done' | 'error'
+  onLinkComplete: () => void
   language: 'en' | 'ms' | 'zh'
 }
 
-export function NfcCardOfferModal({ onClose, onConfirmCollect, language }: NfcCardOfferModalProps) {
+export function NfcCardOfferModal({ onClose, onConfirmCollect, linkStatus, onLinkComplete, language }: NfcCardOfferModalProps) {
   const t = translations[language]
-  const [step, setStep] = useState<'offer' | 'collecting'>('offer')
+  const [step, setStep] = useState<'offer' | 'tapping' | 'success'>('offer')
+
+  useEffect(() => {
+    if (linkStatus === 'done' && step === 'tapping') setStep('success')
+  }, [linkStatus])
 
   if (step === 'offer') {
     return (
@@ -30,7 +36,7 @@ export function NfcCardOfferModal({ onClose, onConfirmCollect, language }: NfcCa
             </button>
             <button
               onClick={() => {
-                setStep('collecting')
+                setStep('tapping')
                 onConfirmCollect()
               }}
               className="flex-1 py-4 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/30"
@@ -43,17 +49,40 @@ export function NfcCardOfferModal({ onClose, onConfirmCollect, language }: NfcCa
     )
   }
 
+  if (step === 'tapping') {
+    return (
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+        <div className="bg-white p-8 rounded-3xl w-full max-w-md text-center shadow-2xl">
+          <div className="relative w-20 h-20 mx-auto mb-6">
+            <div className="absolute inset-0 bg-orange-100 rounded-full animate-ping opacity-60" />
+            <div className="relative w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center">
+              <Wifi className="w-10 h-10 text-orange-500" />
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-3">{t.tapCardNow}</h2>
+          <p className="text-gray-500 text-base mb-8">{t.tapCardPrompt}</p>
+          <button
+            onClick={onClose}
+            className="w-full py-4 bg-gray-100 text-gray-800 font-bold rounded-xl hover:bg-gray-200 transition-colors"
+          >
+            {t.noNotNow}
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-6">
       <div className="bg-white p-8 rounded-3xl w-full max-w-md text-center shadow-2xl">
-        <div className="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <ArrowDownRight className="w-10 h-10 text-orange-500 animate-bounce" />
+        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <CheckCircle className="w-10 h-10 text-green-500" />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-3">{t.collectFromSlot}</h2>
-        <p className="text-gray-400 text-sm mb-8">{t.dispenserSoon}</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-3">{t.cardActivated}</h2>
+        <p className="text-gray-500 text-base mb-8">{t.cardActivatedDesc}</p>
         <button
-          onClick={onClose}
-          className="w-full py-4 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 transition-colors"
+          onClick={onLinkComplete}
+          className="w-full py-4 bg-orange-500 text-white font-bold rounded-xl hover:bg-orange-600 transition-colors shadow-lg shadow-orange-500/30"
         >
           {t.done}
         </button>

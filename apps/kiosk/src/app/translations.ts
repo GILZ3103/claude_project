@@ -127,6 +127,10 @@ export const translations = {
     collectFromSlot: 'Please collect your card from the slot below',
     dispenserSoon: 'Card dispenser — coming soon',
     faceRecognized: 'Face Recognized',
+    tapCardNow: 'Tap Your New Card',
+    tapCardPrompt: 'Place your NFC card on the reader below to activate it.',
+    cardActivated: 'Card Activated!',
+    cardActivatedDesc: 'Your NFC card is now linked to your account. Enjoy WarungTek!',
   },
   ms: {
     appTitle: 'Terokai Makanan & Penjaja Pasar Malam Tempatan',
@@ -256,6 +260,10 @@ export const translations = {
     collectFromSlot: 'Sila ambil kad anda dari slot di bawah',
     dispenserSoon: 'Pengedar kad — akan datang',
     faceRecognized: 'Wajah Dikenali',
+    tapCardNow: 'Ketuk Kad Baru Anda',
+    tapCardPrompt: 'Letakkan kad NFC anda pada pembaca di bawah untuk mengaktifkannya.',
+    cardActivated: 'Kad Diaktifkan!',
+    cardActivatedDesc: 'Kad NFC anda kini dipautkan ke akaun anda. Nikmati WarungTek!',
   },
   zh: {
     appTitle: '探索本地夜市美食和摊贩',
@@ -385,5 +393,9 @@ export const translations = {
     collectFromSlot: '请从下方插槽领取您的卡',
     dispenserSoon: '发卡机 — 即将推出',
     faceRecognized: '人脸识别成功',
+    tapCardNow: '请点击您的新卡',
+    tapCardPrompt: '将您的NFC卡放在下方读卡器上以激活。',
+    cardActivated: '卡已激活！',
+    cardActivatedDesc: '您的NFC卡已与您的账户关联。享受WarungTek！',
   }
 };

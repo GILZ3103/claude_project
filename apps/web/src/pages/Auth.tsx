@@ -357,8 +357,8 @@ export default function AuthPage() {
               </div>
 
               {role === 'consumer' && (
-                <div className="bg-blue-50 text-blue-800 text-xs font-medium px-3 py-2 rounded-lg border border-blue-200">
-                  📇 You'll collect your physical NFC card at the WarungTek kiosk and link it to your account afterwards.
+                <div className="bg-orange-50 text-orange-800 text-xs font-medium px-3 py-2 rounded-lg border border-orange-200">
+                  Visit your nearest night market to activate your NFC card after signing up.
                 </div>
               )}
 
@@ -409,18 +409,12 @@ export default function AuthPage() {
               <div className="w-16 h-16 bg-green-50 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-green-100">
                 <CheckCircle size={32} />
               </div>
-              <h3 className="text-xl font-bold tracking-tight text-[#1A1A1A] mb-3">Registration Successful</h3>
-              <p className="text-sm text-[#6B7280] mb-6">Please collect your personal NFC card at the WarungTek kiosk.</p>
+              <h3 className="text-xl font-bold tracking-tight text-[#1A1A1A] mb-3">Account Created!</h3>
+              <p className="text-sm text-[#6B7280] mb-6">Your account is ready. To start using WarungTek, activate your NFC card at the nearest night market.</p>
 
-              <div className="w-full h-32 bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl p-4 flex flex-col justify-between mb-8 shadow-inner relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full blur-xl transform translate-x-1/2 -translate-y-1/2" />
-                <div className="flex justify-between items-center text-white/50">
-                  <span className="font-bold text-xs tracking-wider">WarungTek</span>
-                  <Bluetooth size={14} />
-                </div>
-                <div className="text-white font-mono tracking-widest text-sm opacity-80 mt-auto">
-                  **** **** **** {cardUid.slice(-4) || '0000'}
-                </div>
+              <div className="w-full bg-orange-50 border border-orange-200 rounded-xl p-5 mb-8 text-left">
+                <p className="text-xs font-bold text-orange-700 uppercase tracking-wider mb-1">Next Step</p>
+                <p className="text-sm text-orange-800 font-medium">Visit your nearest night market and look for the WarungTek kiosk to activate your NFC card.</p>
               </div>
 
               <button onClick={handleSuccessContinue} className="w-full bg-[#1A1A1A] hover:bg-gray-800 text-white font-semibold py-3.5 rounded-xl shadow-md transition-colors">Continue</button>

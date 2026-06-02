@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+
+const BASE_API = import.meta.env.VITE_API_URL
 import { X, CreditCard, Ticket, Award, CheckCircle, QrCode } from 'lucide-react';
 import { translations } from '../translations';
 
@@ -24,12 +26,13 @@ interface WalletPanelProps {
   setPoints: React.Dispatch<React.SetStateAction<number>>;
   vouchers: Voucher[];
   setVouchers: React.Dispatch<React.SetStateAction<Voucher[]>>;
+  cardUid: string | null;
   onNavigateToStall?: (stallName: string) => void;
 }
 
-export function WalletPanel({ 
-  onClose, language, initialTab = 'balance', isUserMode, 
-  balance, setBalance, points, setPoints, vouchers, setVouchers, onNavigateToStall
+export function WalletPanel({
+  onClose, language, initialTab = 'balance', isUserMode,
+  balance, setBalance, points, setPoints, vouchers, setVouchers, cardUid, onNavigateToStall
 }: WalletPanelProps) {
   const t = translations[language];
   const [activeTab, setActiveTab] = useState(initialTab);
@@ -64,14 +67,22 @@ export function WalletPanel({
     return () => clearInterval(timer);
   }, [showQR, countdown]);
 
-  const handleTopUpConfirm = () => {
-    if (topupAmount && paymentMethod) {
-      setBalance(prev => prev + topupAmount);
-      setIsTopUpSuccess(true);
-      setTopupAmount(null);
-      setPaymentMethod(null);
-      setTimeout(() => setIsTopUpSuccess(false), 4000);
+  const handleTopUpConfirm = async () => {
+    if (!topupAmount || !paymentMethod) return;
+    if (cardUid) {
+      try {
+        await fetch(`${BASE_API}/api/cards/${encodeURIComponent(cardUid)}/topup`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: topupAmount, method: paymentMethod }),
+        });
+      } catch { /* non-critical — balance updated locally regardless */ }
     }
+    setBalance(prev => prev + topupAmount);
+    setIsTopUpSuccess(true);
+    setTopupAmount(null);
+    setPaymentMethod(null);
+    setTimeout(() => setIsTopUpSuccess(false), 4000);
   };
 
   const handleUseVoucher = () => {

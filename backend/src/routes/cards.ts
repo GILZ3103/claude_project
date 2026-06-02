@@ -181,7 +181,7 @@ router.patch('/:uid/link', validate(linkCardSchema), async (req: Request, res: R
   // Update — note: this cascades through foreign key constraints
   const { data, error } = await supabase
     .from('cards')
-    .update({ uid: new_uid })
+    .update({ uid: new_uid, has_physical_card: true })
     .eq('uid', uid)
     .select()
     .single()

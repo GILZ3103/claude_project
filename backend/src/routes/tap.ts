@@ -95,12 +95,18 @@ async function processTap(
     }
   }
 
-  // 6. Calculate calories — weight-based if load cell data present, else fixed
+  // 6. Reject if food is weight-based only but terminal didn't send weight
+  const isWeightBased = food.price_per_100g != null && food.price_in_points == null
+  if (isWeightBased && !weight_g) {
+    return { status: 400, body: { success: false, error: 'WEIGHT_REQUIRED', message: 'This food item is sold by weight. Send weight_g in the request.' } }
+  }
+
+  // 7. Calculate calories — weight-based if load cell data present, else fixed
   const calories: number = (weight_g && food.calories_per_100g)
     ? Math.round((weight_g / 100) * Number(food.calories_per_100g))
     : (food.calories ?? 0)
 
-  // 7. Calculate cost — weight-based if load cell data present, else flat price
+  // 8. Calculate cost — weight-based if load cell data present, else flat price
   const base_cost = (weight_g && food.price_per_100g)
     ? Math.round((weight_g / 100) * Number(food.price_per_100g) * 100) / 100
     : Number(food.price_in_points)

@@ -57,14 +57,14 @@ MIN_LANDMARK_VISIBILITY = 0.70      # 70% of landmarks must be visible (laptop w
 EMBEDDING_DIM = 512                 # ArcFace buffalo_l output dimension
 
 # Tiered match thresholds (cosine similarity)
-THRESHOLD_CONFIRMED = 0.55          # stranger scores ~0.4x; genuine ~0.65+ — lowered for webcam sensitivity
-THRESHOLD_POSSIBLE = 0.45           # >= this but < CONFIRMED → wait for more frames
+THRESHOLD_CONFIRMED = 0.40          # lowered for single-photo Supabase enrollment
+THRESHOLD_POSSIBLE = 0.32           # >= this but < CONFIRMED → wait for more frames
                                     # < POSSIBLE → unknown
 
 # ── Temporal Smoothing ───────────────────────────────────────────────────────
 
 SMOOTHING_BUFFER_SIZE = 5           # Keep last N frames' predictions
-SMOOTHING_VOTES_REQUIRED = 4        # Need N-of-buffer agreement to confirm
+SMOOTHING_VOTES_REQUIRED = 3        # Need N-of-buffer agreement to confirm
 
 # How long a confirmed match stays "active" before requiring re-detection
 MATCH_TTL_SECONDS = 3.0

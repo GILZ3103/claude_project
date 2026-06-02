@@ -35,6 +35,11 @@ export default function App() {
   const [cardData, setCardData] = useState<any>(null)
   const lastUid = useRef<string | null>(null)
 
+  // Card linking state (activated at kiosk after face login)
+  const [isLinkingCard, setIsLinkingCard] = useState(false)
+  const [linkingUid, setLinkingUid] = useState<string | null>(null)
+  const [cardLinkStatus, setCardLinkStatus] = useState<'idle' | 'linking' | 'done' | 'error'>('idle')
+
   // Face recognition state
   const [loginSource, setLoginSource] = useState<'nfc' | 'face' | null>(null)
   const lastFaceUid = useRef<string | null>(null)
@@ -154,7 +159,7 @@ export default function App() {
 
     // Fetch active campaigns count
     try {
-      const campRes = await fetch(`${BASE_API}/api/campaigns?uid=${encodedUid}&status=ACTIVE`)
+      const campRes = await fetch(`${BASE_API}/api/campaigns?card_uid=${encodedUid}&status=ACTIVE`)
       const campJson = await campRes.json()
       setActiveCampaigns(campJson.success ? (campJson.data?.length ?? 0) : 0)
     } catch { /* non-critical */ }
@@ -419,6 +424,7 @@ export default function App() {
           setPoints={setPoints}
           vouchers={vouchers}
           setVouchers={setVouchers}
+          cardUid={cardData?.uid ?? null}
           onNavigateToStall={(stallName) => {
             const stall = stalls.find(s => s.name === stallName)
             if (stall) { setNavDestination(stall); setActiveOverlay('nav') }
@@ -436,6 +442,7 @@ export default function App() {
           setGlobalPreferences={setPreferences}
           globalCalorieTarget={calorieTarget}
           setGlobalCalorieTarget={setCalorieTarget}
+          cardUid={cardData?.uid ?? null}
         />
       )}
 

@@ -10,7 +10,7 @@ export default function Menu() {
   const [items, setItems] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
-  const [form, setForm] = useState({ name: '', calories: '', price_in_points: '' })
+  const [form, setForm] = useState({ name: '', calories_per_100g: '', price_per_100g: '' })
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
@@ -36,11 +36,11 @@ export default function Menu() {
     try {
       await addFoodItem(vendorId, {
         name: form.name,
-        calories: Number(form.calories),
-        price_in_points: Number(form.price_in_points),
+        calories_per_100g: Number(form.calories_per_100g),
+        price_per_100g: Number(form.price_per_100g),
       })
       toast.success('Item added!')
-      setForm({ name: '', calories: '', price_in_points: '' })
+      setForm({ name: '', calories_per_100g: '', price_per_100g: '' })
       setShowForm(false)
       load()
     } catch (e: any) {
@@ -77,19 +77,20 @@ export default function Menu() {
             <input
               required
               type="number"
+              step="0.01"
               className="flex-1 border rounded-lg px-4 py-2 text-sm"
-              placeholder="Calories (kcal)"
-              value={form.calories}
-              onChange={e => setForm(p => ({ ...p, calories: e.target.value }))}
+              placeholder="Calories per 100g (kcal)"
+              value={form.calories_per_100g}
+              onChange={e => setForm(p => ({ ...p, calories_per_100g: e.target.value }))}
             />
             <input
               required
               type="number"
               step="0.01"
               className="flex-1 border rounded-lg px-4 py-2 text-sm"
-              placeholder="Price (RM)"
-              value={form.price_in_points}
-              onChange={e => setForm(p => ({ ...p, price_in_points: e.target.value }))}
+              placeholder="Price per 100g (RM)"
+              value={form.price_per_100g}
+              onChange={e => setForm(p => ({ ...p, price_per_100g: e.target.value }))}
             />
           </div>
           <div className="flex gap-2">
@@ -125,9 +126,9 @@ export default function Menu() {
         <div key={item.food_id} className="bg-white rounded-xl shadow p-4 flex justify-between items-center">
           <div>
             <p className="font-medium">{item.name}</p>
-            <p className="text-xs text-gray-400">{item.calories} kcal</p>
+            <p className="text-xs text-gray-400">{item.calories_per_100g} kcal/100g</p>
           </div>
-          <p className="font-semibold text-green-700">RM {Number(item.price_in_points).toFixed(2)}</p>
+          <p className="font-semibold text-green-700">RM {Number(item.price_per_100g).toFixed(2)}/100g</p>
         </div>
       ))}
     </div>

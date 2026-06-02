@@ -113,8 +113,8 @@ export default function VendorDashboard() {
     try {
       await addFoodItem(card.vendor_id, card.uid, {
         name: menuName,
-        calories: parseInt(menuCalories),
-        price_in_points: parseFloat(menuPrice),
+        calories_per_100g: parseFloat(menuCalories),
+        price_per_100g: parseFloat(menuPrice),
         protein_g: menuProtein ? parseFloat(menuProtein) : undefined,
         carbs_g: menuCarbs ? parseFloat(menuCarbs) : undefined,
         fat_g: menuFat ? parseFloat(menuFat) : undefined,
@@ -657,12 +657,12 @@ export default function VendorDashboard() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className={labelCls}>Price (RM) *</label>
-                    <input type="number" required min="0" step="0.01" value={menuPrice} onChange={e => setMenuPrice(e.target.value)} className={inputCls} placeholder="e.g. 8.50" />
+                    <label className={labelCls}>Price per 100g (RM) *</label>
+                    <input type="number" required min="0" step="0.01" value={menuPrice} onChange={e => setMenuPrice(e.target.value)} className={inputCls} placeholder="e.g. 0.08" />
                   </div>
                   <div>
-                    <label className={labelCls}>Calories (kcal) *</label>
-                    <input type="number" required min="0" value={menuCalories} onChange={e => setMenuCalories(e.target.value)} className={inputCls} placeholder="e.g. 650" />
+                    <label className={labelCls}>Calories per 100g (kcal) *</label>
+                    <input type="number" required min="0" step="0.1" value={menuCalories} onChange={e => setMenuCalories(e.target.value)} className={inputCls} placeholder="e.g. 200" />
                   </div>
                 </div>
                 <div>

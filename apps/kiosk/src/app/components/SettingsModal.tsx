@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Settings, X, LogOut, CheckCircle, Loader2 } from 'lucide-react';
 import { translations } from '../translations';
 
+const BASE_API = import.meta.env.VITE_API_URL
+
 interface SettingsModalProps {
   onClose: () => void;
   language: 'en' | 'ms' | 'zh';
@@ -21,11 +23,13 @@ interface SettingsModalProps {
   }>>;
   globalCalorieTarget: number;
   setGlobalCalorieTarget: React.Dispatch<React.SetStateAction<number>>;
+  cardUid: string | null;
 }
 
-export function SettingsModal({ 
+export function SettingsModal({
   onClose, language, isUserMode, onLogout,
-  globalPreferences, setGlobalPreferences, globalCalorieTarget, setGlobalCalorieTarget
+  globalPreferences, setGlobalPreferences, globalCalorieTarget, setGlobalCalorieTarget,
+  cardUid
 }: SettingsModalProps) {
   const t = translations[language];
   const [calorieIntake, setCalorieIntake] = useState(globalCalorieTarget);
@@ -37,15 +41,22 @@ export function SettingsModal({
     setPreferences(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsSaving(true);
-    setTimeout(() => {
-      setGlobalPreferences(preferences);
-      setGlobalCalorieTarget(calorieIntake);
-      setIsSaving(false);
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 3000);
-    }, 800);
+    if (cardUid) {
+      try {
+        await fetch(`${BASE_API}/api/cards/${encodeURIComponent(cardUid)}/calorie-limit`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ calorie_limit: calorieIntake }),
+        });
+      } catch { /* non-critical — local state still updated */ }
+    }
+    setGlobalPreferences(preferences);
+    setGlobalCalorieTarget(calorieIntake);
+    setIsSaving(false);
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
   };
 
   return (
