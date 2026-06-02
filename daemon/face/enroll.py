@@ -69,7 +69,7 @@ def enroll_photo(
                                    embedding=emb, photo_url=str(photo_path),
                                    source_label=label)
             success += 1
-        log.info(f"✅ Enrolled {success}/{len(variants)} augmented variants of {photo_path.name} for {owner_name}")
+        log.info(f"Enrolled {success}/{len(variants)} augmented variants of {photo_path.name} for {owner_name}")
         return success > 0
 
     emb = recognizer.embed_photo(frame)
@@ -82,7 +82,7 @@ def enroll_photo(
         uid=uid, owner_name=owner_name, embedding=emb,
         photo_url=str(photo_path), source_label=label,
     )
-    log.info(f"✅ Enrolled {photo_path.name} for {owner_name} ({uid}) — embedding_id={embedding_id}")
+    log.info(f"Enrolled{photo_path.name} for {owner_name} ({uid}) — embedding_id={embedding_id}")
     return True
 
 

@@ -228,7 +228,7 @@ def _camera_loop():
                 _current.timestamp = _now_iso()
                 _current.seen_at = time.monotonic()
             log.info(
-                f"✅ Recognised: {smoothed.owner_name} ({smoothed.uid}) "
+                f"Recognised:{smoothed.owner_name} ({smoothed.uid}) "
                 f"@ {smoothed.confidence:.3f} after {smoothed.frames_confirmed} frames"
             )
 
