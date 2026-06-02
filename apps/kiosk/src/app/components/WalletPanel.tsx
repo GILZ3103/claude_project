@@ -13,6 +13,16 @@ interface Voucher {
   image?: string;
 }
 
+interface Campaign {
+  campaign_id: string;
+  name: string;
+  description: string;
+  condition_type: string;
+  condition_threshold: number;
+  reward_value: number;
+  progress?: { current_value: number; completed: boolean } | null;
+}
+
 interface WalletPanelProps {
   onClose: () => void;
   language: 'en' | 'ms' | 'zh';
@@ -25,13 +35,14 @@ interface WalletPanelProps {
   vouchers: Voucher[];
   setVouchers: React.Dispatch<React.SetStateAction<Voucher[]>>;
   cardUid: string | null;
-  onRequestNfcConfirm: (action: { type: 'topup'; amount: number; method: string } | { type: 'calorie'; limit: number }) => void;
+  campaigns?: Campaign[];
+  onRequestNfcConfirm: (action: { type: 'topup'; amount: number; method: string } | { type: 'calorie'; limit: number } | { type: 'campaign'; campaign_id: string; name: string }) => void;
   onNavigateToStall?: (stallName: string) => void;
 }
 
 export function WalletPanel({
   onClose, language, initialTab = 'balance', isUserMode,
-  balance, setBalance, points, setPoints, vouchers, setVouchers, cardUid, onRequestNfcConfirm, onNavigateToStall
+  balance, setBalance: _setBalance, points, setPoints, vouchers, setVouchers, cardUid: _cardUid, campaigns = [], onRequestNfcConfirm, onNavigateToStall
 }: WalletPanelProps) {
   const t = translations[language];
   const [activeTab, setActiveTab] = useState(initialTab);
@@ -359,12 +370,12 @@ export function WalletPanel({
                     <h4 className="font-bold text-gray-900">{reward.title}</h4>
                     <p className="text-sm text-amber-600 font-bold">{reward.pts} {t.pts}</p>
                   </div>
-                  <button 
+                  <button
                     onClick={() => handleRedeem(reward)}
                     disabled={points < reward.pts}
                     className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors
-                      ${points >= reward.pts 
-                        ? 'bg-black text-white hover:bg-gray-800' 
+                      ${points >= reward.pts
+                        ? 'bg-black text-white hover:bg-gray-800'
                         : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                       }
                     `}
@@ -374,6 +385,71 @@ export function WalletPanel({
                 </div>
               ))}
             </div>
+
+            {/* Active Campaigns */}
+            {campaigns.filter(c => c.progress != null).length > 0 && (
+              <>
+                <h4 className="font-bold text-gray-900">My Campaigns</h4>
+                <div className="space-y-3">
+                  {campaigns.filter(c => c.progress != null).map(c => {
+                    const pct = Math.min(100, Math.round((c.progress!.current_value / c.condition_threshold) * 100))
+                    const condLabel = c.condition_type === 'VISIT_STALLS'
+                      ? `${c.progress!.current_value} / ${c.condition_threshold} stalls visited`
+                      : `${c.progress!.current_value} / ${c.condition_threshold} pts spent`
+                    return (
+                      <div key={c.campaign_id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                        <div className="flex items-start justify-between mb-2">
+                          <div className="flex-1 pr-2">
+                            <h4 className="font-bold text-gray-900 text-sm">{c.name}</h4>
+                            <p className="text-xs text-gray-500 mt-0.5">Earn RM{c.reward_value} reward on completion</p>
+                          </div>
+                          {c.progress!.completed && (
+                            <span className="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full shrink-0">Done!</span>
+                          )}
+                        </div>
+                        <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden mb-1">
+                          <div className="bg-orange-500 h-full rounded-full transition-all" style={{ width: `${pct}%` }} />
+                        </div>
+                        <p className="text-xs text-gray-500">{condLabel}</p>
+                      </div>
+                    )
+                  })}
+                </div>
+              </>
+            )}
+
+            {/* Available Campaigns */}
+            {campaigns.filter(c => c.progress == null).length > 0 && (
+              <>
+                <h4 className="font-bold text-gray-900">Available Campaigns</h4>
+                <div className="space-y-3">
+                  {campaigns.filter(c => c.progress == null).map(c => {
+                    const condLabel = c.condition_type === 'VISIT_STALLS'
+                      ? `Visit ${c.condition_threshold} stalls`
+                      : c.condition_type === 'SPEND_POINTS'
+                        ? `Spend ${c.condition_threshold} pts`
+                        : 'Tap at kiosk'
+                    return (
+                      <div key={c.campaign_id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4">
+                        <div className="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center shrink-0">
+                          <Award className="w-5 h-5 text-orange-500" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-bold text-gray-900 text-sm">{c.name}</h4>
+                          <p className="text-xs text-gray-500">{condLabel} → RM{c.reward_value} reward</p>
+                        </div>
+                        <button
+                          onClick={() => onRequestNfcConfirm({ type: 'campaign', campaign_id: c.campaign_id, name: c.name })}
+                          className="px-4 py-2 text-sm font-bold bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors shrink-0"
+                        >
+                          Enroll
+                        </button>
+                      </div>
+                    )
+                  })}
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>

@@ -41,10 +41,11 @@ export default function App() {
   const cardLinkStatusRef = useRef<'idle' | 'linking' | 'done' | 'error'>('idle')
   const cardDataRef = useRef<any>(null)
 
-  // NFC confirmation for topup / calorie update
+  // NFC confirmation for topup / calorie update / campaign enrol
   type PendingNfcAction =
     | { type: 'topup'; amount: number; method: string }
     | { type: 'calorie'; limit: number }
+    | { type: 'campaign'; campaign_id: string; name: string }
   const [pendingAction, setPendingAction] = useState<PendingNfcAction | null>(null)
   const pendingActionRef = useRef<PendingNfcAction | null>(null)
 
@@ -60,6 +61,7 @@ export default function App() {
   const [points, setPoints] = useState(0)
   const [vouchers, setVouchers] = useState<any[]>(VOUCHERS)
   const [activeCampaigns, setActiveCampaigns] = useState(0)
+  const [campaigns, setCampaigns] = useState<any[]>([])
 
   // Settings
   const [calorieTarget, setCalorieTarget] = useState(2000)
@@ -180,11 +182,13 @@ export default function App() {
       }
     } catch { /* non-critical */ }
 
-    // Fetch active campaigns count
+    // Fetch campaigns (full list for Loyalty tab + count for UserBar)
     try {
       const campRes = await fetch(`${BASE_API}/api/campaigns?card_uid=${encodedUid}&status=ACTIVE`)
       const campJson = await campRes.json()
-      setActiveCampaigns(campJson.success ? (campJson.data?.length ?? 0) : 0)
+      const campData = campJson.success ? (campJson.data ?? []) : []
+      setCampaigns(campData)
+      setActiveCampaigns(campData.length)
     } catch { /* non-critical */ }
 
     return card
@@ -308,6 +312,19 @@ export default function App() {
         } else {
           toast.error('Failed to save calorie target')
         }
+      } else if (action.type === 'campaign') {
+        const res = await fetch(`${BASE_API}/api/campaigns/${action.campaign_id}/enrol`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ card_uid: uid }),
+        })
+        const json = await res.json()
+        if (json.success) {
+          await loadCardData(uid, encodedUid)
+          toast.success(`Enrolled in "${action.name}"!`)
+        } else {
+          toast.error(json.message ?? 'Enrolment failed')
+        }
       }
     } catch {
       toast.error('Connection error — please try again')
@@ -346,6 +363,7 @@ export default function App() {
     setBalance(0)
     setPoints(0)
     setActiveCampaigns(0)
+    setCampaigns([])
     setLoginSource(null)
     setCardLinkStatus('idle')
     lastUid.current = null
@@ -519,6 +537,7 @@ export default function App() {
           vouchers={vouchers}
           setVouchers={setVouchers}
           cardUid={cardData?.uid ?? null}
+          campaigns={campaigns}
           onRequestNfcConfirm={setPendingAction}
           onNavigateToStall={(stallName) => {
             const stall = stalls.find(s => s.name === stallName)
@@ -541,7 +560,9 @@ export default function App() {
             <p className="text-gray-600 text-base mb-1">
               {pendingAction.type === 'topup'
                 ? `Top-up RM${pendingAction.amount} via ${pendingAction.method}`
-                : `Set daily calorie target to ${pendingAction.limit} kcal`}
+                : pendingAction.type === 'calorie'
+                  ? `Set daily calorie target to ${pendingAction.limit} kcal`
+                  : `Enrol in "${pendingAction.name}"`}
             </p>
             <p className="text-sm text-gray-400 mb-8">Hold your NFC card on the reader</p>
             <button
