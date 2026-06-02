@@ -206,7 +206,7 @@ router.patch('/:uid/link', validate(linkCardSchema), async (req: Request, res: R
 router.get('/:uid', async (req: Request, res: Response): Promise<void> => {
   const { uid } = req.params
 
-  const card = await findCard(uid)
+  const card = await findCard(uid as string)
   if (!card) {
     res.status(404).json({ success: false, error: 'CARD_NOT_FOUND', message: 'Card not found.' })
     return
