@@ -36,6 +36,7 @@ export default function AuthPage() {
   // Vendor-only signup
   const [businessName, setBusinessName] = useState('')
   const [ssm, setSsm] = useState('')
+  const [category, setCategory] = useState('')
 
   // Admin-only fields
   const [authorityId, setAuthorityId] = useState('')
@@ -106,6 +107,7 @@ export default function AuthPage() {
           owner_card_uid: newUid,
           business_name: businessName,
           ssm_registration_number: ssm,
+          category,
           ...(phone ? { phone_number: phone } : {}),
         })
       }
@@ -289,6 +291,22 @@ export default function AuthPage() {
                   <div>
                     <label className={labelCls}>SSM Registration Number</label>
                     <input type="text" required value={ssm} onChange={e => setSsm(e.target.value)} className={inputCls} placeholder="001234567-A" />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Food Category</label>
+                    <select required value={category} onChange={e => setCategory(e.target.value)} className={inputCls}>
+                      <option value="" disabled>Select a category</option>
+                      <option value="Rice">Rice (Nasi)</option>
+                      <option value="Noodle">Noodle (Mee / Kuey Teow)</option>
+                      <option value="Grilled">Grilled / BBQ</option>
+                      <option value="Seafood">Seafood</option>
+                      <option value="Bread">Bread / Roti</option>
+                      <option value="Dessert">Dessert / Kuih</option>
+                      <option value="Drinks">Drinks / Beverages</option>
+                      <option value="Snacks">Snacks</option>
+                      <option value="Fruits">Fruits</option>
+                      <option value="Others">Others</option>
+                    </select>
                   </div>
                 </>
               )}

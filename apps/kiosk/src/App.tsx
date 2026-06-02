@@ -108,7 +108,7 @@ export default function App() {
           const data = await res.json()
           if (data.uid && data.uid !== lastFaceUid.current) {
             lastFaceUid.current = data.uid
-            const success = await handleFaceTap(data.uid, data.confidence ?? 0)
+            const success = await handleFaceTap(data.uid, data.confidence ?? 0, data.owner_name ?? '')
             if (!success) lastFaceUid.current = null  // allow retry on next poll
           }
         }
@@ -121,6 +121,7 @@ export default function App() {
     pollFace()
     return () => { active = false }
   }, [isUserMode])
+
 
   async function loadCardData(_uid: string, encodedUid: string) {
     const cardRes = await fetch(`${BASE_API}/api/cards/${encodedUid}`, { signal: AbortSignal.timeout(8000) })
@@ -161,11 +162,22 @@ export default function App() {
     return card
   }
 
-  async function handleFaceTap(uid: string, confidence: number): Promise<boolean> {
+  async function handleFaceTap(uid: string, confidence: number, ownerName: string): Promise<boolean> {
+    // Show animation immediately — don't wait for card data fetch
+    setLoginSource('face')
+    setCardData({ owner_name: ownerName, has_physical_card: false, points_balance: 0, calorie_limit: calorieTarget } as any)
+    setShowLoginAnim(true)
+
     try {
       const encodedUid = encodeURIComponent(uid)
       const card = await loadCardData(uid, encodedUid)
-      if (!card) return false
+      if (!card) {
+        setShowLoginAnim(false)
+        setLoginSource(null)
+        setCardData(null)
+        toast.error('Face not linked to a registered card')
+        return false
+      }
 
       // Log face login event to backend (non-critical)
       fetch(`${BASE_API}/api/face/login`, {
@@ -174,8 +186,6 @@ export default function App() {
         body: JSON.stringify({ card_uid: uid, kiosk_id: KIOSK_ID, confidence, device_timestamp: new Date().toISOString() }),
       }).catch(() => {})
 
-      setLoginSource('face')
-      setShowLoginAnim(true)
       setTimeout(() => {
         setIsUserMode(true)
         setShowLoginAnim(false)
@@ -185,6 +195,9 @@ export default function App() {
 
       return true
     } catch {
+      setShowLoginAnim(false)
+      setLoginSource(null)
+      setCardData(null)
       return false
     }
   }
