@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import { Settings, X, LogOut, CheckCircle, Loader2 } from 'lucide-react';
+import { Settings, X, LogOut, CheckCircle } from 'lucide-react';
 import { translations } from '../translations';
-
-const BASE_API = import.meta.env.VITE_API_URL
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -24,39 +22,32 @@ interface SettingsModalProps {
   globalCalorieTarget: number;
   setGlobalCalorieTarget: React.Dispatch<React.SetStateAction<number>>;
   cardUid: string | null;
+  onRequestNfcConfirm: (action: { type: 'calorie'; limit: number }) => void;
 }
 
 export function SettingsModal({
   onClose, language, isUserMode, onLogout,
   globalPreferences, setGlobalPreferences, globalCalorieTarget, setGlobalCalorieTarget,
-  cardUid
+  cardUid, onRequestNfcConfirm
 }: SettingsModalProps) {
   const t = translations[language];
   const [calorieIntake, setCalorieIntake] = useState(globalCalorieTarget);
   const [preferences, setPreferences] = useState(globalPreferences);
-  const [isSaving, setIsSaving] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
   const togglePref = (key: keyof typeof preferences) => {
     setPreferences(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  const handleSave = async () => {
-    setIsSaving(true);
-    if (cardUid) {
-      try {
-        await fetch(`${BASE_API}/api/cards/${encodeURIComponent(cardUid)}/calorie-limit`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ calorie_limit: calorieIntake }),
-        });
-      } catch { /* non-critical — local state still updated */ }
-    }
+  const handleSave = () => {
     setGlobalPreferences(preferences);
-    setGlobalCalorieTarget(calorieIntake);
-    setIsSaving(false);
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 3000);
+    if (cardUid) {
+      onRequestNfcConfirm({ type: 'calorie', limit: calorieIntake });
+    } else {
+      setGlobalCalorieTarget(calorieIntake);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    }
   };
 
   return (
@@ -115,15 +106,11 @@ export function SettingsModal({
         </div>
 
         <div className="p-6 border-t border-gray-100 bg-white flex flex-col gap-3">
-          <button 
+          <button
             onClick={handleSave}
-            disabled={isSaving}
-            className={`w-full py-4 font-bold rounded-xl flex items-center justify-center gap-2 transition-colors ${
-              isSaving ? 'bg-orange-300 text-white cursor-not-allowed' : 'bg-orange-500 text-white hover:bg-orange-600 shadow-lg shadow-orange-500/30'
-            }`}
+            className="w-full py-4 font-bold rounded-xl flex items-center justify-center gap-2 transition-colors bg-orange-500 text-white hover:bg-orange-600 shadow-lg shadow-orange-500/30"
           >
-            {isSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : null}
-            {isSaving ? 'Saving...' : 'Save Changes'}
+            Save Changes
           </button>
           
           {isUserMode && (

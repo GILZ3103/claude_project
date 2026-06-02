@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
-const BASE_API = import.meta.env.VITE_API_URL
 import { X, CreditCard, Ticket, Award, CheckCircle, QrCode } from 'lucide-react';
 import { translations } from '../translations';
 
@@ -27,12 +25,13 @@ interface WalletPanelProps {
   vouchers: Voucher[];
   setVouchers: React.Dispatch<React.SetStateAction<Voucher[]>>;
   cardUid: string | null;
+  onRequestNfcConfirm: (action: { type: 'topup'; amount: number; method: string } | { type: 'calorie'; limit: number }) => void;
   onNavigateToStall?: (stallName: string) => void;
 }
 
 export function WalletPanel({
   onClose, language, initialTab = 'balance', isUserMode,
-  balance, setBalance, points, setPoints, vouchers, setVouchers, cardUid, onNavigateToStall
+  balance, setBalance, points, setPoints, vouchers, setVouchers, cardUid, onRequestNfcConfirm, onNavigateToStall
 }: WalletPanelProps) {
   const t = translations[language];
   const [activeTab, setActiveTab] = useState(initialTab);
@@ -46,7 +45,6 @@ export function WalletPanel({
   // Topup State
   const [topupAmount, setTopupAmount] = useState<number | null>(null);
   const [paymentMethod, setPaymentMethod] = useState<string | null>(null);
-  const [isTopUpSuccess, setIsTopUpSuccess] = useState(false);
 
   // Voucher State
   const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null);
@@ -67,22 +65,11 @@ export function WalletPanel({
     return () => clearInterval(timer);
   }, [showQR, countdown]);
 
-  const handleTopUpConfirm = async () => {
+  const handleTopUpConfirm = () => {
     if (!topupAmount || !paymentMethod) return;
-    if (cardUid) {
-      try {
-        await fetch(`${BASE_API}/api/cards/${encodeURIComponent(cardUid)}/topup`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ amount: topupAmount, method: paymentMethod }),
-        });
-      } catch { /* non-critical — balance updated locally regardless */ }
-    }
-    setBalance(prev => prev + topupAmount);
-    setIsTopUpSuccess(true);
+    onRequestNfcConfirm({ type: 'topup', amount: topupAmount, method: paymentMethod });
     setTopupAmount(null);
     setPaymentMethod(null);
-    setTimeout(() => setIsTopUpSuccess(false), 4000);
   };
 
   const handleUseVoucher = () => {
@@ -182,18 +169,7 @@ export function WalletPanel({
               <h3 className="text-4xl font-bold text-gray-900 mb-6">RM {balance.toFixed(2)}</h3>
             </div>
 
-            {isTopUpSuccess && (
-              <div className="bg-green-50 border border-green-200 p-4 rounded-xl flex items-start gap-3 animate-[pulse_2s_ease-in-out_infinite]">
-                <CheckCircle className="w-6 h-6 text-green-500 shrink-0" />
-                <div>
-                  <h4 className="font-bold text-green-800">{t.topupSuccess}</h4>
-                  <p className="text-sm text-green-700 mt-1">{t.transactionRef} WTK-{Math.floor(Math.random()*100000)}</p>
-                </div>
-              </div>
-            )}
-
-            {!isTopUpSuccess && (
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                 <h4 className="font-bold text-gray-900 mb-3">{t.quickTopup}</h4>
                 <div className="grid grid-cols-4 gap-2 mb-6">
                   {[5, 10, 20, 50].map(amt => (
@@ -234,7 +210,6 @@ export function WalletPanel({
                   {t.confirm}
                 </button>
               </div>
-            )}
           </div>
         )}
 

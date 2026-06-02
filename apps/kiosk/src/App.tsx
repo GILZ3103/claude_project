@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
-import { AlertTriangle } from 'lucide-react'
+import { AlertTriangle, Wifi } from 'lucide-react'
 import type { Stall } from './app/data'
 import { VOUCHERS } from './app/data'
 import { Header } from './app/components/Header'
@@ -41,6 +41,13 @@ export default function App() {
   const cardLinkStatusRef = useRef<'idle' | 'linking' | 'done' | 'error'>('idle')
   const cardDataRef = useRef<any>(null)
 
+  // NFC confirmation for topup / calorie update
+  type PendingNfcAction =
+    | { type: 'topup'; amount: number; method: string }
+    | { type: 'calorie'; limit: number }
+  const [pendingAction, setPendingAction] = useState<PendingNfcAction | null>(null)
+  const pendingActionRef = useRef<PendingNfcAction | null>(null)
+
   // Face recognition state
   const [loginSource, setLoginSource] = useState<'nfc' | 'face' | null>(null)
   const lastFaceUid = useRef<string | null>(null)
@@ -73,6 +80,7 @@ export default function App() {
   // Keep refs in sync so poll closures always see current values
   useEffect(() => { cardLinkStatusRef.current = cardLinkStatus }, [cardLinkStatus])
   useEffect(() => { cardDataRef.current = cardData }, [cardData])
+  useEffect(() => { pendingActionRef.current = pendingAction }, [pendingAction])
 
   // ── Load stalls from backend ───────────────────────────────────────────────
 
@@ -97,6 +105,8 @@ export default function App() {
           lastUid.current = data.uid
           if (cardLinkStatusRef.current === 'linking') {
             handleNfcLink(data.uid)
+          } else if (pendingActionRef.current) {
+            handleNfcConfirm()
           } else {
             handleNfcTap(data.uid)
           }
@@ -261,6 +271,47 @@ export default function App() {
       console.error('Card lookup failed:', e)
       toast.error(`Server: ${e?.message ?? 'unreachable'}`)
       setTimeout(() => setShowLoginAnim(false), 1500)
+    }
+  }
+
+  async function handleNfcConfirm() {
+    const action = pendingActionRef.current
+    const uid = cardDataRef.current?.uid
+    if (!action || !uid) return
+    setPendingAction(null)
+    const encodedUid = encodeURIComponent(uid)
+    try {
+      if (action.type === 'topup') {
+        const res = await fetch(`${BASE_API}/api/cards/${encodedUid}/topup`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: action.amount }),
+        })
+        const json = await res.json()
+        if (json.success) {
+          setBalance(json.data.points_balance)
+          setPoints(json.data.points_balance)
+          toast.success(`Top-up RM${action.amount} confirmed!`)
+        } else {
+          toast.error('Top-up failed')
+        }
+      } else if (action.type === 'calorie') {
+        const res = await fetch(`${BASE_API}/api/cards/${encodedUid}/calorie-limit`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ calorie_limit: action.limit }),
+        })
+        const json = await res.json()
+        if (json.success) {
+          setCalorieTarget(action.limit)
+          toast.success(`Calorie target set to ${action.limit} kcal`)
+        } else {
+          toast.error('Failed to save calorie target')
+        }
+      }
+    } catch {
+      toast.error('Connection error — please try again')
+      setPendingAction(action)
     }
   }
 
@@ -468,11 +519,39 @@ export default function App() {
           vouchers={vouchers}
           setVouchers={setVouchers}
           cardUid={cardData?.uid ?? null}
+          onRequestNfcConfirm={setPendingAction}
           onNavigateToStall={(stallName) => {
             const stall = stalls.find(s => s.name === stallName)
             if (stall) { setNavDestination(stall); setActiveOverlay('nav') }
           }}
         />
+      )}
+
+      {/* NFC action confirmation overlay */}
+      {pendingAction && (
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+          <div className="bg-white p-8 rounded-3xl w-full max-w-md text-center shadow-2xl">
+            <div className="relative w-20 h-20 mx-auto mb-6">
+              <div className="absolute inset-0 bg-orange-100 rounded-full animate-ping opacity-60" />
+              <div className="relative w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center">
+                <Wifi className="w-10 h-10 text-orange-500" />
+              </div>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Tap your card to confirm</h2>
+            <p className="text-gray-600 text-base mb-1">
+              {pendingAction.type === 'topup'
+                ? `Top-up RM${pendingAction.amount} via ${pendingAction.method}`
+                : `Set daily calorie target to ${pendingAction.limit} kcal`}
+            </p>
+            <p className="text-sm text-gray-400 mb-8">Hold your NFC card on the reader</p>
+            <button
+              onClick={() => setPendingAction(null)}
+              className="w-full py-4 bg-gray-100 text-gray-800 font-bold rounded-xl hover:bg-gray-200 transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
       )}
 
       {activeOverlay === 'settings' && (
@@ -486,6 +565,7 @@ export default function App() {
           globalCalorieTarget={calorieTarget}
           setGlobalCalorieTarget={setCalorieTarget}
           cardUid={cardData?.uid ?? null}
+          onRequestNfcConfirm={setPendingAction}
         />
       )}
 
