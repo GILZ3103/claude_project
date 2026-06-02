@@ -14,6 +14,7 @@ import { HelpDrawer, EmergencyModal } from './app/components/HelpAndEmergency'
 import { SettingsModal } from './app/components/SettingsModal'
 import { UserBar } from './app/components/UserBar'
 import { NfcCardOfferModal } from './app/components/NfcCardOfferModal'
+import { LoginAnimation } from './app/components/LoginAnimation'
 import { fetchStalls } from './lib/transforms'
 import toast, { Toaster } from 'react-hot-toast'
 
@@ -43,6 +44,8 @@ export default function App() {
   // Face recognition state
   const [loginSource, setLoginSource] = useState<'nfc' | 'face' | null>(null)
   const lastFaceUid = useRef<string | null>(null)
+  const [faceConfidence, setFaceConfidence] = useState(0)
+  const [faceDaemonOnline, setFaceDaemonOnline] = useState(false)
 
   // Wallet state (populated from real card on NFC tap)
   const [balance, setBalance] = useState(0)
@@ -109,16 +112,17 @@ export default function App() {
       if (!active || isUserMode) return
       try {
         const res = await fetch(`${FACE_URL}/face/recognized`)
+        setFaceDaemonOnline(true)
         if (res.status === 200) {
           const data = await res.json()
           if (data.uid && data.uid !== lastFaceUid.current) {
             lastFaceUid.current = data.uid
             const success = await handleFaceTap(data.uid, data.confidence ?? 0, data.owner_name ?? '')
-            if (!success) lastFaceUid.current = null  // allow retry on next poll
+            if (!success) lastFaceUid.current = null
           }
         }
       } catch {
-        // face daemon offline — silent retry
+        setFaceDaemonOnline(false)
       }
       if (active) setTimeout(pollFace, 1000)
     }
@@ -168,8 +172,8 @@ export default function App() {
   }
 
   async function handleFaceTap(uid: string, confidence: number, ownerName: string): Promise<boolean> {
-    // Show animation immediately — don't wait for card data fetch
     setLoginSource('face')
+    setFaceConfidence(confidence)
     setCardData({ owner_name: ownerName, has_physical_card: false, points_balance: 0, calorie_limit: calorieTarget } as any)
     setShowLoginAnim(true)
 
@@ -322,6 +326,7 @@ export default function App() {
         language={language}
         isUserMode={isUserMode}
         cardData={cardData ? { owner_name: cardData.owner_name, points_balance: points } : null}
+        faceDaemonOnline={faceDaemonOnline}
       />
 
       {/* User mode top bar — replaces floating badge */}
@@ -391,20 +396,12 @@ export default function App() {
       )}
 
       {/* Login Animation */}
-      {showLoginAnim && (
-        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="flex flex-col items-center">
-            <div className="w-24 h-24 bg-white/20 rounded-full animate-ping flex items-center justify-center mb-4">
-              <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.8)]">
-                <span className="text-3xl">{loginSource === 'face' ? '👤' : '💳'}</span>
-              </div>
-            </div>
-            <h2 className="text-2xl font-bold text-white tracking-widest uppercase">
-              {loginSource === 'face' ? 'Face Recognized' : 'NFC Detected'}
-            </h2>
-            {cardData && <p className="text-white/70 mt-2">Welcome, {cardData.owner_name}</p>}
-          </div>
-        </div>
+      {showLoginAnim && loginSource && (
+        <LoginAnimation
+          loginSource={loginSource}
+          ownerName={cardData?.owner_name}
+          confidence={loginSource === 'face' ? faceConfidence : undefined}
+        />
       )}
 
       {/* Overlays */}

@@ -11,9 +11,10 @@ interface HeaderProps {
   language: 'en' | 'ms' | 'zh';
   isUserMode?: boolean;
   cardData?: { owner_name: string; points_balance: number } | null;
+  faceDaemonOnline?: boolean;
 }
 
-export function Header({ searchQuery, setSearchQuery, onLogoClick, onIconClick, language, isUserMode, cardData }: HeaderProps) {
+export function Header({ searchQuery, setSearchQuery, onLogoClick, onIconClick, language, isUserMode, cardData, faceDaemonOnline }: HeaderProps) {
   const t = translations[language];
   const [isFocused, setIsFocused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -101,8 +102,15 @@ export function Header({ searchQuery, setSearchQuery, onLogoClick, onIconClick, 
 
       {/* Right: Actions */}
       <div className="flex items-center space-x-2">
+        {/* Face daemon live indicator — shown when not logged in */}
+        {faceDaemonOnline && !isUserMode && (
+          <div className="flex items-center gap-1.5 bg-green-50 border border-green-200 rounded-full px-3 py-1 mr-1">
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <span className="text-xs font-medium text-green-700">Face scanning</span>
+          </div>
+        )}
         {isUserMode && cardData && (
-          <div className="flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-full px-3 py-1 mr-2">
+          <div className="flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-full px-3 py-1 mr-2" style={{ animation: 'headerUserIn 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards' }}>
             <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
               {cardData.owner_name[0].toUpperCase()}
             </div>
@@ -116,6 +124,13 @@ export function Header({ searchQuery, setSearchQuery, onLogoClick, onIconClick, 
         <IconButton icon={<Globe className="w-5 h-5" />} onClick={() => onIconClick('language')} />
         <IconButton icon={<HelpCircle className="w-5 h-5" />} onClick={() => onIconClick('help')} />
       </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes headerUserIn {
+          from { opacity: 0; transform: scale(0.8) translateX(12px); }
+          to   { opacity: 1; transform: scale(1)   translateX(0); }
+        }
+      `}} />
     </header>
   );
 }
