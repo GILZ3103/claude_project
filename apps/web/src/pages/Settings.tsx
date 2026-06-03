@@ -40,9 +40,10 @@ export default function Settings() {
 
   // Accordion state
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [showNfcDetails, setShowNfcDetails] = useState(false)
 
   const [uploadingPhoto, setUploadingPhoto] = useState(false)
-  const hasPhysicalCard = card && !card.uid.startsWith('USER-')
+  const hasPhysicalCard = card?.has_physical_card ?? false
 
   // Bluetooth permission
   const btSupported = typeof navigator !== 'undefined' && 'bluetooth' in navigator
@@ -190,22 +191,46 @@ export default function Settings() {
               <span className="text-sm text-[#6B7280]">Status</span>
               <span className="text-xs font-semibold text-green-600 bg-green-50 border border-green-100 px-2 py-1 rounded-lg">Card Linked</span>
             </div>
-            <div className={rowCls}>
-              <span className="text-sm text-[#6B7280]">Card UID</span>
-              <div className="flex items-center space-x-2">
-                <CreditCard size={14} className="text-gray-400" />
-                <span className="text-sm font-mono font-medium text-[#1A1A1A]">{card.uid}</span>
+            <button
+              onClick={() => setShowNfcDetails(v => !v)}
+              className="flex justify-between items-center px-6 py-3.5 border-b border-gray-50 w-full text-left hover:bg-gray-50 transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                <CreditCard size={15} className="text-gray-400" />
+                <span className="text-sm text-[#1A1A1A] font-medium">NFC Card Details</span>
               </div>
-            </div>
-            <div className="px-6 pb-4 pt-1">
-              <button
-                onClick={() => navigate('/nfc')}
-                className="flex items-center gap-2 text-xs text-[#6B7280] hover:text-[#1A1A1A] transition-colors"
-              >
-                <span>View NFC & tap history</span>
-                <ArrowRight size={12} />
-              </button>
-            </div>
+              <motion.div animate={{ rotate: showNfcDetails ? 180 : 0 }} transition={{ duration: 0.2 }}>
+                <ChevronDown size={15} className="text-gray-400" />
+              </motion.div>
+            </button>
+            <AnimatePresence>
+              {showNfcDetails && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-6 pb-4 pt-2 space-y-3">
+                    <div className="flex items-center gap-3 bg-gray-50 border border-gray-100 rounded-xl px-4 py-3">
+                      <CreditCard size={16} className="text-[#FF8A00] shrink-0" />
+                      <div>
+                        <p className="text-[10px] text-[#6B7280] font-semibold uppercase tracking-wide">NFC Card UID</p>
+                        <p className="text-sm font-mono font-bold text-[#1A1A1A] mt-0.5">{card.nfc_uid ?? '—'}</p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => navigate('/nfc')}
+                      className="flex items-center gap-2 text-xs text-[#6B7280] hover:text-[#1A1A1A] transition-colors"
+                    >
+                      <span>View NFC & tap history</span>
+                      <ArrowRight size={12} />
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </>
         ) : (
           <>

@@ -14677,3 +14677,665 @@
 2026-06-02 23:38:42,143 [INFO] Loaded 32 embeddings from faces.db
 2026-06-02 23:38:42,144 [INFO] Cache reloaded — 4 changes total
 2026-06-02 23:38:42,150 [INFO] Startup sync complete: 4 people enrolled/updated
+2026-06-02 23:42:30,232 [INFO] 127.0.0.1 - - [02/Jun/2026 23:42:30] "GET /stream HTTP/1.1" 200 -
+2026-06-02 23:43:04,017 [INFO] Recognised:Yap Jun Xi  (USER-13LRYBBJ) @ 0.565 after 3 frames
+2026-06-02 23:43:04,654 [INFO] Recognised:Yap Jun Xi  (USER-13LRYBBJ) @ 0.582 after 4 frames
+2026-06-02 23:43:05,297 [INFO] Recognised:Yap Jun Xi  (USER-13LRYBBJ) @ 0.594 after 5 frames
+2026-06-02 23:43:05,914 [INFO] Recognised:Yap Jun Xi  (USER-13LRYBBJ) @ 0.612 after 5 frames
+2026-06-02 23:43:06,575 [INFO] Recognised:Yap Jun Xi  (USER-13LRYBBJ) @ 0.624 after 5 frames
+2026-06-02 23:43:08,743 [INFO] Recognised:Yap Jun Xi  (USER-13LRYBBJ) @ 0.629 after 4 frames
+2026-06-02 23:43:09,530 [INFO] Recognised:Yap Jun Xi  (USER-13LRYBBJ) @ 0.628 after 3 frames
+2026-06-02 23:46:45,643 [INFO] Loaded 32 embeddings from faces.db
+2026-06-02 23:46:45,643 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-02 23:46:45,648 [INFO] Detection loop running.
+2026-06-02 23:46:47,069 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.193.197.61:5002
+2026-06-02 23:46:47,069 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-02 23:46:50,312 [INFO] Camera opened via OpenCV (USB webcam)
+2026-06-02 23:46:50,312 [INFO] Capture loop running.
+2026-06-02 23:47:00,950 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.597 after 3 frames
+2026-06-02 23:47:02,177 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.594 after 4 frames
+2026-06-02 23:47:03,492 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.587 after 5 frames
+2026-06-02 23:47:04,424 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.593 after 5 frames
+2026-06-02 23:47:05,505 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.590 after 5 frames
+2026-06-02 23:47:05,843 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-02 23:47:05,907 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-02 23:47:06,289 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.590 after 5 frames
+2026-06-02 23:47:06,908 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.586 after 5 frames
+2026-06-02 23:47:07,537 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.591 after 5 frames
+2026-06-02 23:47:08,918 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.587 after 5 frames
+2026-06-02 23:47:10,890 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.587 after 5 frames
+2026-06-02 23:47:12,061 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.576 after 5 frames
+2026-06-02 23:47:13,172 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.577 after 5 frames
+2026-06-02 23:47:14,469 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.571 after 5 frames
+2026-06-02 23:47:16,117 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.566 after 5 frames
+2026-06-02 23:47:17,242 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.561 after 5 frames
+2026-06-02 23:50:54,259 [INFO] Loaded 31 embeddings from faces.db
+2026-06-02 23:50:54,264 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-02 23:50:54,264 [INFO] Detection loop running.
+2026-06-02 23:50:55,615 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.193.197.61:5002
+2026-06-02 23:50:55,615 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-02 23:50:56,327 [INFO] 10.193.197.62 - - [02/Jun/2026 23:50:56] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:50:57,370 [INFO] 10.193.197.62 - - [02/Jun/2026 23:50:57] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:50:58,397 [INFO] 10.193.197.62 - - [02/Jun/2026 23:50:58] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:50:59,235 [INFO] Camera opened via OpenCV (USB webcam)
+2026-06-02 23:50:59,235 [INFO] Capture loop running.
+2026-06-02 23:50:59,617 [INFO] 10.193.197.62 - - [02/Jun/2026 23:50:59] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:51:01,126 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:01] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:51:02,530 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:02] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:51:03,932 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:03] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:51:06,164 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:06] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:51:07,060 [INFO] 127.0.0.1 - - [02/Jun/2026 23:51:07] "GET /stream HTTP/1.1" 200 -
+2026-06-02 23:51:07,580 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:07] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:51:08,740 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:08] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:51:09,937 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:09] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:51:11,067 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:11] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:51:11,975 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.599 after 3 frames
+2026-06-02 23:51:12,226 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:12] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 23:51:13,407 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.601 after 4 frames
+2026-06-02 23:51:14,579 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.595 after 5 frames
+2026-06-02 23:51:15,370 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:15] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 23:51:15,738 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.609 after 5 frames
+2026-06-02 23:51:16,612 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-02 23:51:16,696 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-02 23:51:16,719 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.610 after 5 frames
+2026-06-02 23:51:17,385 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.612 after 5 frames
+2026-06-02 23:51:18,087 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.616 after 5 frames
+2026-06-02 23:51:19,782 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.627 after 4 frames
+2026-06-02 23:51:21,289 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.596 after 4 frames
+2026-06-02 23:51:22,687 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.568 after 4 frames
+2026-06-02 23:51:23,717 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.534 after 4 frames
+2026-06-02 23:51:24,701 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.497 after 4 frames
+2026-06-02 23:51:25,755 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.485 after 5 frames
+2026-06-02 23:51:29,778 [INFO] Enrolled 8/8 augmented variants of USER-2YPV8IT8.jpg for Noel
+2026-06-02 23:51:29,838 [INFO] Synced face: Noel (USER-2YPV8IT8)
+2026-06-02 23:51:41,857 [INFO] Enrolled 8/8 augmented variants of USER-13LRYBBJ.jpg for Yap Jun Xi 
+2026-06-02 23:51:41,922 [INFO] Synced face: Yap Jun Xi  (USER-13LRYBBJ)
+2026-06-02 23:51:53,413 [INFO] Enrolled 8/8 augmented variants of USER-0GP0ANPL.jpg for Gilbert Lee
+2026-06-02 23:51:53,477 [INFO] Synced face: Gilbert Lee (USER-0GP0ANPL)
+2026-06-02 23:51:53,524 [INFO] Loaded 32 embeddings from faces.db
+2026-06-02 23:51:53,524 [INFO] Cache reloaded — 4 changes total
+2026-06-02 23:51:53,536 [INFO] Startup sync complete: 4 people enrolled/updated
+2026-06-02 23:51:53,954 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:53] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:51:54,989 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:54] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:51:56,035 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:56] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:51:57,082 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:57] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:51:58,127 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:58] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-02 23:51:58,736 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.624 after 3 frames
+2026-06-02 23:51:59,181 [INFO] 10.193.197.62 - - [02/Jun/2026 23:51:59] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 23:51:59,384 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.626 after 4 frames
+2026-06-02 23:51:59,999 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.625 after 5 frames
+2026-06-02 23:52:00,645 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.624 after 5 frames
+2026-06-02 23:52:01,271 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.619 after 5 frames
+2026-06-02 23:52:01,894 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.622 after 5 frames
+2026-06-02 23:52:02,500 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.614 after 5 frames
+2026-06-02 23:52:03,108 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.613 after 5 frames
+2026-06-02 23:52:03,686 [INFO] 10.193.197.62 - - [02/Jun/2026 23:52:03] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 23:52:03,735 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.608 after 5 frames
+2026-06-02 23:52:04,445 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.606 after 5 frames
+2026-06-02 23:52:05,069 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.600 after 4 frames
+2026-06-02 23:52:46,872 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.458 after 3 frames
+2026-06-02 23:52:47,500 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.486 after 4 frames
+2026-06-02 23:52:48,131 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.507 after 5 frames
+2026-06-02 23:52:48,730 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.518 after 5 frames
+2026-06-02 23:52:49,344 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.520 after 5 frames
+2026-06-02 23:52:49,963 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.540 after 5 frames
+2026-06-02 23:52:50,588 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.536 after 5 frames
+2026-06-02 23:52:51,197 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.522 after 5 frames
+2026-06-02 23:52:51,831 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.526 after 5 frames
+2026-06-02 23:52:52,450 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.536 after 5 frames
+2026-06-02 23:52:53,080 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.539 after 5 frames
+2026-06-02 23:52:53,701 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.533 after 5 frames
+2026-06-02 23:52:54,327 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.537 after 5 frames
+2026-06-02 23:52:54,943 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.540 after 5 frames
+2026-06-02 23:52:55,561 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.545 after 5 frames
+2026-06-02 23:52:56,204 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.548 after 5 frames
+2026-06-02 23:52:56,845 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.552 after 5 frames
+2026-06-02 23:52:57,460 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.556 after 5 frames
+2026-06-02 23:52:58,079 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.548 after 5 frames
+2026-06-02 23:52:58,692 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.553 after 5 frames
+2026-06-02 23:52:59,320 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.553 after 5 frames
+2026-06-02 23:52:59,946 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.563 after 5 frames
+2026-06-02 23:53:00,571 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.536 after 5 frames
+2026-06-02 23:53:01,211 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.526 after 5 frames
+2026-06-02 23:53:01,835 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.508 after 4 frames
+2026-06-02 23:53:03,569 [INFO] 10.193.197.62 - - [02/Jun/2026 23:53:03] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 23:53:05,657 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.492 after 3 frames
+2026-06-02 23:53:06,499 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.487 after 3 frames
+2026-06-02 23:53:06,648 [INFO] 10.193.197.62 - - [02/Jun/2026 23:53:06] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-02 23:53:07,186 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.534 after 3 frames
+2026-06-03 09:01:24,728 [INFO] Loaded 32 embeddings from faces.db
+2026-06-03 09:01:24,728 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-03 09:01:24,728 [INFO] Detection loop running.
+2026-06-03 09:01:26,258 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.193.197.61:5002
+2026-06-03 09:01:26,258 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-03 09:01:28,802 [INFO] Camera opened via OpenCV (USB webcam)
+2026-06-03 09:01:28,802 [INFO] Capture loop running.
+2026-06-03 09:01:41,232 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.537 after 3 frames
+2026-06-03 09:01:42,157 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.531 after 4 frames
+2026-06-03 09:01:42,971 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.525 after 5 frames
+2026-06-03 09:01:43,950 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.511 after 5 frames
+2026-06-03 09:01:44,897 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.501 after 5 frames
+2026-06-03 09:01:45,413 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-03 09:01:45,472 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-03 09:01:45,681 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.500 after 5 frames
+2026-06-03 09:01:46,257 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.497 after 5 frames
+2026-06-03 09:01:46,991 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.502 after 5 frames
+2026-06-03 09:01:48,329 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.511 after 5 frames
+2026-06-03 09:01:50,394 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.522 after 5 frames
+2026-06-03 09:01:51,625 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.523 after 5 frames
+2026-06-03 09:01:53,196 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.525 after 5 frames
+2026-06-03 09:01:54,595 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.525 after 5 frames
+2026-06-03 09:01:55,748 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.522 after 5 frames
+2026-06-03 09:01:56,309 [INFO] Enrolled 8/8 augmented variants of USER-2YPV8IT8.jpg for Noel
+2026-06-03 09:01:56,373 [INFO] Synced face: Noel (USER-2YPV8IT8)
+2026-06-03 09:01:56,765 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.513 after 5 frames
+2026-06-03 09:01:57,414 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.509 after 5 frames
+2026-06-03 09:01:58,514 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.512 after 5 frames
+2026-06-03 09:01:59,998 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.509 after 5 frames
+2026-06-03 09:02:01,231 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.508 after 5 frames
+2026-06-03 09:02:02,071 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.517 after 5 frames
+2026-06-03 09:02:03,168 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.520 after 5 frames
+2026-06-03 09:02:04,097 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.520 after 5 frames
+2026-06-03 09:02:05,081 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.523 after 5 frames
+2026-06-03 09:02:06,029 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.523 after 5 frames
+2026-06-03 09:02:06,959 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.523 after 5 frames
+2026-06-03 09:02:07,484 [INFO] Enrolled 8/8 augmented variants of USER-13LRYBBJ.jpg for Yap Jun Xi 
+2026-06-03 09:02:07,563 [INFO] Synced face: Yap Jun Xi  (USER-13LRYBBJ)
+2026-06-03 09:02:07,640 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.519 after 5 frames
+2026-06-03 09:02:08,272 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.517 after 5 frames
+2026-06-03 09:02:08,827 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.515 after 5 frames
+2026-06-03 09:02:09,935 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.512 after 5 frames
+2026-06-03 09:02:10,671 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.512 after 5 frames
+2026-06-03 09:02:11,954 [INFO] 10.193.197.62 - - [03/Jun/2026 09:02:11] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-03 09:02:12,132 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.513 after 4 frames
+2026-06-03 09:02:12,995 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.513 after 3 frames
+2026-06-03 09:02:16,070 [INFO] 10.193.197.62 - - [03/Jun/2026 09:02:16] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-03 09:02:17,490 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.485 after 3 frames
+2026-06-03 09:02:18,411 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.488 after 4 frames
+2026-06-03 09:02:19,577 [INFO] Enrolled 8/8 augmented variants of USER-0GP0ANPL.jpg for Gilbert Lee
+2026-06-03 09:02:19,629 [INFO] Synced face: Gilbert Lee (USER-0GP0ANPL)
+2026-06-03 09:02:19,652 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.490 after 5 frames
+2026-06-03 09:02:19,658 [INFO] Loaded 32 embeddings from faces.db
+2026-06-03 09:02:19,659 [INFO] Cache reloaded — 4 changes total
+2026-06-03 09:02:19,665 [INFO] Startup sync complete: 4 people enrolled/updated
+2026-06-03 09:02:20,186 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.501 after 5 frames
+2026-06-03 09:02:20,698 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.499 after 5 frames
+2026-06-03 09:02:21,212 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.491 after 5 frames
+2026-06-03 09:02:21,737 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.494 after 5 frames
+2026-06-03 09:02:22,291 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.495 after 5 frames
+2026-06-03 09:02:22,851 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.501 after 5 frames
+2026-06-03 09:02:23,459 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.510 after 5 frames
+2026-06-03 09:02:23,977 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.516 after 5 frames
+2026-06-03 09:02:24,503 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.520 after 5 frames
+2026-06-03 09:02:25,040 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.524 after 5 frames
+2026-06-03 09:02:25,560 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.519 after 5 frames
+2026-06-03 09:02:26,073 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.514 after 5 frames
+2026-06-03 09:02:26,599 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.514 after 5 frames
+2026-06-03 09:02:27,101 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.512 after 5 frames
+2026-06-03 09:02:27,639 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.511 after 5 frames
+2026-06-03 09:02:28,379 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.511 after 5 frames
+2026-06-03 09:02:29,472 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.507 after 5 frames
+2026-06-03 09:02:30,121 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.503 after 5 frames
+2026-06-03 09:02:31,884 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.496 after 5 frames
+2026-06-03 09:02:33,209 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.489 after 5 frames
+2026-06-03 09:02:34,028 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.492 after 5 frames
+2026-06-03 09:02:34,856 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.496 after 5 frames
+2026-06-03 09:02:35,526 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.494 after 5 frames
+2026-06-03 09:02:36,157 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.500 after 5 frames
+2026-06-03 09:02:36,821 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.506 after 5 frames
+2026-06-03 09:02:37,479 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.507 after 5 frames
+2026-06-03 09:03:05,813 [INFO] Loaded 32 embeddings from faces.db
+2026-06-03 09:03:05,813 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-03 09:03:05,813 [INFO] Detection loop running.
+2026-06-03 09:03:07,373 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.193.197.61:5002
+2026-06-03 09:03:07,373 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-03 09:03:09,657 [INFO] Camera opened via OpenCV (USB webcam)
+2026-06-03 09:03:10,713 [INFO] Capture loop running.
+2026-06-03 09:03:22,083 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.456 after 3 frames
+2026-06-03 09:03:22,820 [INFO] 127.0.0.1 - - [03/Jun/2026 09:03:22] "GET /stream HTTP/1.1" 200 -
+2026-06-03 09:03:23,705 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.455 after 4 frames
+2026-06-03 09:03:24,261 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-03 09:03:24,330 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-03 09:03:25,082 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.449 after 4 frames
+2026-06-03 09:03:25,890 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.459 after 3 frames
+2026-06-03 09:03:27,080 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.459 after 3 frames
+2026-06-03 09:03:35,327 [INFO] Enrolled 8/8 augmented variants of USER-2YPV8IT8.jpg for Noel
+2026-06-03 09:03:35,384 [INFO] Synced face: Noel (USER-2YPV8IT8)
+2026-06-03 09:03:48,641 [INFO] Enrolled 8/8 augmented variants of USER-13LRYBBJ.jpg for Yap Jun Xi 
+2026-06-03 09:03:48,682 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.480 after 3 frames
+2026-06-03 09:03:48,691 [INFO] Synced face: Yap Jun Xi  (USER-13LRYBBJ)
+2026-06-03 09:03:49,272 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.477 after 4 frames
+2026-06-03 09:03:49,858 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.475 after 5 frames
+2026-06-03 09:03:51,088 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.477 after 5 frames
+2026-06-03 09:03:53,786 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.480 after 4 frames
+2026-06-03 09:03:54,763 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.470 after 3 frames
+2026-06-03 09:03:55,888 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.450 after 3 frames
+2026-06-03 09:03:59,326 [INFO] Enrolled 8/8 augmented variants of USER-0GP0ANPL.jpg for Gilbert Lee
+2026-06-03 09:03:59,375 [INFO] Synced face: Gilbert Lee (USER-0GP0ANPL)
+2026-06-03 09:06:48,864 [INFO] Loaded 35 embeddings from faces.db
+2026-06-03 09:06:48,865 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-03 09:06:48,866 [INFO] Detection loop running.
+2026-06-03 09:06:50,256 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.193.197.61:5002
+2026-06-03 09:06:50,260 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-03 09:06:56,421 [INFO] Camera opened via OpenCV (USB webcam)
+2026-06-03 09:06:56,421 [INFO] Capture loop running.
+2026-06-03 09:07:03,424 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.443 after 3 frames
+2026-06-03 09:07:04,744 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.442 after 4 frames
+2026-06-03 09:07:06,259 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.436 after 5 frames
+2026-06-03 09:07:07,567 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.416 after 4 frames
+2026-06-03 09:07:08,919 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-03 09:07:08,977 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-03 09:07:09,328 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.421 after 3 frames
+2026-06-03 09:07:10,108 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.424 after 3 frames
+2026-06-03 09:07:11,959 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.430 after 3 frames
+2026-06-03 09:07:20,987 [INFO] Enrolled 8/8 augmented variants of USER-2YPV8IT8.jpg for Noel
+2026-06-03 09:07:21,041 [INFO] Synced face: Noel (USER-2YPV8IT8)
+2026-06-03 09:07:22,158 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.450 after 3 frames
+2026-06-03 09:07:24,389 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.444 after 3 frames
+2026-06-03 09:07:25,465 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.444 after 3 frames
+2026-06-03 09:07:32,232 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.477 after 3 frames
+2026-06-03 09:07:32,883 [INFO] 10.193.197.62 - - [03/Jun/2026 09:07:32] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-03 09:07:33,644 [INFO] Enrolled 8/8 augmented variants of USER-13LRYBBJ.jpg for Yap Jun Xi 
+2026-06-03 09:07:33,712 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.483 after 4 frames
+2026-06-03 09:07:33,721 [INFO] Synced face: Yap Jun Xi  (USER-13LRYBBJ)
+2026-06-03 09:07:34,657 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.489 after 5 frames
+2026-06-03 09:07:36,283 [INFO] 10.193.197.62 - - [03/Jun/2026 09:07:36] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-03 09:07:36,284 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.505 after 5 frames
+2026-06-03 09:07:37,200 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.507 after 5 frames
+2026-06-03 09:07:39,206 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.513 after 5 frames
+2026-06-03 09:07:40,255 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.517 after 5 frames
+2026-06-03 09:07:41,324 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.517 after 5 frames
+2026-06-03 09:07:42,395 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.509 after 5 frames
+2026-06-03 09:07:43,393 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.502 after 5 frames
+2026-06-03 09:07:44,202 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.492 after 5 frames
+2026-06-03 09:07:45,127 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.488 after 5 frames
+2026-06-03 09:07:46,092 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.484 after 5 frames
+2026-06-03 09:07:46,976 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.488 after 5 frames
+2026-06-03 09:07:47,241 [INFO] Enrolled 8/8 augmented variants of USER-0GP0ANPL.jpg for Gilbert Lee
+2026-06-03 09:07:47,343 [INFO] Synced face: Gilbert Lee (USER-0GP0ANPL)
+2026-06-03 09:07:47,883 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.491 after 5 frames
+2026-06-03 09:07:48,470 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.500 after 5 frames
+2026-06-03 09:07:49,668 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.504 after 5 frames
+2026-06-03 09:07:50,836 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.514 after 5 frames
+2026-06-03 09:07:57,458 [INFO] Loaded 32 embeddings from faces.db
+2026-06-03 09:07:57,463 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-03 09:07:57,463 [INFO] Detection loop running.
+2026-06-03 09:07:58,750 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.193.197.61:5002
+2026-06-03 09:07:58,750 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-03 09:08:01,610 [INFO] Camera opened via OpenCV (USB webcam)
+2026-06-03 09:08:01,615 [INFO] Capture loop running.
+2026-06-03 09:08:04,450 [INFO] 127.0.0.1 - - [03/Jun/2026 09:08:04] "GET /stream HTTP/1.1" 200 -
+2026-06-03 09:08:09,409 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.512 after 3 frames
+2026-06-03 09:08:10,465 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.516 after 4 frames
+2026-06-03 09:08:11,442 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.515 after 5 frames
+2026-06-03 09:08:12,369 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.520 after 5 frames
+2026-06-03 09:08:13,386 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.514 after 5 frames
+2026-06-03 09:08:14,291 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.501 after 5 frames
+2026-06-03 09:08:14,326 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-03 09:08:14,380 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-03 09:08:14,923 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.494 after 4 frames
+2026-06-03 09:08:15,543 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.469 after 4 frames
+2026-06-03 09:08:16,779 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.465 after 4 frames
+2026-06-03 09:08:18,670 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.453 after 4 frames
+2026-06-03 09:08:19,619 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.451 after 3 frames
+2026-06-03 09:08:20,555 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.451 after 3 frames
+2026-06-03 09:08:25,258 [INFO] Enrolled 8/8 augmented variants of USER-2YPV8IT8.jpg for Noel
+2026-06-03 09:08:25,317 [INFO] Synced face: Noel (USER-2YPV8IT8)
+2026-06-03 09:08:34,441 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.474 after 3 frames
+2026-06-03 09:08:35,744 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.490 after 4 frames
+2026-06-03 09:08:36,737 [INFO] Enrolled 8/8 augmented variants of USER-13LRYBBJ.jpg for Yap Jun Xi 
+2026-06-03 09:08:36,794 [INFO] Synced face: Yap Jun Xi  (USER-13LRYBBJ)
+2026-06-03 09:08:36,917 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.500 after 5 frames
+2026-06-03 09:08:37,673 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.529 after 5 frames
+2026-06-03 09:08:38,397 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.561 after 5 frames
+2026-06-03 09:08:41,202 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.563 after 5 frames
+2026-06-03 09:08:42,343 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.568 after 5 frames
+2026-06-03 09:08:43,447 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.575 after 5 frames
+2026-06-03 09:08:44,734 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.570 after 5 frames
+2026-06-03 09:08:45,756 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.554 after 5 frames
+2026-06-03 09:08:46,651 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.554 after 4 frames
+2026-06-03 09:08:47,486 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.551 after 3 frames
+2026-06-03 09:08:49,104 [INFO] Enrolled 8/8 augmented variants of USER-0GP0ANPL.jpg for Gilbert Lee
+2026-06-03 09:08:49,169 [INFO] Synced face: Gilbert Lee (USER-0GP0ANPL)
+2026-06-03 09:08:49,641 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.546 after 3 frames
+2026-06-03 09:08:50,390 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.534 after 3 frames
+2026-06-03 09:08:52,472 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.522 after 3 frames
+2026-06-03 09:08:54,105 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.524 after 4 frames
+2026-06-03 09:08:55,218 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.524 after 5 frames
+2026-06-03 09:08:56,192 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.515 after 5 frames
+2026-06-03 09:08:57,055 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.500 after 5 frames
+2026-06-03 09:08:57,970 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.488 after 5 frames
+2026-06-03 09:08:58,946 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.465 after 5 frames
+2026-06-03 09:08:59,859 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.449 after 4 frames
+2026-06-03 09:09:00,752 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.427 after 3 frames
+2026-06-03 09:09:00,864 [INFO] Enrolled 8/8 augmented variants of USER-J8QOS9QD.jpg for HO KAH HENG
+2026-06-03 09:09:00,977 [INFO] Synced face: HO KAH HENG (USER-J8QOS9QD)
+2026-06-03 09:09:01,012 [INFO] Loaded 40 embeddings from faces.db
+2026-06-03 09:09:01,016 [INFO] Cache reloaded — 5 changes total
+2026-06-03 09:09:01,025 [INFO] Startup sync complete: 5 people enrolled/updated
+2026-06-03 09:09:03,691 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.543 after 3 frames
+2026-06-03 09:09:04,246 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.553 after 4 frames
+2026-06-03 09:09:04,820 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.559 after 5 frames
+2026-06-03 09:09:05,389 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.567 after 5 frames
+2026-06-03 09:09:05,937 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.558 after 5 frames
+2026-06-03 09:09:06,514 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.548 after 5 frames
+2026-06-03 09:09:07,044 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.535 after 5 frames
+2026-06-03 09:09:07,658 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.527 after 5 frames
+2026-06-03 09:09:08,289 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.530 after 5 frames
+2026-06-03 09:09:08,900 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.534 after 5 frames
+2026-06-03 09:09:09,549 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.553 after 5 frames
+2026-06-03 09:09:10,098 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.564 after 5 frames
+2026-06-03 09:09:10,659 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.575 after 5 frames
+2026-06-03 09:09:11,216 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.577 after 5 frames
+2026-06-03 09:09:11,876 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.583 after 5 frames
+2026-06-03 09:09:12,483 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.583 after 5 frames
+2026-06-03 09:09:13,078 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.590 after 5 frames
+2026-06-03 09:09:13,659 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.592 after 5 frames
+2026-06-03 09:09:14,208 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.592 after 5 frames
+2026-06-03 09:09:14,802 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.592 after 5 frames
+2026-06-03 09:09:15,354 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.588 after 5 frames
+2026-06-03 09:09:15,899 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.575 after 5 frames
+2026-06-03 09:09:16,476 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.554 after 5 frames
+2026-06-03 09:09:17,014 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.542 after 5 frames
+2026-06-03 09:09:17,581 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.527 after 5 frames
+2026-06-03 09:09:18,272 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.512 after 5 frames
+2026-06-03 09:09:18,987 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.508 after 5 frames
+2026-06-03 09:09:19,866 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.525 after 5 frames
+2026-06-03 09:09:20,662 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.538 after 5 frames
+2026-06-03 09:09:21,582 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.549 after 5 frames
+2026-06-03 09:09:22,529 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.563 after 5 frames
+2026-06-03 09:09:23,603 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.573 after 5 frames
+2026-06-03 09:09:24,547 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.568 after 5 frames
+2026-06-03 09:09:25,586 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.562 after 5 frames
+2026-06-03 09:09:26,353 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.559 after 5 frames
+2026-06-03 09:09:27,112 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.538 after 5 frames
+2026-06-03 09:09:27,876 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.525 after 5 frames
+2026-06-03 09:09:28,642 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.509 after 5 frames
+2026-06-03 09:09:29,380 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.517 after 5 frames
+2026-06-03 09:09:30,326 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.508 after 5 frames
+2026-06-03 09:09:30,945 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.520 after 5 frames
+2026-06-03 09:09:31,586 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.525 after 5 frames
+2026-06-03 09:09:32,203 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.535 after 5 frames
+2026-06-03 09:09:33,103 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.525 after 5 frames
+2026-06-03 09:09:34,053 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.528 after 5 frames
+2026-06-03 09:09:34,834 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.530 after 5 frames
+2026-06-03 09:09:35,648 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.530 after 5 frames
+2026-06-03 09:09:36,452 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.528 after 5 frames
+2026-06-03 09:09:37,267 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.524 after 5 frames
+2026-06-03 09:09:38,059 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.513 after 5 frames
+2026-06-03 09:09:38,829 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.501 after 5 frames
+2026-06-03 09:09:39,586 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.497 after 5 frames
+2026-06-03 09:09:40,375 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.498 after 5 frames
+2026-06-03 09:09:41,185 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.499 after 5 frames
+2026-06-03 09:09:42,060 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.509 after 5 frames
+2026-06-03 09:09:43,045 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.519 after 5 frames
+2026-06-03 09:09:43,889 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.520 after 5 frames
+2026-06-03 09:09:44,700 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.504 after 5 frames
+2026-06-03 09:09:45,501 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.501 after 4 frames
+2026-06-03 09:09:46,291 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.499 after 4 frames
+2026-06-03 09:09:46,992 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.485 after 4 frames
+2026-06-03 09:09:48,002 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.486 after 4 frames
+2026-06-03 09:09:48,943 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.502 after 4 frames
+2026-06-03 09:09:49,776 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.497 after 5 frames
+2026-06-03 09:09:50,378 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.490 after 5 frames
+2026-06-03 09:09:51,019 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.478 after 5 frames
+2026-06-03 09:09:51,874 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.473 after 5 frames
+2026-06-03 09:09:52,666 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.459 after 5 frames
+2026-06-03 09:09:53,937 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.455 after 4 frames
+2026-06-03 09:09:54,724 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.469 after 4 frames
+2026-06-03 09:09:55,505 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.497 after 4 frames
+2026-06-03 09:09:56,122 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.498 after 4 frames
+2026-06-03 09:09:56,700 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.503 after 4 frames
+2026-06-03 09:09:57,379 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.503 after 5 frames
+2026-06-03 09:09:58,063 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.505 after 5 frames
+2026-06-03 09:09:58,662 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.488 after 5 frames
+2026-06-03 09:09:59,281 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.485 after 5 frames
+2026-06-03 09:09:59,896 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.490 after 5 frames
+2026-06-03 09:10:00,471 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.490 after 5 frames
+2026-06-03 09:10:01,084 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.482 after 5 frames
+2026-06-03 09:10:01,661 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.494 after 5 frames
+2026-06-03 09:10:02,260 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.503 after 5 frames
+2026-06-03 09:10:02,893 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.514 after 5 frames
+2026-06-03 09:10:03,508 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.516 after 5 frames
+2026-06-03 09:10:04,113 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.514 after 5 frames
+2026-06-03 09:10:04,675 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.514 after 5 frames
+2026-06-03 09:10:05,307 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.516 after 5 frames
+2026-06-03 09:10:05,934 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.496 after 5 frames
+2026-06-03 09:10:06,552 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.484 after 5 frames
+2026-06-03 09:10:07,122 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.481 after 5 frames
+2026-06-03 09:10:07,766 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.467 after 5 frames
+2026-06-03 09:10:08,365 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.449 after 5 frames
+2026-06-03 09:10:08,963 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.450 after 5 frames
+2026-06-03 09:10:09,567 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.452 after 5 frames
+2026-06-03 09:10:10,215 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.467 after 5 frames
+2026-06-03 09:10:10,849 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.493 after 5 frames
+2026-06-03 09:10:11,453 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.512 after 5 frames
+2026-06-03 09:10:12,018 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.528 after 5 frames
+2026-06-03 09:10:12,609 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.544 after 4 frames
+2026-06-03 09:10:13,177 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.542 after 3 frames
+2026-06-03 09:10:16,224 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.562 after 3 frames
+2026-06-03 09:10:17,013 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.538 after 4 frames
+2026-06-03 09:10:17,864 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.517 after 5 frames
+2026-06-03 09:10:18,731 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.506 after 4 frames
+2026-06-03 09:10:19,578 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.510 after 4 frames
+2026-06-03 09:10:20,452 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.505 after 4 frames
+2026-06-03 09:10:21,359 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.524 after 4 frames
+2026-06-03 09:10:22,281 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.548 after 4 frames
+2026-06-03 09:10:23,154 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.543 after 5 frames
+2026-06-03 09:10:24,014 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.535 after 5 frames
+2026-06-03 09:10:24,854 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.536 after 5 frames
+2026-06-03 09:10:25,688 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.541 after 5 frames
+2026-06-03 09:10:26,535 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.550 after 5 frames
+2026-06-03 09:10:27,386 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.552 after 5 frames
+2026-06-03 09:10:28,225 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.552 after 5 frames
+2026-06-03 09:10:29,090 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.529 after 5 frames
+2026-06-03 09:10:29,742 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.528 after 5 frames
+2026-06-03 09:10:30,593 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.528 after 5 frames
+2026-06-03 09:10:31,431 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.535 after 5 frames
+2026-06-03 09:10:32,257 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.545 after 5 frames
+2026-06-03 09:10:33,073 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.576 after 5 frames
+2026-06-03 09:10:34,098 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.581 after 5 frames
+2026-06-03 09:10:35,047 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.584 after 5 frames
+2026-06-03 09:10:35,735 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.576 after 5 frames
+2026-06-03 09:10:36,452 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.569 after 5 frames
+2026-06-03 09:10:37,234 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.561 after 5 frames
+2026-06-03 09:10:37,928 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.553 after 4 frames
+2026-06-03 09:10:38,598 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.541 after 3 frames
+2026-06-03 09:10:41,993 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.491 after 3 frames
+2026-06-03 09:10:42,917 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.495 after 4 frames
+2026-06-03 09:10:43,781 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.490 after 5 frames
+2026-06-03 09:10:44,917 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.496 after 5 frames
+2026-06-03 09:10:45,913 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.491 after 5 frames
+2026-06-03 09:10:46,696 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.492 after 5 frames
+2026-06-03 09:10:47,442 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.490 after 5 frames
+2026-06-03 09:10:48,241 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.488 after 5 frames
+2026-06-03 09:10:49,074 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.482 after 5 frames
+2026-06-03 09:10:49,880 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.483 after 5 frames
+2026-06-03 09:10:50,675 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.490 after 5 frames
+2026-06-03 09:10:51,462 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.494 after 5 frames
+2026-06-03 09:10:52,227 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.501 after 5 frames
+2026-06-03 09:10:53,042 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.510 after 5 frames
+2026-06-03 09:10:53,890 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.505 after 5 frames
+2026-06-03 09:10:54,699 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.497 after 5 frames
+2026-06-03 09:10:55,554 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.487 after 5 frames
+2026-06-03 09:10:56,414 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.483 after 5 frames
+2026-06-03 09:10:57,236 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.479 after 5 frames
+2026-06-03 09:10:58,133 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.480 after 5 frames
+2026-06-03 09:10:58,941 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.481 after 5 frames
+2026-06-03 09:10:59,711 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.486 after 5 frames
+2026-06-03 09:11:00,454 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.486 after 5 frames
+2026-06-03 09:11:01,289 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.479 after 5 frames
+2026-06-03 09:11:02,058 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.476 after 5 frames
+2026-06-03 09:11:02,861 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.484 after 5 frames
+2026-06-03 09:11:03,635 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.494 after 5 frames
+2026-06-03 09:11:04,450 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.507 after 5 frames
+2026-06-03 09:11:05,196 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.521 after 5 frames
+2026-06-03 09:11:05,955 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.534 after 5 frames
+2026-06-03 09:11:06,711 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.523 after 5 frames
+2026-06-03 09:11:07,465 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.533 after 5 frames
+2026-06-03 09:11:08,261 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.541 after 5 frames
+2026-06-03 09:11:08,841 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.547 after 5 frames
+2026-06-03 09:11:09,636 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.560 after 5 frames
+2026-06-03 09:11:10,480 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.581 after 5 frames
+2026-06-03 09:11:11,246 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.566 after 5 frames
+2026-06-03 09:11:12,008 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.563 after 4 frames
+2026-06-03 09:11:12,760 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.559 after 4 frames
+2026-06-03 09:11:13,463 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.553 after 4 frames
+2026-06-03 09:11:14,221 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.560 after 4 frames
+2026-06-03 09:11:14,896 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.579 after 4 frames
+2026-06-03 09:11:15,643 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.585 after 5 frames
+2026-06-03 09:11:16,487 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.582 after 5 frames
+2026-06-03 09:11:17,295 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.580 after 5 frames
+2026-06-03 09:11:18,096 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.571 after 5 frames
+2026-06-03 09:11:18,892 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.565 after 5 frames
+2026-06-03 09:11:19,662 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.552 after 5 frames
+2026-06-03 09:11:20,414 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.552 after 5 frames
+2026-06-03 09:11:21,120 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.550 after 5 frames
+2026-06-03 09:11:21,854 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.547 after 5 frames
+2026-06-03 09:11:22,681 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.547 after 5 frames
+2026-06-03 09:11:23,552 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.544 after 5 frames
+2026-06-03 09:11:24,417 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.538 after 5 frames
+2026-06-03 09:11:25,116 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.537 after 5 frames
+2026-06-03 09:11:25,917 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.538 after 5 frames
+2026-06-03 09:11:26,708 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.533 after 5 frames
+2026-06-03 09:11:27,463 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.530 after 5 frames
+2026-06-03 09:11:28,177 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.535 after 5 frames
+2026-06-03 09:11:28,891 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.535 after 5 frames
+2026-06-03 09:11:29,719 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.531 after 5 frames
+2026-06-03 09:11:30,472 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.531 after 5 frames
+2026-06-03 09:11:31,249 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.537 after 5 frames
+2026-06-03 09:11:32,001 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.542 after 5 frames
+2026-06-03 09:11:32,759 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.545 after 5 frames
+2026-06-03 09:11:33,611 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.545 after 5 frames
+2026-06-03 09:14:12,513 [INFO] Loaded 40 embeddings from faces.db
+2026-06-03 09:14:12,513 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-03 09:14:12,518 [INFO] Detection loop running.
+2026-06-03 09:14:13,810 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.193.197.61:5002
+2026-06-03 09:14:13,810 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-03 09:14:16,077 [INFO] Camera opened via OpenCV (USB webcam)
+2026-06-03 09:14:16,791 [INFO] Capture loop running.
+2026-06-03 09:14:25,839 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.521 after 3 frames
+2026-06-03 09:14:26,655 [INFO] 127.0.0.1 - - [03/Jun/2026 09:14:26] "GET /stream HTTP/1.1" 200 -
+2026-06-03 09:14:27,029 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.530 after 4 frames
+2026-06-03 09:14:28,186 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.525 after 5 frames
+2026-06-03 09:14:29,064 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-03 09:14:29,131 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-03 09:14:29,298 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.533 after 4 frames
+2026-06-03 09:14:30,084 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.514 after 4 frames
+2026-06-03 09:14:31,335 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.501 after 3 frames
+2026-06-03 09:14:33,888 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.627 after 3 frames
+2026-06-03 09:14:34,852 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.638 after 4 frames
+2026-06-03 09:14:36,004 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.643 after 5 frames
+2026-06-03 09:14:37,737 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.680 after 4 frames
+2026-06-03 09:14:39,499 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.682 after 3 frames
+2026-06-03 09:14:42,741 [INFO] Enrolled 8/8 augmented variants of USER-2YPV8IT8.jpg for Noel
+2026-06-03 09:14:42,804 [INFO] Synced face: Noel (USER-2YPV8IT8)
+2026-06-03 09:14:47,574 [INFO] 10.193.197.62 - - [03/Jun/2026 09:14:47] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-03 09:14:48,700 [INFO] 10.193.197.62 - - [03/Jun/2026 09:14:48] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-03 09:14:49,742 [INFO] 10.193.197.62 - - [03/Jun/2026 09:14:49] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-03 09:14:50,785 [INFO] 10.193.197.62 - - [03/Jun/2026 09:14:50] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-03 09:14:51,830 [INFO] 10.193.197.62 - - [03/Jun/2026 09:14:51] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-03 09:14:52,895 [INFO] 10.193.197.62 - - [03/Jun/2026 09:14:52] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-03 09:14:53,995 [INFO] 10.193.197.62 - - [03/Jun/2026 09:14:53] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-03 09:14:55,070 [INFO] 10.193.197.62 - - [03/Jun/2026 09:14:55] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-03 09:14:56,151 [INFO] 10.193.197.62 - - [03/Jun/2026 09:14:56] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-03 09:14:57,454 [INFO] 10.193.197.62 - - [03/Jun/2026 09:14:57] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-03 09:14:58,478 [INFO] 10.193.197.62 - - [03/Jun/2026 09:14:58] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-03 09:14:59,504 [INFO] Enrolled 8/8 augmented variants of USER-13LRYBBJ.jpg for Yap Jun Xi 
+2026-06-03 09:14:59,589 [INFO] 10.193.197.62 - - [03/Jun/2026 09:14:59] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-03 09:14:59,599 [INFO] Synced face: Yap Jun Xi  (USER-13LRYBBJ)
+2026-06-03 09:15:00,297 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.630 after 3 frames
+2026-06-03 09:15:00,628 [INFO] 10.193.197.62 - - [03/Jun/2026 09:15:00] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-03 09:15:01,014 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.627 after 4 frames
+2026-06-03 09:15:01,626 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.654 after 4 frames
+2026-06-03 09:15:02,894 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.648 after 5 frames
+2026-06-03 09:15:03,911 [INFO] 10.193.197.62 - - [03/Jun/2026 09:15:03] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-03 09:15:04,801 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.647 after 5 frames
+2026-06-03 09:15:05,627 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.637 after 5 frames
+2026-06-03 09:15:06,988 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.637 after 5 frames
+2026-06-03 09:15:08,635 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.628 after 5 frames
+2026-06-03 09:15:10,152 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.624 after 5 frames
+2026-06-03 09:15:11,204 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.617 after 5 frames
+2026-06-03 09:15:12,045 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.616 after 5 frames
+2026-06-03 09:15:12,925 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.617 after 5 frames
+2026-06-03 09:15:13,675 [INFO] Enrolled 8/8 augmented variants of USER-0GP0ANPL.jpg for Gilbert Lee
+2026-06-03 09:15:13,738 [INFO] Synced face: Gilbert Lee (USER-0GP0ANPL)
+2026-06-03 09:15:13,770 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.619 after 5 frames
+2026-06-03 09:15:14,557 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.623 after 4 frames
+2026-06-03 09:15:16,583 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.621 after 4 frames
+2026-06-03 09:15:17,793 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.562 after 4 frames
+2026-06-03 09:15:19,003 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.557 after 4 frames
+2026-06-03 09:15:19,888 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.550 after 4 frames
+2026-06-03 09:15:21,541 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.566 after 5 frames
+2026-06-03 09:15:23,462 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.579 after 5 frames
+2026-06-03 09:15:24,735 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.628 after 5 frames
+2026-06-03 09:15:25,674 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.620 after 5 frames
+2026-06-03 09:15:26,579 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.616 after 5 frames
+2026-06-03 09:15:26,953 [INFO] Enrolled 8/8 augmented variants of USER-J8QOS9QD.jpg for HO KAH HENG
+2026-06-03 09:15:27,014 [INFO] Synced face: HO KAH HENG (USER-J8QOS9QD)
+2026-06-03 09:15:27,041 [INFO] Loaded 40 embeddings from faces.db
+2026-06-03 09:15:27,042 [INFO] Cache reloaded — 5 changes total
+2026-06-03 09:15:27,047 [INFO] Startup sync complete: 5 people enrolled/updated
+2026-06-03 09:15:27,291 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.612 after 5 frames
+2026-06-03 09:15:27,949 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.600 after 5 frames
+2026-06-03 09:15:29,032 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.590 after 5 frames
+2026-06-03 09:15:30,279 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.597 after 4 frames
+2026-06-03 09:15:31,105 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.563 after 4 frames
+2026-06-03 09:15:31,706 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.558 after 4 frames
+2026-06-03 09:15:32,273 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.560 after 4 frames
+2026-06-03 09:15:32,830 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.556 after 4 frames
+2026-06-03 09:15:33,382 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.569 after 5 frames
+2026-06-03 09:15:33,935 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.595 after 5 frames
+2026-06-03 09:15:34,488 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.594 after 5 frames
+2026-06-03 09:15:35,036 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.594 after 5 frames
+2026-06-03 09:15:35,574 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.597 after 5 frames
+2026-06-03 09:15:36,116 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.597 after 5 frames
+2026-06-03 09:15:36,679 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.604 after 5 frames
+2026-06-03 09:15:39,776 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.609 after 4 frames
+2026-06-03 09:15:40,327 [INFO] Recognised:HO KAH HENG (USER-J8QOS9QD) @ 0.611 after 3 frames
+2026-06-03 09:15:57,363 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.467 after 3 frames
+2026-06-03 09:15:58,350 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.477 after 4 frames
+2026-06-03 09:15:59,259 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.477 after 4 frames
+2026-06-03 09:16:00,977 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.499 after 3 frames
+2026-06-03 09:16:15,038 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.455 after 3 frames
+2026-06-03 09:16:15,691 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.467 after 4 frames
+2026-06-03 09:16:16,280 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.459 after 5 frames
+2026-06-03 09:16:16,953 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.463 after 5 frames
+2026-06-03 09:16:17,497 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.484 after 5 frames
+2026-06-03 09:16:18,051 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.486 after 5 frames
+2026-06-03 09:16:18,621 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.470 after 5 frames
+2026-06-03 09:16:19,151 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.478 after 5 frames
+2026-06-03 09:16:19,691 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.474 after 5 frames
+2026-06-03 09:16:20,211 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.455 after 5 frames
+2026-06-03 09:16:20,788 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.441 after 5 frames
+2026-06-03 09:16:21,327 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.458 after 5 frames
+2026-06-03 09:16:21,984 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.472 after 5 frames
+2026-06-03 09:16:22,551 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.493 after 5 frames
+2026-06-03 09:16:23,047 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.517 after 5 frames
+2026-06-03 09:16:23,602 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.542 after 5 frames
+2026-06-03 09:16:24,192 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.555 after 5 frames
+2026-06-03 09:16:24,714 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.563 after 5 frames
+2026-06-03 09:16:25,253 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.554 after 5 frames
+2026-06-03 09:16:25,932 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.560 after 5 frames
+2026-06-03 09:16:26,468 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.565 after 5 frames

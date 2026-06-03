@@ -11,6 +11,8 @@ interface Voucher {
 
 interface CardSession {
   uid: string
+  nfc_uid: string | null
+  has_physical_card: boolean
   owner_name: string
   owner_email: string
   phone_number: string | null
@@ -71,6 +73,8 @@ export function CardProvider({ children }: { children: ReactNode }) {
   function setSessionFromLogin(data: any) {
     // Fill defaults for fields not returned by login endpoints to prevent render crashes
     const fullData: CardSession = {
+      nfc_uid: null,
+      has_physical_card: false,
       points_balance: 0,
       calorie_limit: 2000,
       calories_today: 0,

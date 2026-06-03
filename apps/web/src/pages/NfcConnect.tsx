@@ -30,7 +30,7 @@ export default function NfcConnect() {
   const [webNfcSupported, setWebNfcSupported] = useState(false)
   const abortRef = useRef<AbortController | null>(null)
 
-  const hasPhysicalCard = card && !card.uid.startsWith('USER-')
+  const hasPhysicalCard = card?.has_physical_card ?? false
 
   useEffect(() => {
     setWebNfcSupported('NDEFReader' in window)

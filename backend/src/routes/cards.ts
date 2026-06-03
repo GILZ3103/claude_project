@@ -162,7 +162,7 @@ router.post('/:uid/photo', async (req: Request, res: Response): Promise<void> =>
 
   const { error: updateErr } = await supabase
     .from('cards')
-    .update({ photo_url })
+    .update({ photo_url, face_consent: true })
     .eq('uid', uid)
 
   if (updateErr) {
@@ -272,6 +272,7 @@ router.get('/:uid', async (req: Request, res: Response): Promise<void> => {
     success: true,
     data: {
       uid: card.uid,
+      nfc_uid: card.nfc_uid ?? null,
       owner_name: card.owner_name,
       owner_email: card.owner_email,
       phone_number: card.phone_number,

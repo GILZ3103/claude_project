@@ -25,14 +25,18 @@
 
 // ── Config ──────────────────────────────────────────────────────────────────
 #define VENUE_SERVICE_UUID "6e2c0000-b85e-4f3a-9c1d-2a7f5e8d4b10"
-#define ANCHOR_MINOR       1      // <-- unique per beacon; matches positioning_anchors.beacon_minor
+#ifndef ANCHOR_MINOR
+#define ANCHOR_MINOR       1      // fallback; set via -DANCHOR_MINOR=N build flag (see platformio.ini)
+#endif
 #define LOCAL_COMPANY_ID   0xFFFF // reserved for local/test use
 
 void setup() {
   Serial.begin(115200);
   delay(200);
 
-  BLEDevice::init("NM-Anchor");
+  char devName[16];
+  snprintf(devName, sizeof(devName), "NM-Anchor-%d", ANCHOR_MINOR);
+  BLEDevice::init(devName);
   // Max TX power for coverage; lower (e.g. ESP_PWR_LVL_P3) if anchors are close together.
   BLEDevice::setPower(ESP_PWR_LVL_P9);
 
