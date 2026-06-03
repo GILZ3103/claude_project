@@ -47,9 +47,19 @@ async function processTap(
   synced_from_queue: boolean,
   weight_g?: number
 ): Promise<{ status: number; body: object }> {
-  // 1. Fetch card — try uid first, then nfc_uid (hardware uid from terminal)
+  // 1. Fetch card — try uid first, then nfc_uid
+  // ESP32 sends no colons (e.g. "831A5308"); kiosk stores with colons + BCC byte (e.g. "83:1A:53:08:C2")
+  // Normalize ESP32 uid to colon format and prefix-match to handle the BCC difference
   let cardRow = (await supabase.from('cards').select('*').eq('uid', card_uid).single()).data
   if (!cardRow) cardRow = (await supabase.from('cards').select('*').eq('nfc_uid', card_uid).single()).data
+  if (!cardRow) {
+    const withColons = card_uid.match(/.{2}/g)?.join(':') ?? card_uid
+    const { data: rows } = await supabase
+      .from('cards').select('*')
+      .ilike('nfc_uid', `${withColons}%`)
+      .limit(1)
+    if (rows?.length) cardRow = rows[0]
+  }
   const card = cardRow
   if (!card) return { status: 404, body: { success: false, error: 'CARD_NOT_FOUND', message: 'Card not found.' } }
   if (!card.is_active) return { status: 403, body: { success: false, error: 'CARD_INACTIVE', message: 'Card is inactive.' } }
