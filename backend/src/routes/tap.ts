@@ -76,6 +76,7 @@ async function processTap(
   if (!food) return { status: 404, body: { success: false, error: 'FOOD_NOT_FOUND', message: 'Food item not found.' } }
   if (food.vendor_id !== vendor_id) return { status: 400, body: { success: false, error: 'FOOD_NOT_FOUND', message: 'Food item does not belong to this vendor.' } }
 
+  const today = new Date().toISOString().split('T')[0]
 
   // 5. Voucher lookup
   let voucher: any = null
