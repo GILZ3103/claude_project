@@ -56,12 +56,12 @@
 #define HX711_SCK    5
 
 // ── Weight tuning ─────────────────────────────────────────────────────────────
-#define MIN_BOWL_G             50.0f   // minimum grams to register a bowl on scale
-#define MIN_SERVING_G           5.0f   // minimum grams to count as a serving
-#define STABILITY_THRESHOLD_G   3.0f   // max spread within window = "stable"
-#define STABILITY_SAMPLES          6   // rolling window size
+#define MIN_BOWL_G             80.0f   // minimum grams to register a bowl on scale
+#define MIN_SERVING_G          20.0f   // minimum grams to count as a serving
+#define STABILITY_THRESHOLD_G  15.0f   // max spread within window = "stable" (raised for noisy cell)
+#define STABILITY_SAMPLES          8   // rolling window size (more samples = smoother average)
 #define STABILITY_INTERVAL_MS    300   // ms between samples
-#define STABLE_HOLD_REQUIRED       2   // consecutive stable checks → settle ≈ 0.6 s
+#define STABLE_HOLD_REQUIRED       4   // consecutive stable checks → settle ≈ 1.2 s
 #define STATE_TIMEOUT_MS      120000UL // 2 min auto-reset
 
 // ── Objects ───────────────────────────────────────────────────────────────────
@@ -74,7 +74,7 @@ String wifiSSID, wifiPass, vendorId, foodId, apiUrl, authToken;
 float  scaleFactor = 1.0f;
 
 // ── State machine ─────────────────────────────────────────────────────────────
-enum SessionState { IDLE, BOWL_ON, READY };
+enum SessionState { IDLE, BOWL_ON, READY, DONE };
 SessionState  state      = IDLE;
 float         bowlWeight = 0.0f;
 float         servingG   = 0.0f;
@@ -165,6 +165,7 @@ void connectWiFi() {
 
 // ── Buttonless weight state machine ───────────────────────────────────────────
 void handleWeight() {
+    if (state == READY || state == DONE) return;  // scale not needed after F pressed
     float raw = scale.get_units(3);
     tracker.tick(raw);
 
@@ -177,47 +178,14 @@ void handleWeight() {
     if (!tracker.full) return;
     float avg = tracker.avg();
 
-    switch (state) {
-
-      case IDLE:
-        if (tracker.stable() && avg > MIN_BOWL_G) {
-            bowlWeight = avg;
-            char msg[72];
-            snprintf(msg, sizeof(msg), "Bowl on scale: %.1fg — scoop food in", bowlWeight);
-            enterState(BOWL_ON, msg);
-        }
-        break;
-
-      case BOWL_ON:
-        if (tracker.stable()) {
-            if (avg < MIN_BOWL_G) {
-                bowlWeight = 0.0f;
-                enterState(IDLE, "Bowl removed — waiting");
-            } else {
-                float served = avg - bowlWeight;
-                if (served >= MIN_SERVING_G) {
-                    servingG = served;
-                    char msg[64];
-                    snprintf(msg, sizeof(msg), "Serving: %.1fg — tap card to pay", servingG);
-                    enterState(READY, msg);
-                }
-            }
-        }
-        break;
-
-      case READY:
-        if (tracker.stable()) {
-            float served = avg - bowlWeight;
-            if (avg < MIN_BOWL_G) {
-                servingG = 0.0f;
-                enterState(IDLE, "Bowl removed — waiting");
-            } else if (served < MIN_SERVING_G) {
-                servingG = 0.0f;
-                enterState(BOWL_ON, "Food removed — scoop again");
-            }
-        }
-        break;
+    // Show live reading only while vendor is actively weighing
+    static unsigned long debugMs = 0;
+    if ((state == IDLE || state == BOWL_ON) && millis() - debugMs > 1500) {
+        debugMs = millis();
+        Serial.printf("[scale] avg=%.1fg  stable=%d\n", fabsf(avg), (int)tracker.stable());
     }
+
+    (void)avg;  // state transitions are key-driven; scale reading shown in debug only
 }
 
 // ── POST /api/tap ─────────────────────────────────────────────────────────────
@@ -288,12 +256,15 @@ void handleTap(const String& uid) {
     } else if (code < 0) {
         Serial.println("No connection: " + http.errorToString(code));
     } else {
-        Serial.println("HTTP " + String(code));
+        String body = http.getString();
+        StaticJsonDocument<128> err;
+        deserializeJson(err, body);
+        const char* e = err["error"] | "UNKNOWN";
+        Serial.println("HTTP " + String(code) + " — " + String(e));
     }
 
     http.end();
-    servingG = 0.0f; bowlWeight = 0.0f;
-    enterState(IDLE, "Ready for next customer");
+    enterState(DONE, "Transaction done — press N to serve next customer");
 }
 
 // ── Setup ─────────────────────────────────────────────────────────────────────
@@ -322,8 +293,11 @@ void setup() {
     scale.begin(HX711_DOUT, HX711_SCK);
     if (scale.wait_ready_timeout(2000)) {
         scale.set_scale(scaleFactor);
-        scale.tare();
-        Serial.printf("HX711 ready — scale factor %.4f, tared\n", scaleFactor);
+        Serial.print("HX711 settling");
+        for (int i = 0; i < 10; i++) { scale.read(); delay(300); Serial.print("."); }
+        scale.tare(30);  // 30-sample tare for stable zero
+        Serial.printf("\nHX711 ready — scale factor %.4f, tared\n", scaleFactor);
+        Serial.println("Tip: send 'T' via Serial Monitor to re-tare anytime");
     } else {
         Serial.println("WARNING: HX711 not detected — check wiring (DOUT=4, SCK=5)");
     }
@@ -372,7 +346,70 @@ void setup() {
 void loop() {
     if (WiFi.status() != WL_CONNECTED) connectWiFi();
 
+    // Serial keys:
+    //   T = tare anytime (empty scale first)
+    //   B = tare with bowl on scale → BOWL_ON
+    //   F = food done, lock weight → READY (awaiting NFC tap)
+    //   N = next customer, reset → IDLE
+    if (Serial.available()) {
+        char c = Serial.read();
+
+        if (c == 'T' || c == 't') {
+            Serial.println("Taring — keep scale empty...");
+            scale.tare(30);
+            tracker.reset();
+            bowlWeight = 0.0f; servingG = 0.0f;
+            enterState(IDLE, "Tared. Place bowl then press B");
+
+        } else if (c == 'B' || c == 'b') {
+            if (state == IDLE) {
+                Serial.println("Taring with bowl...");
+                scale.tare(10);
+                tracker.reset();
+                enterState(BOWL_ON, "Bowl tared. Scoop food then press F");
+            } else {
+                Serial.println("Press T first to reset, then B with bowl");
+            }
+
+        } else if (c == 'F' || c == 'f') {
+            if (state == BOWL_ON) {
+                float current = fabsf(scale.get_units(10));
+                if (current < MIN_SERVING_G) {
+                    Serial.printf("Too light (%.1fg) — scoop more food\n", current);
+                } else {
+                    servingG = current;
+                    char msg[64];
+                    snprintf(msg, sizeof(msg), "Serving locked: %.1fg — tap NFC card", servingG);
+                    enterState(READY, msg);
+                }
+            } else {
+                Serial.println("Press B to tare bowl first");
+            }
+
+        } else if (c == 'N' || c == 'n') {
+            if (state == DONE || state == READY) {
+                servingG = 0.0f; bowlWeight = 0.0f;
+                enterState(IDLE, "Ready for next customer — place bowl then press B");
+            } else {
+                Serial.println("Nothing to reset");
+            }
+        }
+    }
+
     handleWeight();
+
+    // Heartbeat in READY state — also checks RC522 is alive and resets if needed
+    static unsigned long readyMs = 0;
+    if (state == READY && millis() - readyMs > 3000) {
+        readyMs = millis();
+        byte ver = mfrc522.PCD_ReadRegister(MFRC522::VersionReg);
+        if (ver == 0x00 || ver == 0xFF) {
+            Serial.println("RC522 unresponsive — resetting...");
+            mfrc522.PCD_Reset();
+            mfrc522.PCD_Init();
+        }
+        Serial.printf("Waiting for card tap... (%.1fg locked) RC522=0x%02X\n", servingG, ver);
+    }
 
     if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
         String uid = readUID();

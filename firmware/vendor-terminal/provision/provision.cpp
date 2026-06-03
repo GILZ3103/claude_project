@@ -32,7 +32,7 @@ static const char* VENDOR_ID     = "43fcda5f-214f-457b-8bd4-ee43971dc79d";
 static const char* FOOD_ID       = "498c1bca-5a31-42d5-b68b-bc132ace0bd1";
 static const char* API_URL       = "https://warungtek-backend.onrender.com";
 static const char* AUTH_TOKEN    = "kacangputihsupersecret";
-static const float SCALE_FACTOR  = 1.0f;
+static const float SCALE_FACTOR  = -23.25f;  // calibrated: 200g = -4650 raw
 // ────────────────────────────────────────────────────────────────────────────
 
 void setup() {
