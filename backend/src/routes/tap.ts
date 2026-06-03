@@ -53,7 +53,9 @@ async function processTap(
   let cardRow = (await supabase.from('cards').select('*').eq('uid', card_uid).single()).data
   if (!cardRow) cardRow = (await supabase.from('cards').select('*').eq('nfc_uid', card_uid).single()).data
   if (!cardRow) {
-    const withColons = card_uid.match(/.{2}/g)?.join(':') ?? card_uid
+    const withColons = card_uid.includes(':')
+      ? card_uid
+      : (card_uid.match(/.{2}/g)?.join(':') ?? card_uid)
     const { data: rows } = await supabase
       .from('cards').select('*')
       .ilike('nfc_uid', `${withColons}%`)
@@ -74,22 +76,6 @@ async function processTap(
   if (!food) return { status: 404, body: { success: false, error: 'FOOD_NOT_FOUND', message: 'Food item not found.' } }
   if (food.vendor_id !== vendor_id) return { status: 400, body: { success: false, error: 'FOOD_NOT_FOUND', message: 'Food item does not belong to this vendor.' } }
 
-  // 4. Duplicate tap check
-  const today = new Date().toISOString().split('T')[0]
-  const checkDate = synced_from_queue ? device_timestamp.split('T')[0] : today
-
-  const { data: existingTap } = await supabase
-    .from('tap_events')
-    .select('event_id')
-    .eq('card_uid', stable_uid)
-    .eq('vendor_id', vendor_id)
-    .eq('event_type', 'TAP_PURCHASE')
-    .gte(synced_from_queue ? 'device_timestamp' : 'server_timestamp', `${checkDate}T00:00:00+08:00`)
-    .lte(synced_from_queue ? 'device_timestamp' : 'server_timestamp', `${checkDate}T23:59:59+08:00`)
-    .limit(1)
-    .single()
-
-  if (existingTap) return { status: 409, body: { success: false, error: 'DUPLICATE_TAP', message: 'Card already tapped at this vendor today.' } }
 
   // 5. Voucher lookup
   let voucher: any = null
