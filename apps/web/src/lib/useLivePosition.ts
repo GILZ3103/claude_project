@@ -11,6 +11,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { ema, rssiToDistance, trilaterate, type AnchorReading, type PositionEstimate } from './trilaterate'
+import { isNativeBle, startNativeScan, stopNativeScan } from './nativeScan'
 
 // 128-bit service UUID the beacons advertise (and we filter the scan on).
 // MUST match the firmware (firmware/positioning-beacon).
@@ -112,7 +113,8 @@ export function useLivePosition(anchors: PositioningAnchor[]): LivePositionState
   }, [anchors])
 
   useEffect(() => {
-    setSupport(getBluetoothLE() ? 'supported' : 'unsupported')
+    // Native app = always supported (OS BLE, no flag); else feature-detect Web Bluetooth.
+    setSupport(isNativeBle() || getBluetoothLE() ? 'supported' : 'unsupported')
   }, [])
 
   const recompute = useCallback(() => {
@@ -132,19 +134,28 @@ export function useLivePosition(anchors: PositioningAnchor[]): LivePositionState
     if (est) setPosition(est)
   }, [])
 
-  const handleAdvertisement = useCallback((e: BluetoothAdvertisingEvent) => {
-    const minor = readMinor(e)
+  // Feed one reading (from Web Bluetooth OR the native scan) into the model.
+  const ingest = useCallback((minor: number | null, rssi: number) => {
     if (minor === null) return
     if (!anchorsRef.current.has(minor)) return
     const prev = rssiByMinor.current.get(minor)
-    rssiByMinor.current.set(minor, ema(prev, e.rssi))
+    rssiByMinor.current.set(minor, ema(prev, rssi))
     recompute()
   }, [recompute])
+
+  const handleAdvertisement = useCallback((e: BluetoothAdvertisingEvent) => {
+    ingest(readMinor(e), e.rssi)
+  }, [ingest])
 
   const handlerRef = useRef(handleAdvertisement)
   useEffect(() => { handlerRef.current = handleAdvertisement }, [handleAdvertisement])
 
   const stop = useCallback(() => {
+    if (isNativeBle()) {
+      void stopNativeScan()
+      setScanState('idle')
+      return
+    }
     const bt = getBluetoothLE()
     if (bt) bt.removeEventListener('advertisementreceived', handlerRef.current)
     scanRef.current?.stop()
@@ -153,6 +164,20 @@ export function useLivePosition(anchors: PositioningAnchor[]): LivePositionState
   }, [])
 
   const start = useCallback(async () => {
+    // Native app path: continuous OS-level BLE scan — one permission prompt, no flag.
+    if (isNativeBle()) {
+      try {
+        setError(null)
+        rssiByMinor.current.clear()
+        await startNativeScan(VENUE_SERVICE_UUID, (rssi, minor) => ingest(minor, rssi))
+        setScanState('scanning')
+      } catch (err) {
+        setScanState('error')
+        setError(err instanceof Error ? err.message : 'Failed to start Bluetooth scan.')
+      }
+      return
+    }
+
     const bt = getBluetoothLE()
     if (!bt) {
       setSupport('unsupported')
@@ -173,7 +198,7 @@ export function useLivePosition(anchors: PositioningAnchor[]): LivePositionState
       setScanState('error')
       setError(err instanceof Error ? err.message : 'Failed to start Bluetooth scan.')
     }
-  }, [])
+  }, [ingest])
 
   // Clean up on unmount.
   useEffect(() => () => stop(), [stop])
