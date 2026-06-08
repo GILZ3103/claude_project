@@ -3,11 +3,12 @@ import { useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import {
   MapPin, Search, Navigation, Flame, XCircle,
-  Map as MapIcon, ShieldCheck, ZoomIn, ZoomOut, Bluetooth, Filter, X
+  Map as MapIcon, ShieldCheck, ZoomIn, ZoomOut, Bluetooth, Filter, X, Radio, Wrench
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { getVendorFood, getAllFood } from '../lib/api'
 import { useLivePosition, METERS_PER_GRID_CELL, type PositioningAnchor } from '../lib/useLivePosition'
+import { trilaterate, type PositionEstimate } from '../lib/trilaterate'
 
 type QuickFilter = 'all' | 'meals' | 'snacks' | 'drinks' | 'low-calorie'
 
@@ -43,6 +44,10 @@ export default function Map() {
 
   const [isNavigating, setIsNavigating] = useState(false)
   const [showBtPopup, setShowBtPopup] = useState(false)
+
+  // Debug: manually entered distance (m) per beacon_minor → trilaterated test dot.
+  const [showDebug, setShowDebug] = useState(false)
+  const [debugDist, setDebugDist] = useState<Record<number, string>>({})
 
   useEffect(() => {
     const threshold = maxCalParam ? parseInt(maxCalParam) : LOW_CAL_THRESHOLD
@@ -82,8 +87,9 @@ export default function Map() {
     else { setIsNavigating(true) }
   }
 
-  const cols = mapData?.grid_size?.cols ?? 10
-  const rows = mapData?.grid_size?.rows ?? 10
+  // Fixed 10×10 m positioning grid (1 cell = 1 m). Center = (5,5).
+  const cols = 10
+  const rows = 10
   const kiosks: any[] = mapData?.kiosks ?? []
 
   // BLE positioning anchors (served by /api/map) → live position via Web Bluetooth.
@@ -97,6 +103,14 @@ export default function Map() {
     path_loss_n: Number(a.path_loss_n),
   }))
   const live = useLivePosition(anchors)
+
+  // Debug test dot: trilaterate from manually typed per-beacon distances (metres).
+  // 1 cell = 1 m, so metres map 1:1 to grid units here.
+  const debugReadings = anchors
+    .map(a => ({ x: a.grid_x, y: a.grid_y, distance: parseFloat(debugDist[a.beacon_minor] ?? '') }))
+    .filter(r => Number.isFinite(r.distance) && r.distance > 0)
+  const debugPosition: PositionEstimate | null =
+    showDebug && debugReadings.length >= 3 ? trilaterate(debugReadings) : null
 
   const filteredVendors = vendors.filter(v => {
     const matchSearch = v.business_name?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -174,6 +188,9 @@ export default function Map() {
           </button>
           <button onClick={() => setMapScale(s => Math.max(s - 0.25, 0.5))} className="bg-white p-2 rounded-xl shadow border border-gray-200 text-gray-600 hover:text-orange-500 transition-colors">
             <ZoomOut size={18} />
+          </button>
+          <button onClick={() => setShowDebug(d => !d)} className={`p-2 rounded-xl shadow border transition-colors ${showDebug ? 'bg-fuchsia-600 text-white border-fuchsia-600' : 'bg-white text-gray-600 border-gray-200 hover:text-fuchsia-500'}`} title="Debug positioning">
+            <Wrench size={18} />
           </button>
         </div>
 
@@ -256,6 +273,55 @@ export default function Map() {
                 <span className="text-[9px] text-blue-600 font-bold mt-0.5 bg-white px-1 rounded shadow-sm">{k.label ?? 'Kiosk'}</span>
               </div>
             ))}
+
+            {/* Beacon (BLE anchor) markers — one per physical ESP32 */}
+            {anchors.map(a => {
+              const isRef = a.beacon_minor === 1
+              return (
+                <div
+                  key={a.anchor_id}
+                  className="absolute z-10 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-none"
+                  style={{ left: `${toX(a.grid_x)}%`, top: `${toY(a.grid_y)}%` }}
+                >
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-md border-2 ${isRef ? 'bg-indigo-600 border-yellow-300 ring-2 ring-yellow-300' : 'bg-indigo-500 border-white'}`}>
+                    <Radio className="text-white" size={15} />
+                  </div>
+                  <span className="text-[9px] text-indigo-700 font-bold mt-0.5 bg-white px-1 rounded shadow-sm">
+                    B{a.beacon_minor}{isRef ? ' (ref)' : ''}
+                  </span>
+                </div>
+              )
+            })}
+
+            {/* Debug range circles — radius = typed distance (m) around each beacon */}
+            {showDebug && anchors.map(a => {
+              const d = parseFloat(debugDist[a.beacon_minor] ?? '')
+              if (!Number.isFinite(d) || d <= 0) return null
+              return (
+                <div
+                  key={`ring-${a.anchor_id}`}
+                  className="absolute z-0 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-indigo-400/40 bg-indigo-300/5 pointer-events-none"
+                  style={{
+                    left: `${toX(a.grid_x)}%`, top: `${toY(a.grid_y)}%`,
+                    width: (d / cols) * BASE_W * mapScale * 2,
+                    height: (d / rows) * BASE_H * mapScale * 2,
+                  }}
+                />
+              )
+            })}
+
+            {/* Debug test dot (purple) — from manual distances, independent of BLE */}
+            {debugPosition && (
+              <div
+                className="absolute z-20 pointer-events-none -translate-x-1/2 -translate-y-1/2"
+                style={{ left: `${toX(debugPosition.x)}%`, top: `${toY(debugPosition.y)}%` }}
+              >
+                <div className="w-4 h-4 bg-fuchsia-600 rounded-full border-2 border-white shadow-md" />
+                <span className="text-[9px] text-fuchsia-700 font-bold mt-0.5 bg-white px-1 rounded shadow-sm whitespace-nowrap">
+                  test ({debugPosition.x.toFixed(1)}, {debugPosition.y.toFixed(1)})
+                </span>
+              </div>
+            )}
 
             {/* Vendor markers */}
             {filteredVendors.map(v => {
@@ -351,6 +417,63 @@ export default function Map() {
         </AnimatePresence>
       </div>
 
+      {/* Debug positioning panel */}
+      {showDebug && (
+        <div className="mb-6 bg-white rounded-2xl border border-fuchsia-200 shadow-sm p-4">
+          <div className="flex items-center gap-2 mb-3">
+            <Wrench size={15} className="text-fuchsia-600" />
+            <h3 className="font-bold text-sm text-[#1A1A1A]">Debug positioning (10×10 m grid, 1 cell = 1 m)</h3>
+          </div>
+
+          <p className="text-[11px] text-[#6B7280] mb-2">
+            Type the distance (m) from the phone to each beacon. With 3 values the purple test dot is trilaterated — no Bluetooth needed. Phone at centre (5,5) ⇒ B1≈3, B2≈4.2, B3≈4.2.
+          </p>
+
+          <div className="grid grid-cols-3 gap-2 mb-3">
+            {anchors.map(a => (
+              <label key={a.anchor_id} className="flex flex-col gap-1">
+                <span className="text-[10px] font-bold text-indigo-700">
+                  B{a.beacon_minor}{a.beacon_minor === 1 ? ' (ref)' : ''} ({a.grid_x},{a.grid_y})
+                </span>
+                <input
+                  type="number" inputMode="decimal" min="0" step="0.1" placeholder="m"
+                  value={debugDist[a.beacon_minor] ?? ''}
+                  onChange={e => setDebugDist(d => ({ ...d, [a.beacon_minor]: e.target.value }))}
+                  className="w-full border border-gray-200 rounded-lg px-2 py-1.5 text-sm outline-none focus:border-fuchsia-400"
+                />
+              </label>
+            ))}
+          </div>
+
+          {debugPosition ? (
+            <p className="text-xs font-semibold text-fuchsia-700 bg-fuchsia-50 px-3 py-1.5 rounded-lg">
+              Test dot → ({debugPosition.x.toFixed(2)}, {debugPosition.y.toFixed(2)}) · residual ±{debugPosition.accuracy.toFixed(2)} m
+            </p>
+          ) : (
+            <p className="text-xs text-[#6B7280] bg-gray-50 px-3 py-1.5 rounded-lg">Enter all 3 distances to place the test dot.</p>
+          )}
+
+          {/* Live BLE readout — what the phone actually senses */}
+          <div className="mt-3 pt-3 border-t border-gray-100">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[11px] font-bold text-[#1A1A1A]">Live BLE</span>
+              <span className="text-[10px] text-[#6B7280]">{live.support} · {live.scanState} · {live.beaconCount} beacon(s)</span>
+            </div>
+            {live.scanState !== 'scanning' ? (
+              <button onClick={() => live.start()} className="text-xs font-semibold bg-blue-600 text-white px-3 py-1.5 rounded-lg">Start live scan</button>
+            ) : (
+              <button onClick={() => live.stop()} className="text-xs font-semibold bg-gray-200 text-[#1A1A1A] px-3 py-1.5 rounded-lg">Stop scan</button>
+            )}
+            {live.position && (
+              <p className="text-xs text-blue-700 mt-2">
+                Live dot → ({live.position.x.toFixed(2)}, {live.position.y.toFixed(2)}) · ±{(live.position.accuracy * METERS_PER_GRID_CELL).toFixed(1)} m
+              </p>
+            )}
+            {live.error && <p className="text-xs text-red-500 mt-1">{live.error}</p>}
+          </div>
+        </div>
+      )}
+
       {/* Legend */}
       <div className="flex gap-4 mb-5 flex-wrap">
         {Object.entries(CATEGORY_COLORS).filter(([k]) => k !== 'Default').map(([cat, color]) => (
@@ -361,6 +484,9 @@ export default function Map() {
         ))}
         <span className="flex items-center gap-1.5 text-xs text-[#6B7280]">
           <span className="w-3 h-3 rounded bg-blue-600" />Kiosk
+        </span>
+        <span className="flex items-center gap-1.5 text-xs text-[#6B7280]">
+          <span className="w-3 h-3 rounded-full bg-indigo-500" />Beacon
         </span>
       </div>
 

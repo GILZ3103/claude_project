@@ -18,7 +18,7 @@ export const VENUE_SERVICE_UUID = '6e2c0000-b85e-4f3a-9c1d-2a7f5e8d4b10'
 
 // Calibration: how many metres one grid cell represents. The RSSI model yields
 // metres; anchor coords are in grid cells, so we convert. Tune on-site.
-export const METERS_PER_GRID_CELL = 2.0
+export const METERS_PER_GRID_CELL = 1.0
 
 // Company id used by our ESP32 beacons (0xFFFF = reserved for local/test use).
 const LOCAL_COMPANY_ID = 0xffff
