@@ -38,14 +38,15 @@ class Camera:
     def _open_opencv(self) -> None:
         import cv2
         from .. import config
-        cap = cv2.VideoCapture(config.CAMERA_INDEX)
+        # CAP_DSHOW avoids MSMF grab-frame errors on Windows
+        cap = cv2.VideoCapture(config.CAMERA_INDEX, cv2.CAP_DSHOW)
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, self._w)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self._h)
         cap.set(cv2.CAP_PROP_FPS, self._fps)
         if not cap.isOpened():
             raise RuntimeError(f"OpenCV camera index {config.CAMERA_INDEX} failed to open")
         self._backend = cap
-        log.info("Camera opened via OpenCV (USB webcam)")
+        log.info("Camera opened via OpenCV/DirectShow (USB webcam)")
 
     def _open_picamera2(self) -> None:
         from picamera2 import Picamera2
