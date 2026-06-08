@@ -104,6 +104,11 @@ export default function Map() {
   }))
   const live = useLivePosition(anchors)
 
+  // Positioning test mode: show ONLY the vendors that sit on a beacon, so the
+  // map is a clean 3-beacon / 3-vendor / 1-user-dot view for visual verification.
+  // A vendor counts as a beacon-vendor when its grid cell matches an anchor's.
+  const beaconCells = new Set(anchors.map(a => `${a.grid_x},${a.grid_y}`))
+
   // Debug test dot: trilaterate from manually typed per-beacon distances (metres).
   // 1 cell = 1 m, so metres map 1:1 to grid units here.
   const debugReadings = anchors
@@ -113,6 +118,8 @@ export default function Map() {
     showDebug && debugReadings.length >= 3 ? trilaterate(debugReadings) : null
 
   const filteredVendors = vendors.filter(v => {
+    // Positioning test mode: only the 3 vendors sitting on a beacon.
+    if (beaconCells.size > 0 && !beaconCells.has(`${v.grid_x},${v.grid_y}`)) return false
     const matchSearch = v.business_name?.toLowerCase().includes(searchQuery.toLowerCase())
     const cat = (v.category ?? '').toLowerCase()
     const matchFilter =
