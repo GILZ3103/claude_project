@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion, AnimatePresence, useDragControls } from 'motion/react'
 import {
   MapPin, Search, Navigation, Flame, XCircle,
   Map as MapIcon, ShieldCheck, ZoomIn, ZoomOut, Bluetooth, Filter, X, Radio, Wrench
@@ -44,6 +44,9 @@ export default function Map() {
 
   const [isNavigating, setIsNavigating] = useState(false)
   const [showBtPopup, setShowBtPopup] = useState(false)
+
+  // Drag-to-dismiss for the navigation deck (handle-only, so the food list still scrolls)
+  const deckDrag = useDragControls()
 
   // Debug: manually entered distance (m) per beacon_minor → trilaterated test dot.
   const [showDebug, setShowDebug] = useState(false)
@@ -361,64 +364,125 @@ export default function Map() {
           </div>
         </div>
 
-        {/* Selected vendor overlay card */}
+        {/* Selected vendor — futuristic navigation deck */}
         <AnimatePresence>
           {selectedVendor && (
             <motion.div
-              initial={{ opacity: 0, y: 40 }}
+              key="nav-deck"
+              drag="y"
+              dragListener={false}
+              dragControls={deckDrag}
+              dragConstraints={{ top: 0, bottom: 0 }}
+              dragElastic={{ top: 0, bottom: 0.55 }}
+              onDragEnd={(_, info) => {
+                if (info.offset.y > 110 || info.velocity.y > 700) {
+                  setSelectedVendorId(null); setIsNavigating(false)
+                }
+              }}
+              initial={{ opacity: 0, y: 130 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 40 }}
-              transition={{ type: 'spring', bounce: 0.25 }}
-              className="absolute bottom-3 left-3 right-3 sm:left-auto sm:right-3 sm:w-80 bg-white/95 backdrop-blur-md rounded-[1.5rem] shadow-2xl border border-white p-4 z-30"
+              exit={{ opacity: 0, y: 130 }}
+              transition={{ type: 'spring', stiffness: 360, damping: 30 }}
+              className="absolute bottom-0 left-0 right-0 sm:bottom-4 sm:left-auto sm:right-4 sm:w-[22rem] z-30"
             >
-              <button
-                onClick={() => { setSelectedVendorId(null); setIsNavigating(false) }}
-                className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 p-1"
-              >
-                <XCircle size={18} />
-              </button>
+              {/* Ambient glow that breathes — the "alive" futuristic cue */}
+              <motion.div
+                aria-hidden
+                animate={{ opacity: [0.3, 0.55, 0.3] }}
+                transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+                className="pointer-events-none absolute -inset-2 rounded-[2rem] bg-gradient-to-tr from-orange-400/40 via-fuchsia-400/20 to-blue-400/30 blur-2xl"
+              />
 
-              <div className="flex items-start gap-3 pr-6">
-                <div className={`w-12 h-12 rounded-2xl ${CATEGORY_COLORS[selectedVendor.category] ?? CATEGORY_COLORS.Default} flex items-center justify-center shadow-md shrink-0`}>
-                  <span className="text-white text-lg font-black">{(selectedVendor.business_name ?? 'V')[0]}</span>
-                </div>
-                <div className="min-w-0">
-                  <h3 className="font-bold text-[#1A1A1A] text-base leading-tight truncate">{selectedVendor.business_name}</h3>
-                  <div className="flex items-center gap-2 mt-1 flex-wrap">
-                    <span className="text-[10px] uppercase font-bold bg-gray-100 text-[#6B7280] px-2 py-0.5 rounded-md">
-                      {selectedVendor.category ?? 'Vendor'}
-                    </span>
-                    <span className="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-md flex items-center gap-0.5">
-                      <ShieldCheck size={9} /> Verified
-                    </span>
+              {/* Glass deck with a gradient hairline border */}
+              <div className="relative rounded-t-[1.75rem] sm:rounded-[1.75rem] p-[1.5px] bg-gradient-to-b from-white/80 via-white/30 to-white/10 shadow-[0_-8px_40px_rgba(0,0,0,0.14)] sm:shadow-2xl">
+                <div className="relative rounded-t-[1.65rem] sm:rounded-[1.65rem] bg-white/75 backdrop-blur-2xl overflow-hidden">
+
+                  {/* Scan-line sheen sweeping across the top edge */}
+                  <motion.div
+                    aria-hidden
+                    initial={{ x: '-120%' }}
+                    animate={{ x: '220%' }}
+                    transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.8 }}
+                    className="pointer-events-none absolute top-0 left-0 h-[2px] w-1/2 bg-gradient-to-r from-transparent via-orange-400 to-transparent"
+                  />
+
+                  {/* Drag handle (mobile) — grab here to pull the deck down */}
+                  <div
+                    onPointerDown={(e) => deckDrag.start(e)}
+                    className="sm:hidden flex justify-center pt-3 pb-1.5 cursor-grab active:cursor-grabbing touch-none"
+                  >
+                    <div className="h-1.5 w-11 rounded-full bg-gray-300/90" />
+                  </div>
+
+                  <div className="px-5 pb-5 pt-3 sm:pt-5">
+                    <button
+                      onClick={() => { setSelectedVendorId(null); setIsNavigating(false) }}
+                      className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-gray-700 transition-colors p-1 z-10"
+                    >
+                      <XCircle size={20} />
+                    </button>
+
+                    <div className="flex items-start gap-3.5 pr-8">
+                      <div className={`w-14 h-14 rounded-2xl ${CATEGORY_COLORS[selectedVendor.category] ?? CATEGORY_COLORS.Default} flex items-center justify-center shadow-lg shrink-0 ring-1 ring-white/60`}>
+                        <span className="text-white text-xl font-black">{(selectedVendor.business_name ?? 'V')[0]}</span>
+                      </div>
+                      <div className="min-w-0 pt-0.5">
+                        <h3 className="font-bold text-[#1A1A1A] text-lg leading-tight truncate">{selectedVendor.business_name}</h3>
+                        <div className="flex items-center gap-2 mt-2 flex-wrap">
+                          <span className="text-[10px] uppercase font-bold bg-gray-100 text-[#6B7280] px-2 py-0.5 rounded-md">
+                            {selectedVendor.category ?? 'Vendor'}
+                          </span>
+                          <span className="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-md flex items-center gap-0.5">
+                            <ShieldCheck size={9} /> Verified
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Food items */}
+                    {loadingFood ? (
+                      <div className="mt-4 h-14 bg-gray-100 rounded-xl animate-pulse" />
+                    ) : selectedVendorFood.length > 0 ? (
+                      <div className="mt-4 space-y-2 max-h-32 overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full">
+                        {selectedVendorFood.slice(0, 5).map((f: any) => (
+                          <div key={f.food_item_id} className="flex justify-between items-center text-xs bg-[#FAFAFA] px-3.5 py-2 rounded-xl">
+                            <span className="font-medium text-[#1A1A1A] truncate max-w-[62%]">{f.name}</span>
+                            <span className="text-[#6B7280] tabular-nums">{f.calories ?? '—'} kcal</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="mt-4 text-xs text-[#6B7280] bg-gray-50 px-3.5 py-2.5 rounded-xl">No menu items listed yet.</p>
+                    )}
+
+                    <motion.button
+                      onClick={handleStartNavigation}
+                      whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+                      className={`relative w-full mt-4 py-3.5 rounded-2xl font-semibold flex items-center justify-center gap-2 text-sm overflow-hidden transition-colors ${isNavigating ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30' : 'bg-[#1A1A1A] text-white hover:bg-gray-800 shadow-md'}`}
+                    >
+                      {isNavigating && (
+                        <motion.span
+                          aria-hidden
+                          initial={{ x: '-120%' }}
+                          animate={{ x: '220%' }}
+                          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+                          className="pointer-events-none absolute inset-y-0 w-1/3 bg-white/20 blur-md skew-x-12"
+                        />
+                      )}
+                      {isNavigating ? (
+                        <motion.span
+                          animate={{ scale: [1, 1.25, 1] }}
+                          transition={{ duration: 1.4, repeat: Infinity }}
+                          className="w-2 h-2 rounded-full bg-white"
+                        />
+                      ) : (
+                        <Navigation size={15} />
+                      )}
+                      <span className="relative">{isNavigating ? 'Navigating…' : 'Navigate Here'}</span>
+                    </motion.button>
                   </div>
                 </div>
               </div>
-
-              {/* Food items */}
-              {loadingFood ? (
-                <div className="mt-3 h-12 bg-gray-100 rounded-xl animate-pulse" />
-              ) : selectedVendorFood.length > 0 ? (
-                <div className="mt-3 space-y-1.5 max-h-24 overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full">
-                  {selectedVendorFood.slice(0, 4).map((f: any) => (
-                    <div key={f.food_item_id} className="flex justify-between text-xs bg-[#FAFAFA] px-3 py-1.5 rounded-lg">
-                      <span className="font-medium text-[#1A1A1A] truncate max-w-[60%]">{f.name}</span>
-                      <span className="text-[#6B7280]">{f.calories ?? '—'} kcal</span>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="mt-3 text-xs text-[#6B7280] bg-gray-50 px-3 py-2 rounded-xl">No menu items listed yet.</p>
-              )}
-
-              <motion.button
-                onClick={handleStartNavigation}
-                whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                className={`w-full mt-3 py-2.5 rounded-xl font-semibold flex items-center justify-center space-x-2 text-sm shadow-md transition-colors ${isNavigating ? 'bg-blue-600 text-white' : 'bg-[#1A1A1A] text-white hover:bg-gray-800'}`}
-              >
-                <Navigation size={14} />
-                <span>{isNavigating ? 'Navigating…' : 'Navigate Here'}</span>
-              </motion.button>
             </motion.div>
           )}
         </AnimatePresence>
