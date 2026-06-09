@@ -434,7 +434,7 @@ flowchart LR
 
 ## API
 
-Base URL: `https://claudeproject-production-5b22.up.railway.app/api`
+Base URL: `https://warungtek-backend.onrender.com/api`
 
 ### Standard Response Shape
 ```json
@@ -850,7 +850,7 @@ TERMINAL_AUTH_TOKEN=<random hex — matches ESP32 NVS auth_token>
 PORT=3000
 
 # apps/web/.env (Vercel)
-VITE_API_URL=https://claudeproject-production-5b22.up.railway.app
+VITE_API_URL=https://warungtek-backend.onrender.com
 
 # apps/kiosk/.env (Raspberry Pi local)
 VITE_API_URL=http://localhost:3000

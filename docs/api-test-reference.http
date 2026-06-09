@@ -16,7 +16,7 @@
 
 # ─── VARIABLES ────────────────────────────────────────────────────────────────
 
-@baseUrl    = https://claudeproject-production-5b22.up.railway.app/api
+@baseUrl    = https://warungtek-backend.onrender.com/api
 
 # Seed consumer card
 @consumerUid    = TESTCARD001
