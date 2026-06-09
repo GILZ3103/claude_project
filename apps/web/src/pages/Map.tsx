@@ -133,6 +133,28 @@ export default function Map() {
 
   const selectedVendor = vendors.find(v => v.vendor_id === selectedVendorId)
 
+  // ── "Walk toward the nearest stall" pin ───────────────────────────────────
+  // We only have proximity (which beacon is strongest), not exact coordinates, so
+  // the YOU pin is animated toward the nearest stall to simulate the user walking
+  // there. When the strongest beacon changes, the pin glides to the new stall.
+  const nearestVendor = live.nearest?.vendorId
+    ? vendors.find(v => v.vendor_id === live.nearest!.vendorId)
+    : null
+  const gridToPct = (gx: number, gy: number) => ({
+    left: Math.min(24, Math.max(2, (gx / 10) * 22 + 2)),
+    top: Math.min(28, Math.max(2, (gy / 10) * 24 + 2)),
+  })
+  const youTarget =
+    live.scanState === 'scanning' && nearestVendor?.grid_x != null
+      ? (() => {
+          const p = gridToPct(Number(nearestVendor.grid_x), Number(nearestVendor.grid_y))
+          return { left: p.left, top: Math.min(30, p.top + 4) } // stand just in front of the stall
+        })()
+      : live.position
+        ? gridToPct(live.position.x, live.position.y)
+        : { left: 65, top: 68 }
+  const isWalking = live.scanState === 'scanning' && !!nearestVendor
+
   if (loading) {
     return (
       <div className="px-4 pt-4 pb-24 max-w-lg mx-auto">
@@ -316,19 +338,15 @@ export default function Map() {
             )
           })}
 
-          {/* "YOU are here" pin — same coordinate space as anchors (0-10 grid units) */}
+          {/* "YOU are here" pin — glides toward the nearest stall to simulate walking */}
           <motion.div
-            animate={{
-              opacity: 1,
-              left: live.position
-                ? `${Math.min(24, Math.max(2, (live.position.x / 10) * 22 + 2))}%`
-                : '65%',
-              top: live.position
-                ? `${Math.min(28, Math.max(2, (live.position.y / 10) * 24 + 2))}%`
-                : '68%',
-            }}
+            animate={{ opacity: 1, left: `${youTarget.left}%`, top: `${youTarget.top}%` }}
             initial={{ opacity: 0, left: '65%', top: '68%' }}
-            transition={{ type: 'spring', stiffness: 120, damping: 20 }}
+            transition={{
+              left: { type: 'tween', duration: 2.4, ease: 'easeInOut' },
+              top: { type: 'tween', duration: 2.4, ease: 'easeInOut' },
+              opacity: { duration: 0.6 },
+            }}
             className="absolute z-50 pointer-events-none flex flex-col items-center"
             style={{ transform: 'translate(-50%, -100%)' }}
           >
@@ -342,6 +360,11 @@ export default function Map() {
               <span className="text-white text-[7px] font-semibold leading-tight">are here</span>
             </div>
             <div className={`w-0 h-0 border-l-[6px] border-r-[6px] border-t-[10px] border-l-transparent border-r-transparent -mt-px ${live.scanState === 'scanning' ? 'border-t-orange-500' : 'border-t-gray-400'}`} />
+            {isWalking && nearestVendor?.business_name && (
+              <span className="mt-1 text-[7px] font-bold text-orange-700 bg-white/85 px-1.5 py-0.5 rounded-full shadow whitespace-nowrap">
+                Walking to {nearestVendor.business_name}
+              </span>
+            )}
           </motion.div>
 
           {/* Persistent tracking button — tapping starts BLE scan or re-triggers the BT popup */}
