@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { motion, AnimatePresence, useDragControls } from 'motion/react'
+import { motion, AnimatePresence, useDragControls, useMotionValue, useTransform } from 'motion/react'
 import {
   MapPin, Search, Navigation, Flame, XCircle,
-  Map as MapIcon, ShieldCheck, ZoomIn, ZoomOut, Bluetooth, Filter, X, Radio, Wrench
+  Map as MapIcon, ShieldCheck, Maximize2, Minimize2, Bluetooth, Filter, X, Radio, Wrench
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { getVendorFood, getAllFood } from '../lib/api'
@@ -21,8 +21,12 @@ const CATEGORY_COLORS: Record<string, string> = {
   Default: 'bg-purple-500',
 }
 
-const BASE_W = 900
-const BASE_H = 600
+const CATEGORY_BORDERS: Record<string, string> = {
+  Meals: 'border-orange-500',
+  Snacks: 'border-green-500',
+  Drinks: 'border-blue-500',
+  Default: 'border-purple-500',
+}
 
 export default function Map() {
   const [searchParams] = useSearchParams()
@@ -36,7 +40,7 @@ export default function Map() {
 
   const [searchQuery, setSearchQuery] = useState('')
   const [quickFilter, setQuickFilter] = useState<QuickFilter>(initialFilter)
-  const [mapScale, setMapScale] = useState(1)
+  const [isFullscreen, setIsFullscreen] = useState(false)
 
   const [selectedVendorId, setSelectedVendorId] = useState<string | null>(null)
   const [selectedVendorFood, setSelectedVendorFood] = useState<any[]>([])
@@ -47,6 +51,10 @@ export default function Map() {
 
   // Drag-to-dismiss for the navigation deck (handle-only, so the food list still scrolls)
   const deckDrag = useDragControls()
+  // Live swipe position of the deck — drives the dismiss scrim + colour wash
+  const deckY = useMotionValue(0)
+  const scrimOpacity = useTransform(deckY, [0, 200], [0, 0.55])
+  const swipeTint = useTransform(deckY, [0, 160], [0, 1])
 
   // Debug: manually entered distance (m) per beacon_minor → trilaterated test dot.
   const [showDebug, setShowDebug] = useState(false)
@@ -90,11 +98,6 @@ export default function Map() {
     else { setIsNavigating(true) }
   }
 
-  // Fixed 10×10 m positioning grid (1 cell = 1 m). Center = (5,5).
-  const cols = 10
-  const rows = 10
-  const kiosks: any[] = mapData?.kiosks ?? []
-
   // BLE positioning anchors (served by /api/map) → live position via Web Bluetooth.
   const anchors: PositioningAnchor[] = (mapData?.anchors ?? []).map((a: any) => ({
     anchor_id: a.anchor_id,
@@ -107,13 +110,7 @@ export default function Map() {
   }))
   const live = useLivePosition(anchors)
 
-  // Positioning test mode: show ONLY the vendors that sit on a beacon, so the
-  // map is a clean 3-beacon / 3-vendor / 1-user-dot view for visual verification.
-  // A vendor counts as a beacon-vendor when its grid cell matches an anchor's.
-  const beaconCells = new Set(anchors.map(a => `${a.grid_x},${a.grid_y}`))
-
-  // Debug test dot: trilaterate from manually typed per-beacon distances (metres).
-  // 1 cell = 1 m, so metres map 1:1 to grid units here.
+  // Debug trilateration test dot — typed distances, no Bluetooth needed.
   const debugReadings = anchors
     .map(a => ({ x: a.grid_x, y: a.grid_y, distance: parseFloat(debugDist[a.beacon_minor] ?? '') }))
     .filter(r => Number.isFinite(r.distance) && r.distance > 0)
@@ -121,8 +118,6 @@ export default function Map() {
     showDebug && debugReadings.length >= 3 ? trilaterate(debugReadings) : null
 
   const filteredVendors = vendors.filter(v => {
-    // Positioning test mode: only the 3 vendors sitting on a beacon.
-    if (beaconCells.size > 0 && !beaconCells.has(`${v.grid_x},${v.grid_y}`)) return false
     const matchSearch = v.business_name?.toLowerCase().includes(searchQuery.toLowerCase())
     const cat = (v.category ?? '').toLowerCase()
     const matchFilter =
@@ -135,14 +130,6 @@ export default function Map() {
   })
 
   const selectedVendor = vendors.find(v => v.vendor_id === selectedVendorId)
-
-  // Normalize grid position to % within map, clamp 4-94%
-  function toX(gx: number | null) {
-    return gx != null ? Math.min(94, Math.max(4, (gx / cols) * 100)) : 50
-  }
-  function toY(gy: number | null) {
-    return gy != null ? Math.min(94, Math.max(4, (gy / rows) * 100)) : 50
-  }
 
   if (loading) {
     return (
@@ -167,8 +154,10 @@ export default function Map() {
       {/* Map container */}
       <div
         id="map-view"
-        className="w-full bg-orange-50/30 rounded-[2rem] border border-gray-100 border-t-4 border-t-[#FF8A00] shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden relative mb-6"
-        style={{ height: 420 }}
+        className={`bg-orange-50/30 overflow-hidden relative ${isFullscreen
+          ? 'fixed inset-0 z-[55] w-screen rounded-none border-0'
+          : 'w-full rounded-[2rem] border border-gray-100 border-t-4 border-t-[#FF8A00] shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-6'}`}
+        style={{ height: isFullscreen ? '100dvh' : 420 }}
       >
         {/* Live-tracking status badge */}
         {(isNavigating || live.scanState === 'scanning') && (
@@ -191,172 +180,83 @@ export default function Map() {
           </div>
         )}
 
-        {/* Zoom controls */}
-        <div className="absolute top-3 right-3 z-20 flex flex-col space-y-2">
-          <button onClick={() => setMapScale(s => Math.min(s + 0.25, 2.5))} className="bg-white p-2 rounded-xl shadow border border-gray-200 text-gray-600 hover:text-orange-500 transition-colors">
-            <ZoomIn size={18} />
-          </button>
-          <button onClick={() => setMapScale(s => Math.max(s - 0.25, 0.5))} className="bg-white p-2 rounded-xl shadow border border-gray-200 text-gray-600 hover:text-orange-500 transition-colors">
-            <ZoomOut size={18} />
+        {/* Map controls — full-screen toggle replaces the old +/- zoom */}
+        <div className="absolute top-3 right-3 z-30 flex flex-col space-y-2">
+          <button
+            onClick={() => setIsFullscreen(f => !f)}
+            title={isFullscreen ? 'Exit full screen' : 'Full screen'}
+            className="bg-white p-2 rounded-xl shadow border border-gray-200 text-gray-600 hover:text-orange-500 transition-colors"
+          >
+            {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
           </button>
           <button onClick={() => setShowDebug(d => !d)} className={`p-2 rounded-xl shadow border transition-colors ${showDebug ? 'bg-fuchsia-600 text-white border-fuchsia-600' : 'bg-white text-gray-600 border-gray-200 hover:text-fuchsia-500'}`} title="Debug positioning">
             <Wrench size={18} />
           </button>
         </div>
 
-        {/* Scrollable map canvas */}
-        <div className="w-full h-full overflow-auto cursor-grab active:cursor-grabbing [&::-webkit-scrollbar]:hidden">
-          <div
-            className="relative"
-            style={{
-              width: BASE_W * mapScale,
-              height: BASE_H * mapScale,
-              transition: 'width 0.3s, height 0.3s'
-            }}
-          >
-            {/* Grid background */}
-            <div className="absolute inset-0 opacity-40" style={{
-              backgroundImage: 'linear-gradient(#fed7aa 1px, transparent 1px), linear-gradient(90deg, #fed7aa 1px, transparent 1px)',
-              backgroundSize: '45px 45px'
-            }} />
+        {/* 5×5 vendor grid — blocks build in order with staggered entrance */}
+        <div className="w-full h-full overflow-auto p-3 [&::-webkit-scrollbar]:hidden">
+          <div className="grid grid-cols-5 gap-2 auto-rows-fr" style={{ minHeight: '100%' }}>
+            {Array.from({ length: Math.max(25, Math.ceil(filteredVendors.length / 5) * 5) }).map((_, idx) => {
+              const v = filteredVendors[idx]
 
-            {/* Zone labels */}
-            <div className="absolute top-[22%] left-0 right-0 h-10 bg-gray-200/40 border-y border-dashed border-gray-300/50 flex items-center justify-center pointer-events-none">
-              <span className="text-gray-400 text-xs font-bold uppercase tracking-widest opacity-60">Zone A — Food Court</span>
-            </div>
-            <div className="absolute top-[58%] left-0 right-0 h-10 bg-gray-200/40 border-y border-dashed border-gray-300/50 flex items-center justify-center pointer-events-none">
-              <span className="text-gray-400 text-xs font-bold uppercase tracking-widest opacity-60">Zone B — Beverages</span>
-            </div>
-
-            {/* Navigation path — starts at the live position if we have one,
-                otherwise from the entrance corner (static fallback). */}
-            {isNavigating && selectedVendor && (() => {
-              const startX = live.position ? toX(live.position.x) : 10
-              const startY = live.position ? toY(live.position.y) : 90
-              return (
-                <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" viewBox="0 0 100 100" preserveAspectRatio="none">
-                  <motion.path
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 2, ease: 'easeInOut' }}
-                    d={`M ${startX},${startY} L ${startX},${toY(selectedVendor.grid_y)} L ${toX(selectedVendor.grid_x)},${toY(selectedVendor.grid_y)}`}
-                    fill="none" stroke="#3B82F6" strokeWidth="0.5" strokeDasharray="1.5 1"
-                  />
-                </svg>
-              )
-            })()}
-
-            {/* Live user dot (real position computed on-device from beacon RSSI) */}
-            {live.position && (
-              <div
-                className="absolute z-20 pointer-events-none -translate-x-1/2 -translate-y-1/2"
-                style={{ left: `${toX(live.position.x)}%`, top: `${toY(live.position.y)}%` }}
-              >
-                {/* Accuracy halo — radius scales with the trilateration residual */}
-                <div
-                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-400/15 border border-blue-400/30"
-                  style={{
-                    width: Math.max(16, (live.position.accuracy / cols) * BASE_W * mapScale * 2),
-                    height: Math.max(16, (live.position.accuracy / rows) * BASE_H * mapScale * 2),
-                  }}
-                />
-                <div className="w-4 h-4 bg-blue-500 rounded-full border-2 border-white shadow-md relative">
-                  <motion.div
-                    animate={{ scale: [1, 2.5, 1], opacity: [0.6, 0, 0.6] }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                    className="absolute inset-0 bg-blue-400 rounded-full"
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Kiosk markers */}
-            {kiosks.map((k: any) => (
-              <div
-                key={k.kiosk_id}
-                className="absolute z-10 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center"
-                style={{ left: `${toX(k.grid_x)}%`, top: `${toY(k.grid_y)}%` }}
-              >
-                <div className="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center shadow-md border-2 border-white">
-                  <span className="text-white text-xs font-black">K</span>
-                </div>
-                <span className="text-[9px] text-blue-600 font-bold mt-0.5 bg-white px-1 rounded shadow-sm">{k.label ?? 'Kiosk'}</span>
-              </div>
-            ))}
-
-            {/* Beacon (BLE anchor) markers — one per physical ESP32 */}
-            {anchors.map(a => {
-              const isRef = a.beacon_minor === 1
-              return (
-                <div
-                  key={a.anchor_id}
-                  className="absolute z-10 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-none"
-                  style={{ left: `${toX(a.grid_x)}%`, top: `${toY(a.grid_y)}%` }}
-                >
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shadow-md border-2 ${isRef ? 'bg-indigo-600 border-yellow-300 ring-2 ring-yellow-300' : 'bg-indigo-500 border-white'}`}>
-                    <Radio className="text-white" size={15} />
-                  </div>
-                  <span className="text-[9px] text-indigo-700 font-bold mt-0.5 bg-white px-1 rounded shadow-sm">
-                    B{a.beacon_minor}{isRef ? ' (ref)' : ''}
-                  </span>
-                </div>
-              )
-            })}
-
-            {/* Debug range circles — radius = typed distance (m) around each beacon */}
-            {showDebug && anchors.map(a => {
-              const d = parseFloat(debugDist[a.beacon_minor] ?? '')
-              if (!Number.isFinite(d) || d <= 0) return null
-              return (
-                <div
-                  key={`ring-${a.anchor_id}`}
-                  className="absolute z-0 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-indigo-400/40 bg-indigo-300/5 pointer-events-none"
-                  style={{
-                    left: `${toX(a.grid_x)}%`, top: `${toY(a.grid_y)}%`,
-                    width: (d / cols) * BASE_W * mapScale * 2,
-                    height: (d / rows) * BASE_H * mapScale * 2,
-                  }}
+              if (!v) return (
+                <motion.div
+                  key={`slot-${idx}`}
+                  initial={{ opacity: 0, scale: 0.85 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: idx * 0.03, duration: 0.25 }}
+                  className="rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50/50"
                 />
               )
-            })}
 
-            {/* Debug test dot (purple) — from manual distances, independent of BLE */}
-            {debugPosition && (
-              <div
-                className="absolute z-20 pointer-events-none -translate-x-1/2 -translate-y-1/2"
-                style={{ left: `${toX(debugPosition.x)}%`, top: `${toY(debugPosition.y)}%` }}
-              >
-                <div className="w-4 h-4 bg-fuchsia-600 rounded-full border-2 border-white shadow-md" />
-                <span className="text-[9px] text-fuchsia-700 font-bold mt-0.5 bg-white px-1 rounded shadow-sm whitespace-nowrap">
-                  test ({debugPosition.x.toFixed(1)}, {debugPosition.y.toFixed(1)})
-                </span>
-              </div>
-            )}
-
-            {/* Vendor markers */}
-            {filteredVendors.map(v => {
               const isSelected = selectedVendorId === v.vendor_id
-              const colorCls = CATEGORY_COLORS[v.category] ?? CATEGORY_COLORS.Default
+              const borderCls = CATEGORY_BORDERS[v.category] ?? CATEGORY_BORDERS.Default
+              const bgCls = CATEGORY_COLORS[v.category] ?? CATEGORY_COLORS.Default
+
               return (
                 <motion.div
                   key={v.vendor_id}
-                  animate={{ scale: isSelected ? 1.35 : 1 }}
-                  transition={{ type: 'spring', bounce: 0.5 }}
+                  initial={{ opacity: 0, scale: 0.7, y: 14 }}
+                  animate={{ opacity: 1, scale: isSelected ? 1.05 : 1, y: 0 }}
+                  transition={{ delay: idx * 0.045, type: 'spring', stiffness: 300, damping: 22 }}
                   onClick={() => handleSelectVendor(v.vendor_id)}
-                  className="absolute z-10 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer"
-                  style={{ left: `${toX(v.grid_x)}%`, top: `${toY(v.grid_y)}%` }}
+                  className={`relative rounded-2xl border-[3px] cursor-pointer flex flex-col items-center justify-center overflow-hidden
+                    ${isSelected
+                      ? `${borderCls} shadow-xl ring-2 ring-orange-400/50 ring-offset-1`
+                      : `${borderCls} opacity-85 hover:opacity-100 hover:shadow-md active:scale-95`
+                    }`}
                 >
-                  <motion.div
-                    animate={isSelected ? { y: [0, -5, 0] } : {}}
-                    transition={{ repeat: Infinity, duration: 1.5 }}
-                    className={`w-10 h-10 rounded-full ${colorCls} border-[3px] border-white shadow-md flex items-center justify-center ${isSelected ? 'shadow-orange-300 shadow-lg' : ''}`}
-                  >
-                    <span className="text-white text-xs font-black">{(v.business_name ?? 'V')[0]}</span>
-                  </motion.div>
+                  {/* Category colour wash */}
+                  <div className={`absolute inset-0 ${bgCls} ${isSelected ? 'opacity-20' : 'opacity-8'}`} />
+
+                  {/* Scan-line shimmer on selected block */}
                   {isSelected && (
-                    <span className="text-[9px] font-bold mt-0.5 bg-white text-[#1A1A1A] px-1.5 py-0.5 rounded-full shadow-md max-w-[80px] truncate text-center">
-                      {v.business_name}
-                    </span>
+                    <motion.div
+                      aria-hidden
+                      initial={{ x: '-110%' }}
+                      animate={{ x: '210%' }}
+                      transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.6 }}
+                      className="pointer-events-none absolute inset-y-0 w-1/2 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12"
+                    />
+                  )}
+
+                  <span className={`relative z-10 text-base font-black leading-none ${isSelected ? 'text-orange-500' : 'text-gray-700'}`}>
+                    {(v.business_name ?? 'V')[0].toUpperCase()}
+                  </span>
+                  <span className="relative z-10 text-[8px] font-semibold text-center leading-tight px-1 text-gray-500 line-clamp-2 mt-1">
+                    {v.business_name}
+                  </span>
+
+                  {isSelected && (
+                    <motion.span
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: [1, 1.07, 1] }}
+                      transition={{ duration: 1.1, repeat: Infinity }}
+                      className="relative z-10 mt-1.5 text-[7px] font-bold bg-orange-500 text-white px-1.5 py-0.5 rounded-full"
+                    >
+                      ▶ Navigating
+                    </motion.span>
                   )}
                 </motion.div>
               )
@@ -364,21 +264,19 @@ export default function Map() {
           </div>
         </div>
 
-        {/* Selected vendor — futuristic navigation deck */}
+        {/* Selected vendor — futuristic navigation deck (swipe the handle down to dismiss) */}
         <AnimatePresence>
           {selectedVendor && (
+            <>
+              {/* Swipe scrim — the map darkens the further you pull the deck down */}
+              <motion.div
+                aria-hidden
+                style={{ opacity: scrimOpacity }}
+                className="pointer-events-none absolute inset-0 z-20 bg-[#1A1A1A]"
+              />
+
             <motion.div
               key="nav-deck"
-              drag="y"
-              dragListener={false}
-              dragControls={deckDrag}
-              dragConstraints={{ top: 0, bottom: 0 }}
-              dragElastic={{ top: 0, bottom: 0.55 }}
-              onDragEnd={(_, info) => {
-                if (info.offset.y > 110 || info.velocity.y > 700) {
-                  setSelectedVendorId(null); setIsNavigating(false)
-                }
-              }}
               initial={{ opacity: 0, y: 130 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 130 }}
@@ -393,9 +291,31 @@ export default function Map() {
                 className="pointer-events-none absolute -inset-2 rounded-[2rem] bg-gradient-to-tr from-orange-400/40 via-fuchsia-400/20 to-blue-400/30 blur-2xl"
               />
 
+              {/* Draggable layer — its live Y position drives the swipe scrim + colour wash */}
+              <motion.div
+                drag="y"
+                dragListener={false}
+                dragControls={deckDrag}
+                dragConstraints={{ top: 0, bottom: 0 }}
+                dragElastic={{ top: 0, bottom: 0.55 }}
+                style={{ y: deckY }}
+                onDragEnd={(_, info) => {
+                  if (info.offset.y > 110 || info.velocity.y > 700) {
+                    setSelectedVendorId(null); setIsNavigating(false)
+                  }
+                }}
+                className="relative"
+              >
               {/* Glass deck with a gradient hairline border */}
               <div className="relative rounded-t-[1.75rem] sm:rounded-[1.75rem] p-[1.5px] bg-gradient-to-b from-white/80 via-white/30 to-white/10 shadow-[0_-8px_40px_rgba(0,0,0,0.14)] sm:shadow-2xl">
                 <div className="relative rounded-t-[1.65rem] sm:rounded-[1.65rem] bg-white/75 backdrop-blur-2xl overflow-hidden">
+
+                  {/* Swipe colour wash — an orange tint rises from the bottom as you pull down */}
+                  <motion.div
+                    aria-hidden
+                    style={{ opacity: swipeTint }}
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-orange-500/45 via-orange-400/15 to-transparent"
+                  />
 
                   {/* Scan-line sheen sweeping across the top edge */}
                   <motion.div
@@ -409,12 +329,12 @@ export default function Map() {
                   {/* Drag handle (mobile) — grab here to pull the deck down */}
                   <div
                     onPointerDown={(e) => deckDrag.start(e)}
-                    className="sm:hidden flex justify-center pt-3 pb-1.5 cursor-grab active:cursor-grabbing touch-none"
+                    className="sm:hidden flex justify-center pt-3 pb-1.5 cursor-grab active:cursor-grabbing touch-none relative z-10"
                   >
                     <div className="h-1.5 w-11 rounded-full bg-gray-300/90" />
                   </div>
 
-                  <div className="px-5 pb-5 pt-3 sm:pt-5">
+                  <div className="relative z-10 px-5 pb-5 pt-3 sm:pt-5">
                     <button
                       onClick={() => { setSelectedVendorId(null); setIsNavigating(false) }}
                       className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-gray-700 transition-colors p-1 z-10"
@@ -483,7 +403,9 @@ export default function Map() {
                   </div>
                 </div>
               </div>
+              </motion.div>
             </motion.div>
+            </>
           )}
         </AnimatePresence>
       </div>
@@ -553,9 +475,6 @@ export default function Map() {
             {cat}
           </span>
         ))}
-        <span className="flex items-center gap-1.5 text-xs text-[#6B7280]">
-          <span className="w-3 h-3 rounded bg-blue-600" />Kiosk
-        </span>
         <span className="flex items-center gap-1.5 text-xs text-[#6B7280]">
           <span className="w-3 h-3 rounded-full bg-indigo-500" />Beacon
         </span>
