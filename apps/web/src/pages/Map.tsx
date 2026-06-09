@@ -175,138 +175,151 @@ export default function Map() {
         </div>
 
         {/* Map controls */}
-        <div className="absolute top-3 right-3 z-40 flex flex-col space-y-2">
-          <button
+        <div className="absolute top-3 right-3 z-40 flex flex-col items-end gap-2">
+          <motion.button
+            whileTap={{ scale: 0.93 }}
             onClick={() => setIsFullscreen(f => !f)}
-            title={isFullscreen ? 'Exit full screen' : 'Full screen'}
-            className="bg-white/90 backdrop-blur p-2 rounded-xl shadow border border-gray-200 text-gray-600 hover:text-orange-500 transition-colors"
+            className="flex items-center gap-2 bg-white/95 backdrop-blur-sm px-4 py-2.5 rounded-2xl shadow-lg border border-gray-200 text-gray-700 hover:text-orange-500 hover:border-orange-200 transition-colors active:scale-95"
           >
             {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
-          </button>
+            <span className="text-xs font-bold">{isFullscreen ? 'Exit' : 'Full Map'}</span>
+          </motion.button>
           {!isFullscreen && (
-            <button onClick={() => setShowDebug(d => !d)} className={`p-2 rounded-xl shadow border transition-colors ${showDebug ? 'bg-fuchsia-600 text-white border-fuchsia-600' : 'bg-white text-gray-600 border-gray-200 hover:text-fuchsia-500'}`} title="Debug positioning">
-              <Wrench size={18} />
+            <button onClick={() => setShowDebug(d => !d)} className={`p-2.5 rounded-xl shadow border transition-colors ${showDebug ? 'bg-fuchsia-600 text-white border-fuchsia-600' : 'bg-white/95 text-gray-600 border-gray-200 hover:text-fuchsia-500'}`} title="Debug positioning">
+              <Wrench size={16} />
             </button>
           )}
         </div>
 
-        {/* Wayfinding map canvas — vendor blocks as building footprints */}
+        {/* 20×20 wayfinding map — vendor stalls occupy only the top-left 5×5 zone */}
         <div className="absolute inset-0 overflow-hidden">
 
-          {/* Subtle dot grid — gives the map paper feel */}
-          <div className="absolute inset-0 opacity-25" style={{
-            backgroundImage: 'radial-gradient(circle, #9CA3AF 1px, transparent 1px)',
-            backgroundSize: '22px 22px',
-          }} />
-
-          {/* Pathway lines between zones */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none" viewBox="0 0 100 100">
-            <line x1="0" y1="50" x2="100" y2="50" stroke="#C9C4BC" strokeWidth="1.2" strokeDasharray="3 3" />
-            <line x1="50" y1="0" x2="50" y2="100" stroke="#C9C4BC" strokeWidth="1.2" strokeDasharray="3 3" />
+          {/* 20×20 grid + vendor zone highlight */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+            {/* Fine grid lines — one per unit on a 20×20 canvas */}
+            {Array.from({ length: 19 }).map((_, i) => (
+              <g key={i}>
+                <line x1={`${(i + 1) * 5}`} y1="0" x2={`${(i + 1) * 5}`} y2="100" stroke="#C9C5BE" strokeWidth="0.25" />
+                <line x1="0" y1={`${(i + 1) * 5}`} x2="100" y2={`${(i + 1) * 5}`} stroke="#C9C5BE" strokeWidth="0.25" />
+              </g>
+            ))}
+            {/* Bold quarter-lines at every 5 units (25%) */}
+            {[25, 50, 75].map(p => (
+              <g key={p}>
+                <line x1={`${p}`} y1="0" x2={`${p}`} y2="100" stroke="#B5B0A8" strokeWidth="0.5" />
+                <line x1="0" y1={`${p}`} x2="100" y2={`${p}`} stroke="#B5B0A8" strokeWidth="0.5" />
+              </g>
+            ))}
+            {/* Vendor zone boundary — first 5×5 units = top-left 25%×30% */}
+            <rect x="1" y="1" width="24" height="29" fill="rgba(255,138,0,0.06)" stroke="#FF8A00" strokeWidth="0.6" strokeDasharray="2.5 1.5" rx="1" />
+            {/* Main walkway */}
+            <line x1="25" y1="0" x2="25" y2="100" stroke="#A09B93" strokeWidth="1" strokeDasharray="4 2" />
+            <line x1="0" y1="30" x2="100" y2="30" stroke="#A09B93" strokeWidth="1" strokeDasharray="4 2" />
           </svg>
 
-          {/* Vendor building footprints — positioned by grid_x/grid_y, built in order */}
+          {/* Zone label */}
+          <div className="absolute pointer-events-none z-10"
+            style={{ left: '1%', top: '31%' }}
+          >
+            <span className="text-[8px] font-bold uppercase tracking-widest text-gray-400 bg-[#EEE9E0]/80 px-1.5 py-0.5 rounded">
+              Vendor Zone
+            </span>
+          </div>
+
+          {/* Vendor stalls — positioned inside the 5×5 zone (top-left 25%×30% of canvas) */}
           {filteredVendors.map((v, idx) => {
             const isSelected = selectedVendorId === v.vendor_id
-            const borderCls = CATEGORY_BORDERS[v.category] ?? CATEGORY_BORDERS.Default
-            const bgCls   = CATEGORY_COLORS[v.category]  ?? CATEGORY_COLORS.Default
+            const borderCls  = CATEGORY_BORDERS[v.category] ?? CATEGORY_BORDERS.Default
+            const bgCls      = CATEGORY_COLORS[v.category]  ?? CATEGORY_COLORS.Default
 
-            // Use the vendor's grid coordinate if set, otherwise tile in a 5-col grid
+            // Map existing grid_x/grid_y (0–10 range) into the 5×5 zone (0–25% wide, 0–28% tall)
             const col  = idx % 5
             const row  = Math.floor(idx / 5)
-            const left = v.grid_x != null ? Math.min(88, Math.max(10, (v.grid_x / 10) * 100)) : col * 19 + 10
-            const top  = v.grid_y != null ? Math.min(84, Math.max(12, (v.grid_y / 10) * 100)) : row * 26 + 12
+            const left = v.grid_x != null
+              ? Math.min(23, Math.max(3, (v.grid_x / 10) * 22 + 2))
+              : col * 4.5 + 2.5
+            const top  = v.grid_y != null
+              ? Math.min(27, Math.max(3, (v.grid_y / 10) * 24 + 2))
+              : row * 5.5 + 3
 
             return (
               <div
                 key={v.vendor_id}
                 className="absolute"
-                style={{ left: `${left}%`, top: `${top}%`, width: '17%', height: '23%', transform: 'translate(-50%,-50%)' }}
+                style={{ left: `${left}%`, top: `${top}%`, width: '8%', height: '10%', transform: 'translate(-50%,-50%)' }}
               >
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.65 }}
-                  animate={{ opacity: 1, scale: isSelected ? 1.08 : 1 }}
-                  whileTap={{ scale: 0.92 }}
-                  transition={{ delay: idx * 0.05, type: 'spring', stiffness: 280, damping: 20 }}
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: isSelected ? 1.15 : 1 }}
+                  whileTap={{ scale: 0.88 }}
+                  transition={{ delay: idx * 0.06, type: 'spring', stiffness: 300, damping: 22 }}
                   onClick={() => handleSelectVendor(v.vendor_id)}
-                  className={`w-full h-full cursor-pointer border-[3px] rounded-2xl flex flex-col items-start justify-between p-2 overflow-hidden relative
+                  className={`w-full h-full cursor-pointer border-[2.5px] rounded-xl flex flex-col items-center justify-center overflow-hidden relative
                     ${isSelected
-                      ? `${borderCls} shadow-2xl ring-[3px] ring-orange-400/60 ring-offset-1`
+                      ? `${borderCls} shadow-xl ring-2 ring-orange-400/70 ring-offset-1`
                       : `${borderCls} shadow-md`
                     }`}
                 >
-                  {/* Tinted fill */}
                   <div className={`absolute inset-0 ${bgCls} ${isSelected ? 'opacity-20' : 'opacity-10'}`} />
-
-                  {/* Shimmer sweep on selected */}
                   {isSelected && (
                     <motion.div
                       aria-hidden
-                      initial={{ x: '-110%' }}
-                      animate={{ x: '210%' }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.7 }}
-                      className="pointer-events-none absolute inset-y-0 w-1/2 bg-gradient-to-r from-transparent via-white/50 to-transparent skew-x-12"
+                      initial={{ x: '-120%' }}
+                      animate={{ x: '220%' }}
+                      transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.6 }}
+                      className="pointer-events-none absolute inset-y-0 w-1/2 bg-gradient-to-r from-transparent via-white/60 to-transparent skew-x-12"
                     />
                   )}
-
-                  {/* Letter badge — top-left like the reference building codes */}
-                  <div className={`relative z-10 w-6 h-6 rounded-lg ${bgCls} flex items-center justify-center shadow-sm shrink-0`}>
-                    <span className="text-white text-[11px] font-black">{(v.business_name ?? 'V')[0].toUpperCase()}</span>
-                  </div>
-
-                  {/* Vendor name — bottom-left, rotated like reference */}
-                  <span
-                    className="relative z-10 text-[9px] font-bold text-gray-700 leading-tight line-clamp-2 w-full"
-                    style={{ writingMode: 'horizontal-tb' }}
-                  >
-                    {v.business_name}
+                  <span className={`relative z-10 text-[10px] font-black leading-none ${isSelected ? 'text-orange-500' : 'text-gray-700'}`}>
+                    {(v.business_name ?? 'V')[0].toUpperCase()}
                   </span>
-
-                  {/* "Navigating" pulse badge */}
                   {isSelected && (
                     <motion.span
-                      initial={{ opacity: 0, y: 4 }}
-                      animate={{ opacity: 1, y: 0, scale: [1, 1.08, 1] }}
-                      transition={{ duration: 1.1, repeat: Infinity }}
-                      className="absolute bottom-1.5 left-1/2 -translate-x-1/2 z-20 text-[7px] font-bold bg-orange-500 text-white px-2 py-0.5 rounded-full whitespace-nowrap shadow-md"
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ duration: 1, repeat: Infinity }}
+                      className="absolute -bottom-3 left-1/2 -translate-x-1/2 z-20 text-[6px] font-bold bg-orange-500 text-white px-1.5 py-[1px] rounded-full whitespace-nowrap shadow"
                     >
-                      ▶ Navigating
+                      ▶ Here
                     </motion.span>
                   )}
                 </motion.div>
+
+                {/* Name label below the block */}
+                <div className="absolute top-full mt-0.5 left-1/2 -translate-x-1/2 pointer-events-none z-10">
+                  <span className="text-[6px] font-semibold text-gray-600 bg-white/80 px-1 rounded whitespace-nowrap leading-tight block text-center max-w-[60px] truncate">
+                    {v.business_name}
+                  </span>
+                </div>
               </div>
             )
           })}
 
-          {/* "YOU are here" teardrop pin — live BLE position or fixed entrance spot */}
+          {/* "YOU are here" teardrop pin */}
           <motion.div
-            initial={{ opacity: 0, y: -12, scale: 0.7 }}
+            initial={{ opacity: 0, y: -10, scale: 0.6 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ delay: 0.6, type: 'spring', stiffness: 260, damping: 18 }}
+            transition={{ delay: 0.7, type: 'spring', stiffness: 260, damping: 18 }}
             className="absolute z-50 pointer-events-none flex flex-col items-center"
             style={{
               left: live.position
-                ? `${Math.min(90, Math.max(10, (live.position.x / 10) * 100))}%`
-                : '20%',
+                ? `${Math.min(95, Math.max(5, (live.position.x / 20) * 100))}%`
+                : '65%',
               top: live.position
-                ? `${Math.min(85, Math.max(12, (live.position.y / 10) * 100))}%`
-                : '18%',
+                ? `${Math.min(90, Math.max(5, (live.position.y / 20) * 100))}%`
+                : '68%',
               transform: 'translate(-50%, -100%)',
             }}
           >
-            {/* Pulsing halo */}
             <motion.div
-              animate={{ scale: [1, 1.6, 1], opacity: [0.4, 0, 0.4] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="absolute top-0 w-14 h-14 rounded-full bg-orange-400/50"
+              animate={{ scale: [1, 1.7, 1], opacity: [0.35, 0, 0.35] }}
+              transition={{ duration: 2.2, repeat: Infinity }}
+              className="absolute top-0 w-12 h-12 rounded-full bg-orange-400/40"
             />
-            {/* Circle body */}
-            <div className="relative w-14 h-14 bg-orange-500 rounded-full border-[3px] border-white shadow-2xl flex flex-col items-center justify-center">
-              <span className="text-white text-[11px] font-black leading-none">YOU</span>
-              <span className="text-white text-[8px] font-semibold leading-tight text-center">are here</span>
+            <div className="relative w-12 h-12 bg-orange-500 rounded-full border-[3px] border-white shadow-2xl flex flex-col items-center justify-center">
+              <span className="text-white text-[10px] font-black leading-none">YOU</span>
+              <span className="text-white text-[7px] font-semibold leading-tight">are here</span>
             </div>
-            {/* Triangle pointer */}
-            <div className="w-0 h-0 border-l-[7px] border-r-[7px] border-t-[11px] border-l-transparent border-r-transparent border-t-orange-500 -mt-px" />
+            <div className="w-0 h-0 border-l-[6px] border-r-[6px] border-t-[10px] border-l-transparent border-r-transparent border-t-orange-500 -mt-px" />
           </motion.div>
 
         </div>
