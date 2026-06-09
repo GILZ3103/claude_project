@@ -154,114 +154,161 @@ export default function Map() {
       {/* Map container */}
       <div
         id="map-view"
-        className={`bg-orange-50/30 overflow-hidden relative ${isFullscreen
-          ? 'fixed inset-0 z-[55] w-screen rounded-none border-0'
-          : 'w-full rounded-[2rem] border border-gray-100 border-t-4 border-t-[#FF8A00] shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-6'}`}
+        className={`overflow-hidden relative ${isFullscreen
+          ? 'fixed inset-0 z-[100] w-screen rounded-none border-0 bg-[#EEE9E0]'
+          : 'w-full rounded-[2rem] border border-gray-100 border-t-4 border-t-[#FF8A00] shadow-[0_8px_30px_rgb(0,0,0,0.04)] mb-6 bg-[#EEE9E0]'}`}
         style={{ height: isFullscreen ? '100dvh' : 420 }}
       >
-        {/* Live-tracking status badge */}
-        {(isNavigating || live.scanState === 'scanning') && (
-          <div className="absolute top-3 left-3 z-20 max-w-[62%]">
-            {live.scanState === 'scanning' && live.position ? (
-              <span className="inline-flex items-center gap-1.5 bg-blue-600 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full shadow">
-                <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-                Live · {live.beaconCount} beacon{live.beaconCount === 1 ? '' : 's'} · ±{(live.position.accuracy * METERS_PER_GRID_CELL).toFixed(1)}m
-              </span>
-            ) : live.scanState === 'scanning' ? (
-              <span className="inline-flex items-center gap-1.5 bg-white text-gray-600 text-[11px] font-semibold px-2.5 py-1 rounded-full shadow border border-gray-200">
-                <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
-                Searching for beacons…
-              </span>
-            ) : live.support === 'unsupported' ? (
-              <span className="inline-block bg-amber-50 text-amber-700 text-[11px] font-medium px-2.5 py-1 rounded-full shadow border border-amber-200">
-                Live tracking unavailable here — showing directions
-              </span>
-            ) : null}
-          </div>
-        )}
+        {/* Live-tracking status badge — top-left */}
+        <div className="absolute top-3 left-3 z-40 max-w-[62%]">
+          {live.scanState === 'scanning' && live.position ? (
+            <span className="inline-flex items-center gap-1.5 bg-blue-600 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full shadow">
+              <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+              Live · {live.beaconCount} beacon{live.beaconCount === 1 ? '' : 's'} · ±{(live.position.accuracy * METERS_PER_GRID_CELL).toFixed(1)}m
+            </span>
+          ) : live.scanState === 'scanning' ? (
+            <span className="inline-flex items-center gap-1.5 bg-white text-gray-600 text-[11px] font-semibold px-2.5 py-1 rounded-full shadow border border-gray-200">
+              <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse" />
+              Searching for beacons…
+            </span>
+          ) : null}
+        </div>
 
-        {/* Map controls — full-screen toggle replaces the old +/- zoom */}
-        <div className="absolute top-3 right-3 z-30 flex flex-col space-y-2">
+        {/* Map controls */}
+        <div className="absolute top-3 right-3 z-40 flex flex-col space-y-2">
           <button
             onClick={() => setIsFullscreen(f => !f)}
             title={isFullscreen ? 'Exit full screen' : 'Full screen'}
-            className="bg-white p-2 rounded-xl shadow border border-gray-200 text-gray-600 hover:text-orange-500 transition-colors"
+            className="bg-white/90 backdrop-blur p-2 rounded-xl shadow border border-gray-200 text-gray-600 hover:text-orange-500 transition-colors"
           >
             {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
           </button>
-          <button onClick={() => setShowDebug(d => !d)} className={`p-2 rounded-xl shadow border transition-colors ${showDebug ? 'bg-fuchsia-600 text-white border-fuchsia-600' : 'bg-white text-gray-600 border-gray-200 hover:text-fuchsia-500'}`} title="Debug positioning">
-            <Wrench size={18} />
-          </button>
+          {!isFullscreen && (
+            <button onClick={() => setShowDebug(d => !d)} className={`p-2 rounded-xl shadow border transition-colors ${showDebug ? 'bg-fuchsia-600 text-white border-fuchsia-600' : 'bg-white text-gray-600 border-gray-200 hover:text-fuchsia-500'}`} title="Debug positioning">
+              <Wrench size={18} />
+            </button>
+          )}
         </div>
 
-        {/* 5×5 vendor grid — blocks build in order with staggered entrance */}
-        <div className="w-full h-full overflow-auto p-3 [&::-webkit-scrollbar]:hidden">
-          <div className="grid grid-cols-5 gap-2 auto-rows-fr" style={{ minHeight: '100%' }}>
-            {Array.from({ length: Math.max(25, Math.ceil(filteredVendors.length / 5) * 5) }).map((_, idx) => {
-              const v = filteredVendors[idx]
+        {/* Wayfinding map canvas — vendor blocks as building footprints */}
+        <div className="absolute inset-0 overflow-hidden">
 
-              if (!v) return (
+          {/* Subtle dot grid — gives the map paper feel */}
+          <div className="absolute inset-0 opacity-25" style={{
+            backgroundImage: 'radial-gradient(circle, #9CA3AF 1px, transparent 1px)',
+            backgroundSize: '22px 22px',
+          }} />
+
+          {/* Pathway lines between zones */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none" viewBox="0 0 100 100">
+            <line x1="0" y1="50" x2="100" y2="50" stroke="#C9C4BC" strokeWidth="1.2" strokeDasharray="3 3" />
+            <line x1="50" y1="0" x2="50" y2="100" stroke="#C9C4BC" strokeWidth="1.2" strokeDasharray="3 3" />
+          </svg>
+
+          {/* Vendor building footprints — positioned by grid_x/grid_y, built in order */}
+          {filteredVendors.map((v, idx) => {
+            const isSelected = selectedVendorId === v.vendor_id
+            const borderCls = CATEGORY_BORDERS[v.category] ?? CATEGORY_BORDERS.Default
+            const bgCls   = CATEGORY_COLORS[v.category]  ?? CATEGORY_COLORS.Default
+
+            // Use the vendor's grid coordinate if set, otherwise tile in a 5-col grid
+            const col  = idx % 5
+            const row  = Math.floor(idx / 5)
+            const left = v.grid_x != null ? Math.min(88, Math.max(10, (v.grid_x / 10) * 100)) : col * 19 + 10
+            const top  = v.grid_y != null ? Math.min(84, Math.max(12, (v.grid_y / 10) * 100)) : row * 26 + 12
+
+            return (
+              <div
+                key={v.vendor_id}
+                className="absolute"
+                style={{ left: `${left}%`, top: `${top}%`, width: '17%', height: '23%', transform: 'translate(-50%,-50%)' }}
+              >
                 <motion.div
-                  key={`slot-${idx}`}
-                  initial={{ opacity: 0, scale: 0.85 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: idx * 0.03, duration: 0.25 }}
-                  className="rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50/50"
-                />
-              )
-
-              const isSelected = selectedVendorId === v.vendor_id
-              const borderCls = CATEGORY_BORDERS[v.category] ?? CATEGORY_BORDERS.Default
-              const bgCls = CATEGORY_COLORS[v.category] ?? CATEGORY_COLORS.Default
-
-              return (
-                <motion.div
-                  key={v.vendor_id}
-                  initial={{ opacity: 0, scale: 0.7, y: 14 }}
-                  animate={{ opacity: 1, scale: isSelected ? 1.05 : 1, y: 0 }}
-                  transition={{ delay: idx * 0.045, type: 'spring', stiffness: 300, damping: 22 }}
+                  initial={{ opacity: 0, scale: 0.65 }}
+                  animate={{ opacity: 1, scale: isSelected ? 1.08 : 1 }}
+                  whileTap={{ scale: 0.92 }}
+                  transition={{ delay: idx * 0.05, type: 'spring', stiffness: 280, damping: 20 }}
                   onClick={() => handleSelectVendor(v.vendor_id)}
-                  className={`relative rounded-2xl border-[3px] cursor-pointer flex flex-col items-center justify-center overflow-hidden
+                  className={`w-full h-full cursor-pointer border-[3px] rounded-2xl flex flex-col items-start justify-between p-2 overflow-hidden relative
                     ${isSelected
-                      ? `${borderCls} shadow-xl ring-2 ring-orange-400/50 ring-offset-1`
-                      : `${borderCls} opacity-85 hover:opacity-100 hover:shadow-md active:scale-95`
+                      ? `${borderCls} shadow-2xl ring-[3px] ring-orange-400/60 ring-offset-1`
+                      : `${borderCls} shadow-md`
                     }`}
                 >
-                  {/* Category colour wash */}
-                  <div className={`absolute inset-0 ${bgCls} ${isSelected ? 'opacity-20' : 'opacity-8'}`} />
+                  {/* Tinted fill */}
+                  <div className={`absolute inset-0 ${bgCls} ${isSelected ? 'opacity-20' : 'opacity-10'}`} />
 
-                  {/* Scan-line shimmer on selected block */}
+                  {/* Shimmer sweep on selected */}
                   {isSelected && (
                     <motion.div
                       aria-hidden
                       initial={{ x: '-110%' }}
                       animate={{ x: '210%' }}
-                      transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.6 }}
-                      className="pointer-events-none absolute inset-y-0 w-1/2 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12"
+                      transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.7 }}
+                      className="pointer-events-none absolute inset-y-0 w-1/2 bg-gradient-to-r from-transparent via-white/50 to-transparent skew-x-12"
                     />
                   )}
 
-                  <span className={`relative z-10 text-base font-black leading-none ${isSelected ? 'text-orange-500' : 'text-gray-700'}`}>
-                    {(v.business_name ?? 'V')[0].toUpperCase()}
-                  </span>
-                  <span className="relative z-10 text-[8px] font-semibold text-center leading-tight px-1 text-gray-500 line-clamp-2 mt-1">
+                  {/* Letter badge — top-left like the reference building codes */}
+                  <div className={`relative z-10 w-6 h-6 rounded-lg ${bgCls} flex items-center justify-center shadow-sm shrink-0`}>
+                    <span className="text-white text-[11px] font-black">{(v.business_name ?? 'V')[0].toUpperCase()}</span>
+                  </div>
+
+                  {/* Vendor name — bottom-left, rotated like reference */}
+                  <span
+                    className="relative z-10 text-[9px] font-bold text-gray-700 leading-tight line-clamp-2 w-full"
+                    style={{ writingMode: 'horizontal-tb' }}
+                  >
                     {v.business_name}
                   </span>
 
+                  {/* "Navigating" pulse badge */}
                   {isSelected && (
                     <motion.span
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: [1, 1.07, 1] }}
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0, scale: [1, 1.08, 1] }}
                       transition={{ duration: 1.1, repeat: Infinity }}
-                      className="relative z-10 mt-1.5 text-[7px] font-bold bg-orange-500 text-white px-1.5 py-0.5 rounded-full"
+                      className="absolute bottom-1.5 left-1/2 -translate-x-1/2 z-20 text-[7px] font-bold bg-orange-500 text-white px-2 py-0.5 rounded-full whitespace-nowrap shadow-md"
                     >
                       ▶ Navigating
                     </motion.span>
                   )}
                 </motion.div>
-              )
-            })}
-          </div>
+              </div>
+            )
+          })}
+
+          {/* "YOU are here" teardrop pin — live BLE position or fixed entrance spot */}
+          <motion.div
+            initial={{ opacity: 0, y: -12, scale: 0.7 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ delay: 0.6, type: 'spring', stiffness: 260, damping: 18 }}
+            className="absolute z-50 pointer-events-none flex flex-col items-center"
+            style={{
+              left: live.position
+                ? `${Math.min(90, Math.max(10, (live.position.x / 10) * 100))}%`
+                : '20%',
+              top: live.position
+                ? `${Math.min(85, Math.max(12, (live.position.y / 10) * 100))}%`
+                : '18%',
+              transform: 'translate(-50%, -100%)',
+            }}
+          >
+            {/* Pulsing halo */}
+            <motion.div
+              animate={{ scale: [1, 1.6, 1], opacity: [0.4, 0, 0.4] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="absolute top-0 w-14 h-14 rounded-full bg-orange-400/50"
+            />
+            {/* Circle body */}
+            <div className="relative w-14 h-14 bg-orange-500 rounded-full border-[3px] border-white shadow-2xl flex flex-col items-center justify-center">
+              <span className="text-white text-[11px] font-black leading-none">YOU</span>
+              <span className="text-white text-[8px] font-semibold leading-tight text-center">are here</span>
+            </div>
+            {/* Triangle pointer */}
+            <div className="w-0 h-0 border-l-[7px] border-r-[7px] border-t-[11px] border-l-transparent border-r-transparent border-t-orange-500 -mt-px" />
+          </motion.div>
+
         </div>
 
         {/* Selected vendor — futuristic navigation deck (swipe the handle down to dismiss) */}
