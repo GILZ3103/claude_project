@@ -107,6 +107,8 @@ export default function Map() {
     grid_y: Number(a.grid_y),
     rssi_at_1m: Number(a.rssi_at_1m),
     path_loss_n: Number(a.path_loss_n),
+    vendor_id: a.vendor_id ?? null,
+    business_name: a.business_name ?? null,
   }))
   const live = useLivePosition(anchors)
 
@@ -160,7 +162,7 @@ export default function Map() {
         style={{ height: isFullscreen ? '100dvh' : 420 }}
       >
         {/* Live-tracking status badge — top-left */}
-        <div className="absolute top-3 left-3 z-40 max-w-[62%]">
+        <div className="absolute top-3 left-3 z-40 max-w-[62%] flex flex-col items-start gap-1.5">
           {live.scanState === 'scanning' && live.position ? (
             <span className="inline-flex items-center gap-1.5 bg-blue-600 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full shadow">
               <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
@@ -172,6 +174,15 @@ export default function Map() {
               Searching for beacons…
             </span>
           ) : null}
+
+          {/* Nearest-stall readout — strongest beacon → the vendor it's mounted at.
+              Robust even with a single beacon in range (no trilateration needed). */}
+          {live.scanState === 'scanning' && live.nearest?.businessName && (
+            <span className="inline-flex items-center gap-1.5 bg-orange-500 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full shadow max-w-full">
+              <MapPin size={11} className="shrink-0" />
+              <span className="truncate">You're at: {live.nearest.businessName}</span>
+            </span>
+          )}
         </div>
 
         {/* Map controls */}
@@ -229,6 +240,8 @@ export default function Map() {
           {/* Vendor stalls — positioned inside the 5×5 zone (top-left 25%×30% of canvas) */}
           {filteredVendors.map((v, idx) => {
             const isSelected = selectedVendorId === v.vendor_id
+            // The stall whose beacon the phone hears strongest = where the user is standing.
+            const isNearest  = live.scanState === 'scanning' && live.nearest?.vendorId === v.vendor_id
             const borderCls  = CATEGORY_BORDERS[v.category] ?? CATEGORY_BORDERS.Default
             const bgCls      = CATEGORY_COLORS[v.category]  ?? CATEGORY_COLORS.Default
 
@@ -248,6 +261,15 @@ export default function Map() {
                 className="absolute"
                 style={{ left: `${left}%`, top: `${top}%`, width: '8%', height: '10%', transform: 'translate(-50%,-50%)' }}
               >
+                {/* "You are standing here" pulse — the stall whose beacon is strongest */}
+                {isNearest && (
+                  <motion.div
+                    aria-hidden
+                    animate={{ scale: [1, 1.9, 1], opacity: [0.5, 0, 0.5] }}
+                    transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute inset-0 rounded-xl bg-orange-400/50 pointer-events-none"
+                  />
+                )}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: isSelected ? 1.15 : 1 }}
@@ -519,6 +541,11 @@ export default function Map() {
               <button onClick={() => live.start()} className="text-xs font-semibold bg-blue-600 text-white px-3 py-1.5 rounded-lg">Start live scan</button>
             ) : (
               <button onClick={() => live.stop()} className="text-xs font-semibold bg-gray-200 text-[#1A1A1A] px-3 py-1.5 rounded-lg">Stop scan</button>
+            )}
+            {live.nearest && (
+              <p className="text-xs text-orange-700 mt-2">
+                Nearest stall → {live.nearest.businessName ?? `beacon ${live.nearest.beaconMinor}`} · RSSI {live.nearest.rssi.toFixed(0)} dBm
+              </p>
             )}
             {live.position && (
               <p className="text-xs text-blue-700 mt-2">

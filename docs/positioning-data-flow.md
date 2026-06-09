@@ -82,14 +82,22 @@ unique `ANCHOR_MINOR`.
   "vendors": [ /* business_name, grid_x, grid_y, ... */ ],
   "kiosks":  [ /* label, grid_x, grid_y */ ],
   "anchors": [
-    { "anchor_id":"…", "label":"Anchor A - Entrance",
+    { "anchor_id":"…", "label":"Nasi Lemak Pak Razif",
       "beacon_minor":1, "grid_x":1.0, "grid_y":1.0,
-      "rssi_at_1m":-59, "path_loss_n":2.5 }
+      "rssi_at_1m":-59, "path_loss_n":2.5,
+      "vendor_id":"a100…0001", "business_name":"Nasi Lemak Pak Razif" }
   ]
 }
 ```
-Anchors come from the `positioning_anchors` table (migration `008`). If the table is
-absent (older DB), `anchors` is `[]` and the rest of the map still works.
+Anchors come from the `positioning_anchors` table (migration `008`). Each beacon is
+mounted at a vendor stall — `vendor_id` links it (migration `010`), and the beacon's
+`grid_x/grid_y` are taken from that **vendor's** position (single source of truth). If
+the table/column is absent (older DB), `anchors` is `[]` and the rest of the map works.
+
+**Nearest stall (proximity).** Besides trilateration, the phone tracks the beacon with
+the strongest smoothed RSSI and shows *"You're at: <business_name>"*. This works with
+even one beacon in range — robust where trilateration geometry is weak (clustered
+stalls). See `useLivePosition().nearest`.
 
 ### 3.3 Phone scans + computes (`apps/web/src/lib/useLivePosition.ts`)
 1. **Feature-detect** `navigator.bluetooth.requestLEScan`. Missing → `support:'unsupported'`.

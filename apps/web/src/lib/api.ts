@@ -159,6 +159,9 @@ export interface MapAnchor {
   grid_y: number
   rssi_at_1m: number
   path_loss_n: number
+  /** Vendor stall this beacon is mounted at; its grid_x/grid_y is the beacon's position. */
+  vendor_id: string | null
+  business_name: string | null
 }
 export interface MapData {
   grid_size: { cols: number; rows: number }

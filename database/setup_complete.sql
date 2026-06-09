@@ -241,6 +241,9 @@ CREATE TABLE IF NOT EXISTS positioning_anchors (
     rssi_at_1m    INTEGER      NOT NULL DEFAULT -59,
     path_loss_n   NUMERIC(4,2) NOT NULL DEFAULT 2.5,
     is_active     BOOLEAN      DEFAULT TRUE,
+    -- Beacon is mounted at a vendor stall; the vendor's grid_x/grid_y is the
+    -- authoritative position. See migration 010.
+    vendor_id     UUID REFERENCES vendors(vendor_id) ON DELETE SET NULL,
     created_at    TIMESTAMPTZ  DEFAULT NOW(),
     UNIQUE (beacon_minor)
 );
@@ -303,6 +306,17 @@ VALUES
   ('a1000000-0000-0000-0000-000000000002', 'VENDOR002', 'Mee Goreng Siti',      '007654321-B', '0187654321', 'Noodle', 'Spicy mee goreng specialist', 3, 1, true),
   ('a1000000-0000-0000-0000-000000000003', 'VENDOR003', 'Roti Canai Ramu',      '009988776-C', '0112345678', 'Bread',  'Traditional roti canai',     5, 2, true)
 ON CONFLICT (vendor_id) DO NOTHING;
+
+-- Positioning beacons — one per demo vendor stall (beacon coords = vendor location).
+INSERT INTO positioning_anchors (beacon_minor, vendor_id, label, grid_x, grid_y)
+SELECT m.beacon_minor, v.vendor_id, v.business_name, v.grid_x, v.grid_y
+FROM (VALUES
+    (1, 'a1000000-0000-0000-0000-000000000001'::uuid),
+    (2, 'a1000000-0000-0000-0000-000000000002'::uuid),
+    (3, 'a1000000-0000-0000-0000-000000000003'::uuid)
+) AS m(beacon_minor, vendor_id)
+JOIN vendors v ON v.vendor_id = m.vendor_id
+ON CONFLICT (beacon_minor) DO NOTHING;
 
 -- Food items — Vendor 1
 INSERT INTO food_items (vendor_id, name, calories, price_in_points, protein_g, carbs_g, fat_g, is_available)

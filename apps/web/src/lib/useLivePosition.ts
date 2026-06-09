@@ -32,6 +32,18 @@ export interface PositioningAnchor {
   grid_y: number
   rssi_at_1m: number
   path_loss_n: number
+  /** The vendor stall this beacon is mounted at (drives the "nearest stall" readout). */
+  vendor_id?: string | null
+  business_name?: string | null
+}
+
+/** The vendor stall the phone is currently closest to (strongest beacon). */
+export interface NearestVendor {
+  beaconMinor: number
+  vendorId: string | null
+  businessName: string | null
+  /** Smoothed RSSI of that beacon — less negative = closer. */
+  rssi: number
 }
 
 export type PositioningSupport = 'checking' | 'supported' | 'unsupported'
@@ -91,6 +103,8 @@ export interface LivePositionState {
   position: PositionEstimate | null
   /** how many distinct beacons are currently contributing */
   beaconCount: number
+  /** the vendor stall the phone is closest to (strongest beacon), or null */
+  nearest: NearestVendor | null
   error: string | null
   start: () => Promise<void>
   stop: () => void
@@ -101,6 +115,7 @@ export function useLivePosition(anchors: PositioningAnchor[]): LivePositionState
   const [scanState, setScanState] = useState<ScanState>('idle')
   const [position, setPosition] = useState<PositionEstimate | null>(null)
   const [beaconCount, setBeaconCount] = useState(0)
+  const [nearest, setNearest] = useState<NearestVendor | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   const scanRef = useRef<BluetoothLEScan | null>(null)
@@ -119,6 +134,9 @@ export function useLivePosition(anchors: PositioningAnchor[]): LivePositionState
 
   const recompute = useCallback(() => {
     const readings: AnchorReading[] = []
+    // Track the strongest beacon for the "nearest stall" proximity readout.
+    let bestMinor: number | null = null
+    let bestRssi = -Infinity
     for (const [minor, rssi] of rssiByMinor.current) {
       const anchor = anchorsRef.current.get(minor)
       if (!anchor) continue
@@ -128,8 +146,23 @@ export function useLivePosition(anchors: PositioningAnchor[]): LivePositionState
         y: anchor.grid_y,
         distance: distMeters / METERS_PER_GRID_CELL,
       })
+      // Less negative RSSI = stronger signal = physically closer.
+      if (rssi > bestRssi) { bestRssi = rssi; bestMinor = minor }
     }
     setBeaconCount(readings.length)
+
+    if (bestMinor !== null) {
+      const a = anchorsRef.current.get(bestMinor)!
+      setNearest({
+        beaconMinor: bestMinor,
+        vendorId: a.vendor_id ?? null,
+        businessName: a.business_name ?? a.label ?? null,
+        rssi: bestRssi,
+      })
+    } else {
+      setNearest(null)
+    }
+
     const est = trilaterate(readings)
     if (est) setPosition(est)
   }, [])
@@ -161,6 +194,7 @@ export function useLivePosition(anchors: PositioningAnchor[]): LivePositionState
     scanRef.current?.stop()
     scanRef.current = null
     setScanState('idle')
+    setNearest(null)
   }, [])
 
   const start = useCallback(async () => {
@@ -203,5 +237,5 @@ export function useLivePosition(anchors: PositioningAnchor[]): LivePositionState
   // Clean up on unmount.
   useEffect(() => () => stop(), [stop])
 
-  return { support, scanState, position, beaconCount, error, start, stop }
+  return { support, scanState, position, beaconCount, nearest, error, start, stop }
 }

@@ -18,17 +18,37 @@ router.get('/', async (_req: Request, res: Response): Promise<void> => {
       .select('kiosk_id, label, grid_x, grid_y')
       .eq('is_active', true),
     // BLE positioning beacons — the browser uses these to trilaterate the user's
-    // live position (see apps/web/src/lib/useLivePosition.ts).
+    // live position and to name the stall they're standing at (strongest beacon).
+    // Each beacon is mounted at a vendor stall (vendor_id), so its position comes
+    // from that vendor. See apps/web/src/lib/useLivePosition.ts.
     supabase
       .from('positioning_anchors')
-      .select('anchor_id, label, beacon_minor, grid_x, grid_y, rssi_at_1m, path_loss_n')
+      .select('anchor_id, label, beacon_minor, grid_x, grid_y, rssi_at_1m, path_loss_n, vendor_id')
       .eq('is_active', true)
   ])
 
   if (vendorsResult.error) throw vendorsResult.error
   if (kiosksResult.error) throw kiosksResult.error
-  // Anchors are optional (table may not exist yet on older DBs) — degrade gracefully.
-  const anchors = anchorsResult.error ? [] : (anchorsResult.data ?? [])
+  // Anchors are optional (table/column may not exist yet on older DBs) — degrade gracefully.
+  // Beacon position = its linked vendor's grid_x/grid_y (single source of truth); fall
+  // back to the anchor's own coords/label when it isn't linked to a vendor.
+  const vendorById = new Map(
+    (vendorsResult.data ?? []).map(v => [v.vendor_id, v])
+  )
+  const anchors = (anchorsResult.error ? [] : (anchorsResult.data ?? [])).map(a => {
+    const vendor = a.vendor_id ? vendorById.get(a.vendor_id) : undefined
+    return {
+      anchor_id: a.anchor_id,
+      beacon_minor: a.beacon_minor,
+      rssi_at_1m: a.rssi_at_1m,
+      path_loss_n: a.path_loss_n,
+      vendor_id: a.vendor_id ?? null,
+      business_name: vendor?.business_name ?? null,
+      label: vendor?.business_name ?? a.label,
+      grid_x: vendor?.grid_x ?? a.grid_x,
+      grid_y: vendor?.grid_y ?? a.grid_y,
+    }
+  })
 
   // Derive grid size from max positions
   const allX = [
