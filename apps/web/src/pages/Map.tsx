@@ -144,12 +144,12 @@ export default function Map() {
     <section className="w-full px-4 pb-24 pt-4 bg-[#FAFAFA] min-h-[100dvh]">
 
       {/* Header */}
-      <div className="flex items-center space-x-3 mb-5">
+      {!isFullscreen && <div className="flex items-center space-x-3 mb-5">
         <div className="w-10 h-10 rounded-2xl flex items-center justify-center bg-orange-50 border border-orange-100">
           <MapIcon className="text-orange-500" size={20} />
         </div>
         <h2 className="text-2xl font-bold tracking-tight text-[#1A1A1A]">Vendor Map</h2>
-      </div>
+      </div>}
 
       {/* Map container */}
       <div
@@ -457,6 +457,9 @@ export default function Map() {
         </AnimatePresence>
       </div>
 
+      {/* Everything below is hidden in fullscreen */}
+      {!isFullscreen && <>
+
       {/* Debug positioning panel */}
       {showDebug && (
         <div className="mb-6 bg-white rounded-2xl border border-fuchsia-200 shadow-sm p-4">
@@ -640,6 +643,8 @@ export default function Map() {
           </div>
         )}
       </AnimatePresence>
+
+      </>}  {/* end !isFullscreen */}
     </section>
   )
 }
