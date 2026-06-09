@@ -316,33 +316,58 @@ export default function Map() {
             )
           })}
 
-          {/* "YOU are here" teardrop pin */}
+          {/* "YOU are here" pin — same coordinate space as anchors (0-10 grid units) */}
           <motion.div
-            initial={{ opacity: 0, y: -10, scale: 0.6 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ delay: 0.7, type: 'spring', stiffness: 260, damping: 18 }}
-            className="absolute z-50 pointer-events-none flex flex-col items-center"
-            style={{
+            animate={{
+              opacity: 1,
               left: live.position
-                ? `${Math.min(95, Math.max(5, (live.position.x / 20) * 100))}%`
+                ? `${Math.min(24, Math.max(2, (live.position.x / 10) * 22 + 2))}%`
                 : '65%',
               top: live.position
-                ? `${Math.min(90, Math.max(5, (live.position.y / 20) * 100))}%`
+                ? `${Math.min(28, Math.max(2, (live.position.y / 10) * 24 + 2))}%`
                 : '68%',
-              transform: 'translate(-50%, -100%)',
             }}
+            initial={{ opacity: 0, left: '65%', top: '68%' }}
+            transition={{ type: 'spring', stiffness: 120, damping: 20 }}
+            className="absolute z-50 pointer-events-none flex flex-col items-center"
+            style={{ transform: 'translate(-50%, -100%)' }}
           >
             <motion.div
               animate={{ scale: [1, 1.7, 1], opacity: [0.35, 0, 0.35] }}
               transition={{ duration: 2.2, repeat: Infinity }}
               className="absolute top-0 w-12 h-12 rounded-full bg-orange-400/40"
             />
-            <div className="relative w-12 h-12 bg-orange-500 rounded-full border-[3px] border-white shadow-2xl flex flex-col items-center justify-center">
+            <div className={`relative w-12 h-12 rounded-full border-[3px] border-white shadow-2xl flex flex-col items-center justify-center ${live.scanState === 'scanning' ? 'bg-orange-500' : 'bg-gray-400'}`}>
               <span className="text-white text-[10px] font-black leading-none">YOU</span>
               <span className="text-white text-[7px] font-semibold leading-tight">are here</span>
             </div>
-            <div className="w-0 h-0 border-l-[6px] border-r-[6px] border-t-[10px] border-l-transparent border-r-transparent border-t-orange-500 -mt-px" />
+            <div className={`w-0 h-0 border-l-[6px] border-r-[6px] border-t-[10px] border-l-transparent border-r-transparent -mt-px ${live.scanState === 'scanning' ? 'border-t-orange-500' : 'border-t-gray-400'}`} />
           </motion.div>
+
+          {/* Persistent tracking button — tapping starts BLE scan or re-triggers the BT popup */}
+          <AnimatePresence>
+            {live.scanState !== 'scanning' && (
+              <motion.button
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 8 }}
+                transition={{ duration: 0.22 }}
+                onClick={handleStartNavigation}
+                className="absolute bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-[#1A1A1A]/90 backdrop-blur text-white text-xs font-bold px-4 py-2.5 rounded-2xl shadow-xl border border-white/10 active:scale-95 transition-transform whitespace-nowrap"
+              >
+                <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
+                {live.scanState === 'error' ? 'Retry live tracking' : 'Enable live tracking'}
+              </motion.button>
+            )}
+          </AnimatePresence>
+
+          {/* Beacon search progress when scanning but no fix yet */}
+          {live.scanState === 'scanning' && !live.position && (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 bg-white/90 backdrop-blur text-gray-600 text-xs font-semibold px-3 py-2 rounded-2xl shadow border border-gray-200 whitespace-nowrap">
+              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+              Searching for beacons… ({live.beaconCount}/3)
+            </div>
+          )}
 
         </div>
 
