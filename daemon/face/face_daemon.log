@@ -20562,3 +20562,74 @@
 2026-06-03 15:05:19,685 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.548 after 3 frames
 2026-06-03 15:05:20,398 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.548 after 3 frames
 2026-06-03 15:05:20,940 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.548 after 3 frames
+2026-06-10 11:32:13,440 [INFO] Loaded 56 embeddings from faces.db
+2026-06-10 11:32:13,440 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-10 11:32:13,440 [INFO] Detection loop running.
+2026-06-10 11:32:14,823 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.78.224.171:5002
+2026-06-10 11:32:14,823 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-10 11:32:16,377 [INFO] Camera opened via OpenCV/DirectShow (USB webcam)
+2026-06-10 11:32:16,377 [INFO] Capture loop running.
+2026-06-10 11:32:41,044 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.513 after 3 frames
+2026-06-10 11:32:42,441 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.517 after 4 frames
+2026-06-10 11:32:44,043 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.517 after 5 frames
+2026-06-10 11:32:48,282 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.535 after 5 frames
+2026-06-10 11:32:51,053 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.534 after 5 frames
+2026-06-10 11:32:52,047 [INFO] Enrolled 8/8 augmented variants of USER-0GP0ANPL.jpg for Gilbert Lee
+2026-06-10 11:32:52,182 [INFO] Synced face: Gilbert Lee (USER-0GP0ANPL)
+2026-06-10 11:32:53,098 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.517 after 5 frames
+2026-06-10 11:32:54,177 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.513 after 5 frames
+2026-06-10 11:32:56,483 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.511 after 5 frames
+2026-06-10 11:32:58,756 [INFO] 127.0.0.1 - - [10/Jun/2026 11:32:58] "GET /stream HTTP/1.1" 200 -
+2026-06-10 11:33:00,776 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.511 after 5 frames
+2026-06-10 11:33:02,726 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.510 after 5 frames
+2026-06-10 11:33:04,965 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.514 after 5 frames
+2026-06-10 11:33:07,004 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.524 after 5 frames
+2026-06-10 11:33:09,171 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.538 after 5 frames
+2026-06-10 11:33:11,700 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.539 after 5 frames
+2026-06-10 11:33:13,716 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.544 after 4 frames
+2026-06-10 11:33:15,713 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-10 11:33:15,782 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.523 after 4 frames
+2026-06-10 11:33:15,791 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-10 11:33:16,774 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.511 after 3 frames
+2026-06-10 11:33:18,660 [INFO] Recognised:Badrina (USER-CAPA6ZIP) @ 0.603 after 3 frames
+2026-06-10 11:33:20,900 [INFO] Recognised:Badrina (USER-CAPA6ZIP) @ 0.586 after 4 frames
+2026-06-10 11:33:23,905 [INFO] Recognised:Badrina (USER-CAPA6ZIP) @ 0.589 after 5 frames
+2026-06-10 11:33:25,391 [INFO] Recognised:Badrina (USER-CAPA6ZIP) @ 0.587 after 4 frames
+2026-06-10 11:33:27,036 [INFO] Recognised:Badrina (USER-CAPA6ZIP) @ 0.588 after 3 frames
+2026-06-10 22:38:20,035 [INFO] Loaded 51 embeddings from faces.db
+2026-06-10 22:38:20,052 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-10 22:38:20,107 [INFO] Detection loop running.
+2026-06-10 22:38:22,293 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.69.114.61:5002
+2026-06-10 22:38:22,298 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-10 22:38:26,523 [INFO] Camera opened via OpenCV/DirectShow (USB webcam)
+2026-06-10 22:38:26,526 [INFO] Capture loop running.
+2026-06-10 22:38:58,399 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-10 22:38:58,485 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-10 22:39:14,654 [INFO] Enrolled 8/8 augmented variants of USER-2YPV8IT8.jpg for Noel
+2026-06-10 22:39:14,716 [INFO] Synced face: Noel (USER-2YPV8IT8)
+2026-06-10 22:39:25,380 [INFO] Enrolled 8/8 augmented variants of USER-13LRYBBJ.jpg for Yap Jun Xi 
+2026-06-10 22:39:25,451 [INFO] Synced face: Yap Jun Xi  (USER-13LRYBBJ)
+2026-06-10 22:39:34,730 [INFO] Enrolled 8/8 augmented variants of USER-J8QOS9QD.jpg for HO KAH HENG
+2026-06-10 22:39:34,780 [INFO] Synced face: HO KAH HENG (USER-J8QOS9QD)
+2026-06-10 22:39:43,648 [INFO] Enrolled 8/8 augmented variants of USER-TQ9NZ31E.jpg for CELINE LEE
+2026-06-10 22:39:43,702 [INFO] Synced face: CELINE LEE (USER-TQ9NZ31E)
+2026-06-10 22:39:53,580 [INFO] Enrolled 8/8 augmented variants of USER-O9NX91FT.jpg for Lee Jen Sen 
+2026-06-10 22:39:53,645 [INFO] Synced face: Lee Jen Sen  (USER-O9NX91FT)
+2026-06-10 22:40:03,650 [INFO] Enrolled 8/8 augmented variants of USER-PTRR2LP6.jpg for MAMA
+2026-06-10 22:40:03,702 [INFO] Synced face: MAMA (USER-PTRR2LP6)
+2026-06-10 22:40:14,896 [INFO] 127.0.0.1 - - [10/Jun/2026 22:40:14] "GET /stream HTTP/1.1" 200 -
+2026-06-10 22:40:15,077 [INFO] Enrolled 8/8 augmented variants of USER-CAPA6ZIP.jpg for Badrina
+2026-06-10 22:40:15,267 [INFO] Synced face: Badrina (USER-CAPA6ZIP)
+2026-06-10 22:40:27,749 [INFO] Enrolled 8/8 augmented variants of USER-R9JRXTF4.jpg for Gilbert Lee
+2026-06-10 22:40:27,826 [INFO] Synced face: Gilbert Lee (USER-R9JRXTF4)
+2026-06-10 22:40:27,846 [INFO] Purged locally-enrolled face not in Supabase: Gilbert Lee (USER-0GP0ANPL)
+2026-06-10 22:40:27,937 [INFO] Loaded 72 embeddings from faces.db
+2026-06-10 22:40:27,940 [INFO] Cache reloaded — 10 changes total
+2026-06-10 22:40:27,967 [INFO] Startup sync complete: 10 people enrolled/updated
+2026-06-10 22:40:33,277 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.478 after 3 frames

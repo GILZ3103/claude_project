@@ -141,6 +141,14 @@ export const reviewVendor = (vendor_id: string, card_uid: string, action: 'APPRO
     headers: { 'x-card-uid': card_uid }
   } as any)
 
+// Admin assigns a vendor's stall position on the market map (grid_x/grid_y).
+export const setVendorPosition = (vendor_id: string, card_uid: string, grid_x: number, grid_y: number) =>
+  request(`/api/vendors/${vendor_id}/position`, {
+    method: 'PATCH',
+    body: JSON.stringify({ grid_x, grid_y }),
+    headers: { 'x-card-uid': card_uid }
+  } as any)
+
 export const getAdminCampaignApplications = (card_uid: string) =>
   request(`/api/campaigns/applications/admin?card_uid=${card_uid}`)
 

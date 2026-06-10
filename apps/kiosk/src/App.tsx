@@ -595,7 +595,7 @@ export default function App() {
       )}
 
       {activeOverlay === 'nav' && (
-        <SmartNav destination={navDestination} onClose={() => setActiveOverlay(null)} language={language} />
+        <SmartNav destination={navDestination} stalls={stalls} onClose={() => setActiveOverlay(null)} language={language} />
       )}
 
       {activeOverlay === 'emergency' && (

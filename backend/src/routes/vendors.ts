@@ -302,6 +302,13 @@ const approvalSchema = z.object({
   rejection_reason: z.string().max(500).optional(),
 })
 
+// Grid coordinates the map can render. Range matches the phone Vendor Map's
+// ~0–20 grid (apps/web/src/pages/Map.tsx). Admins assign these via the Slots tab.
+const positionSchema = z.object({
+  grid_x: z.number().int().min(0).max(20),
+  grid_y: z.number().int().min(0).max(20),
+})
+
 async function requireAdmin(req: Request, res: Response): Promise<string | null> {
   const raw = req.headers['x-card-uid']
   const cardUid = Array.isArray(raw) ? raw[0] : raw
@@ -354,6 +361,49 @@ router.post('/:id/admin/review', validate(approvalSchema), async (req: Request, 
     .single()
 
   if (error) throw error
+  res.json({ success: true, data })
+})
+
+// PATCH /api/vendors/:id/position — admin assigns a vendor's stall position on the
+// market map. The phone Vendor Map renders pins from these grid_x/grid_y values.
+router.patch('/:id/position', validate(positionSchema), async (req: Request, res: Response): Promise<void> => {
+  const adminUid = await requireAdmin(req, res)
+  if (!adminUid) return
+  const id = String(req.params.id)
+  const { grid_x, grid_y } = req.body
+
+  // Collision guard — one stall per cell so map pins never overlap.
+  const { data: occupant } = await supabase
+    .from('vendors')
+    .select('vendor_id, business_name')
+    .eq('grid_x', grid_x)
+    .eq('grid_y', grid_y)
+    .eq('is_active', true)
+    .neq('vendor_id', id)
+    .maybeSingle()
+
+  if (occupant) {
+    res.status(409).json({
+      success: false,
+      error: 'SLOT_OCCUPIED',
+      message: `Cell (${grid_x}, ${grid_y}) is already taken by ${occupant.business_name}.`,
+    })
+    return
+  }
+
+  const { data, error } = await supabase
+    .from('vendors')
+    .update({ grid_x, grid_y })
+    .eq('vendor_id', id)
+    .select()
+    .single()
+
+  if (error) throw error
+  if (!data) {
+    res.status(404).json({ success: false, error: 'VENDOR_NOT_FOUND', message: 'Vendor not found.' })
+    return
+  }
+
   res.json({ success: true, data })
 })
 

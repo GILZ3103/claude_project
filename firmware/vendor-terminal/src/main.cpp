@@ -8,21 +8,27 @@
  *   HX711  DOUT=4  SCK=5  VCC=3.3V  GND=GND
  *   (No button required)
  *
- * Buttonless Weighing Flow:
- *   1. IDLE     — scale near zero; waiting for bowl to be placed
- *   2. BOWL_ON  — stable weight > MIN_BOWL_G detected; bowl_weight recorded;
- *                 waiting for food to be scooped in and weight to re-stabilise
- *   3. READY    — stable weight > bowl_weight + MIN_SERVING_G;
- *                 serving_g printed; awaiting NFC card tap
- *   → Customer taps card → POST /api/tap (backend computes calories) → IDLE
+ * Two-tap Weighing Flow (key-started, mass-difference):
+ *   1. IDLE     — press 'N' (Serial key) to start → tare to a fresh zero → ARMED
+ *   2. ARMED    — customer taps card (tap 1); initial weight captured → WEIGHING
+ *   3. WEIGHING — vendor scoops/adds; SAME card taps again (tap 2);
+ *                 delta = final − initial = the billable grams → auto re-tare → IDLE
+ *   (Phase 2 prints the delta locally; Phase 3 will POST it to /api/tap.)
  *
  *   Fallbacks:
- *   • READY, food removed  → BOWL_ON  (vendor changed their mind)
- *   • BOWL_ON, bowl removed → IDLE
+ *   • WEIGHING, a different card taps → cancel & re-arm (re-tare)
  *   • Any state: 120 s timeout → IDLE
  *
  * Calorie calculation is handled entirely by the backend using the food item's
  * calories_per_100g field from the database — no calorie data needed on device.
+ *
+ * Load-cell drift control (scalability fix): drift is contained by
+ *   (a) per-session re-tare on 'N'  — every customer starts from a fresh zero,
+ *   (b) post-transaction auto re-tare (folded into 'N' in this bowl flow),
+ *   (c) on-site persistent 'C' calibration against a known mass (no reflash).
+ * So N terminals stay accurate without per-unit recalibration in firmware.
+ *
+ * Serial keys: N start session · C calibrate  (weighing is tap-1 / tap-2 by card)
  *
  * NVS keys: wifi_ssid, wifi_pass, vendor_id, food_id, api_url,
  *           auth_token, scale_factor
@@ -56,8 +62,7 @@
 #define HX711_SCK    5
 
 // ── Weight tuning ─────────────────────────────────────────────────────────────
-#define MIN_BOWL_G             80.0f   // minimum grams to register a bowl on scale
-#define MIN_SERVING_G          20.0f   // minimum grams to count as a serving
+#define MIN_SERVING_G          20.0f   // minimum grams to count as a serving (delta sanity)
 #define STABILITY_THRESHOLD_G  15.0f   // max spread within window = "stable" (raised for noisy cell)
 #define STABILITY_SAMPLES          8   // rolling window size (more samples = smoother average)
 #define STABILITY_INTERVAL_MS    300   // ms between samples
@@ -74,11 +79,11 @@ String wifiSSID, wifiPass, vendorId, foodId, apiUrl, authToken;
 float  scaleFactor = 1.0f;
 
 // ── State machine ─────────────────────────────────────────────────────────────
-enum SessionState { IDLE, BOWL_ON, READY, DONE };
-SessionState  state      = IDLE;
-float         bowlWeight = 0.0f;
-float         servingG   = 0.0f;
-unsigned long stateAt    = 0;
+enum SessionState { IDLE, ARMED, WEIGHING };
+SessionState  state         = IDLE;
+float         initialWeight = 0.0f;   // captured on tap 1
+String        lastUID       = "";     // card that opened the current session
+unsigned long stateAt       = 0;
 
 // ── Rolling stability tracker ─────────────────────────────────────────────────
 struct WeightTracker {
@@ -151,50 +156,54 @@ String readUID() {
 }
 
 // ── WiFi ──────────────────────────────────────────────────────────────────────
+// Non-fatal: tries for ~10 s, then continues OFFLINE. The loop retries in the
+// background, so a missing network never blocks the weighing/tap flow (Phase 2 is
+// offline; Phase 3 auto-connects once WiFi is available).
 void connectWiFi() {
     Serial.print("WiFi connecting");
     WiFi.mode(WIFI_STA);
     WiFi.begin(wifiSSID.c_str(), wifiPass.c_str());
     int n = 0;
-    while (WiFi.status() != WL_CONNECTED) {
+    while (WiFi.status() != WL_CONNECTED && n++ < 20) {  // ~10 s
         delay(500); Serial.print(".");
-        if (++n > 30) { Serial.println("\nWiFi failed — rebooting"); ESP.restart(); }
     }
-    Serial.println("\nWiFi: " + WiFi.localIP().toString());
+    if (WiFi.status() == WL_CONNECTED)
+        Serial.println("\nWiFi: " + WiFi.localIP().toString());
+    else
+        Serial.println("\nWiFi unavailable — continuing OFFLINE (will retry in background)");
 }
 
-// ── Buttonless weight state machine ───────────────────────────────────────────
+// Stable-averaged weight; falls back to a direct read until the window fills
+float readStableWeight() {
+    return tracker.full ? tracker.avg() : scale.get_units(10);
+}
+
+// ── Scale polling + session timeout ───────────────────────────────────────────
 void handleWeight() {
-    if (state == READY || state == DONE) return;  // scale not needed after F pressed
     float raw = scale.get_units(3);
     tracker.tick(raw);
 
     if (state != IDLE && millis() - stateAt > STATE_TIMEOUT_MS) {
-        bowlWeight = 0.0f; servingG = 0.0f;
-        enterState(IDLE, "Timeout — session reset");
+        initialWeight = 0.0f; lastUID = "";
+        scale.tare(30);
+        enterState(IDLE, "Timeout — session reset (press N to start)");
         return;
     }
 
     if (!tracker.full) return;
-    float avg = tracker.avg();
 
-    // Show live reading only while vendor is actively weighing
+    // Live reading while a session is open
     static unsigned long debugMs = 0;
-    if ((state == IDLE || state == BOWL_ON) && millis() - debugMs > 1500) {
+    if (state != IDLE && millis() - debugMs > 1500) {
         debugMs = millis();
-        Serial.printf("[scale] avg=%.1fg  stable=%d\n", fabsf(avg), (int)tracker.stable());
+        Serial.printf("[scale] %.1fg  stable=%d\n", fabsf(tracker.avg()), (int)tracker.stable());
     }
-
-    (void)avg;  // state transitions are key-driven; scale reading shown in debug only
 }
 
 // ── POST /api/tap ─────────────────────────────────────────────────────────────
-void handleTap(const String& uid) {
-    if (state != READY) {
-        Serial.println("Card: " + uid + " — place bowl & scoop food first");
-        return;
-    }
-
+// Phase 3 entry point: send the two-tap delta (grams) as weight_g. State-agnostic;
+// the caller owns the session transition. Not called yet in Phase 2 (offline).
+void postTap(const String& uid, float weightG) {
     Serial.println("Card: " + uid + " — sending...");
 
     StaticJsonDocument<320> req;
@@ -203,7 +212,7 @@ void handleTap(const String& uid) {
     req["food_id"]           = foodId;
     req["device_timestamp"]  = getTimestamp();
     req["synced_from_queue"] = false;
-    req["weight_g"]          = servingG;
+    req["weight_g"]          = weightG;
 
     String payload;
     serializeJson(req, payload);
@@ -234,7 +243,7 @@ void handleTap(const String& uid) {
 
             Serial.println("──────────────────────────────");
             Serial.printf("OK   -%.2f pts   +%d kcal\n", cost, calAdded);
-            Serial.printf("Served: %.1fg\n", servingG);
+            Serial.printf("Served: %.1fg\n", weightG);
             Serial.printf("Balance: %.2f pts\n", balance);
             Serial.printf("Calories today: %d kcal\n", calToday);
             if (discount > 0)         Serial.printf("Voucher: -%.2f pts saved\n", discount);
@@ -264,14 +273,116 @@ void handleTap(const String& uid) {
     }
 
     http.end();
-    enterState(DONE, "Transaction done — press N to serve next customer");
+}
+
+// ── Serial helpers ──────────────────────────────────────────────────────────────
+// Blocking read of one line from Serial (until CR/LF or timeout). "" on timeout.
+String readSerialLine(unsigned long timeoutMs) {
+    String s;
+    unsigned long start = millis();
+    while (millis() - start < timeoutMs) {
+        if (Serial.available()) {
+            char c = Serial.read();
+            if (c == '\n' || c == '\r') {
+                if (s.length() > 0) return s;   // ignore stray leading CR/LF
+            } else {
+                s += c;
+            }
+        }
+        delay(5);
+    }
+    return s;
+}
+
+// ── Field calibration (Serial 'C') ──────────────────────────────────────────────
+// Scalability / drift fix: recalibrate any unit on-site against a known reference
+// mass and persist the factor to NVS — no per-terminal reflash. Reuses the existing
+// "scale_factor" NVS key so it survives reboot.
+void calibrateScale() {
+    Serial.println("\n=== Scale Calibration ===");
+    Serial.println("Step 1/2: Remove ALL weight, then send any key to zero...");
+    while (!Serial.available()) delay(20);
+    while (Serial.available()) Serial.read();        // flush keypress
+    Serial.println("Zeroing (30 samples)...");
+    scale.tare(30);
+
+    Serial.println("Step 2/2: Place a KNOWN reference mass on the scale.");
+    Serial.println("Type its mass in grams (e.g. 100) and press Enter (60s):");
+    String line  = readSerialLine(60000);
+    float  known = line.toFloat();
+    if (known <= 0.0f) {
+        Serial.println("Calibration cancelled — invalid/blank mass. Factor unchanged.");
+        return;
+    }
+
+    float raw = (float)scale.get_value(30);          // tare-subtracted raw average
+    if (fabsf(raw) < 1.0f) {
+        Serial.println("Calibration failed — no weight detected. Factor unchanged.");
+        return;
+    }
+
+    float factor = raw / known;
+    scale.set_scale(factor);
+    scaleFactor = factor;
+
+    prefs.begin("config", false);
+    prefs.putFloat("scale_factor", factor);
+    prefs.end();
+
+    Serial.printf("Calibrated: factor=%.4f  (raw=%.0f for %.1f g)\n", factor, raw, known);
+    Serial.printf("Saved to NVS (survives reboot). Check: %.1f g\n",
+                  fabsf(scale.get_units(10)));
+    Serial.println("Remove the mass before serving.");
+}
+
+// ── Two-tap card handler ────────────────────────────────────────────────────────
+// tap 1 (ARMED)              → capture initial weight, open session for this UID
+// tap 2 (same UID, WEIGHING) → delta = final − initial → print → auto re-tare → IDLE
+// different UID (WEIGHING)    → cancel & re-arm (re-tare)
+void handleCardTap(const String& uid) {
+    if (state == IDLE) {
+        Serial.println("Card " + uid + " — press N to start a session first");
+        return;
+    }
+
+    if (state == ARMED) {
+        initialWeight = readStableWeight();
+        lastUID       = uid;
+        char msg[96];
+        snprintf(msg, sizeof(msg),
+                 "Tap 1 [%s]: start %.1fg — add food, then tap the SAME card again",
+                 uid.c_str(), initialWeight);
+        enterState(WEIGHING, msg);
+        return;
+    }
+
+    // state == WEIGHING
+    if (uid == lastUID) {
+        float finalWeight = readStableWeight();
+        float delta       = finalWeight - initialWeight;
+        Serial.println("──────────────────────────────");
+        Serial.printf("Tap 2 [%s]: final %.1fg\n", uid.c_str(), finalWeight);
+        Serial.printf("Delta (billable): %.1fg\n", delta);
+        if (delta < MIN_SERVING_G)
+            Serial.println("WARNING: delta below minimum serving — re-check the scale");
+        postTap(uid, delta);
+        Serial.println("──────────────────────────────");
+        scale.tare(30);                       // auto re-tare = drift reset after each txn
+        initialWeight = 0.0f; lastUID = "";
+        enterState(IDLE, "Auto re-tared — press N for next customer");
+    } else {
+        Serial.println("Different card — cancelling session, re-taring.");
+        scale.tare(30);
+        initialWeight = 0.0f; lastUID = "";
+        enterState(ARMED, "Re-armed — tap a card to start tap 1");
+    }
 }
 
 // ── Setup ─────────────────────────────────────────────────────────────────────
 void setup() {
     Serial.begin(115200);
     delay(500);
-    Serial.println("\n=== Vendor Terminal v2 (buttonless) ===");
+    Serial.println("\n=== Vendor Terminal v2 (two-tap) ===");
 
     prefs.begin("config", true);
     wifiSSID    = prefs.getString("wifi_ssid",    "");
@@ -297,7 +408,7 @@ void setup() {
         for (int i = 0; i < 10; i++) { scale.read(); delay(300); Serial.print("."); }
         scale.tare(30);  // 30-sample tare for stable zero
         Serial.printf("\nHX711 ready — scale factor %.4f, tared\n", scaleFactor);
-        Serial.println("Tip: send 'T' via Serial Monitor to re-tare anytime");
+        Serial.println("Tip: 'N' starts a session, 'C' calibrates against a known mass");
     } else {
         Serial.println("WARNING: HX711 not detected — check wiring (DOUT=4, SCK=5)");
     }
@@ -339,81 +450,55 @@ void setup() {
     BLEDevice::startAdvertising();
     Serial.printf("BLE beacon started (anchor minor=%d)\n", ANCHOR_MINOR);
 
-    enterState(IDLE, "\nReady — place bowl on scale");
+    enterState(IDLE, "\nReady — press N to start a weighing session");
 }
 
 // ── Loop ──────────────────────────────────────────────────────────────────────
 void loop() {
-    if (WiFi.status() != WL_CONNECTED) connectWiFi();
+    // Non-blocking background reconnect — never blocks the weighing/tap flow
+    static unsigned long wifiRetryMs = 0;
+    if (WiFi.status() != WL_CONNECTED && millis() - wifiRetryMs > 30000) {
+        wifiRetryMs = millis();
+        WiFi.begin(wifiSSID.c_str(), wifiPass.c_str());
+    }
 
     // Serial keys:
-    //   T = tare anytime (empty scale first)
-    //   B = tare with bowl on scale → BOWL_ON
-    //   F = food done, lock weight → READY (awaiting NFC tap)
-    //   N = next customer, reset → IDLE
+    //   N = start a session → tare to fresh zero → ARMED (then card tap-1 / tap-2)
+    //   C = field-calibrate against a known mass (persists to NVS)
     if (Serial.available()) {
         char c = Serial.read();
 
-        if (c == 'T' || c == 't') {
-            Serial.println("Taring — keep scale empty...");
-            scale.tare(30);
-            tracker.reset();
-            bowlWeight = 0.0f; servingG = 0.0f;
-            enterState(IDLE, "Tared. Place bowl then press B");
+        if (c == 'N' || c == 'n') {
+            scale.tare(30);                  // fresh zero = drift reset at session start
+            initialWeight = 0.0f; lastUID = "";
+            enterState(ARMED, "Session started — tap card (tap 1), add food, tap again");
 
-        } else if (c == 'B' || c == 'b') {
-            if (state == IDLE) {
-                Serial.println("Taring with bowl...");
-                scale.tare(10);
-                tracker.reset();
-                enterState(BOWL_ON, "Bowl tared. Scoop food then press F");
-            } else {
-                Serial.println("Press T first to reset, then B with bowl");
-            }
-
-        } else if (c == 'F' || c == 'f') {
-            if (state == BOWL_ON) {
-                float current = fabsf(scale.get_units(10));
-                if (current < MIN_SERVING_G) {
-                    Serial.printf("Too light (%.1fg) — scoop more food\n", current);
-                } else {
-                    servingG = current;
-                    char msg[64];
-                    snprintf(msg, sizeof(msg), "Serving locked: %.1fg — tap NFC card", servingG);
-                    enterState(READY, msg);
-                }
-            } else {
-                Serial.println("Press B to tare bowl first");
-            }
-
-        } else if (c == 'N' || c == 'n') {
-            if (state == DONE || state == READY) {
-                servingG = 0.0f; bowlWeight = 0.0f;
-                enterState(IDLE, "Ready for next customer — place bowl then press B");
-            } else {
-                Serial.println("Nothing to reset");
-            }
+        } else if (c == 'C' || c == 'c') {
+            calibrateScale();
+            initialWeight = 0.0f; lastUID = "";
+            enterState(IDLE, "Calibration done — press N to start a session");
         }
     }
 
     handleWeight();
 
-    // Heartbeat in READY state — also checks RC522 is alive and resets if needed
-    static unsigned long readyMs = 0;
-    if (state == READY && millis() - readyMs > 3000) {
-        readyMs = millis();
+    // Heartbeat while a session is open — also checks RC522 is alive and resets it
+    static unsigned long awaitMs = 0;
+    if ((state == ARMED || state == WEIGHING) && millis() - awaitMs > 3000) {
+        awaitMs = millis();
         byte ver = mfrc522.PCD_ReadRegister(MFRC522::VersionReg);
         if (ver == 0x00 || ver == 0xFF) {
             Serial.println("RC522 unresponsive — resetting...");
             mfrc522.PCD_Reset();
             mfrc522.PCD_Init();
         }
-        Serial.printf("Waiting for card tap... (%.1fg locked) RC522=0x%02X\n", servingG, ver);
+        Serial.printf("%s — RC522=0x%02X\n",
+                      state == ARMED ? "ARMED (waiting tap 1)" : "WEIGHING (waiting tap 2)", ver);
     }
 
     if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
         String uid = readUID();
-        handleTap(uid);
+        handleCardTap(uid);
         mfrc522.PICC_HaltA();
         mfrc522.PCD_StopCrypto1();
         delay(1500);

@@ -91,6 +91,8 @@ export function vendorToStall(vendor: any, foods: any[] = []): Stall {
     image: menu.find(m => m.image && !m.image.includes('unsplash'))?.image
       ?? `https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80`,
     zone: gridToZone(vendor.grid_x ?? 0, vendor.grid_y ?? 0),
+    grid_x: vendor.grid_x ?? 0,
+    grid_y: vendor.grid_y ?? 0,
     menu,
     operatingStatus: 'Open Now',
   }

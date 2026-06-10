@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import {
-  Shield, CheckCircle, XCircle, AlertTriangle,
+  Shield, CheckCircle, XCircle,
   Search, MapPin, Tag, Store, Loader, ChevronDown, ChevronRight, X
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCard } from '../context/CardContext'
 import {
   getVendors, getAdminPendingVendors, reviewVendor,
-  getAdminCampaignApplications, reviewCampaignApplication
+  getAdminCampaignApplications, reviewCampaignApplication, setVendorPosition
 } from '../lib/api'
 
 type AdminTab = 'vendors' | 'applications' | 'compliance' | 'slots'
 
-const OCCUPIED_SLOTS = [2, 5, 8, 12]
-const REQUESTED_SLOTS = [7]
+// Market grid dimensions — matches the phone Vendor Map's vendor zone (~0–10 scale)
+const GRID_COLS = 10
+const GRID_ROWS = 6
 
 export default function AdminDashboard() {
   const { card } = useCard()
@@ -29,7 +30,9 @@ export default function AdminDashboard() {
 
   // UI state
   const [expandedId, setExpandedId] = useState<string | null>(null)
-  const [selectedSlot, setSelectedSlot] = useState<number | null>(null)
+  const [selectedCell, setSelectedCell] = useState<{ x: number; y: number } | null>(null)
+  const [assigning, setAssigning] = useState(false)
+  const [assignPickVendorId, setAssignPickVendorId] = useState<string>('')
 
   // Reject modal
   const [rejectModal, setRejectModal] = useState<{ type: 'vendor' | 'campaign'; id: string; name: string } | null>(null)
@@ -89,6 +92,21 @@ export default function AdminDashboard() {
     } catch (e: any) {
       toast.error(e.message ?? 'Review failed')
     } finally { setReviewing(false) }
+  }
+
+  async function handleAssignPosition() {
+    if (!card || !selectedCell || !assignPickVendorId) return
+    setAssigning(true)
+    try {
+      await setVendorPosition(assignPickVendorId, card.uid, selectedCell.x, selectedCell.y)
+      toast.success('Stall position assigned.')
+      setSelectedCell(null)
+      setAssignPickVendorId('')
+      const v = await getVendors() as any[]
+      setVendors(v ?? [])
+    } catch (e: any) {
+      toast.error(e.message ?? 'Failed to assign position')
+    } finally { setAssigning(false) }
   }
 
   const filteredVendors = vendors.filter(v =>
@@ -410,16 +428,27 @@ export default function AdminDashboard() {
           {/* ── SLOTS TAB ── */}
           {activeTab === 'slots' && (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+
+              {/* Unassigned vendors alert */}
+              {vendors.filter(v => v.grid_x == null).length > 0 && (
+                <div className="bg-yellow-50 border border-yellow-200 rounded-2xl p-4 flex flex-wrap gap-2 items-center">
+                  <span className="text-xs font-bold text-yellow-800 uppercase tracking-wide">Not yet on map:</span>
+                  {vendors.filter(v => v.grid_x == null).map(v => (
+                    <span key={v.vendor_id} className="text-xs bg-white border border-yellow-300 text-yellow-800 px-2.5 py-1 rounded-lg font-medium">{v.business_name}</span>
+                  ))}
+                  <span className="text-xs text-yellow-600 ml-auto">Click an empty cell below to place them.</span>
+                </div>
+              )}
+
               <div className="bg-white rounded-[2rem] border border-gray-200 p-8 shadow-sm flex flex-col xl:flex-row gap-8">
                 <div className="flex-1">
                   <h3 className="font-bold text-xl text-[#1A1A1A] mb-1">Stall Allocation Grid</h3>
-                  <p className="text-sm text-[#6B7280] mb-5">Click a slot to view details and manage requests.</p>
+                  <p className="text-sm text-[#6B7280] mb-4">Click an occupied cell to view the vendor · Click an empty cell to assign one.</p>
 
                   <div className="flex gap-4 mb-4 text-xs font-medium text-[#6B7280]">
                     {[
                       { color: 'bg-green-100 border-green-400', label: 'Occupied' },
                       { color: 'bg-white border-gray-200', label: 'Available' },
-                      { color: 'bg-yellow-100 border-yellow-400', label: 'Requested' },
                     ].map(l => (
                       <div key={l.label} className="flex items-center gap-1.5">
                         <div className={`w-3 h-3 border rounded-sm ${l.color}`} />
@@ -428,91 +457,109 @@ export default function AdminDashboard() {
                     ))}
                   </div>
 
-                  <div className="grid grid-cols-5 gap-3 p-5 bg-gray-50 rounded-2xl border border-dashed border-gray-200">
-                    {Array.from({ length: 15 }, (_, i) => i + 1).map(n => {
-                      const isOccupied = OCCUPIED_SLOTS.includes(n)
-                      const isRequested = REQUESTED_SLOTS.includes(n)
-                      const isSelected = selectedSlot === n
-                      const vendorOnSlot = vendors.find(v => v.grid_x === n || v.grid_y === n)
-                      return (
-                        <button
-                          key={n}
-                          onClick={() => setSelectedSlot(selectedSlot === n ? null : n)}
-                          className={`h-20 rounded-xl border-2 flex flex-col items-center justify-center transition-all ${isSelected ? 'ring-4 ring-blue-100 border-blue-500' : ''} ${
-                            isOccupied ? 'border-green-400 bg-green-50 hover:bg-green-100' :
-                            isRequested ? 'border-yellow-400 bg-yellow-50 hover:bg-yellow-100' :
-                            'border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50/30'
-                          }`}
-                        >
-                          <span className={`font-bold text-sm ${isOccupied ? 'text-green-700' : isRequested ? 'text-yellow-700' : 'text-gray-400'}`}>
-                            Slot {n}
-                          </span>
-                          {vendorOnSlot && <span className="text-[9px] text-green-600 font-semibold mt-0.5 max-w-[60px] truncate">{vendorOnSlot.business_name}</span>}
-                          {isRequested && <span className="text-[9px] text-yellow-600 font-semibold mt-0.5 animate-pulse">Action Req.</span>}
-                        </button>
-                      )
-                    })}
+                  {/* 2D grid — rows = Y (0..GRID_ROWS-1), cols = X (0..GRID_COLS-1) */}
+                  <div className="overflow-x-auto">
+                    <div className="inline-grid gap-1.5 p-4 bg-gray-50 rounded-2xl border border-dashed border-gray-200"
+                      style={{ gridTemplateColumns: `repeat(${GRID_COLS}, minmax(52px, 1fr))` }}>
+                      {Array.from({ length: GRID_ROWS }, (_, y) =>
+                        Array.from({ length: GRID_COLS }, (_, x) => {
+                          const vendor = vendors.find(v => v.grid_x === x && v.grid_y === y)
+                          const isSelected = selectedCell?.x === x && selectedCell?.y === y
+                          return (
+                            <button
+                              key={`${x}-${y}`}
+                              onClick={() => {
+                                setSelectedCell(isSelected ? null : { x, y })
+                                setAssignPickVendorId('')
+                              }}
+                              title={vendor ? vendor.business_name : `(${x}, ${y})`}
+                              className={`h-14 rounded-xl border-2 flex flex-col items-center justify-center text-center px-1 transition-all
+                                ${isSelected ? 'ring-2 ring-blue-400 ring-offset-1' : ''}
+                                ${vendor ? 'border-green-400 bg-green-50 hover:bg-green-100' : 'border-gray-200 bg-white hover:border-blue-300 hover:bg-blue-50/30'}
+                              `}
+                            >
+                              {vendor ? (
+                                <>
+                                  <span className="text-[9px] font-black text-green-700 leading-none">{(vendor.business_name ?? 'V')[0]}</span>
+                                  <span className="text-[7px] text-green-600 font-semibold leading-tight max-w-full truncate px-0.5">{vendor.business_name}</span>
+                                </>
+                              ) : (
+                                <span className="text-[8px] text-gray-300 font-medium">{x},{y}</span>
+                              )}
+                            </button>
+                          )
+                        })
+                      )}
+                    </div>
                   </div>
                 </div>
 
                 {/* Side panel */}
                 <div className="w-full xl:w-72">
-                  {selectedSlot ? (
+                  {selectedCell ? (
                     <div className="bg-[#FAFAFA] p-6 rounded-2xl border border-gray-200 h-full flex flex-col">
                       <div className="flex justify-between items-start mb-4 pb-4 border-b border-gray-200">
                         <div>
-                          <h4 className="font-bold text-[#1A1A1A] text-lg">Slot {selectedSlot}</h4>
+                          <h4 className="font-bold text-[#1A1A1A] text-lg">Cell ({selectedCell.x}, {selectedCell.y})</h4>
                           <p className="text-xs text-[#6B7280] mt-0.5">WarungTek Market</p>
                         </div>
-                        <button onClick={() => setSelectedSlot(null)} className="text-gray-400 hover:text-gray-600">
+                        <button onClick={() => setSelectedCell(null)} className="text-gray-400 hover:text-gray-600">
                           <X size={16} />
                         </button>
                       </div>
-                      {REQUESTED_SLOTS.includes(selectedSlot) ? (
-                        <div className="flex flex-col flex-1">
-                          <span className="text-xs font-bold bg-yellow-100 text-yellow-800 border border-yellow-200 px-3 py-1.5 rounded-lg mb-4 self-start flex items-center gap-1">
-                            <AlertTriangle size={12} /> Slot Change Request
-                          </span>
-                          <div className="space-y-3 text-sm flex-1">
-                            <div><p className="text-xs text-[#6B7280] uppercase font-bold mb-0.5">Vendor</p><p className="font-medium">Satay Station</p></div>
-                            <div><p className="text-xs text-[#6B7280] uppercase font-bold mb-0.5">Current Slot</p><p className="font-medium">Slot 12</p></div>
-                            <div><p className="text-xs text-[#6B7280] uppercase font-bold mb-0.5">Requested</p><p className="font-medium">2 hours ago</p></div>
+                      {(() => {
+                        const vendor = vendors.find(v => v.grid_x === selectedCell.x && v.grid_y === selectedCell.y)
+                        if (vendor) return (
+                          <div className="flex flex-col flex-1">
+                            <span className="text-xs font-bold bg-green-100 text-green-800 border border-green-200 px-3 py-1.5 rounded-lg mb-4 self-start flex items-center gap-1">
+                              <CheckCircle size={12} /> Occupied
+                            </span>
+                            <div className="space-y-3 text-sm flex-1">
+                              <div><p className="text-xs text-[#6B7280] uppercase font-bold mb-0.5">Vendor</p><p className="font-medium">{vendor.business_name}</p></div>
+                              <div><p className="text-xs text-[#6B7280] uppercase font-bold mb-0.5">Category</p><p className="font-medium">{vendor.category ?? '—'}</p></div>
+                              <div><p className="text-xs text-[#6B7280] uppercase font-bold mb-0.5">Grid</p><p className="font-medium">X{vendor.grid_x} · Y{vendor.grid_y}</p></div>
+                            </div>
                           </div>
-                          <div className="flex flex-col gap-2 mt-4">
-                            <button onClick={() => { toast.success('Slot change approved'); setSelectedSlot(null) }} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl text-sm transition-colors">Approve</button>
-                            <button onClick={() => { toast.success('Request rejected'); setSelectedSlot(null) }} className="w-full bg-white hover:bg-red-50 text-red-600 border border-gray-200 hover:border-red-200 font-semibold py-2.5 rounded-xl text-sm transition-colors">Reject</button>
-                          </div>
-                        </div>
-                      ) : OCCUPIED_SLOTS.includes(selectedSlot) ? (
-                        <div className="flex flex-col flex-1">
-                          <span className="text-xs font-bold bg-green-100 text-green-800 border border-green-200 px-3 py-1.5 rounded-lg mb-4 self-start flex items-center gap-1">
-                            <CheckCircle size={12} /> Occupied
-                          </span>
-                          {(() => {
-                            const v = vendors.find(v => v.grid_x === selectedSlot || v.grid_y === selectedSlot)
-                            return v ? (
-                              <div className="space-y-3 text-sm flex-1">
-                                <div><p className="text-xs text-[#6B7280] uppercase font-bold mb-0.5">Vendor</p><p className="font-medium">{v.business_name}</p></div>
-                                <div><p className="text-xs text-[#6B7280] uppercase font-bold mb-0.5">Category</p><p className="font-medium">{v.category ?? '—'}</p></div>
-                                <div><p className="text-xs text-[#6B7280] uppercase font-bold mb-0.5">SSM</p><p className="font-medium text-xs">{v.ssm_registration_number}</p></div>
-                              </div>
+                        )
+                        // Empty cell — show vendor picker
+                        const unassigned = vendors.filter(v => v.grid_x == null)
+                        return (
+                          <div className="flex flex-col flex-1">
+                            <p className="text-xs font-bold text-[#6B7280] uppercase tracking-wide mb-3">Assign a vendor here</p>
+                            {unassigned.length === 0 ? (
+                              <p className="text-xs text-[#6B7280]">All vendors already have positions.</p>
                             ) : (
-                              <p className="text-sm text-[#6B7280]">Slot data not available.</p>
-                            )
-                          })()}
-                        </div>
-                      ) : (
-                        <div className="flex flex-col items-center justify-center flex-1 text-center py-8">
-                          <MapPin size={28} className="text-gray-300 mb-3" />
-                          <p className="font-semibold text-[#1A1A1A] text-sm">Available</p>
-                          <p className="text-xs text-[#6B7280] mt-1">This slot is unoccupied.</p>
-                        </div>
-                      )}
+                              <>
+                                <select
+                                  value={assignPickVendorId}
+                                  onChange={e => setAssignPickVendorId(e.target.value)}
+                                  className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-blue-400 mb-4 bg-white"
+                                >
+                                  <option value="">— pick a vendor —</option>
+                                  {vendors.map(v => (
+                                    <option key={v.vendor_id} value={v.vendor_id}>
+                                      {v.business_name}{v.grid_x != null ? ` (currently at ${v.grid_x},${v.grid_y})` : ' (unassigned)'}
+                                    </option>
+                                  ))}
+                                </select>
+                                <button
+                                  onClick={handleAssignPosition}
+                                  disabled={!assignPickVendorId || assigning}
+                                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-40 text-white font-semibold py-2.5 rounded-xl text-sm transition-colors flex items-center justify-center gap-2"
+                                >
+                                  {assigning && <Loader size={14} className="animate-spin" />}
+                                  {assigning ? 'Saving…' : 'Place stall here'}
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        )
+                      })()}
                     </div>
                   ) : (
                     <div className="bg-[#FAFAFA] rounded-2xl border border-dashed border-gray-200 h-full flex flex-col items-center justify-center p-8 text-center min-h-[200px]">
                       <MapPin size={28} className="text-gray-300 mb-3" />
-                      <p className="text-sm text-[#6B7280]">Select a slot to view details.</p>
+                      <p className="text-sm text-[#6B7280]">Select a cell to view details.</p>
                     </div>
                   )}
                 </div>

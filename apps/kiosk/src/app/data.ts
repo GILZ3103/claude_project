@@ -29,6 +29,8 @@ export interface Stall {
   category: StallCategory;
   image: string;
   zone: string;
+  grid_x?: number;
+  grid_y?: number;
   menu: MenuItem[];
   operatingStatus: 'Open Now' | 'Closing Soon' | 'Currently Closed';
 }
