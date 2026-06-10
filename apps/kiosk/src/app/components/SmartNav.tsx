@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { X, Navigation, MapPin, Footprints, ZoomIn, ZoomOut } from 'lucide-react';
 import type { Stall } from '../data';
 import { translations } from '../translations';
