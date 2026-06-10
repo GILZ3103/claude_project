@@ -20633,3 +20633,63 @@
 2026-06-10 22:40:27,940 [INFO] Cache reloaded — 10 changes total
 2026-06-10 22:40:27,967 [INFO] Startup sync complete: 10 people enrolled/updated
 2026-06-10 22:40:33,277 [INFO] Recognised:Gilbert Lee (USER-0GP0ANPL) @ 0.478 after 3 frames
+2026-06-10 23:24:01,219 [INFO] Loaded 72 embeddings from faces.db
+2026-06-10 23:24:01,219 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-10 23:24:01,222 [INFO] Detection loop running.
+2026-06-10 23:24:02,747 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.69.114.61:5002
+2026-06-10 23:24:02,747 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-10 23:24:03,908 [INFO] Camera opened via OpenCV/DirectShow (USB webcam)
+2026-06-10 23:24:03,908 [INFO] Capture loop running.
+2026-06-10 23:24:18,854 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-10 23:24:18,915 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-10 23:24:28,804 [INFO] Enrolled 8/8 augmented variants of USER-2YPV8IT8.jpg for Noel
+2026-06-10 23:24:28,863 [INFO] Synced face: Noel (USER-2YPV8IT8)
+2026-06-10 23:24:37,317 [INFO] Enrolled 8/8 augmented variants of USER-13LRYBBJ.jpg for Yap Jun Xi 
+2026-06-10 23:24:37,357 [INFO] Synced face: Yap Jun Xi  (USER-13LRYBBJ)
+2026-06-10 23:24:46,122 [INFO] Enrolled 8/8 augmented variants of USER-J8QOS9QD.jpg for HO KAH HENG
+2026-06-10 23:24:46,164 [INFO] Synced face: HO KAH HENG (USER-J8QOS9QD)
+2026-06-10 23:24:54,343 [INFO] Enrolled 8/8 augmented variants of USER-TQ9NZ31E.jpg for CELINE LEE
+2026-06-10 23:24:54,381 [INFO] Synced face: CELINE LEE (USER-TQ9NZ31E)
+2026-06-10 23:25:04,068 [INFO] Enrolled 8/8 augmented variants of USER-O9NX91FT.jpg for Lee Jen Sen 
+2026-06-10 23:25:04,131 [INFO] Synced face: Lee Jen Sen  (USER-O9NX91FT)
+2026-06-10 23:25:12,462 [INFO] Enrolled 8/8 augmented variants of USER-PTRR2LP6.jpg for MAMA
+2026-06-10 23:25:12,515 [INFO] Synced face: MAMA (USER-PTRR2LP6)
+2026-06-10 23:25:21,893 [INFO] Enrolled 8/8 augmented variants of USER-CAPA6ZIP.jpg for Badrina
+2026-06-10 23:25:21,937 [INFO] Synced face: Badrina (USER-CAPA6ZIP)
+2026-06-10 23:25:30,359 [INFO] Enrolled 8/8 augmented variants of USER-R9JRXTF4.jpg for Gilbert Lee
+2026-06-10 23:25:30,407 [INFO] Synced face: Gilbert Lee (USER-R9JRXTF4)
+2026-06-10 23:25:30,430 [INFO] Loaded 72 embeddings from faces.db
+2026-06-10 23:25:30,430 [INFO] Cache reloaded — 9 changes total
+2026-06-10 23:25:30,437 [INFO] Startup sync complete: 9 people enrolled/updated
+2026-06-10 23:25:57,749 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.545 after 3 frames
+2026-06-10 23:25:58,226 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.537 after 4 frames
+2026-06-10 23:25:58,773 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.536 after 5 frames
+2026-06-10 23:25:59,287 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.533 after 5 frames
+2026-06-10 23:25:59,785 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.532 after 5 frames
+2026-06-10 23:26:00,306 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.527 after 5 frames
+2026-06-10 23:26:00,822 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.528 after 5 frames
+2026-06-10 23:26:01,354 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.527 after 5 frames
+2026-06-10 23:26:01,871 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.522 after 5 frames
+2026-06-10 23:26:02,422 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.520 after 5 frames
+2026-06-10 23:26:02,925 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.516 after 5 frames
+2026-06-10 23:26:03,817 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.520 after 5 frames
+2026-06-10 23:26:04,704 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.519 after 5 frames
+2026-06-10 23:26:05,371 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.530 after 5 frames
+2026-06-10 23:26:05,954 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.535 after 5 frames
+2026-06-10 23:26:06,502 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.543 after 5 frames
+2026-06-10 23:26:07,018 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.552 after 5 frames
+2026-06-10 23:26:07,523 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.569 after 5 frames
+2026-06-10 23:26:08,039 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.566 after 5 frames
+2026-06-10 23:26:08,540 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.569 after 5 frames
+2026-06-10 23:26:09,090 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.576 after 5 frames
+2026-06-10 23:26:09,644 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.574 after 5 frames
+2026-06-10 23:26:10,201 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.562 after 5 frames
+2026-06-10 23:26:10,738 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.565 after 5 frames
+2026-06-10 23:26:11,263 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.565 after 5 frames
+2026-06-10 23:26:11,804 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.562 after 5 frames
+2026-06-10 23:26:23,215 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.551 after 5 frames
+2026-06-10 23:26:23,687 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.544 after 5 frames
+2026-06-10 23:26:24,142 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.533 after 5 frames
