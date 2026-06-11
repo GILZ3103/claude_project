@@ -2,7 +2,20 @@
 @import './tailwind.css';
 @import './theme.css';
 
-/* Hide scrollbars, keep scroll functionality */
+/* Hide all scrollbars globally — kiosk touchscreen uses native swipe */
+html, body, * {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Keep class aliases for explicit usage */
 .no-scrollbar,
 .custom-scrollbar {
   scrollbar-width: none;
