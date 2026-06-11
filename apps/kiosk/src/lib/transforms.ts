@@ -5,7 +5,11 @@
 
 import type { Stall, MenuItem, StallCategory } from '../app/data'
 
-const BASE_API = import.meta.env.VITE_API_URL
+// Fall back to the production URL if the build-time env var is missing (e.g. no .env on the Pi).
+const RAW_API = import.meta.env.VITE_API_URL || 'https://warungtek-backend.onrender.com'
+// Guarantee a protocol — a bare host makes fetch() treat the URL as a relative path,
+// which resolves to http://localhost:3000/<host>/... and 404s.
+const BASE_API = /^https?:\/\//.test(RAW_API) ? RAW_API : `https://${RAW_API}`
 const KIOSK_GRID = { x: 5, y: 4 } // kiosk position on the map
 
 // Map backend category strings to Figma StallCategory
@@ -98,20 +102,33 @@ export function vendorToStall(vendor: any, foods: any[] = []): Stall {
   }
 }
 
-export async function fetchStalls(): Promise<Stall[]> {
-  try {
-    const [vendorsRes, foodsRes] = await Promise.all([
-      fetch(`${BASE_API}/api/vendors`),
-      fetch(`${BASE_API}/api/kiosk/foods`),
-    ])
-    const [vendorsJson, foodsJson] = await Promise.all([
-      vendorsRes.json(),
-      foodsRes.json(),
-    ])
-    const vendors: any[] = vendorsJson.data ?? []
-    const foods: any[] = foodsJson.data ?? []
-    return vendors.map(v => vendorToStall(v, foods))
-  } catch {
-    return []
+const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
+
+// Render free-tier backends sleep after inactivity and take ~30s to wake. On a kiosk
+// that boots once and runs forever, a single failed fetch would leave the grid empty
+// permanently. Retry with backoff so a cold start self-heals without a manual reload.
+export async function fetchStalls(retries = 6): Promise<Stall[]> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      const [vendorsRes, foodsRes] = await Promise.all([
+        fetch(`${BASE_API}/api/vendors`),
+        fetch(`${BASE_API}/api/kiosk/foods`),
+      ])
+      if (!vendorsRes.ok || !foodsRes.ok) {
+        throw new Error(`HTTP ${vendorsRes.status} / ${foodsRes.status}`)
+      }
+      const [vendorsJson, foodsJson] = await Promise.all([
+        vendorsRes.json(),
+        foodsRes.json(),
+      ])
+      const vendors: any[] = vendorsJson.data ?? []
+      const foods: any[] = foodsJson.data ?? []
+      if (vendors.length === 0) throw new Error('vendors list empty')
+      return vendors.map(v => vendorToStall(v, foods))
+    } catch (err) {
+      console.error(`[fetchStalls] attempt ${attempt + 1}/${retries + 1} failed from ${BASE_API}:`, err)
+      if (attempt < retries) await sleep(5000) // 5s × 6 ≈ 30s, enough to cover a Render cold start
+    }
   }
+  return []
 }
