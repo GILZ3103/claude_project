@@ -13,7 +13,7 @@ export function StallCard({ stall, onClick, language }: StallCardProps) {
 
   return (
     <div 
-      className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer group hover:shadow-md transition-shadow relative"
+      className="bg-white rounded-xl shadow-sm border border-[#EDE4D4] overflow-hidden cursor-pointer group hover:shadow-md transition-shadow relative"
       onClick={onClick}
     >
       <div className="relative h-44 overflow-hidden bg-gray-200">
@@ -26,12 +26,12 @@ export function StallCard({ stall, onClick, language }: StallCardProps) {
         {/* Badges on image */}
         <div className="absolute top-2 left-2 flex flex-col gap-1.5">
           {stall.isHealthy && (
-            <div className="bg-green-100 text-green-800 text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1 shadow-sm">
+            <div className="bg-[#EAF4EC] text-[#4A7C59] text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1 shadow-sm">
               <Leaf className="w-3 h-3" /> {language === 'en' ? 'Healthy' : language === 'ms' ? 'Sihat' : '健康'}
             </div>
           )}
           {stall.hasVoucher && (
-            <div className="bg-orange-100 text-orange-800 text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1 shadow-sm">
+            <div className="bg-[#FDF0E8] text-[#E8622A] text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1 shadow-sm">
               <Ticket className="w-3 h-3" /> {t.voucherAvail}
             </div>
           )}
@@ -63,12 +63,12 @@ export function StallCard({ stall, onClick, language }: StallCardProps) {
               <MapPin className="w-3 h-3" />
               <span>{stall.distance}m</span>
             </div>
-            <div className={`flex items-center gap-0.5 ${stall.operatingStatus === 'Currently Closed' ? 'text-red-500' : stall.operatingStatus === 'Closing Soon' ? 'text-orange-500' : 'text-green-600'}`}>
+            <div className={`flex items-center gap-0.5 ${stall.operatingStatus === 'Currently Closed' ? 'text-red-500' : stall.operatingStatus === 'Closing Soon' ? 'text-orange-500' : 'text-[#4A7C59]'}`}>
               <Clock className="w-3 h-3" />
               <span>{stall.operatingStatus}</span>
             </div>
           </div>
-          <div className="bg-gray-100 px-1.5 py-0.5 rounded text-gray-700">
+          <div className="bg-[#FAF7F0] border border-[#EDE4D4] px-1.5 py-0.5 rounded text-[#8C7B6B]">
             {stall.category}
           </div>
         </div>

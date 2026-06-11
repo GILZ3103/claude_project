@@ -49,13 +49,13 @@ export function StallGrid({ stalls, filters, setFilters, onStallClick, language 
   };
 
   return (
-    <div className="flex-1 h-full overflow-y-auto bg-[#F7F7F5] p-6">
+    <div className="flex-1 h-full overflow-y-auto no-scrollbar bg-[#FAF7F0] p-6">
       {/* Filter Pills Header */}
       {activePills.length > 0 && (
         <div className="flex flex-wrap items-center gap-2 mb-6">
           <span className="text-sm font-medium text-gray-500 mr-2">{t.filters}:</span>
           {activePills.map((pill, idx) => (
-            <div key={idx} className="flex items-center bg-white border border-gray-200 text-gray-800 text-sm font-medium px-3 py-1.5 rounded-full shadow-sm">
+            <div key={idx} className="flex items-center bg-[#FDF0E8] border border-[#EDE4D4] text-[#1A1208] text-sm font-medium px-3 py-1.5 rounded-full shadow-sm">
               {pill.value}
               <button 
                 onClick={() => removePill(pill.group, pill.value)}
@@ -68,7 +68,7 @@ export function StallGrid({ stalls, filters, setFilters, onStallClick, language 
           {activePills.length > 1 && (
             <button 
               onClick={clearAll}
-              className="text-sm font-semibold text-orange-500 hover:text-orange-600 ml-2"
+              className="text-sm font-semibold text-[#E8622A] hover:text-[#E8622A]/80 ml-2"
             >
               {t.clearAll}
             </button>
@@ -91,7 +91,7 @@ export function StallGrid({ stalls, filters, setFilters, onStallClick, language 
           {activePills.length > 0 && (
             <button 
               onClick={clearAll}
-              className="mt-6 bg-black text-white px-6 py-2 rounded-full font-medium hover:bg-gray-800 transition"
+              className="mt-6 bg-[#E8622A] text-white px-6 py-2 rounded-full font-medium hover:bg-[#E8622A]/90 transition"
             >
               {t.clearFilters}
             </button>

@@ -47,6 +47,7 @@ function gridToPct(gx: number, gy: number) {
 export function SmartNav({ destination, stalls, onClose, language }: SmartNavProps) {
   const t = translations[language];
   const [scale, setScale] = useState(1);
+  const destPos = destination ? gridToPct(destination.grid_x ?? 5, destination.grid_y ?? 5) : null;
 
   const handleZoomIn = () => setScale(prev => Math.min(prev + 0.25, 2));
   const handleZoomOut = () => setScale(prev => Math.max(prev - 0.25, 0.5));
@@ -94,6 +95,19 @@ export function SmartNav({ destination, stalls, onClose, language }: SmartNavPro
               {/* Main walkways */}
               <line x1="25" y1="0" x2="25" y2="100" stroke="#A09B93" strokeWidth="1" strokeDasharray="4 2" />
               <line x1="0" y1="30" x2="100" y2="30" stroke="#A09B93" strokeWidth="1" strokeDasharray="4 2" />
+              {/* Navigation path: kiosk → horizontal walkway → vertical walkway → stall */}
+              {destPos && (
+                <path
+                  key={destination!.id}
+                  d={`M 50 92 L 50 30 L 25 30 L 25 ${destPos.top} L ${destPos.left} ${destPos.top}`}
+                  fill="none"
+                  stroke="#E8622A"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="anim-draw-path"
+                />
+              )}
             </svg>
 
             {/* Zone label */}

@@ -1,6 +1,7 @@
-import { CATEGORIES } from '../data';
+import { Map, Wallet, Ticket, Settings, HelpCircle, Leaf, Shield } from 'lucide-react';
 import { translations } from '../translations';
 
+// Keep FilterState exported — App.tsx imports it for stall filtering state
 export interface FilterState {
   category: string | null;
   calories: string | null;
@@ -12,118 +13,89 @@ export interface FilterState {
 }
 
 interface FilterPanelProps {
-  filters: FilterState;
-  setFilters: React.Dispatch<React.SetStateAction<FilterState>>;
   language: 'en' | 'ms' | 'zh';
   isUserMode: boolean;
+  onAction: (action: string) => void;
+  preferences: { halal: boolean; vegetarian: boolean; lowSugar: boolean; seafoodFree: boolean };
+  setPreferences: React.Dispatch<React.SetStateAction<{ vegetarian: boolean; halal: boolean; lowSugar: boolean; seafoodFree: boolean }>>;
 }
 
-export function FilterPanel({ filters, setFilters, language, isUserMode }: FilterPanelProps) {
+export function FilterPanel({ language, onAction, preferences, setPreferences }: FilterPanelProps) {
   const t = translations[language];
 
-  const updateRadio = (group: keyof FilterState, value: string) => {
-    setFilters(prev => ({
-      ...prev,
-      [group]: prev[group] === value ? null : value
-    }));
-  };
-
-  const updateCheckbox = (group: keyof FilterState, value: string) => {
-    setFilters(prev => {
-      const current = prev[group] as string[];
-      if (current.includes(value)) {
-        return { ...prev, [group]: current.filter(v => v !== value) };
-      }
-      return { ...prev, [group]: [...current, value] };
-    });
-  };
-
-  const RadioGroup = ({ title, group, options }: { title: string, group: keyof FilterState, options: {label: string, value: string}[] }) => (
-    <div className="mb-6">
-      <h3 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wider">{title}</h3>
-      <div className="space-y-3">
-        {options.map(opt => (
-          <label key={opt.value} className="flex items-center space-x-3 cursor-pointer group touch-manipulation">
-            <input type="radio" className="hidden" checked={filters[group] === opt.value} onChange={() => updateRadio(group, opt.value)} />
-            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0
-              ${filters[group] === opt.value ? 'border-black' : 'border-gray-300 group-hover:border-black'}
-            `}>
-              {filters[group] === opt.value && <div className="w-3 h-3 rounded-full bg-black" />}
-            </div>
-            <span className="text-gray-800 font-medium select-none leading-tight">{opt.label}</span>
-          </label>
-        ))}
-      </div>
-    </div>
-  );
-
-  const CheckboxGroup = ({ title, group, options }: { title: string, group: keyof FilterState, options: {label: string, value: string}[] }) => (
-    <div className="mb-6">
-      <h3 className="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wider">{title}</h3>
-      <div className="space-y-3">
-        {options.map(opt => {
-          const isChecked = (filters[group] as string[]).includes(opt.value);
-          return (
-            <label key={opt.value} className="flex items-center space-x-3 cursor-pointer group touch-manipulation">
-              <input type="checkbox" className="hidden" checked={isChecked} onChange={() => updateCheckbox(group, opt.value)} />
-              <div className={`w-8 h-8 rounded border-2 flex items-center justify-center transition-colors shrink-0
-                ${isChecked ? 'bg-black border-black text-white' : 'bg-white border-gray-300 group-hover:border-black'}
-              `}>
-                {isChecked && (
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                  </svg>
-                )}
-              </div>
-              <span className="text-gray-800 font-medium select-none leading-tight">{opt.label}</span>
-            </label>
-          );
-        })}
-      </div>
-    </div>
-  );
-
-  const catOptions = CATEGORIES.map(c => ({ label: c, value: c }));
+  const actions = [
+    { Icon: Map,        label: 'Map',            desc: 'Find & navigate stalls', action: 'nav' },
+    { Icon: Wallet,     label: t.myWallet,       desc: 'Balance & top up',       action: 'nfc' },
+    { Icon: Ticket,     label: t.vouchers,       desc: 'My rewards',             action: 'vouchers' },
+    { Icon: Settings,   label: 'Settings',       desc: 'Preferences & account',  action: 'settings' },
+    { Icon: HelpCircle, label: t.helpSupport,    desc: 'FAQ & contact',          action: 'help' },
+  ];
 
   return (
-    <div className="w-72 flex-shrink-0 border-r border-gray-200 bg-[#F7F7F5] h-full overflow-y-auto overflow-x-hidden p-6 custom-scrollbar">
-      <h2 className="text-xl font-bold mb-6 text-black">{t.filters}</h2>
+    <div className="w-72 flex-shrink-0 border-r border-[#EDE4D4] bg-[#F2ECE0] h-full flex flex-col">
+      {/* Quick Action Buttons */}
+      <div className="flex-1 p-4 space-y-2 overflow-y-auto no-scrollbar" style={{ WebkitOverflowScrolling: 'touch' }}>
+        {actions.map(({ Icon, label, desc, action }) => (
+          <button
+            key={action}
+            onClick={() => onAction(action)}
+            className="w-full flex items-center gap-3 p-4 rounded-2xl bg-white border border-[#EDE4D4] hover:bg-[#FDF0E8] hover:border-[#E8622A]/30 active:scale-[0.98] transition-all touch-manipulation text-left"
+          >
+            <div className="w-11 h-11 rounded-xl bg-[#FDF0E8] flex items-center justify-center shrink-0">
+              <Icon className="w-5 h-5 text-[#E8622A]" />
+            </div>
+            <div className="min-w-0">
+              <div className="font-bold text-[#1A1208] text-sm leading-tight">{label}</div>
+              <div className="text-xs text-[#8C7B6B] mt-0.5 leading-tight">{desc}</div>
+            </div>
+          </button>
+        ))}
+      </div>
 
-      <RadioGroup title={t.foodCategory} group="category" options={catOptions} />
-      
-      {isUserMode && (
-        <>
-          <RadioGroup title={t.calories} group="calories" options={[
-            {label: t.under300, value: 'Under 300 kcal'}, 
-            {label: t.under500, value: 'Under 500 kcal'}
-          ]} />
-          <CheckboxGroup title={t.dietary} group="dietary" options={[
-            {label: t.highProtein, value: 'High Protein'},
-            {label: t.lowSugar, value: 'Low Sugar'},
-            {label: t.vegetarian, value: 'Vegetarian'}
-          ]} />
-        </>
-      )}
-
-      <CheckboxGroup title="Vendor Type" group="vendorType" options={[
-        {label: t.halal, value: 'Halal'}, 
-        {label: t.vegetarian, value: 'Vegetarian'}, 
-        {label: t.localVendors, value: 'Local Vendors'}, 
-        {label: t.popularVendors, value: 'Popular Vendors'}
-      ]} />
-      <CheckboxGroup title={t.distance} group="distance" options={[
-        {label: t.nearest, value: 'Nearest'}, 
-        {label: t.mediumDistance, value: 'Medium'}, 
-        {label: t.furthest, value: 'Furthest'}
-      ]} />
-      <RadioGroup title={t.vouchers} group="voucher" options={[
-        {label: t.voucherAvail, value: 'Voucher Available'}
-      ]} />
-      <CheckboxGroup title={t.availability} group="availability" options={[
-        {label: t.openNow, value: 'Open Now'}, 
-        {label: t.closingSoon, value: 'Closing Soon'}, 
-        {label: t.closed, value: 'Currently Closed'}
-      ]} />
+      {/* Dietary Quick Toggles */}
+      <div className="p-4 border-t border-[#EDE4D4]">
+        <p className="text-[10px] font-bold text-[#8C7B6B] uppercase tracking-widest mb-3">Dietary</p>
+        <div className="space-y-2">
+          <ToggleRow
+            icon={<Shield className="w-4 h-4" />}
+            label={t.halal}
+            active={preferences.halal}
+            onClick={() => setPreferences(p => ({ ...p, halal: !p.halal }))}
+          />
+          <ToggleRow
+            icon={<Leaf className="w-4 h-4" />}
+            label={t.vegetarian}
+            active={preferences.vegetarian}
+            onClick={() => setPreferences(p => ({ ...p, vegetarian: !p.vegetarian }))}
+          />
+        </div>
+      </div>
     </div>
+  );
+}
+
+function ToggleRow({ icon, label, active, onClick }: {
+  icon: React.ReactNode;
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl border transition-all touch-manipulation ${
+        active
+          ? 'bg-[#EAF4EC] border-[#4A7C59]/40 text-[#4A7C59]'
+          : 'bg-white border-[#EDE4D4] text-[#8C7B6B]'
+      }`}
+    >
+      <div className="flex items-center gap-2 font-semibold text-sm">
+        {icon}
+        {label}
+      </div>
+      <div className={`w-9 h-5 rounded-full transition-colors relative shrink-0 ${active ? 'bg-[#4A7C59]' : 'bg-[#C9BFB2]'}`}>
+        <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all ${active ? 'left-[18px]' : 'left-0.5'}`} />
+      </div>
+    </button>
   );
 }

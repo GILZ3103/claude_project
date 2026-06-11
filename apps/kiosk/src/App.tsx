@@ -413,6 +413,9 @@ export default function App() {
   const handleIconClick = (action: string) => {
     if (action === 'language') {
       setLanguage(prev => prev === 'en' ? 'ms' : prev === 'ms' ? 'zh' : 'en')
+    } else if (action === 'nav') {
+      setNavDestination(null)
+      setActiveOverlay('nav')
     } else {
       setActiveOverlay(action as Overlay)
     }
@@ -429,7 +432,7 @@ export default function App() {
   }
 
   return (
-    <div className="w-full h-screen bg-[#F7F7F5] overflow-hidden flex flex-col relative font-sans">
+    <div className="w-full h-screen bg-[#FAF7F0] overflow-hidden flex flex-col relative font-sans">
       <Header
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
@@ -462,10 +465,11 @@ export default function App() {
 
         <div className="flex-1 flex overflow-hidden">
           <FilterPanel
-            filters={filters}
-            setFilters={setFilters}
             language={language}
             isUserMode={isUserMode}
+            onAction={handleIconClick}
+            preferences={preferences}
+            setPreferences={setPreferences}
           />
           <div className="flex-1 flex flex-col h-full relative">
             <StallGrid
@@ -549,11 +553,11 @@ export default function App() {
       {/* NFC action confirmation overlay */}
       {pendingAction && (
         <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-6">
-          <div className="bg-white p-8 rounded-3xl w-full max-w-md text-center shadow-2xl">
+          <div className="bg-[#FAF7F0] p-8 rounded-3xl w-full max-w-md text-center shadow-2xl">
             <div className="relative w-20 h-20 mx-auto mb-6">
-              <div className="absolute inset-0 bg-orange-100 rounded-full animate-ping opacity-60" />
-              <div className="relative w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center">
-                <Wifi className="w-10 h-10 text-orange-500" />
+              <div className="absolute inset-0 bg-[#FDF0E8] rounded-full animate-ping opacity-60" />
+              <div className="relative w-20 h-20 bg-[#FDF0E8] rounded-full flex items-center justify-center">
+                <Wifi className="w-10 h-10 text-[#E8622A]" />
               </div>
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Tap your card to confirm</h2>

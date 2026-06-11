@@ -130,7 +130,7 @@ export function WalletPanel({
 
   if (!isUserMode) {
     return (
-      <div className="absolute inset-y-0 right-0 w-[500px] bg-[#F7F7F5] shadow-2xl flex flex-col z-40 transform transition-transform border-l border-gray-200">
+      <div className="absolute inset-y-0 right-0 w-[500px] bg-[#FAF7F0] shadow-2xl flex flex-col z-40 anim-slide-right border-l border-[#EDE4D4]">
         <div className="bg-black text-white p-6 flex justify-between items-center shrink-0">
           <h2 className="text-2xl font-bold">{t.myWallet}</h2>
           <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors"><X className="w-5 h-5" /></button>
@@ -147,7 +147,7 @@ export function WalletPanel({
   }
 
   return (
-    <div className="absolute inset-y-0 right-0 w-[500px] bg-[#F7F7F5] shadow-2xl flex flex-col z-40 transform transition-transform border-l border-gray-200">
+    <div className="absolute inset-y-0 right-0 w-[500px] bg-[#FAF7F0] shadow-2xl flex flex-col z-40 anim-slide-right border-l border-[#EDE4D4]">
       {/* Header */}
       <div className="bg-black text-white p-6 pb-0 flex flex-col shrink-0">
         <div className="flex justify-between items-center mb-6">
@@ -172,15 +172,15 @@ export function WalletPanel({
       </div>
 
       {/* Content Area */}
-      <div className="flex-1 overflow-y-auto p-6 relative animate-[fadeIn_0.3s_ease-out]" key={activeTab}>
+      <div className="flex-1 overflow-y-auto no-scrollbar p-6 relative animate-[fadeIn_0.3s_ease-out]" key={activeTab}>
         {activeTab === 'balance' && (
           <div className="space-y-6">
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col items-center">
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#EDE4D4] flex flex-col items-center">
               <p className="text-gray-500 font-medium mb-2">{t.currentBalance}</p>
               <h3 className="text-4xl font-bold text-gray-900 mb-6">RM {balance.toFixed(2)}</h3>
             </div>
 
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#EDE4D4]">
                 <h4 className="font-bold text-gray-900 mb-3">{t.quickTopup}</h4>
                 <div className="grid grid-cols-4 gap-2 mb-6">
                   {[5, 10, 20, 50].map(amt => (
@@ -188,7 +188,7 @@ export function WalletPanel({
                       key={amt}
                       onClick={() => setTopupAmount(amt)}
                       className={`py-2 rounded-lg font-bold transition-colors border-2
-                        ${topupAmount === amt ? 'bg-black text-white border-black' : 'bg-gray-50 text-gray-800 border-transparent hover:border-gray-200'}
+                        ${topupAmount === amt ? 'bg-[#E8622A] text-white border-[#E8622A]' : 'bg-[#F2ECE0] text-[#1A1208] border-transparent hover:border-[#EDE4D4]'}
                       `}
                     >
                       RM {amt}
@@ -203,7 +203,7 @@ export function WalletPanel({
                       key={method}
                       onClick={() => setPaymentMethod(method)}
                       className={`px-4 py-2 rounded-lg border-2 text-sm font-medium transition-colors
-                        ${paymentMethod === method ? 'bg-black text-white border-black' : 'bg-gray-50 text-gray-600 border-transparent hover:border-gray-200'}
+                        ${paymentMethod === method ? 'bg-[#E8622A] text-white border-[#E8622A]' : 'bg-[#F2ECE0] text-[#8C7B6B] border-transparent hover:border-[#EDE4D4]'}
                       `}
                     >
                       {method}
@@ -215,7 +215,7 @@ export function WalletPanel({
                   onClick={handleTopUpConfirm}
                   disabled={!topupAmount || !paymentMethod}
                   className={`w-full py-3 rounded-xl font-bold text-white transition-colors
-                    ${topupAmount && paymentMethod ? 'bg-orange-500 hover:bg-orange-600' : 'bg-gray-300 cursor-not-allowed'}
+                    ${topupAmount && paymentMethod ? 'bg-[#E8622A] hover:bg-[#E8622A]/90' : 'bg-gray-300 cursor-not-allowed'}
                   `}
                 >
                   {t.confirm}
@@ -228,21 +228,21 @@ export function WalletPanel({
           <div className="space-y-4">
             <h3 className="font-bold text-gray-900">{t.activeVouchers}</h3>
             {vouchers.filter(v => v.status === 'Active').map(v => (
-              <div key={v.id} onClick={() => setSelectedVoucher(v)} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow">
-                <div className="w-14 h-14 bg-orange-100 text-orange-600 rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
+              <div key={v.id} onClick={() => setSelectedVoucher(v)} className="bg-white p-4 rounded-xl shadow-sm border border-[#EDE4D4] flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow">
+                <div className="w-14 h-14 bg-[#FDF0E8] text-[#E8622A] rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
                   {v.image ? <img src={v.image} className="w-full h-full object-cover" /> : <Ticket className="w-6 h-6" />}
                 </div>
                 <div className="flex-1">
                   <h4 className="font-bold text-gray-900">{v.title}</h4>
                   <p className="text-sm text-gray-500">{v.stall}</p>
-                  <p className="text-xs text-orange-600 font-medium mt-1">Expires {v.expiry}</p>
+                  <p className="text-xs text-[#E8622A] font-medium mt-1">Expires {v.expiry}</p>
                 </div>
               </div>
             ))}
 
             <h3 className="font-bold text-gray-900 mt-8 opacity-60">{t.usedVouchers}</h3>
             {vouchers.filter(v => v.status === 'Used').map(v => (
-              <div key={v.id} className="bg-gray-100 p-4 rounded-xl border border-gray-200 flex items-center gap-4 opacity-60">
+              <div key={v.id} className="bg-[#F2ECE0] p-4 rounded-xl border border-[#EDE4D4] flex items-center gap-4 opacity-60">
                 <div className="w-14 h-14 bg-gray-200 text-gray-500 rounded-lg flex items-center justify-center shrink-0">
                   <Ticket className="w-6 h-6" />
                 </div>
@@ -256,7 +256,7 @@ export function WalletPanel({
         )}
 
         {activeTab === 'vouchers' && selectedVoucher && !showQR && (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-sm border border-[#EDE4D4] overflow-hidden">
             <div className="h-40 bg-orange-100 relative">
               {selectedVoucher.image ? (
                 <img src={selectedVoucher.image} className="w-full h-full object-cover" />
@@ -269,7 +269,7 @@ export function WalletPanel({
               <h2 className="text-2xl font-bold text-gray-900 mb-1">{selectedVoucher.title}</h2>
               <p className="text-lg text-orange-600 font-medium mb-4">{selectedVoucher.stall}</p>
               
-              <div className="bg-gray-50 p-4 rounded-xl mb-6">
+              <div className="bg-[#F2ECE0] p-4 rounded-xl mb-6">
                 <p className="text-sm text-gray-500 mb-1">{t.expiresIn}:</p>
                 <p className="font-bold text-gray-900">{selectedVoucher.expiry}</p>
               </div>
@@ -284,13 +284,13 @@ export function WalletPanel({
               <div className="flex gap-3">
                 <button 
                   onClick={() => onNavigateToStall?.(selectedVoucher.stall)}
-                  className="flex-1 py-4 bg-orange-100 text-orange-700 font-bold rounded-xl hover:bg-orange-200 transition-colors"
+                  className="flex-1 py-4 bg-[#FDF0E8] text-[#E8622A] font-bold rounded-xl hover:bg-[#FDF0E8]/80 transition-colors"
                 >
                   {t.navigateStall}
                 </button>
                 <button 
                   onClick={handleUseVoucher}
-                  className="flex-1 py-4 bg-black text-white font-bold rounded-xl hover:bg-gray-800 transition-colors"
+                  className="flex-1 py-4 bg-[#E8622A] text-white font-bold rounded-xl hover:bg-[#E8622A]/90 transition-colors"
                 >
                   {t.useVoucher}
                 </button>
@@ -305,7 +305,7 @@ export function WalletPanel({
                   <p className="text-gray-500 mb-6">Cannot be undone.</p>
                   <div className="flex gap-3">
                     <button onClick={() => setIsConfirmingVoucher(false)} className="flex-1 py-3 bg-gray-100 text-gray-800 font-bold rounded-xl">{t.cancel}</button>
-                    <button onClick={confirmUseVoucher} className="flex-1 py-3 bg-orange-500 text-white font-bold rounded-xl">{t.confirm}</button>
+                    <button onClick={confirmUseVoucher} className="flex-1 py-3 bg-[#E8622A] text-white font-bold rounded-xl">{t.confirm}</button>
                   </div>
                 </div>
               </div>
@@ -314,7 +314,7 @@ export function WalletPanel({
         )}
 
         {activeTab === 'vouchers' && selectedVoucher && showQR && (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col items-center text-center">
+          <div className="bg-white rounded-2xl shadow-sm border border-[#EDE4D4] p-8 flex flex-col items-center text-center">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">{t.redeemQR}</h2>
             <p className="text-gray-500 mb-8">{t.showToVendor}</p>
             
@@ -322,7 +322,7 @@ export function WalletPanel({
               <QrCode className="w-full h-full text-black" />
             </div>
             
-            <p className="text-2xl font-bold tracking-[0.2em] text-orange-600 mb-6">{selectedVoucher.code}</p>
+            <p className="text-2xl font-bold tracking-[0.2em] text-[#E8622A] mb-6">{selectedVoucher.code}</p>
             
             <div className="text-3xl font-mono font-bold text-gray-800 animate-pulse">
               {formatTime(countdown)}
@@ -362,20 +362,20 @@ export function WalletPanel({
                 { title: t.freeDrinkCombo, pts: 800, stall: 'Siam Drinks' },
                 { title: t.rm10Voucher, pts: 1000, stall: t.anyStall }
               ].map((reward, i) => (
-                <div key={i} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4">
-                  <div className="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center text-orange-500 font-bold shrink-0">
+                <div key={i} className="bg-white p-4 rounded-xl shadow-sm border border-[#EDE4D4] flex items-center gap-4">
+                  <div className="w-12 h-12 bg-[#FDF0E8] rounded-lg flex items-center justify-center text-[#E8622A] font-bold shrink-0">
                     <Award className="w-6 h-6" />
                   </div>
                   <div className="flex-1">
                     <h4 className="font-bold text-gray-900">{reward.title}</h4>
-                    <p className="text-sm text-amber-600 font-bold">{reward.pts} {t.pts}</p>
+                    <p className="text-sm text-[#E8622A] font-bold">{reward.pts} {t.pts}</p>
                   </div>
                   <button
                     onClick={() => handleRedeem(reward)}
                     disabled={points < reward.pts}
                     className={`px-4 py-2 text-sm font-bold rounded-lg transition-colors
                       ${points >= reward.pts
-                        ? 'bg-black text-white hover:bg-gray-800'
+                        ? 'bg-[#E8622A] text-white hover:bg-[#E8622A]/90'
                         : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                       }
                     `}
@@ -397,18 +397,18 @@ export function WalletPanel({
                       ? `${c.progress!.current_value} / ${c.condition_threshold} stalls visited`
                       : `${c.progress!.current_value} / ${c.condition_threshold} pts spent`
                     return (
-                      <div key={c.campaign_id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                      <div key={c.campaign_id} className="bg-white p-4 rounded-xl shadow-sm border border-[#EDE4D4]">
                         <div className="flex items-start justify-between mb-2">
                           <div className="flex-1 pr-2">
                             <h4 className="font-bold text-gray-900 text-sm">{c.name}</h4>
                             <p className="text-xs text-gray-500 mt-0.5">Earn RM{c.reward_value} reward on completion</p>
                           </div>
                           {c.progress!.completed && (
-                            <span className="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full shrink-0">Done!</span>
+                            <span className="text-xs font-bold text-[#4A7C59] bg-[#EAF4EC] px-2 py-1 rounded-full shrink-0">Done!</span>
                           )}
                         </div>
-                        <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden mb-1">
-                          <div className="bg-orange-500 h-full rounded-full transition-all" style={{ width: `${pct}%` }} />
+                        <div className="w-full bg-[#EDE4D4] h-2 rounded-full overflow-hidden mb-1">
+                          <div className="bg-[#E8622A] h-full rounded-full transition-all" style={{ width: `${pct}%` }} />
                         </div>
                         <p className="text-xs text-gray-500">{condLabel}</p>
                       </div>
@@ -430,9 +430,9 @@ export function WalletPanel({
                         ? `Spend ${c.condition_threshold} pts`
                         : 'Tap at kiosk'
                     return (
-                      <div key={c.campaign_id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4">
-                        <div className="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center shrink-0">
-                          <Award className="w-5 h-5 text-orange-500" />
+                      <div key={c.campaign_id} className="bg-white p-4 rounded-xl shadow-sm border border-[#EDE4D4] flex items-center gap-4">
+                        <div className="w-10 h-10 bg-[#FDF0E8] rounded-lg flex items-center justify-center shrink-0">
+                          <Award className="w-5 h-5 text-[#E8622A]" />
                         </div>
                         <div className="flex-1">
                           <h4 className="font-bold text-gray-900 text-sm">{c.name}</h4>
@@ -440,7 +440,7 @@ export function WalletPanel({
                         </div>
                         <button
                           onClick={() => onRequestNfcConfirm({ type: 'campaign', campaign_id: c.campaign_id, name: c.name })}
-                          className="px-4 py-2 text-sm font-bold bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors shrink-0"
+                          className="px-4 py-2 text-sm font-bold bg-[#E8622A] text-white rounded-lg hover:bg-[#E8622A]/90 transition-colors shrink-0"
                         >
                           Enroll
                         </button>

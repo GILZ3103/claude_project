@@ -39,18 +39,18 @@ export function Header({ searchQuery, setSearchQuery, onLogoClick, onIconClick, 
   }, [searchQuery]);
 
   return (
-    <header className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200 shrink-0 h-[72px] z-50 relative">
+    <header className="flex items-center justify-between px-6 py-4 bg-[#FAF7F0] border-b border-[#EDE4D4] shrink-0 h-[72px] z-50 relative">
       {/* Left: Logo */}
       <button 
         onClick={onLogoClick}
-        className="text-2xl font-bold text-orange-500 hover:text-orange-600 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 rounded px-2"
+        className="text-2xl font-bold text-[#E8622A] hover:text-[#E8622A]/80 transition-colors focus:outline-none focus:ring-2 focus:ring-[#E8622A] rounded px-2"
       >
         WarungTek
       </button>
 
       {/* Center: Search */}
       <div className="relative w-96">
-        <div className={`flex items-center bg-gray-100 rounded-full px-4 py-2 transition-colors ${isFocused ? 'ring-2 ring-black bg-white' : ''}`}>
+        <div className={`flex items-center bg-white border border-[#EDE4D4] rounded-full px-4 py-2 transition-colors ${isFocused ? 'ring-2 ring-[#E8622A]' : ''}`}>
           <Search className="w-5 h-5 text-gray-500 mr-2" />
           <input 
             type="text"
@@ -89,7 +89,7 @@ export function Header({ searchQuery, setSearchQuery, onLogoClick, onIconClick, 
                       <div className="font-bold text-gray-900 truncate">{stall.name}</div>
                       <div className="text-xs text-gray-500 truncate">{stall.category} • {stall.featuredFood}</div>
                     </div>
-                    <div className="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded">{stall.distance}m</div>
+                    <div className="text-xs font-bold text-[#E8622A] bg-[#FDF0E8] px-2 py-1 rounded">{stall.distance}m</div>
                   </button>
                 ))}
               </div>
@@ -104,18 +104,18 @@ export function Header({ searchQuery, setSearchQuery, onLogoClick, onIconClick, 
       <div className="flex items-center space-x-2">
         {/* Face daemon live indicator — shown when not logged in */}
         {faceDaemonOnline && !isUserMode && (
-          <div className="flex items-center gap-1.5 bg-green-50 border border-green-200 rounded-full px-3 py-1 mr-1">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-xs font-medium text-green-700">Face scanning</span>
+          <div className="flex items-center gap-1.5 bg-[#EAF4EC] border border-[#4A7C59]/30 rounded-full px-3 py-1 mr-1">
+            <div className="w-2 h-2 rounded-full bg-[#4A7C59] animate-pulse" />
+            <span className="text-xs font-medium text-[#4A7C59]">Face scanning</span>
           </div>
         )}
         {isUserMode && cardData && (
-          <div className="flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-full px-3 py-1 mr-2" style={{ animation: 'headerUserIn 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards' }}>
-            <div className="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+          <div className="flex items-center gap-2 bg-[#FDF0E8] border border-[#E8622A]/30 rounded-full px-3 py-1 mr-2" style={{ animation: 'headerUserIn 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards' }}>
+            <div className="w-6 h-6 bg-[#E8622A] rounded-full flex items-center justify-center text-white text-xs font-bold">
               {cardData.owner_name[0].toUpperCase()}
             </div>
-            <span className="text-sm font-semibold text-orange-800">{cardData.owner_name}</span>
-            <span className="text-xs text-orange-600 font-medium">{cardData.points_balance} pts</span>
+            <span className="text-sm font-semibold text-[#1A1208]">{cardData.owner_name}</span>
+            <span className="text-xs text-[#E8622A] font-medium">{cardData.points_balance} pts</span>
           </div>
         )}
         <IconButton icon={<Settings className="w-5 h-5" />} onClick={() => onIconClick('settings')} />
@@ -139,7 +139,7 @@ function IconButton({ icon, onClick }: { icon: React.ReactNode, onClick: () => v
   return (
     <button 
       onClick={onClick}
-      className="p-3 rounded-full text-black hover:bg-black hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+      className="p-3 rounded-full text-[#1A1208] hover:bg-[#E8622A] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#E8622A] focus:ring-offset-2"
     >
       {icon}
     </button>
