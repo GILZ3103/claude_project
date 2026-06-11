@@ -51,7 +51,7 @@ export default function AiChat() {
         onClick={() => setOpen(v => !v)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 bg-gradient-to-br from-[#FF8A00] to-[#FFD166] text-white rounded-full shadow-xl flex items-center justify-center"
+        className="fixed bottom-24 md:bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-br from-[#FF8A00] to-[#FFD166] text-white rounded-full shadow-xl flex items-center justify-center"
         aria-label="AI Assistant"
       >
         <AnimatePresence mode="wait">
@@ -75,7 +75,7 @@ export default function AiChat() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: 'spring', bounce: 0.25 }}
-            className="fixed bottom-24 right-6 z-40 w-[360px] max-w-[calc(100vw-3rem)] bg-white rounded-[1.75rem] shadow-2xl border border-gray-100 flex flex-col overflow-hidden"
+            className="fixed bottom-40 md:bottom-24 right-6 z-40 w-[360px] max-w-[calc(100vw-3rem)] bg-white rounded-[1.75rem] shadow-2xl border border-gray-100 flex flex-col overflow-hidden"
             style={{ height: 520, maxHeight: 'calc(100vh - 8rem)' }}
           >
             {/* Header */}

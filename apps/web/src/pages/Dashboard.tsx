@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import {
   Plus, Flame, CreditCard, Navigation, History, Gift,
-  CheckCircle, ShieldCheck, Zap, QrCode
+  CheckCircle, ShieldCheck, Zap, QrCode, Search
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCard } from '../context/CardContext'
-import { getCardHistory, topup } from '../lib/api'
+import { getCardHistory, topup, getAllFood } from '../lib/api'
 
 export default function Dashboard() {
   const { card, refreshCard } = useCard()
@@ -24,10 +24,17 @@ export default function Dashboard() {
   // Voucher modal state
   const [selectedVoucher, setSelectedVoucher] = useState<any | null>(null)
 
+  // Food search state
+  const [foodQuery, setFoodQuery] = useState('')
+  const [foodItems, setFoodItems] = useState<any[]>([])
+  const [foodDropdownOpen, setFoodDropdownOpen] = useState(false)
+  const foodDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
   useEffect(() => {
     if (!card) return
     refreshCard()
     loadHistory()
+    getAllFood().then((items: any) => setFoodItems(items ?? [])).catch(() => {})
   }, [])
 
   async function loadHistory() {
@@ -66,6 +73,21 @@ export default function Dashboard() {
     return <div className="p-6 text-center text-gray-400">Please sign in first.</div>
   }
 
+  function handleFoodQueryChange(q: string) {
+    setFoodQuery(q)
+    if (foodDebounceRef.current) clearTimeout(foodDebounceRef.current)
+    foodDebounceRef.current = setTimeout(() => {
+      setFoodDropdownOpen(q.trim().length > 0)
+    }, 200)
+  }
+
+  const foodResults = foodQuery.trim()
+    ? foodItems.filter(f =>
+        f.name?.toLowerCase().includes(foodQuery.toLowerCase()) ||
+        f.vendor_name?.toLowerCase().includes(foodQuery.toLowerCase())
+      ).slice(0, 5)
+    : []
+
   const balance = Number(card.points_balance).toFixed(2)
   const caloriesToday = card.calories_today ?? 0
   const calorieLimit = card.calorie_limit ?? 2000
@@ -93,6 +115,54 @@ export default function Dashboard() {
             {card.owner_name}
           </h1>
         </motion.div>
+      </div>
+
+      {/* Food search bar */}
+      <div className="mb-5 z-10 relative">
+        <div className="relative">
+          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 pointer-events-none" />
+          <input
+            type="text"
+            value={foodQuery}
+            onChange={e => handleFoodQueryChange(e.target.value)}
+            onFocus={() => foodQuery.trim() && setFoodDropdownOpen(true)}
+            onBlur={() => setTimeout(() => setFoodDropdownOpen(false), 150)}
+            placeholder="Search for food or vendor…"
+            className="w-full bg-white/20 backdrop-blur-sm text-white placeholder-white/60 pl-10 pr-4 py-3 rounded-2xl border border-white/30 focus:outline-none focus:bg-white/30 transition-all text-sm font-medium"
+          />
+        </div>
+        <AnimatePresence>
+          {foodDropdownOpen && foodResults.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              className="absolute top-full mt-2 left-0 right-0 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50"
+            >
+              {foodResults.map(f => (
+                <button
+                  key={f.food_item_id}
+                  onMouseDown={() => {
+                    setFoodDropdownOpen(false)
+                    setFoodQuery('')
+                    navigate(`/map?vendor=${f.vendor_id}`)
+                  }}
+                  className="w-full flex items-center justify-between px-4 py-3 hover:bg-orange-50 transition-colors border-b border-gray-50 last:border-0 text-left"
+                >
+                  <div>
+                    <p className="text-sm font-semibold text-[#1A1A1A] truncate">{f.name}</p>
+                    <p className="text-xs text-[#6B7280]">{f.vendor_name}</p>
+                  </div>
+                  {f.calories != null && (
+                    <span className="text-xs font-medium text-orange-500 bg-orange-50 px-2 py-0.5 rounded-lg shrink-0 ml-2">
+                      {f.calories} kcal
+                    </span>
+                  )}
+                </button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Main card: Wallet + Calorie */}

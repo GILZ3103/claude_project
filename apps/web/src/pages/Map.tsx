@@ -37,6 +37,7 @@ export default function Map() {
 
   const initialFilter = (searchParams.get('filter') as QuickFilter) ?? 'all'
   const maxCalParam = searchParams.get('max_calories')
+  const initialVendorId = searchParams.get('vendor')
 
   const [searchQuery, setSearchQuery] = useState('')
   const [quickFilter, setQuickFilter] = useState<QuickFilter>(initialFilter)
@@ -76,6 +77,12 @@ export default function Map() {
         if (cal != null && cal <= threshold && f.vendor_id) ids.add(f.vendor_id)
       })
       setLowCalVendorIds(ids)
+      if (initialVendorId) {
+        setSelectedVendorId(initialVendorId)
+        setLoadingFood(true)
+        getVendorFood(initialVendorId).then((food: any) => setSelectedVendorFood(food ?? []))
+          .catch(() => setSelectedVendorFood([])).finally(() => setLoadingFood(false))
+      }
     }).catch(() => toast.error('Failed to load map')).finally(() => setLoading(false))
   }, [])
 
@@ -141,19 +148,29 @@ export default function Map() {
     ? vendors.find(v => v.vendor_id === live.nearest!.vendorId)
     : null
   const gridToPct = (gx: number, gy: number) => ({
-    left: Math.min(24, Math.max(2, (gx / 10) * 22 + 2)),
-    top: Math.min(28, Math.max(2, (gy / 10) * 24 + 2)),
+    left: Math.min(88, Math.max(5, (gx / 10) * 83 + 5)),
+    top:  Math.min(72, Math.max(5, (gy / 10) * 67 + 5)),
   })
   const youTarget =
     live.scanState === 'scanning' && nearestVendor?.grid_x != null
       ? (() => {
           const p = gridToPct(Number(nearestVendor.grid_x), Number(nearestVendor.grid_y))
-          return { left: p.left, top: Math.min(30, p.top + 4) } // stand just in front of the stall
+          return { left: p.left, top: Math.min(78, p.top + 4) }
         })()
       : live.position
         ? gridToPct(live.position.x, live.position.y)
-        : { left: 65, top: 68 }
+        : { left: 50, top: 85 }
   const isWalking = live.scanState === 'scanning' && !!nearestVendor
+
+  const navPath = isNavigating && selectedVendor ? (() => {
+    const selIdx = filteredVendors.findIndex(v => v.vendor_id === selectedVendorId)
+    const selCol = selIdx % 5
+    const selRow = Math.floor(selIdx / 5)
+    const selGx = selectedVendor.grid_x != null ? Number(selectedVendor.grid_x) : selCol * 2
+    const selGy = selectedVendor.grid_y != null ? Number(selectedVendor.grid_y) : selRow * 2.5
+    const dest = gridToPct(selGx, selGy)
+    return { dest, from: youTarget }
+  })() : null
 
   if (loading) {
     return (
@@ -243,23 +260,28 @@ export default function Map() {
                 <line x1="0" y1={`${p}`} x2="100" y2={`${p}`} stroke="#B5B0A8" strokeWidth="0.5" />
               </g>
             ))}
-            {/* Vendor zone boundary — first 5×5 units = top-left 25%×30% */}
-            <rect x="1" y="1" width="24" height="29" fill="rgba(255,138,0,0.06)" stroke="#FF8A00" strokeWidth="0.6" strokeDasharray="2.5 1.5" rx="1" />
             {/* Main walkway */}
             <line x1="25" y1="0" x2="25" y2="100" stroke="#A09B93" strokeWidth="1" strokeDasharray="4 2" />
             <line x1="0" y1="30" x2="100" y2="30" stroke="#A09B93" strokeWidth="1" strokeDasharray="4 2" />
           </svg>
 
-          {/* Zone label */}
-          <div className="absolute pointer-events-none z-10"
-            style={{ left: '1%', top: '31%' }}
-          >
-            <span className="text-[8px] font-bold uppercase tracking-widest text-gray-400 bg-[#EEE9E0]/80 px-1.5 py-0.5 rounded">
-              Vendor Zone
-            </span>
-          </div>
+          {/* Navigation path — L-shaped route from YOU to selected vendor */}
+          {navPath && (
+            <svg className="absolute inset-0 w-full h-full pointer-events-none z-20" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <polyline
+                points={`${navPath.from.left},${navPath.from.top} ${navPath.dest.left},${navPath.from.top} ${navPath.dest.left},${navPath.dest.top}`}
+                fill="none"
+                stroke="#FF8A00"
+                strokeWidth="1.5"
+                strokeDasharray="4 2"
+                strokeLinecap="round"
+                opacity={0.8}
+              />
+              <circle cx={navPath.dest.left} cy={navPath.dest.top} r="2.5" fill="#FF8A00" opacity={0.9} />
+            </svg>
+          )}
 
-          {/* Vendor stalls — positioned inside the 5×5 zone (top-left 25%×30% of canvas) */}
+          {/* Vendor stalls — scattered across the full map canvas */}
           {filteredVendors.map((v, idx) => {
             const isSelected = selectedVendorId === v.vendor_id
             // The stall whose beacon the phone hears strongest = where the user is standing.
@@ -267,15 +289,11 @@ export default function Map() {
             const borderCls  = CATEGORY_BORDERS[v.category] ?? CATEGORY_BORDERS.Default
             const bgCls      = CATEGORY_COLORS[v.category]  ?? CATEGORY_COLORS.Default
 
-            // Map existing grid_x/grid_y (0–10 range) into the 5×5 zone (0–25% wide, 0–28% tall)
             const col  = idx % 5
             const row  = Math.floor(idx / 5)
-            const left = v.grid_x != null
-              ? Math.min(23, Math.max(3, (v.grid_x / 10) * 22 + 2))
-              : col * 4.5 + 2.5
-            const top  = v.grid_y != null
-              ? Math.min(27, Math.max(3, (v.grid_y / 10) * 24 + 2))
-              : row * 5.5 + 3
+            const gx   = v.grid_x != null ? Number(v.grid_x) : col * 2
+            const gy   = v.grid_y != null ? Number(v.grid_y) : row * 2.5
+            const { left, top } = gridToPct(gx, gy)
 
             return (
               <div
