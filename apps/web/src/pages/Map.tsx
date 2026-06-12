@@ -33,12 +33,67 @@ type Pt = { left: number; top: number }
 
 const WALK_SPEED = 6 // map-% per second — walking pace across the floor plan
 
+// Hold a candidate "nearest beacon" this long before committing to it, so RSSI
+// noise can't make the pin flap between stalls while the user is standing still.
+const BEACON_SWITCH_DELAY = 1500 // ms
+
 // The two dashed walkway lines drawn on the map SVG (0–100 coordinate space).
 const CORRIDOR_X = 25
 const CORRIDOR_Y = 30
 
+const dist = (a: Pt, b: Pt) => Math.hypot(a.left - b.left, a.top - b.top)
+
 const pathLength = (pts: Pt[]) =>
   pts.slice(1).reduce((sum, p, i) => sum + Math.abs(p.left - pts[i].left) + Math.abs(p.top - pts[i].top), 0)
+
+// Total arc-length of a polyline.
+const polyLen = (pts: Pt[]) => pts.slice(1).reduce((s, p, i) => s + dist(pts[i], p), 0)
+
+// Arc-length (from the start) of the closest point on the polyline to p. Used to
+// turn "which beacon is nearest" into "how far along the route the user has got".
+function projectArcLen(pts: Pt[], p: Pt): number {
+  let best = Infinity, bestLen = 0, acc = 0
+  for (let i = 1; i < pts.length; i++) {
+    const a = pts[i - 1], b = pts[i]
+    const segLen = dist(a, b)
+    if (segLen === 0) continue
+    const t = Math.max(0, Math.min(1,
+      ((p.left - a.left) * (b.left - a.left) + (p.top - a.top) * (b.top - a.top)) / (segLen * segLen)))
+    const proj = { left: a.left + t * (b.left - a.left), top: a.top + t * (b.top - a.top) }
+    const d = dist(p, proj)
+    if (d < best) { best = d; bestLen = acc + t * segLen }
+    acc += segLen
+  }
+  return bestLen
+}
+
+// The point sitting `len` units along the polyline.
+function pointAtLen(pts: Pt[], len: number): Pt {
+  let acc = 0
+  for (let i = 1; i < pts.length; i++) {
+    const a = pts[i - 1], b = pts[i]
+    const segLen = dist(a, b)
+    if (acc + segLen >= len) {
+      const t = segLen === 0 ? 0 : (len - acc) / segLen
+      return { left: a.left + t * (b.left - a.left), top: a.top + t * (b.top - a.top) }
+    }
+    acc += segLen
+  }
+  return pts[pts.length - 1]
+}
+
+// Waypoints to walk for one forward advance: the route vertices strictly between
+// fromLen and toLen, then the exact point at toLen. Keeps corners on the path.
+function subPath(pts: Pt[], fromLen: number, toLen: number): Pt[] {
+  const out: Pt[] = []
+  let acc = 0
+  for (let i = 1; i < pts.length; i++) {
+    acc += dist(pts[i - 1], pts[i])
+    if (acc > fromLen && acc < toLen) out.push(pts[i])
+  }
+  out.push(pointAtLen(pts, toLen))
+  return out
+}
 
 // Route from A to B along the corridors instead of cutting diagonally.
 // Returns the waypoints to walk through (destination included, start excluded).
@@ -165,42 +220,87 @@ export default function Map() {
 
   const selectedVendor = vendors.find(v => v.vendor_id === selectedVendorId)
 
-  // ── "Walk toward the nearest stall" pin ───────────────────────────────────
-  // We only have proximity (which beacon is strongest), not exact coordinates, so
-  // the YOU pin is animated toward the nearest stall to simulate the user walking
-  // there. When the strongest beacon changes, the pin glides to the new stall.
-  const nearestVendor = live.nearest?.vendorId
-    ? vendors.find(v => v.vendor_id === live.nearest!.vendorId)
-    : null
   const gridToPct = (gx: number, gy: number) => ({
     left: Math.min(88, Math.max(5, (gx / 10) * 83 + 5)),
     top:  Math.min(72, Math.max(5, (gy / 10) * 67 + 5)),
   })
-  const youTarget =
-    live.scanState === 'scanning' && nearestVendor?.grid_x != null
-      ? (() => {
-          const p = gridToPct(Number(nearestVendor.grid_x), Number(nearestVendor.grid_y))
-          return { left: p.left, top: Math.min(78, p.top + 4) }
-        })()
-      : live.position
-        ? gridToPct(live.position.x, live.position.y)
-        : { left: 50, top: 85 }
+  // Where the pin should stand to be "at" a stall — just in front of its pin.
+  const stallPoint = (v: any): Pt => {
+    const p = gridToPct(Number(v.grid_x), Number(v.grid_y))
+    return { left: p.left, top: Math.min(78, p.top + 4) }
+  }
+
+  // ── Committed nearest beacon (debounced) ─────────────────────────────────
+  // Raw RSSI flaps every second, so a stationary user would otherwise see the pin
+  // shuffle between stalls. We only commit to a new strongest beacon once it has
+  // held the lead for BEACON_SWITCH_DELAY — giving a stable target when still.
+  const [committedMinor, setCommittedMinor] = useState<number | null>(null)
+  useEffect(() => {
+    const m = live.nearest?.beaconMinor ?? null
+    if (m === committedMinor) return
+    if (committedMinor === null && m !== null) { setCommittedMinor(m); return } // snap first lock
+    const t = setTimeout(() => setCommittedMinor(m), BEACON_SWITCH_DELAY)
+    return () => clearTimeout(t)
+  }, [live.nearest?.beaconMinor, committedMinor])
+
+  const committedAnchor = committedMinor != null
+    ? anchors.find(a => a.beacon_minor === committedMinor) ?? null
+    : null
+  // The stall the committed beacon belongs to — drives the "nearest" readouts.
+  const nearestVendor = committedAnchor?.vendor_id
+    ? vendors.find(v => v.vendor_id === committedAnchor.vendor_id) ?? null
+    : null
+
   // ── Walk-queue: animate the pin segment-by-segment along the corridors ────
   const [walkQueue, setWalkQueue] = useState<Pt[]>([])
-  const posRef = useRef<Pt>({ left: 50, top: 85 })      // last settled position
-  const walkDestRef = useRef<Pt | null>(null)            // final destination of current route
+  const posRef = useRef<Pt>({ left: 50, top: 85 })  // last settled position (on the route)
 
+  // Active navigation: the chosen destination + how far along the route we've
+  // committed to walking (monotonic — only advances toward the destination).
+  const navTarget = isNavigating && selectedVendor ? stallPoint(selectedVendor) : null
+  const routeRef = useRef<Pt[] | null>(null)
+  const progressRef = useRef(0)
+
+  // (Re)build the corridor route whenever navigation starts or the target changes.
   useEffect(() => {
-    const dest = walkDestRef.current
-    // Jitter guard: ignore target wobble near the route's current destination.
-    if (dest && Math.abs(dest.left - youTarget.left) < 1.5 && Math.abs(dest.top - youTarget.top) < 1.5) return
-    if (Math.abs(posRef.current.left - youTarget.left) < 1.5 && Math.abs(posRef.current.top - youTarget.top) < 1.5) {
-      walkDestRef.current = { ...youTarget }
+    if (isNavigating && selectedVendor) {
+      routeRef.current = [posRef.current, ...routeViaWalkways(posRef.current, stallPoint(selectedVendor))]
+      progressRef.current = projectArcLen(routeRef.current, posRef.current)
+    } else {
+      routeRef.current = null
+      progressRef.current = 0
+    }
+  }, [isNavigating, selectedVendorId])
+
+  // Drive the pin. Navigation mode advances along the locked route toward the
+  // chosen stall, using the committed beacon as a progress checkpoint. Free roam
+  // walks to the committed nearest stall. Both react only to a committed-beacon
+  // change, so a stationary user produces no movement.
+  useEffect(() => {
+    if (live.scanState !== 'scanning') return
+
+    const route = routeRef.current
+    if (route && navTarget) {
+      const total = polyLen(route)
+      const checkpoint = committedAnchor
+        ? projectArcLen(route, gridToPct(committedAnchor.grid_x, committedAnchor.grid_y))
+        : progressRef.current
+      const next = Math.min(total, Math.max(progressRef.current, checkpoint))
+      if (next - progressRef.current > 0.5) {
+        const cur = projectArcLen(route, posRef.current)
+        setWalkQueue(subPath(route, cur, next))
+        progressRef.current = next
+      }
       return
     }
-    walkDestRef.current = { ...youTarget }
-    setWalkQueue(routeViaWalkways(posRef.current, youTarget))
-  }, [youTarget.left, youTarget.top])
+
+    const target = nearestVendor?.grid_x != null
+      ? stallPoint(nearestVendor)
+      : live.position ? gridToPct(live.position.x, live.position.y) : null
+    if (!target) return
+    if (dist(posRef.current, target) < 1.5) return  // jitter guard
+    setWalkQueue(routeViaWalkways(posRef.current, target))
+  }, [committedMinor, isNavigating, selectedVendorId, live.scanState])
 
   const nextStop = walkQueue[0] ?? null
   const youDisplay = nextStop ?? posRef.current
@@ -208,17 +308,10 @@ export default function Map() {
     ? Math.max(0.4, pathLength([posRef.current, nextStop]) / WALK_SPEED)
     : 0.4
 
-  const isWalking = (live.scanState === 'scanning' && !!nearestVendor) || walkQueue.length > 0
+  const isWalking = walkQueue.length > 0
+  const arrived = !!navTarget && walkQueue.length === 0 && dist(posRef.current, navTarget) < 2.5
 
-  const navPath = isNavigating && selectedVendor ? (() => {
-    const selIdx = filteredVendors.findIndex(v => v.vendor_id === selectedVendorId)
-    const selCol = selIdx % 5
-    const selRow = Math.floor(selIdx / 5)
-    const selGx = selectedVendor.grid_x != null ? Number(selectedVendor.grid_x) : selCol * 2
-    const selGy = selectedVendor.grid_y != null ? Number(selectedVendor.grid_y) : selRow * 2.5
-    const dest = gridToPct(selGx, selGy)
-    return { dest, from: youDisplay }
-  })() : null
+  const navPath = navTarget ? { dest: navTarget, from: youDisplay } : null
 
   if (loading) {
     return (
@@ -264,10 +357,14 @@ export default function Map() {
 
           {/* Nearest-stall readout — strongest beacon → the vendor it's mounted at.
               Robust even with a single beacon in range (no trilateration needed). */}
-          {live.scanState === 'scanning' && live.nearest?.businessName && (
+          {live.scanState === 'scanning' && nearestVendor?.business_name && (
             <span className="inline-flex items-center gap-1.5 bg-orange-500 text-white text-[11px] font-semibold px-2.5 py-1 rounded-full shadow max-w-full">
               <MapPin size={11} className="shrink-0" />
-              <span className="truncate">You're at: {live.nearest.businessName}</span>
+              <span className="truncate">
+                {navTarget && !arrived
+                  ? `Heading to ${selectedVendor?.business_name} · near ${nearestVendor.business_name}`
+                  : `You're at: ${nearestVendor.business_name}`}
+              </span>
             </span>
           )}
         </div>
@@ -332,8 +429,8 @@ export default function Map() {
           {/* Vendor stalls — scattered across the full map canvas */}
           {filteredVendors.map((v, idx) => {
             const isSelected = selectedVendorId === v.vendor_id
-            // The stall whose beacon the phone hears strongest = where the user is standing.
-            const isNearest  = live.scanState === 'scanning' && live.nearest?.vendorId === v.vendor_id
+            // The stall whose beacon the phone hears strongest (debounced) = where the user is.
+            const isNearest  = live.scanState === 'scanning' && nearestVendor?.vendor_id === v.vendor_id
             const borderCls  = CATEGORY_BORDERS[v.category] ?? CATEGORY_BORDERS.Default
             const bgCls      = CATEGORY_COLORS[v.category]  ?? CATEGORY_COLORS.Default
 
@@ -422,21 +519,32 @@ export default function Map() {
             className="absolute z-50 pointer-events-none flex flex-col items-center"
             style={{ transform: 'translate(-50%, -100%)' }}
           >
-            <motion.div
-              animate={{ scale: [1, 1.7, 1], opacity: [0.35, 0, 0.35] }}
-              transition={{ duration: 2.2, repeat: Infinity }}
-              className="absolute top-0 w-12 h-12 rounded-full bg-orange-400/40"
-            />
+            {/* Expanding ping only while actually moving; a calm dot when idle */}
+            {isWalking && (
+              <motion.div
+                animate={{ scale: [1, 1.7, 1], opacity: [0.35, 0, 0.35] }}
+                transition={{ duration: 2.2, repeat: Infinity }}
+                className="absolute top-0 w-12 h-12 rounded-full bg-orange-400/40"
+              />
+            )}
             <div className={`relative w-12 h-12 rounded-full border-[3px] border-white shadow-2xl flex flex-col items-center justify-center ${live.scanState === 'scanning' ? 'bg-orange-500' : 'bg-gray-400'}`}>
               <span className="text-white text-[10px] font-black leading-none">YOU</span>
               <span className="text-white text-[7px] font-semibold leading-tight">are here</span>
             </div>
             <div className={`w-0 h-0 border-l-[6px] border-r-[6px] border-t-[10px] border-l-transparent border-r-transparent -mt-px ${live.scanState === 'scanning' ? 'border-t-orange-500' : 'border-t-gray-400'}`} />
-            {isWalking && nearestVendor?.business_name && (
-              <span className="mt-1 text-[7px] font-bold text-orange-700 bg-white/85 px-1.5 py-0.5 rounded-full shadow whitespace-nowrap">
-                Walking to {nearestVendor.business_name}
-              </span>
-            )}
+            {live.scanState === 'scanning' && (navTarget
+              ? (
+                <span className="mt-1 text-[7px] font-bold text-orange-700 bg-white/85 px-1.5 py-0.5 rounded-full shadow whitespace-nowrap">
+                  {arrived
+                    ? `Arrived at ${selectedVendor?.business_name}`
+                    : `→ ${selectedVendor?.business_name}${nearestVendor?.business_name ? ` · near ${nearestVendor.business_name}` : ''}`}
+                </span>
+              )
+              : nearestVendor?.business_name && (
+                <span className="mt-1 text-[7px] font-bold text-orange-700 bg-white/85 px-1.5 py-0.5 rounded-full shadow whitespace-nowrap">
+                  Near {nearestVendor.business_name}
+                </span>
+              ))}
           </motion.div>
 
           {/* Persistent tracking button — tapping starts BLE scan or re-triggers the BT popup */}

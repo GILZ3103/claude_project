@@ -23261,3 +23261,32 @@
 2026-06-12 13:12:15,560 [INFO] 10.69.114.62 - - [12/Jun/2026 13:12:15] "GET /face/recognized HTTP/1.1" 200 -
 2026-06-12 13:12:15,633 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.519 after 4 frames
 2026-06-12 13:12:16,316 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.519 after 4 frames
+2026-06-12 13:36:42,639 [INFO] Loaded 64 embeddings from faces.db
+2026-06-12 13:36:42,639 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-12 13:36:42,639 [INFO] Detection loop running.
+2026-06-12 13:36:44,264 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.69.114.61:5002
+2026-06-12 13:36:44,265 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-12 13:36:45,288 [INFO] Camera opened via OpenCV/DirectShow (USB webcam)
+2026-06-12 13:36:45,289 [INFO] Capture loop running.
+2026-06-12 13:37:01,817 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-12 13:37:01,882 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-12 13:37:13,632 [INFO] Enrolled 8/8 augmented variants of USER-2YPV8IT8.jpg for Noel
+2026-06-12 13:37:13,720 [INFO] Synced face: Noel (USER-2YPV8IT8)
+2026-06-12 13:37:25,688 [INFO] Enrolled 8/8 augmented variants of USER-13LRYBBJ.jpg for Yap Jun Xi 
+2026-06-12 13:37:25,751 [INFO] Synced face: Yap Jun Xi  (USER-13LRYBBJ)
+2026-06-12 13:37:40,672 [INFO] Enrolled 8/8 augmented variants of USER-J8QOS9QD.jpg for HO KAH HENG
+2026-06-12 13:37:40,766 [INFO] Synced face: HO KAH HENG (USER-J8QOS9QD)
+2026-06-12 13:37:51,562 [INFO] Enrolled 8/8 augmented variants of USER-PTRR2LP6.jpg for MAMA
+2026-06-12 13:37:51,629 [INFO] Synced face: MAMA (USER-PTRR2LP6)
+2026-06-12 13:38:02,250 [INFO] Enrolled 8/8 augmented variants of USER-CAPA6ZIP.jpg for Badrina
+2026-06-12 13:38:02,315 [INFO] Synced face: Badrina (USER-CAPA6ZIP)
+2026-06-12 13:38:13,099 [INFO] Enrolled 8/8 augmented variants of USER-R9JRXTF4.jpg for Gilbert Lee
+2026-06-12 13:38:13,159 [INFO] Synced face: Gilbert Lee (USER-R9JRXTF4)
+2026-06-12 13:38:24,594 [INFO] Enrolled 8/8 augmented variants of USER-TQ9NZ31E.jpg for CELINE LEE
+2026-06-12 13:38:24,650 [INFO] Synced face: CELINE LEE (USER-TQ9NZ31E)
+2026-06-12 13:38:24,683 [INFO] Loaded 64 embeddings from faces.db
+2026-06-12 13:38:24,684 [INFO] Cache reloaded — 8 changes total
+2026-06-12 13:38:24,696 [INFO] Startup sync complete: 8 people enrolled/updated
