@@ -21998,3 +21998,1266 @@
 2026-06-11 16:34:04,641 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.490 after 5 frames
 2026-06-11 16:34:05,356 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.475 after 5 frames
 2026-06-11 16:34:05,988 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.468 after 5 frames
+2026-06-12 11:17:38,885 [INFO] Loaded 72 embeddings from faces.db
+2026-06-12 11:17:38,888 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-12 11:17:38,935 [INFO] Detection loop running.
+2026-06-12 11:17:41,180 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.69.114.61:5002
+2026-06-12 11:17:41,424 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-12 11:17:49,703 [INFO] Camera opened via OpenCV/DirectShow (USB webcam)
+2026-06-12 11:17:49,716 [INFO] Capture loop running.
+2026-06-12 11:18:19,923 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-12 11:18:20,146 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-12 11:18:43,932 [INFO] Enrolled 8/8 augmented variants of USER-2YPV8IT8.jpg for Noel
+2026-06-12 11:18:44,075 [INFO] Synced face: Noel (USER-2YPV8IT8)
+2026-06-12 11:19:09,711 [INFO] Enrolled 8/8 augmented variants of USER-13LRYBBJ.jpg for Yap Jun Xi 
+2026-06-12 11:19:09,846 [INFO] Synced face: Yap Jun Xi  (USER-13LRYBBJ)
+2026-06-12 11:19:31,163 [INFO] Enrolled 8/8 augmented variants of USER-J8QOS9QD.jpg for HO KAH HENG
+2026-06-12 11:19:31,288 [INFO] Synced face: HO KAH HENG (USER-J8QOS9QD)
+2026-06-12 11:19:48,298 [INFO] Enrolled 8/8 augmented variants of USER-O9NX91FT.jpg for Lee Jen Sen 
+2026-06-12 11:19:48,399 [INFO] Synced face: Lee Jen Sen  (USER-O9NX91FT)
+2026-06-12 11:20:04,799 [INFO] Enrolled 8/8 augmented variants of USER-R9JRXTF4.jpg for Gilbert Lee
+2026-06-12 11:20:04,897 [INFO] Synced face: Gilbert Lee (USER-R9JRXTF4)
+2026-06-12 11:20:17,960 [INFO] Enrolled 8/8 augmented variants of USER-PTRR2LP6.jpg for MAMA
+2026-06-12 11:20:18,022 [INFO] Synced face: MAMA (USER-PTRR2LP6)
+2026-06-12 11:20:29,912 [INFO] Enrolled 8/8 augmented variants of USER-CAPA6ZIP.jpg for Badrina
+2026-06-12 11:20:29,975 [INFO] Synced face: Badrina (USER-CAPA6ZIP)
+2026-06-12 11:20:44,845 [INFO] Enrolled 8/8 augmented variants of USER-TQ9NZ31E.jpg for CELINE LEE
+2026-06-12 11:20:44,907 [INFO] Synced face: CELINE LEE (USER-TQ9NZ31E)
+2026-06-12 11:20:45,005 [INFO] Loaded 72 embeddings from faces.db
+2026-06-12 11:20:45,006 [INFO] Cache reloaded — 9 changes total
+2026-06-12 11:20:45,028 [INFO] Startup sync complete: 9 people enrolled/updated
+2026-06-12 11:21:55,972 [INFO] 127.0.0.1 - - [12/Jun/2026 11:21:55] "GET /stream HTTP/1.1" 200 -
+2026-06-12 11:34:03,682 [INFO] Loaded 72 embeddings from faces.db
+2026-06-12 11:34:03,683 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-12 11:34:03,685 [INFO] Detection loop running.
+2026-06-12 11:34:05,298 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.69.114.61:5002
+2026-06-12 11:34:05,299 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-12 11:34:06,358 [INFO] Camera opened via OpenCV/DirectShow (USB webcam)
+2026-06-12 11:34:06,358 [INFO] Capture loop running.
+2026-06-12 11:34:26,428 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-12 11:34:26,515 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-12 11:34:36,774 [INFO] Enrolled 8/8 augmented variants of USER-2YPV8IT8.jpg for Noel
+2026-06-12 11:34:36,836 [INFO] Synced face: Noel (USER-2YPV8IT8)
+2026-06-12 11:34:46,066 [INFO] Enrolled 8/8 augmented variants of USER-13LRYBBJ.jpg for Yap Jun Xi 
+2026-06-12 11:34:46,119 [INFO] Synced face: Yap Jun Xi  (USER-13LRYBBJ)
+2026-06-12 11:34:56,452 [INFO] Enrolled 8/8 augmented variants of USER-J8QOS9QD.jpg for HO KAH HENG
+2026-06-12 11:34:56,535 [INFO] Synced face: HO KAH HENG (USER-J8QOS9QD)
+2026-06-12 11:35:06,859 [INFO] Enrolled 8/8 augmented variants of USER-O9NX91FT.jpg for Lee Jen Sen 
+2026-06-12 11:35:06,902 [INFO] Synced face: Lee Jen Sen  (USER-O9NX91FT)
+2026-06-12 11:35:16,868 [INFO] Enrolled 8/8 augmented variants of USER-R9JRXTF4.jpg for Gilbert Lee
+2026-06-12 11:35:16,915 [INFO] Synced face: Gilbert Lee (USER-R9JRXTF4)
+2026-06-12 11:35:26,691 [INFO] Enrolled 8/8 augmented variants of USER-PTRR2LP6.jpg for MAMA
+2026-06-12 11:35:26,746 [INFO] Synced face: MAMA (USER-PTRR2LP6)
+2026-06-12 11:35:36,766 [INFO] Enrolled 8/8 augmented variants of USER-CAPA6ZIP.jpg for Badrina
+2026-06-12 11:35:36,813 [INFO] Synced face: Badrina (USER-CAPA6ZIP)
+2026-06-12 11:41:18,040 [INFO] Loaded 68 embeddings from faces.db
+2026-06-12 11:41:18,040 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-12 11:41:18,043 [INFO] Detection loop running.
+2026-06-12 11:41:20,382 [INFO] Camera opened via OpenCV/DirectShow (USB webcam)
+2026-06-12 11:41:20,383 [INFO] Capture loop running.
+2026-06-12 11:41:20,747 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.69.114.61:5002
+2026-06-12 11:41:20,748 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-12 11:41:29,105 [INFO] 10.69.114.62 - - [12/Jun/2026 11:41:29] "GET /health HTTP/1.1" 200 -
+2026-06-12 11:41:32,820 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-12 11:41:32,866 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-12 11:41:42,810 [INFO] Enrolled 8/8 augmented variants of USER-2YPV8IT8.jpg for Noel
+2026-06-12 11:41:42,860 [INFO] Synced face: Noel (USER-2YPV8IT8)
+2026-06-12 11:41:52,695 [INFO] Enrolled 8/8 augmented variants of USER-13LRYBBJ.jpg for Yap Jun Xi 
+2026-06-12 11:41:52,741 [INFO] Synced face: Yap Jun Xi  (USER-13LRYBBJ)
+2026-06-12 11:42:08,892 [INFO] Enrolled 8/8 augmented variants of USER-J8QOS9QD.jpg for HO KAH HENG
+2026-06-12 11:42:09,079 [INFO] Synced face: HO KAH HENG (USER-J8QOS9QD)
+2026-06-12 11:42:12,651 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.595 after 3 frames
+2026-06-12 11:42:21,417 [INFO] Enrolled 8/8 augmented variants of USER-O9NX91FT.jpg for Lee Jen Sen 
+2026-06-12 11:42:21,464 [INFO] Synced face: Lee Jen Sen  (USER-O9NX91FT)
+2026-06-12 11:42:32,226 [INFO] Enrolled 8/8 augmented variants of USER-R9JRXTF4.jpg for Gilbert Lee
+2026-06-12 11:42:32,282 [INFO] Synced face: Gilbert Lee (USER-R9JRXTF4)
+2026-06-12 11:42:49,075 [INFO] Enrolled 8/8 augmented variants of USER-PTRR2LP6.jpg for MAMA
+2026-06-12 11:42:49,118 [INFO] Synced face: MAMA (USER-PTRR2LP6)
+2026-06-12 11:43:08,394 [INFO] Enrolled 8/8 augmented variants of USER-CAPA6ZIP.jpg for Badrina
+2026-06-12 11:43:08,452 [INFO] Synced face: Badrina (USER-CAPA6ZIP)
+2026-06-12 11:43:20,092 [INFO] Enrolled 8/8 augmented variants of USER-TQ9NZ31E.jpg for CELINE LEE
+2026-06-12 11:43:20,148 [INFO] Synced face: CELINE LEE (USER-TQ9NZ31E)
+2026-06-12 11:43:20,180 [INFO] Loaded 72 embeddings from faces.db
+2026-06-12 11:43:20,181 [INFO] Cache reloaded — 9 changes total
+2026-06-12 11:43:20,187 [INFO] Startup sync complete: 9 people enrolled/updated
+2026-06-12 11:43:49,855 [INFO] 127.0.0.1 - - [12/Jun/2026 11:43:49] "GET /health HTTP/1.1" 200 -
+2026-06-12 11:43:50,121 [INFO] 127.0.0.1 - - [12/Jun/2026 11:43:50] "GET /stats HTTP/1.1" 200 -
+2026-06-12 11:47:41,563 [INFO] 10.69.114.62 - - [12/Jun/2026 11:47:41] "GET /health HTTP/1.1" 200 -
+2026-06-12 11:48:18,644 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.549 after 4 frames
+2026-06-12 11:48:20,478 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.531 after 3 frames
+2026-06-12 11:48:21,212 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.531 after 3 frames
+2026-06-12 11:48:21,798 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.541 after 3 frames
+2026-06-12 11:48:22,539 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.548 after 4 frames
+2026-06-12 11:48:23,116 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.548 after 4 frames
+2026-06-12 11:48:23,684 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.559 after 3 frames
+2026-06-12 11:48:24,240 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.566 after 3 frames
+2026-06-12 11:48:24,814 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.566 after 4 frames
+2026-06-12 11:48:25,384 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.562 after 5 frames
+2026-06-12 11:48:26,141 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.563 after 5 frames
+2026-06-12 11:48:26,763 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.564 after 4 frames
+2026-06-12 11:48:27,561 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.567 after 3 frames
+2026-06-12 11:48:28,120 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.585 after 3 frames
+2026-06-12 11:48:28,853 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.583 after 4 frames
+2026-06-12 11:48:29,587 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.589 after 5 frames
+2026-06-12 11:48:30,177 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.588 after 5 frames
+2026-06-12 11:48:30,753 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.594 after 5 frames
+2026-06-12 11:48:31,326 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.599 after 5 frames
+2026-06-12 11:48:32,082 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.609 after 5 frames
+2026-06-12 11:48:33,016 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.611 after 5 frames
+2026-06-12 11:48:33,783 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.617 after 5 frames
+2026-06-12 11:48:34,545 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.618 after 5 frames
+2026-06-12 11:48:35,359 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.622 after 5 frames
+2026-06-12 11:48:36,156 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.615 after 5 frames
+2026-06-12 11:48:37,074 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.612 after 5 frames
+2026-06-12 11:48:37,693 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.606 after 5 frames
+2026-06-12 11:48:38,453 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.603 after 5 frames
+2026-06-12 11:48:39,059 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.601 after 5 frames
+2026-06-12 11:48:39,653 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.601 after 5 frames
+2026-06-12 11:48:40,266 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.600 after 4 frames
+2026-06-12 11:48:40,878 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.609 after 4 frames
+2026-06-12 11:48:41,736 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.599 after 4 frames
+2026-06-12 11:48:42,330 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.603 after 4 frames
+2026-06-12 11:48:42,937 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.587 after 4 frames
+2026-06-12 11:48:43,511 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.583 after 5 frames
+2026-06-12 11:48:44,319 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.572 after 5 frames
+2026-06-12 11:48:45,229 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.548 after 5 frames
+2026-06-12 11:48:46,011 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.540 after 5 frames
+2026-06-12 11:48:46,610 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.557 after 5 frames
+2026-06-12 11:48:47,349 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.560 after 5 frames
+2026-06-12 11:48:48,087 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.563 after 5 frames
+2026-06-12 11:48:48,877 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.595 after 5 frames
+2026-06-12 11:48:49,495 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.588 after 5 frames
+2026-06-12 11:48:50,453 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.581 after 5 frames
+2026-06-12 11:48:51,237 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.585 after 5 frames
+2026-06-12 11:48:51,845 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.591 after 5 frames
+2026-06-12 11:48:52,615 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.587 after 5 frames
+2026-06-12 11:48:53,470 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.597 after 5 frames
+2026-06-12 11:48:54,374 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.605 after 5 frames
+2026-06-12 11:48:55,208 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.599 after 5 frames
+2026-06-12 11:48:56,176 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.591 after 5 frames
+2026-06-12 11:48:57,071 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.584 after 5 frames
+2026-06-12 11:48:57,908 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.580 after 5 frames
+2026-06-12 11:48:58,837 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.580 after 5 frames
+2026-06-12 11:48:59,321 [INFO] 127.0.0.1 - - [12/Jun/2026 11:48:59] "GET /stream HTTP/1.1" 200 -
+2026-06-12 11:48:59,609 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.580 after 5 frames
+2026-06-12 11:49:00,376 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.579 after 5 frames
+2026-06-12 11:49:01,591 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.595 after 5 frames
+2026-06-12 11:49:02,502 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.602 after 5 frames
+2026-06-12 11:49:03,394 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.599 after 4 frames
+2026-06-12 11:49:04,323 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.609 after 3 frames
+2026-06-12 11:49:05,109 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.572 after 3 frames
+2026-06-12 11:49:05,863 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.565 after 4 frames
+2026-06-12 11:49:06,675 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.561 after 5 frames
+2026-06-12 11:49:07,457 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.558 after 4 frames
+2026-06-12 11:49:08,253 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.550 after 3 frames
+2026-06-12 11:49:09,021 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.576 after 3 frames
+2026-06-12 11:49:09,603 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.573 after 4 frames
+2026-06-12 11:49:10,154 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.572 after 5 frames
+2026-06-12 11:49:10,928 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.569 after 5 frames
+2026-06-12 11:49:11,658 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.565 after 5 frames
+2026-06-12 11:49:12,395 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.572 after 5 frames
+2026-06-12 11:49:13,150 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.575 after 5 frames
+2026-06-12 11:49:13,901 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.571 after 5 frames
+2026-06-12 11:49:14,642 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.569 after 5 frames
+2026-06-12 11:49:15,222 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.569 after 4 frames
+2026-06-12 11:49:15,986 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.556 after 4 frames
+2026-06-12 11:49:16,564 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.546 after 4 frames
+2026-06-12 11:49:17,139 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.541 after 4 frames
+2026-06-12 11:49:17,691 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.532 after 4 frames
+2026-06-12 11:49:18,328 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.530 after 5 frames
+2026-06-12 11:49:18,990 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.528 after 4 frames
+2026-06-12 11:49:19,564 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.525 after 3 frames
+2026-06-12 11:49:20,145 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.505 after 3 frames
+2026-06-12 11:49:20,703 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.522 after 3 frames
+2026-06-12 11:49:21,273 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.522 after 3 frames
+2026-06-12 11:49:21,815 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.508 after 3 frames
+2026-06-12 11:49:22,740 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.501 after 4 frames
+2026-06-12 11:49:23,299 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.517 after 4 frames
+2026-06-12 11:49:23,891 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.517 after 4 frames
+2026-06-12 11:49:24,412 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.513 after 4 frames
+2026-06-12 11:49:24,979 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.518 after 4 frames
+2026-06-12 11:49:25,585 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.529 after 3 frames
+2026-06-12 11:49:26,201 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.513 after 3 frames
+2026-06-12 11:49:26,736 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.540 after 3 frames
+2026-06-12 11:49:27,274 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.514 after 3 frames
+2026-06-12 11:49:27,862 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.514 after 3 frames
+2026-06-12 11:49:28,430 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.515 after 3 frames
+2026-06-12 11:49:29,254 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.489 after 3 frames
+2026-06-12 11:49:30,014 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.489 after 3 frames
+2026-06-12 11:49:30,609 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.512 after 3 frames
+2026-06-12 11:49:31,159 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.516 after 3 frames
+2026-06-12 11:49:31,700 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.520 after 4 frames
+2026-06-12 11:49:32,251 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.523 after 5 frames
+2026-06-12 11:49:32,841 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.537 after 5 frames
+2026-06-12 11:49:33,459 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.543 after 5 frames
+2026-06-12 11:49:34,042 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.538 after 5 frames
+2026-06-12 11:49:34,628 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.538 after 5 frames
+2026-06-12 11:49:35,421 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.538 after 4 frames
+2026-06-12 11:49:36,683 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.540 after 3 frames
+2026-06-12 11:49:37,616 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.522 after 3 frames
+2026-06-12 11:49:38,521 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.529 after 3 frames
+2026-06-12 11:49:40,052 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.541 after 3 frames
+2026-06-12 11:49:40,837 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.551 after 4 frames
+2026-06-12 11:49:41,575 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.570 after 4 frames
+2026-06-12 11:49:42,478 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.578 after 4 frames
+2026-06-12 11:49:43,652 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.582 after 5 frames
+2026-06-12 11:49:44,385 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.584 after 5 frames
+2026-06-12 11:49:45,236 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.581 after 5 frames
+2026-06-12 11:49:45,956 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.574 after 5 frames
+2026-06-12 11:49:52,603 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.575 after 4 frames
+2026-06-12 11:49:53,421 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.568 after 3 frames
+2026-06-12 11:49:56,648 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.613 after 3 frames
+2026-06-12 11:49:57,841 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.608 after 4 frames
+2026-06-12 11:49:58,473 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.609 after 5 frames
+2026-06-12 11:49:59,245 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.603 after 5 frames
+2026-06-12 11:49:59,987 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.604 after 5 frames
+2026-06-12 11:50:00,873 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.604 after 5 frames
+2026-06-12 11:50:01,691 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.606 after 5 frames
+2026-06-12 11:50:02,364 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.608 after 5 frames
+2026-06-12 11:50:03,087 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.610 after 5 frames
+2026-06-12 11:50:03,881 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.610 after 5 frames
+2026-06-12 11:50:04,903 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.614 after 4 frames
+2026-06-12 11:50:05,986 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.618 after 3 frames
+2026-06-12 11:50:06,896 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.606 after 3 frames
+2026-06-12 11:50:07,749 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.598 after 3 frames
+2026-06-12 11:50:08,564 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.595 after 3 frames
+2026-06-12 11:50:09,358 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.596 after 4 frames
+2026-06-12 11:50:10,376 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.600 after 5 frames
+2026-06-12 11:50:11,545 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.604 after 5 frames
+2026-06-12 11:50:12,611 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.604 after 5 frames
+2026-06-12 11:50:13,647 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.607 after 5 frames
+2026-06-12 11:50:14,228 [INFO] 127.0.0.1 - - [12/Jun/2026 11:50:14] "GET /health HTTP/1.1" 200 -
+2026-06-12 11:50:14,440 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.608 after 5 frames
+2026-06-12 11:50:14,514 [INFO] 127.0.0.1 - - [12/Jun/2026 11:50:14] "GET /stats HTTP/1.1" 200 -
+2026-06-12 11:50:15,233 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.609 after 5 frames
+2026-06-12 11:50:15,990 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.610 after 5 frames
+2026-06-12 11:50:16,828 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.611 after 5 frames
+2026-06-12 11:50:17,881 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.604 after 5 frames
+2026-06-12 11:50:18,928 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.608 after 5 frames
+2026-06-12 11:50:19,822 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.610 after 5 frames
+2026-06-12 11:50:20,489 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.611 after 4 frames
+2026-06-12 11:50:22,760 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.617 after 3 frames
+2026-06-12 11:50:23,516 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.601 after 3 frames
+2026-06-12 11:50:24,417 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.584 after 3 frames
+2026-06-12 11:50:25,159 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.570 after 3 frames
+2026-06-12 11:50:25,885 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.570 after 3 frames
+2026-06-12 11:50:26,595 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.578 after 4 frames
+2026-06-12 11:50:27,258 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.587 after 4 frames
+2026-06-12 11:50:27,949 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.592 after 4 frames
+2026-06-12 11:50:28,637 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.594 after 4 frames
+2026-06-12 11:50:29,182 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.589 after 5 frames
+2026-06-12 11:51:13,204 [INFO] 10.69.114.62 - - [12/Jun/2026 11:51:13] "GET /health HTTP/1.1" 200 -
+2026-06-12 11:52:31,959 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:31] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:32,509 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:32] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:34,217 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:34] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:35,377 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:35] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:36,462 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:36] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:37,699 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:37] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:38,770 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:38] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:39,828 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:39] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:41,550 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:41] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:43,012 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:43] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:44,584 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:44] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:46,287 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:46] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:47,645 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:47] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:48,776 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:48] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:53,197 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:53] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:53,852 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:53] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:55,403 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:55] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:57,052 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:57] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:58,295 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:58] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:52:59,511 [INFO] 10.69.114.62 - - [12/Jun/2026 11:52:59] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:00,703 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:00] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:01,948 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:01] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:03,177 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:03] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:04,249 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:04] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:05,343 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:05] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:06,669 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:06] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:07,692 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:07] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:09,030 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:09] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:10,060 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:10] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:11,208 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:11] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:12,511 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:12] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:13,694 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:13] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:14,772 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:14] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:15,865 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:15] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:17,151 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:17] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:18,246 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:18] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:19,441 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:19] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:20,513 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:20] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:21,741 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:21] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:22,863 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:22] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:23,978 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:23] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:25,015 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:25] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:26,233 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:26] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:27,310 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:27] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:28,388 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:28] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:29,433 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:29] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:30,763 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:30] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:31,985 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:31] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:33,605 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:33] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:34,450 [WARNING] Could not reach backend for face sync: HTTPSConnectionPool(host='warungtek-backend.onrender.com', port=443): Read timed out. (read timeout=10)
+2026-06-12 11:53:34,816 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:34] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:35,879 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:35] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:36,987 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:36] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:38,112 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:38] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:39,784 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:39] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:41,418 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:41] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:42,533 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:42] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:43,721 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:43] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:45,056 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:45] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:46,152 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:46] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:47,278 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:47] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:48,367 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:48] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:49,533 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:49] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:50,693 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:50] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:51,928 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:51] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:53,181 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:53] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:55,381 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:55] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:56,788 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:56] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:58,698 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:58] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:53:59,733 [INFO] 10.69.114.62 - - [12/Jun/2026 11:53:59] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:01,346 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:01] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:02,560 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:02] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:03,728 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:03] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:05,626 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:05] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:06,754 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:06] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:08,155 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:08] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:09,210 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:09] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:10,622 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:10] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:11,956 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:11] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:13,112 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:13] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:14,295 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:14] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:15,813 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:15] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:16,889 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:16] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:18,043 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:18] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:19,115 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:19] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:20,491 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:20] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:22,829 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:22] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:23,879 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:23] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:24,963 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:24] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:26,152 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:26] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:27,729 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:27] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:28,825 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:28] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:30,130 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:30] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:31,225 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:31] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:32,854 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:32] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:33,932 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:33] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:35,702 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:35] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:36,922 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:36] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:38,128 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:38] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:39,609 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:39] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:40,750 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:40] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:42,987 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:42] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:44,569 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:44] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:45,801 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:45] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:47,186 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:47] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:48,331 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:48] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:49,632 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:49] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:50,842 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:50] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:51,950 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:51] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:53,157 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:53] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:54,257 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:54] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:55,306 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:55] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:56,408 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:56] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:57,467 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:57] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:58,570 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:58] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:54:59,623 [INFO] 10.69.114.62 - - [12/Jun/2026 11:54:59] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:00,700 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:00] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:01,765 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:01] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:02,813 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:02] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:03,898 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:03] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:04,960 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:04] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:06,039 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:06] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:07,198 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:07] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:08,232 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:08] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:09,337 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:09] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:10,444 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:10] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:11,517 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:11] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:12,932 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:12] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:14,104 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:14] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:15,156 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:15] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:16,289 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:16] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:17,344 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:17] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:18,381 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:18] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:19,522 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:19] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:20,584 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:20] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:21,784 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:21] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:23,374 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:23] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:24,429 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:24] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:25,718 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:25] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:26,741 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:26] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:27,912 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:27] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:29,212 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:29] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:30,233 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:30] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:31,658 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:31] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:32,728 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:32] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:33,828 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:33] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:34,902 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:34] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:36,060 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:36] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:37,450 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:37] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:38,793 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:38] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:39,814 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:39] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:40,881 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:40] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:41,942 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:41] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:43,114 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:43] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:44,169 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:44] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:45,587 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:45] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:46,757 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:46] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:47,939 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:47] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:49,079 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:49] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:50,118 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:50] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:51,276 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:51] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:52,446 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:52] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:53,509 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:53] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:54,608 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:54] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:55,650 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:55] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:56,815 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:56] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:57,945 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:57] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:55:59,124 [INFO] 10.69.114.62 - - [12/Jun/2026 11:55:59] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:00,167 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:00] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:01,257 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:01] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:02,287 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:02] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:03,487 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:03] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:04,569 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:04] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:05,667 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:05] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:07,274 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:07] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:08,326 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:08] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:09,529 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:09] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:10,595 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:10] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:11,624 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:11] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:12,855 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:12] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:14,001 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:14] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:15,066 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:15] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:16,108 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:16] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:17,228 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:17] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:18,310 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:18] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:19,450 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:19] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:20,739 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:20] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:21,932 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:21] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:22,976 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:22] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:24,013 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:24] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:25,097 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:25] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:26,144 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:26] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:27,244 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:27] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:29,654 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:29] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:33,191 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:33] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:34,228 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:34] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:35,361 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:35] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:36,448 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:36] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:37,551 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:37] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:38,657 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:38] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:39,730 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:39] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:40,766 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:40] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:41,803 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:41] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:42,938 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:42] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:43,971 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:43] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:44,994 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:44] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:46,045 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:46] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:47,225 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:47] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:48,264 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:48] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:49,305 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:49] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:50,381 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:50] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:51,452 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:51] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:52,623 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:52] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:53,697 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:53] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:54,783 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:54] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:55,965 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:55] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:57,129 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:57] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:58,307 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:58] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:56:59,422 [INFO] 10.69.114.62 - - [12/Jun/2026 11:56:59] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:00,524 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:00] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:01,816 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:01] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:02,967 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:02] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:04,044 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:04] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:05,526 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:05] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:06,577 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:06] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:07,737 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:07] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:08,820 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:08] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:10,266 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:10] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:11,705 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:11] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:12,855 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:12] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:14,070 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:14] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:15,108 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:15] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:15,491 [INFO] 127.0.0.1 - - [12/Jun/2026 11:57:15] "GET /stream HTTP/1.1" 200 -
+2026-06-12 11:57:16,196 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:16] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:17,251 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:17] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:18,294 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:18] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:19,709 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:19] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:20,784 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:20] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:21,923 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:21] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:23,186 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:23] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:24,248 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:24] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:25,337 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:25] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:26,436 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:26] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:27,509 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:27] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:28,592 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:28] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:29,633 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:29] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:30,726 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:30] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:31,851 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:31] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:32,922 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:32] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:33,995 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:33] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:35,087 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:35] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:36,160 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:36] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:37,225 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:37] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:38,430 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:38] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:39,466 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:39] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:40,533 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:40] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:41,624 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:41] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:42,726 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:42] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:43,953 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:43] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:45,333 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:45] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:46,375 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:46] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:47,428 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:47] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:48,609 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:48] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:49,694 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:49] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:50,857 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:50] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:51,977 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:51] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:53,130 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:53] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:54,180 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:54] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:55,233 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:55] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:56,386 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:56] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:57,507 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:57] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:58,552 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:58] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:57:59,745 [INFO] 10.69.114.62 - - [12/Jun/2026 11:57:59] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:00,813 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:00] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:01,883 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:01] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:02,918 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:02] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:03,953 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:03] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:05,067 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:05] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:06,103 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:06] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:07,284 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:07] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:08,366 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:08] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:09,478 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:09] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:10,607 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:10] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:11,647 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:11] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:12,730 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:12] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:13,916 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:13] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:15,018 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:15] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:16,083 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:16] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:17,126 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:17] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:18,232 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:18] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:19,447 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:19] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:20,593 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:20] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:21,917 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:21] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:23,165 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:23] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:24,444 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:24] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:26,252 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:26] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:27,383 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:27] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:28,455 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:28] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:29,604 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:29] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:30,674 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:30] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:31,723 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:31] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:32,828 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:32] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:33,895 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:33] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:34,458 [WARNING] Could not reach backend for face sync: HTTPSConnectionPool(host='warungtek-backend.onrender.com', port=443): Max retries exceeded with url: /api/face/photos (Caused by NameResolutionError("HTTPSConnection(host='warungtek-backend.onrender.com', port=443): Failed to resolve 'warungtek-backend.onrender.com' ([Errno 11001] getaddrinfo failed)"))
+2026-06-12 11:58:35,295 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:35] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:36,447 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:36] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:37,651 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:37] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:38,977 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:38] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:40,048 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:40] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:41,220 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:41] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:42,648 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:42] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:43,941 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:43] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:45,028 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:45] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:46,119 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:46] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:47,243 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:47] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:49,913 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:49] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:50,974 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:50] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:52,170 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:52] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:53,288 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:53] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:54,653 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:54] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:55,774 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:55] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:58:59,934 [INFO] 10.69.114.62 - - [12/Jun/2026 11:58:59] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:01,168 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:01] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:02,341 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:02] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:03,705 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:03] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:04,997 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:04] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:06,035 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:06] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:07,102 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:07] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:08,258 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:08] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:09,343 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:09] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:10,735 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:10] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:12,101 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:12] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:13,221 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:13] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:14,344 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:14] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:15,420 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:15] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:16,505 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:16] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:17,821 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:17] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:18,865 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:18] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:20,401 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:20] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:21,432 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:21] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:22,605 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:22] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:23,725 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:23] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:24,857 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:24] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:26,262 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:26] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:27,380 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:27] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:28,545 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:28] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:29,663 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:29] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:30,759 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:30] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:31,818 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:31] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:32,905 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:32] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:33,945 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:33] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:35,125 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:35] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:36,214 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:36] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:37,254 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:37] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:38,572 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:38] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:39,624 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:39] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:40,689 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:40] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:41,845 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:41] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:42,977 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:42] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:44,102 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:44] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:45,212 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:45] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:46,359 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:46] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:47,616 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:47] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 11:59:47,914 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.585 after 4 frames
+2026-06-12 11:59:48,578 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.592 after 4 frames
+2026-06-12 11:59:48,672 [INFO] 10.69.114.62 - - [12/Jun/2026 11:59:48] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 11:59:49,227 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.600 after 4 frames
+2026-06-12 11:59:49,865 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.605 after 4 frames
+2026-06-12 11:59:50,489 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.624 after 4 frames
+2026-06-12 11:59:51,194 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.624 after 4 frames
+2026-06-12 11:59:51,786 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.631 after 3 frames
+2026-06-12 12:00:06,608 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.544 after 3 frames
+2026-06-12 12:00:07,301 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.544 after 3 frames
+2026-06-12 12:00:07,984 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.529 after 4 frames
+2026-06-12 12:00:08,817 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.509 after 3 frames
+2026-06-12 12:00:09,655 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.612 after 3 frames
+2026-06-12 12:00:10,335 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.594 after 4 frames
+2026-06-12 12:00:11,327 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.614 after 4 frames
+2026-06-12 12:00:12,165 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.616 after 5 frames
+2026-06-12 12:00:13,013 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.615 after 5 frames
+2026-06-12 12:00:13,986 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.613 after 5 frames
+2026-06-12 12:00:14,693 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.631 after 4 frames
+2026-06-12 12:00:15,754 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.635 after 3 frames
+2026-06-12 12:00:19,784 [INFO] 10.69.114.62 - - [12/Jun/2026 12:00:19] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:00:20,264 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.572 after 3 frames
+2026-06-12 12:00:20,844 [INFO] 10.69.114.62 - - [12/Jun/2026 12:00:20] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 12:00:21,152 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.545 after 4 frames
+2026-06-12 12:00:21,866 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.551 after 5 frames
+2026-06-12 12:00:22,595 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.570 after 5 frames
+2026-06-12 12:00:23,516 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.545 after 5 frames
+2026-06-12 12:00:24,417 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.530 after 4 frames
+2026-06-12 12:00:25,146 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.551 after 3 frames
+2026-06-12 12:00:27,174 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.597 after 3 frames
+2026-06-12 12:00:28,135 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.603 after 4 frames
+2026-06-12 12:00:29,020 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.603 after 4 frames
+2026-06-12 12:00:29,668 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.611 after 4 frames
+2026-06-12 12:00:30,310 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.622 after 3 frames
+2026-06-12 12:00:30,935 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.617 after 3 frames
+2026-06-12 12:00:31,429 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.616 after 3 frames
+2026-06-12 12:00:31,907 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.618 after 4 frames
+2026-06-12 12:00:32,404 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.618 after 3 frames
+2026-06-12 12:00:32,893 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.618 after 3 frames
+2026-06-12 12:00:33,525 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.622 after 3 frames
+2026-06-12 12:00:34,181 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.621 after 4 frames
+2026-06-12 12:00:34,986 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.618 after 5 frames
+2026-06-12 12:00:35,838 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.621 after 5 frames
+2026-06-12 12:00:36,509 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.623 after 5 frames
+2026-06-12 12:00:37,206 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.624 after 5 frames
+2026-06-12 12:00:37,890 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.627 after 5 frames
+2026-06-12 12:00:38,560 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.625 after 5 frames
+2026-06-12 12:00:39,247 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.624 after 5 frames
+2026-06-12 12:00:39,872 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.619 after 5 frames
+2026-06-12 12:00:40,479 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.621 after 5 frames
+2026-06-12 12:00:41,107 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.624 after 5 frames
+2026-06-12 12:00:41,768 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.621 after 5 frames
+2026-06-12 12:00:43,848 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.620 after 4 frames
+2026-06-12 12:00:44,519 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.590 after 4 frames
+2026-06-12 12:00:45,256 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.567 after 4 frames
+2026-06-12 12:00:45,970 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.540 after 3 frames
+2026-06-12 12:00:46,970 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.499 after 3 frames
+2026-06-12 12:00:47,539 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.525 after 4 frames
+2026-06-12 12:00:48,109 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.513 after 4 frames
+2026-06-12 12:00:48,600 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.506 after 3 frames
+2026-06-12 12:00:49,112 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.506 after 3 frames
+2026-06-12 12:00:49,633 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.546 after 3 frames
+2026-06-12 12:00:50,137 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.553 after 3 frames
+2026-06-12 12:00:50,632 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.600 after 3 frames
+2026-06-12 12:00:51,140 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.590 after 4 frames
+2026-06-12 12:00:51,647 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.590 after 4 frames
+2026-06-12 12:00:51,955 [INFO] 10.69.114.62 - - [12/Jun/2026 12:00:51] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 12:00:52,141 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.593 after 3 frames
+2026-06-12 12:00:52,638 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.583 after 3 frames
+2026-06-12 12:00:53,132 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.580 after 4 frames
+2026-06-12 12:00:53,660 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.586 after 5 frames
+2026-06-12 12:00:54,168 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.582 after 5 frames
+2026-06-12 12:00:54,669 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.586 after 5 frames
+2026-06-12 12:00:55,166 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.587 after 5 frames
+2026-06-12 12:00:55,678 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.592 after 4 frames
+2026-06-12 12:00:56,164 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.585 after 3 frames
+2026-06-12 12:00:56,651 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.554 after 3 frames
+2026-06-12 12:00:57,138 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.553 after 4 frames
+2026-06-12 12:00:57,634 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.553 after 4 frames
+2026-06-12 12:00:58,154 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.539 after 4 frames
+2026-06-12 12:00:58,659 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.533 after 3 frames
+2026-06-12 12:00:59,676 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.558 after 3 frames
+2026-06-12 12:01:00,231 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.562 after 4 frames
+2026-06-12 12:01:00,748 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.563 after 5 frames
+2026-06-12 12:01:01,272 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.567 after 5 frames
+2026-06-12 12:01:01,786 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.578 after 5 frames
+2026-06-12 12:01:02,278 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.590 after 5 frames
+2026-06-12 12:01:02,781 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.594 after 4 frames
+2026-06-12 12:01:03,300 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.602 after 3 frames
+2026-06-12 12:01:03,815 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.569 after 3 frames
+2026-06-12 12:01:04,328 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.581 after 4 frames
+2026-06-12 12:01:04,829 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.590 after 5 frames
+2026-06-12 12:01:05,308 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.578 after 5 frames
+2026-06-12 12:01:05,811 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.567 after 4 frames
+2026-06-12 12:01:06,321 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.567 after 3 frames
+2026-06-12 12:01:06,833 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.610 after 3 frames
+2026-06-12 12:01:07,279 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.610 after 3 frames
+2026-06-12 12:01:07,759 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.605 after 4 frames
+2026-06-12 12:01:08,317 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.607 after 4 frames
+2026-06-12 12:01:08,804 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.615 after 4 frames
+2026-06-12 12:01:09,297 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.619 after 4 frames
+2026-06-12 12:01:09,765 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.620 after 5 frames
+2026-06-12 12:01:10,253 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.627 after 4 frames
+2026-06-12 12:01:10,756 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.630 after 3 frames
+2026-06-12 12:01:11,766 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.541 after 3 frames
+2026-06-12 12:01:12,282 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.541 after 3 frames
+2026-06-12 12:01:13,372 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.628 after 3 frames
+2026-06-12 12:01:13,890 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.606 after 4 frames
+2026-06-12 12:01:14,407 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.607 after 5 frames
+2026-06-12 12:01:14,947 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.605 after 5 frames
+2026-06-12 12:01:15,460 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.600 after 5 frames
+2026-06-12 12:01:15,980 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.600 after 5 frames
+2026-06-12 12:01:16,499 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.614 after 4 frames
+2026-06-12 12:01:17,011 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.617 after 3 frames
+2026-06-12 12:01:17,552 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.602 after 3 frames
+2026-06-12 12:01:18,091 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.602 after 3 frames
+2026-06-12 12:01:18,611 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.602 after 3 frames
+2026-06-12 12:01:19,150 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.592 after 3 frames
+2026-06-12 12:01:19,707 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.592 after 3 frames
+2026-06-12 12:01:20,324 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.607 after 4 frames
+2026-06-12 12:01:20,854 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.615 after 4 frames
+2026-06-12 12:01:21,363 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.619 after 3 frames
+2026-06-12 12:01:22,040 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.499 after 3 frames
+2026-06-12 12:01:22,712 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.558 after 3 frames
+2026-06-12 12:01:23,009 [INFO] 10.69.114.62 - - [12/Jun/2026 12:01:23] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 12:01:23,392 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.558 after 3 frames
+2026-06-12 12:01:23,907 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.558 after 3 frames
+2026-06-12 12:01:24,413 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.643 after 3 frames
+2026-06-12 12:01:24,905 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.643 after 3 frames
+2026-06-12 12:01:25,448 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.643 after 3 frames
+2026-06-12 12:01:25,984 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.636 after 3 frames
+2026-06-12 12:01:27,658 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.512 after 3 frames
+2026-06-12 12:01:28,169 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.503 after 4 frames
+2026-06-12 12:01:28,676 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.493 after 5 frames
+2026-06-12 12:01:29,248 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.482 after 5 frames
+2026-06-12 12:01:29,771 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.492 after 5 frames
+2026-06-12 12:01:30,305 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.515 after 5 frames
+2026-06-12 12:01:30,835 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.534 after 5 frames
+2026-06-12 12:01:31,362 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.554 after 5 frames
+2026-06-12 12:01:31,879 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.558 after 5 frames
+2026-06-12 12:01:32,366 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.554 after 4 frames
+2026-06-12 12:01:32,880 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.551 after 3 frames
+2026-06-12 12:01:33,388 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.496 after 3 frames
+2026-06-12 12:01:33,878 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.472 after 3 frames
+2026-06-12 12:01:34,406 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.435 after 3 frames
+2026-06-12 12:01:34,942 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.452 after 4 frames
+2026-06-12 12:01:35,474 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.461 after 5 frames
+2026-06-12 12:01:36,494 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.480 after 5 frames
+2026-06-12 12:01:37,055 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.479 after 5 frames
+2026-06-12 12:01:37,576 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.494 after 4 frames
+2026-06-12 12:01:38,100 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.491 after 3 frames
+2026-06-12 12:01:38,615 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.518 after 3 frames
+2026-06-12 12:01:39,170 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.530 after 4 frames
+2026-06-12 12:01:39,746 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.543 after 5 frames
+2026-06-12 12:01:40,299 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.579 after 5 frames
+2026-06-12 12:01:40,811 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.565 after 5 frames
+2026-06-12 12:01:41,331 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.564 after 4 frames
+2026-06-12 12:01:41,852 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.564 after 3 frames
+2026-06-12 12:01:42,409 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.560 after 3 frames
+2026-06-12 12:01:42,916 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.567 after 3 frames
+2026-06-12 12:01:44,462 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.585 after 3 frames
+2026-06-12 12:01:45,162 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.509 after 3 frames
+2026-06-12 12:01:45,725 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.509 after 3 frames
+2026-06-12 12:01:54,845 [INFO] 10.69.114.62 - - [12/Jun/2026 12:01:54] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:01:55,941 [INFO] 10.69.114.62 - - [12/Jun/2026 12:01:55] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:01:57,472 [INFO] 10.69.114.62 - - [12/Jun/2026 12:01:57] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:01:58,763 [INFO] 10.69.114.62 - - [12/Jun/2026 12:01:58] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:01:59,790 [INFO] 10.69.114.62 - - [12/Jun/2026 12:01:59] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:01,231 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:01] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:02,305 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:02] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:03,428 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:03] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:04,871 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:04] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:05,970 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:05] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:07,240 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:07] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:08,431 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:08] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:09,617 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:09] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:10,744 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:10] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:12,486 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:12] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:13,750 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:13] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:15,172 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:15] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:16,577 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:16] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:17,758 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:17] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:18,947 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:18] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:20,012 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:20] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:21,649 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:21] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:23,812 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:23] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:25,030 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:25] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:26,566 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:26] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:28,153 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:28] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:29,532 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:29] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:30,880 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:30] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:31,960 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:31] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:33,170 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:33] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:34,565 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:34] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:35,724 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:35] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:38,322 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:38] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:39,975 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:39] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:41,040 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:41] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:42,162 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:42] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:43,315 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:43] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:44,374 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:44] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:45,426 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:45] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:46,640 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:46] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:47,834 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:47] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:49,004 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:49] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:50,127 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:50] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:51,253 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:51] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:52,366 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:52] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:53,512 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:53] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:54,819 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:54] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:56,160 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:56] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:57,296 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:57] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:58,832 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:58] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:02:59,897 [INFO] 10.69.114.62 - - [12/Jun/2026 12:02:59] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:01,274 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:01] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:02,439 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:02] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:04,048 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:04] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:05,179 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:05] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:06,457 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:06] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:07,624 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:07] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:08,860 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:08] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:09,990 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:09] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:11,213 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:11] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:13,864 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:13] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:15,064 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:15] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:16,357 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:16] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:17,965 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:17] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:18,998 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:18] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:20,276 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:20] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:21,563 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:21] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:25,969 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:25] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:27,091 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:27] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:29,142 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:29] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:34,672 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:34] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:36,791 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:36] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:37,933 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:37] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:39,118 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:39] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:40,249 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:40] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:41,703 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:41] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:42,854 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:42] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:44,602 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:44] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:46,036 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:46] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:47,389 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:47] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:48,589 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:48] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:49,305 [WARNING] Could not reach backend for face sync: HTTPSConnectionPool(host='warungtek-backend.onrender.com', port=443): Read timed out. (read timeout=10)
+2026-06-12 12:03:49,973 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:49] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:52,474 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:52] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:54,703 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:54] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:55,859 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:55] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:57,194 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:57] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:03:58,418 [INFO] 10.69.114.62 - - [12/Jun/2026 12:03:58] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:00,688 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:00] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:01,861 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:01] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:03,130 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:03] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:04,311 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:04] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:05,520 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:05] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:07,942 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:07] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:09,280 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:09] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:12,539 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:12] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:15,396 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:15] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:16,748 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:16] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:18,800 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:18] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:21,058 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:21] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:26,573 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:26] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:29,919 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:29] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:31,188 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:31] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:32,504 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:32] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:33,744 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:33] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:34,851 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:34] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:36,040 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:36] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:37,645 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:37] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:38,801 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:38] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:39,912 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:39] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:41,021 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:41] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:42,117 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:42] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:43,594 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:43] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:44,766 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:44] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:46,529 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:46] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:51,875 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:51] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:04:53,107 [INFO] 10.69.114.62 - - [12/Jun/2026 12:04:53] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:00,380 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:00] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:04,190 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:04] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:05,631 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:05] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:07,815 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:07] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:08,962 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:08] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:10,245 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:10] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:11,393 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:11] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:14,354 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:14] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:19,030 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:19] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:26,998 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:26] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:33,535 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:33] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:34,584 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:34] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:35,783 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:35] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:37,117 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:37] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:38,166 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:38] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:39,651 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:39] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:40,700 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:40] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:41,913 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:41] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:42,964 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:42] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:44,103 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:44] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:45,226 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:45] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:46,357 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:46] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:47,426 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:47] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:48,481 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:48] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:49,520 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:49] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:50,847 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:50] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:52,155 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:52] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:53,211 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:53] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:54,343 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:54] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:55,665 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:55] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:57,107 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:57] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:05:58,184 [INFO] 10.69.114.62 - - [12/Jun/2026 12:05:58] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:00,127 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:00] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:01,359 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:01] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:02,497 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:02] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:03,564 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:03] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:05,354 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:05] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:07,721 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:07] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:08,887 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:08] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:10,016 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:10] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:11,243 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:11] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:12,358 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:12] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:13,488 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:13] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:14,558 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:14] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:15,835 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:15] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:16,867 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:16] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:17,950 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:17] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:18,995 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:18] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:20,186 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:20] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:21,667 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:21] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:22,782 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:22] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:23,925 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:23] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:25,539 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:25] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:26,801 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:26] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:28,387 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:28] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:29,839 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:29] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:30,996 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:30] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:32,125 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:32] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:33,208 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:33] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:34,811 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:34] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:35,868 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:35] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:36,943 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:36] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:38,378 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:38] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:39,556 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:39] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:41,229 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:41] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:42,319 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:42] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:43,588 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:43] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:44,698 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:44] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:45,973 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:45] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:47,962 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:47] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:49,117 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:49] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:50,249 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:50] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:51,315 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:51] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:52,502 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:52] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:53,730 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:53] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:55,171 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:55] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:56,403 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:56] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:57,570 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:57] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:06:58,937 [INFO] 10.69.114.62 - - [12/Jun/2026 12:06:58] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:00,137 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:00] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:01,515 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:01] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:02,619 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:02] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:04,055 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:04] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:06,018 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:06] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:07,154 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:07] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:08,453 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:08] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:09,713 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:09] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:10,938 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:10] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:12,040 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:12] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:13,234 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:13] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:14,360 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:14] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:15,587 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:15] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:16,808 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:16] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:18,158 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:18] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:19,335 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:19] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:20,518 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:20] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:22,295 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:22] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:24,147 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:24] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:25,310 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:25] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:26,922 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:26] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:28,105 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:28] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:29,882 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:29] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:31,476 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:31] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:33,977 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:33] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:35,514 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:35] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:36,854 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:36] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:38,052 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:38] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:42,429 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:42] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:44,167 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:44] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:45,502 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:45] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:46,676 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:46] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:47,800 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:47] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:48,926 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:48] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:07:49,994 [INFO] 10.69.114.62 - - [12/Jun/2026 12:07:49] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:46:34,590 [INFO] Loaded 72 embeddings from faces.db
+2026-06-12 12:46:34,590 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-12 12:46:34,590 [INFO] Detection loop running.
+2026-06-12 12:46:36,206 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.69.114.61:5002
+2026-06-12 12:46:36,206 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-12 12:46:37,108 [INFO] Camera opened via OpenCV/DirectShow (USB webcam)
+2026-06-12 12:46:37,108 [INFO] Capture loop running.
+2026-06-12 12:46:56,332 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-12 12:46:56,413 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-12 12:47:00,865 [INFO] 127.0.0.1 - - [12/Jun/2026 12:47:00] "GET /stream HTTP/1.1" 200 -
+2026-06-12 12:47:05,536 [INFO] Enrolled 8/8 augmented variants of USER-2YPV8IT8.jpg for Noel
+2026-06-12 12:47:05,580 [INFO] Synced face: Noel (USER-2YPV8IT8)
+2026-06-12 12:47:15,633 [INFO] Enrolled 8/8 augmented variants of USER-13LRYBBJ.jpg for Yap Jun Xi 
+2026-06-12 12:47:15,675 [INFO] Synced face: Yap Jun Xi  (USER-13LRYBBJ)
+2026-06-12 12:47:23,884 [INFO] Enrolled 8/8 augmented variants of USER-J8QOS9QD.jpg for HO KAH HENG
+2026-06-12 12:47:23,929 [INFO] Synced face: HO KAH HENG (USER-J8QOS9QD)
+2026-06-12 12:47:31,782 [INFO] Enrolled 8/8 augmented variants of USER-O9NX91FT.jpg for Lee Jen Sen 
+2026-06-12 12:47:31,827 [INFO] Synced face: Lee Jen Sen  (USER-O9NX91FT)
+2026-06-12 12:47:39,862 [INFO] Enrolled 8/8 augmented variants of USER-R9JRXTF4.jpg for Gilbert Lee
+2026-06-12 12:47:39,913 [INFO] Synced face: Gilbert Lee (USER-R9JRXTF4)
+2026-06-12 12:47:47,854 [INFO] Enrolled 8/8 augmented variants of USER-PTRR2LP6.jpg for MAMA
+2026-06-12 12:47:47,899 [INFO] Synced face: MAMA (USER-PTRR2LP6)
+2026-06-12 12:47:55,826 [INFO] Enrolled 8/8 augmented variants of USER-CAPA6ZIP.jpg for Badrina
+2026-06-12 12:47:55,868 [INFO] Synced face: Badrina (USER-CAPA6ZIP)
+2026-06-12 12:48:04,051 [INFO] Enrolled 8/8 augmented variants of USER-TQ9NZ31E.jpg for CELINE LEE
+2026-06-12 12:48:04,102 [INFO] Synced face: CELINE LEE (USER-TQ9NZ31E)
+2026-06-12 12:48:04,118 [INFO] Loaded 72 embeddings from faces.db
+2026-06-12 12:48:04,118 [INFO] Cache reloaded — 9 changes total
+2026-06-12 12:48:04,123 [INFO] Startup sync complete: 9 people enrolled/updated
+2026-06-12 12:51:09,098 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:09] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:09,152 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:09] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:12,951 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:12] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:12,984 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:12] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:14,012 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:14] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:15,048 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:15] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:16,099 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:16] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:17,138 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:17] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:18,165 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:18] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:19,204 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:19] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:20,269 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:20] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:21,315 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:21] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:22,372 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:22] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:23,425 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:23] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:24,465 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:24] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:25,515 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:25] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:26,559 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:26] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:27,626 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:27] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:28,655 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:28] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:29,737 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:29] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:30,791 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:30] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:31,826 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:31] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:32,879 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:32] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:33,939 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:33] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:34,991 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:34] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:36,027 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:36] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:37,056 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:37] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:38,088 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:38] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:39,126 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:39] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:40,173 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:40] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:41,210 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:41] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:42,260 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:42] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:43,298 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:43] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:44,333 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:44] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:45,396 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:45] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:46,432 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:46] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:47,686 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:47] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:49,198 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:49] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:50,299 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:50] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:51,394 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:51] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 12:51:51,442 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.618 after 3 frames
+2026-06-12 12:51:52,014 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.615 after 4 frames
+2026-06-12 12:51:52,427 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:52] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 12:51:52,594 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.609 after 5 frames
+2026-06-12 12:51:53,142 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.606 after 5 frames
+2026-06-12 12:51:53,583 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.580 after 5 frames
+2026-06-12 12:51:54,060 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.569 after 4 frames
+2026-06-12 12:51:54,579 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.557 after 3 frames
+2026-06-12 12:51:55,066 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.556 after 3 frames
+2026-06-12 12:51:55,551 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.567 after 4 frames
+2026-06-12 12:51:55,895 [INFO] 10.69.114.62 - - [12/Jun/2026 12:51:55] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 12:51:56,034 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.572 after 5 frames
+2026-06-12 12:51:56,521 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.584 after 5 frames
+2026-06-12 12:51:56,982 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.595 after 5 frames
+2026-06-12 12:51:57,443 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.595 after 5 frames
+2026-06-12 12:51:57,919 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.594 after 4 frames
+2026-06-12 12:51:58,417 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.594 after 3 frames
+2026-06-12 12:51:58,889 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.526 after 3 frames
+2026-06-12 12:51:59,358 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.527 after 4 frames
+2026-06-12 12:51:59,851 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.525 after 5 frames
+2026-06-12 12:52:00,359 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.521 after 4 frames
+2026-06-12 12:52:00,856 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.522 after 4 frames
+2026-06-12 12:52:01,396 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.520 after 3 frames
+2026-06-12 12:52:02,428 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.545 after 3 frames
+2026-06-12 12:52:02,931 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.551 after 3 frames
+2026-06-12 12:52:03,421 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.551 after 3 frames
+2026-06-12 12:52:03,926 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.551 after 3 frames
+2026-06-12 12:52:04,412 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.513 after 3 frames
+2026-06-12 12:52:04,882 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.500 after 4 frames
+2026-06-12 12:52:05,346 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.517 after 5 frames
+2026-06-12 12:52:05,800 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.528 after 5 frames
+2026-06-12 12:52:06,269 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.553 after 5 frames
+2026-06-12 12:52:06,746 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.529 after 5 frames
+2026-06-12 12:52:07,222 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.543 after 5 frames
+2026-06-12 12:52:07,712 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.536 after 5 frames
+2026-06-12 12:52:08,214 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.546 after 5 frames
+2026-06-12 12:52:08,686 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.546 after 5 frames
+2026-06-12 12:52:09,147 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.581 after 5 frames
+2026-06-12 12:52:09,619 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.594 after 4 frames
+2026-06-12 12:52:10,114 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.586 after 4 frames
+2026-06-12 12:52:10,669 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.572 after 4 frames
+2026-06-12 12:52:11,183 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.571 after 4 frames
+2026-06-12 12:52:11,661 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.558 after 3 frames
+2026-06-12 12:52:12,153 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.548 after 4 frames
+2026-06-12 12:52:12,666 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.558 after 3 frames
+2026-06-12 12:52:13,232 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.529 after 3 frames
+2026-06-12 12:52:13,776 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.524 after 3 frames
+2026-06-12 12:52:14,285 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.533 after 4 frames
+2026-06-12 13:05:54,543 [INFO] Loaded 72 embeddings from faces.db
+2026-06-12 13:05:54,545 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-12 13:05:54,545 [INFO] Detection loop running.
+2026-06-12 13:05:56,066 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.69.114.61:5002
+2026-06-12 13:05:56,066 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-12 13:05:56,987 [INFO] Camera opened via OpenCV/DirectShow (USB webcam)
+2026-06-12 13:05:56,989 [INFO] Capture loop running.
+2026-06-12 13:06:11,564 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-12 13:06:11,646 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-12 13:06:22,813 [INFO] Enrolled 8/8 augmented variants of USER-2YPV8IT8.jpg for Noel
+2026-06-12 13:06:22,873 [INFO] Synced face: Noel (USER-2YPV8IT8)
+2026-06-12 13:06:33,678 [INFO] Enrolled 8/8 augmented variants of USER-13LRYBBJ.jpg for Yap Jun Xi 
+2026-06-12 13:06:33,754 [INFO] Synced face: Yap Jun Xi  (USER-13LRYBBJ)
+2026-06-12 13:06:44,562 [INFO] Enrolled 8/8 augmented variants of USER-J8QOS9QD.jpg for HO KAH HENG
+2026-06-12 13:06:44,696 [INFO] Synced face: HO KAH HENG (USER-J8QOS9QD)
+2026-06-12 13:06:56,023 [INFO] Enrolled 8/8 augmented variants of USER-R9JRXTF4.jpg for Gilbert Lee
+2026-06-12 13:06:56,072 [INFO] Synced face: Gilbert Lee (USER-R9JRXTF4)
+2026-06-12 13:07:03,086 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:03] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:03,239 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:03] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:04,294 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:04] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:05,339 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:05] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:06,107 [INFO] Enrolled 8/8 augmented variants of USER-PTRR2LP6.jpg for MAMA
+2026-06-12 13:07:06,165 [INFO] Synced face: MAMA (USER-PTRR2LP6)
+2026-06-12 13:07:06,464 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:06] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:07,559 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:07] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:08,901 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:08] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:10,035 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:10] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:11,124 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:11] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:12,191 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:12] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:13,344 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:13] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:14,447 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:14] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:15,557 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:15] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:16,611 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:16] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:17,425 [INFO] Enrolled 8/8 augmented variants of USER-CAPA6ZIP.jpg for Badrina
+2026-06-12 13:07:17,489 [INFO] Synced face: Badrina (USER-CAPA6ZIP)
+2026-06-12 13:07:17,671 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:17] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:18,709 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:18] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:19,801 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:19] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:20,911 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:20] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:22,024 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:22] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:23,132 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:23] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:24,291 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:24] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:07:24,661 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.566 after 3 frames
+2026-06-12 13:07:25,466 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:25] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 13:07:26,078 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.566 after 3 frames
+2026-06-12 13:07:27,155 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.561 after 4 frames
+2026-06-12 13:07:27,505 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:27] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 13:07:28,176 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.578 after 3 frames
+2026-06-12 13:07:28,751 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:28] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 13:07:29,181 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.565 after 3 frames
+2026-06-12 13:07:29,861 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:29] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 13:07:30,052 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.543 after 3 frames
+2026-06-12 13:07:30,229 [INFO] Enrolled 8/8 augmented variants of USER-TQ9NZ31E.jpg for CELINE LEE
+2026-06-12 13:07:30,312 [INFO] Synced face: CELINE LEE (USER-TQ9NZ31E)
+2026-06-12 13:07:30,332 [INFO] Purged locally-enrolled face not in Supabase: Lee Jen Sen  (USER-O9NX91FT)
+2026-06-12 13:07:30,360 [INFO] Loaded 64 embeddings from faces.db
+2026-06-12 13:07:30,365 [INFO] Cache reloaded — 9 changes total
+2026-06-12 13:07:30,383 [INFO] Startup sync complete: 9 people enrolled/updated
+2026-06-12 13:07:30,785 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.545 after 4 frames
+2026-06-12 13:07:31,016 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:31] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 13:07:31,356 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.543 after 4 frames
+2026-06-12 13:07:31,947 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.547 after 5 frames
+2026-06-12 13:07:32,093 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:32] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 13:07:32,523 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.549 after 5 frames
+2026-06-12 13:07:33,050 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.554 after 4 frames
+2026-06-12 13:07:33,150 [INFO] 10.69.114.62 - - [12/Jun/2026 13:07:33] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 13:07:33,626 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.556 after 3 frames
+2026-06-12 13:07:34,154 [INFO] Recognised:Lee Jen Sen  (USER-O9NX91FT) @ 0.558 after 3 frames
+2026-06-12 13:10:18,402 [INFO] Loaded 64 embeddings from faces.db
+2026-06-12 13:10:18,405 [INFO] face_daemon starting on 0.0.0.0:5002
+2026-06-12 13:10:18,407 [INFO] Detection loop running.
+2026-06-12 13:10:19,902 [INFO] [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5002
+ * Running on http://10.69.114.61:5002
+2026-06-12 13:10:19,903 [INFO] [33mPress CTRL+C to quit[0m
+2026-06-12 13:10:20,392 [INFO] 10.69.114.62 - - [12/Jun/2026 13:10:20] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:10:20,937 [INFO] Camera opened via OpenCV/DirectShow (USB webcam)
+2026-06-12 13:10:20,940 [INFO] Capture loop running.
+2026-06-12 13:10:21,592 [INFO] 10.69.114.62 - - [12/Jun/2026 13:10:21] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:10:23,391 [INFO] 10.69.114.62 - - [12/Jun/2026 13:10:23] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:10:25,182 [INFO] 10.69.114.62 - - [12/Jun/2026 13:10:25] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:10:27,005 [INFO] 10.69.114.62 - - [12/Jun/2026 13:10:27] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:10:28,479 [INFO] 10.69.114.62 - - [12/Jun/2026 13:10:28] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:10:29,733 [INFO] 10.69.114.62 - - [12/Jun/2026 13:10:29] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:10:30,842 [INFO] 10.69.114.62 - - [12/Jun/2026 13:10:30] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:10:31,893 [INFO] 10.69.114.62 - - [12/Jun/2026 13:10:31] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:10:33,038 [INFO] 10.69.114.62 - - [12/Jun/2026 13:10:33] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:10:34,161 [INFO] 10.69.114.62 - - [12/Jun/2026 13:10:34] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:10:34,817 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.511 after 3 frames
+2026-06-12 13:10:35,274 [INFO] 10.69.114.62 - - [12/Jun/2026 13:10:35] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 13:10:35,945 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.533 after 4 frames
+2026-06-12 13:10:36,950 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.535 after 5 frames
+2026-06-12 13:10:37,852 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.549 after 5 frames
+2026-06-12 13:10:38,056 [INFO] 10.69.114.62 - - [12/Jun/2026 13:10:38] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 13:10:38,973 [INFO] Enrolled 8/8 augmented variants of USER-5A04VXO1.jpg for See Ting
+2026-06-12 13:10:39,035 [INFO] Synced face: See Ting (USER-5A04VXO1)
+2026-06-12 13:10:49,861 [INFO] Enrolled 8/8 augmented variants of USER-2YPV8IT8.jpg for Noel
+2026-06-12 13:10:49,919 [INFO] Synced face: Noel (USER-2YPV8IT8)
+2026-06-12 13:10:59,924 [INFO] Enrolled 8/8 augmented variants of USER-13LRYBBJ.jpg for Yap Jun Xi 
+2026-06-12 13:10:59,989 [INFO] Synced face: Yap Jun Xi  (USER-13LRYBBJ)
+2026-06-12 13:11:11,275 [INFO] Enrolled 8/8 augmented variants of USER-J8QOS9QD.jpg for HO KAH HENG
+2026-06-12 13:11:11,334 [INFO] Synced face: HO KAH HENG (USER-J8QOS9QD)
+2026-06-12 13:11:23,321 [INFO] Enrolled 8/8 augmented variants of USER-R9JRXTF4.jpg for Gilbert Lee
+2026-06-12 13:11:23,385 [INFO] Synced face: Gilbert Lee (USER-R9JRXTF4)
+2026-06-12 13:11:35,191 [INFO] Enrolled 8/8 augmented variants of USER-PTRR2LP6.jpg for MAMA
+2026-06-12 13:11:35,252 [INFO] Synced face: MAMA (USER-PTRR2LP6)
+2026-06-12 13:11:46,173 [INFO] Enrolled 8/8 augmented variants of USER-CAPA6ZIP.jpg for Badrina
+2026-06-12 13:11:46,236 [INFO] Synced face: Badrina (USER-CAPA6ZIP)
+2026-06-12 13:11:56,427 [INFO] Enrolled 8/8 augmented variants of USER-TQ9NZ31E.jpg for CELINE LEE
+2026-06-12 13:11:56,503 [INFO] Synced face: CELINE LEE (USER-TQ9NZ31E)
+2026-06-12 13:11:56,540 [INFO] Loaded 64 embeddings from faces.db
+2026-06-12 13:11:56,541 [INFO] Cache reloaded — 8 changes total
+2026-06-12 13:11:56,548 [INFO] Startup sync complete: 8 people enrolled/updated
+2026-06-12 13:12:10,060 [INFO] 10.69.114.62 - - [12/Jun/2026 13:12:10] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:12:11,099 [INFO] 10.69.114.62 - - [12/Jun/2026 13:12:11] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:12:12,140 [INFO] 10.69.114.62 - - [12/Jun/2026 13:12:12] "[35m[1mGET /face/recognized HTTP/1.1[0m" 204 -
+2026-06-12 13:12:12,814 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.551 after 4 frames
+2026-06-12 13:12:13,203 [INFO] 10.69.114.62 - - [12/Jun/2026 13:12:13] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 13:12:13,544 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.573 after 4 frames
+2026-06-12 13:12:14,238 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.549 after 4 frames
+2026-06-12 13:12:14,919 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.543 after 4 frames
+2026-06-12 13:12:15,560 [INFO] 10.69.114.62 - - [12/Jun/2026 13:12:15] "GET /face/recognized HTTP/1.1" 200 -
+2026-06-12 13:12:15,633 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.519 after 4 frames
+2026-06-12 13:12:16,316 [INFO] Recognised:Gilbert Lee (USER-R9JRXTF4) @ 0.519 after 4 frames

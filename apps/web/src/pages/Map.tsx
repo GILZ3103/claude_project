@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence, useDragControls, useMotionValue, useTransform } from 'motion/react'
 import {
@@ -26,6 +26,31 @@ const CATEGORY_BORDERS: Record<string, string> = {
   Snacks: 'border-green-500',
   Drinks: 'border-blue-500',
   Default: 'border-purple-500',
+}
+
+// ── Simulated walking along walkway corridors ───────────────────────────────
+type Pt = { left: number; top: number }
+
+const WALK_SPEED = 6 // map-% per second — walking pace across the floor plan
+
+// The two dashed walkway lines drawn on the map SVG (0–100 coordinate space).
+const CORRIDOR_X = 25
+const CORRIDOR_Y = 30
+
+const pathLength = (pts: Pt[]) =>
+  pts.slice(1).reduce((sum, p, i) => sum + Math.abs(p.left - pts[i].left) + Math.abs(p.top - pts[i].top), 0)
+
+// Route from A to B along the corridors instead of cutting diagonally.
+// Returns the waypoints to walk through (destination included, start excluded).
+function routeViaWalkways(from: Pt, to: Pt): Pt[] {
+  const viaH: Pt[] = [from, { left: from.left, top: CORRIDOR_Y }, { left: to.left, top: CORRIDOR_Y }, to]
+  const viaV: Pt[] = [from, { left: CORRIDOR_X, top: from.top }, { left: CORRIDOR_X, top: to.top }, to]
+  const route = pathLength(viaH) <= pathLength(viaV) ? viaH : viaV
+  // Drop the start point and any zero-length hops so each segment really moves.
+  return route.slice(1).filter((p, i, arr) => {
+    const prev = i === 0 ? from : arr[i - 1]
+    return Math.abs(p.left - prev.left) > 0.1 || Math.abs(p.top - prev.top) > 0.1
+  })
 }
 
 export default function Map() {
@@ -160,7 +185,30 @@ export default function Map() {
       : live.position
         ? gridToPct(live.position.x, live.position.y)
         : { left: 50, top: 85 }
-  const isWalking = live.scanState === 'scanning' && !!nearestVendor
+  // ── Walk-queue: animate the pin segment-by-segment along the corridors ────
+  const [walkQueue, setWalkQueue] = useState<Pt[]>([])
+  const posRef = useRef<Pt>({ left: 50, top: 85 })      // last settled position
+  const walkDestRef = useRef<Pt | null>(null)            // final destination of current route
+
+  useEffect(() => {
+    const dest = walkDestRef.current
+    // Jitter guard: ignore target wobble near the route's current destination.
+    if (dest && Math.abs(dest.left - youTarget.left) < 1.5 && Math.abs(dest.top - youTarget.top) < 1.5) return
+    if (Math.abs(posRef.current.left - youTarget.left) < 1.5 && Math.abs(posRef.current.top - youTarget.top) < 1.5) {
+      walkDestRef.current = { ...youTarget }
+      return
+    }
+    walkDestRef.current = { ...youTarget }
+    setWalkQueue(routeViaWalkways(posRef.current, youTarget))
+  }, [youTarget.left, youTarget.top])
+
+  const nextStop = walkQueue[0] ?? null
+  const youDisplay = nextStop ?? posRef.current
+  const segmentDuration = nextStop
+    ? Math.max(0.4, pathLength([posRef.current, nextStop]) / WALK_SPEED)
+    : 0.4
+
+  const isWalking = (live.scanState === 'scanning' && !!nearestVendor) || walkQueue.length > 0
 
   const navPath = isNavigating && selectedVendor ? (() => {
     const selIdx = filteredVendors.findIndex(v => v.vendor_id === selectedVendorId)
@@ -169,7 +217,7 @@ export default function Map() {
     const selGx = selectedVendor.grid_x != null ? Number(selectedVendor.grid_x) : selCol * 2
     const selGy = selectedVendor.grid_y != null ? Number(selectedVendor.grid_y) : selRow * 2.5
     const dest = gridToPct(selGx, selGy)
-    return { dest, from: youTarget }
+    return { dest, from: youDisplay }
   })() : null
 
   if (loading) {
@@ -356,14 +404,20 @@ export default function Map() {
             )
           })}
 
-          {/* "YOU are here" pin — glides toward the nearest stall to simulate walking */}
+          {/* "YOU are here" pin — walks along the corridor lines segment by segment */}
           <motion.div
-            animate={{ opacity: 1, left: `${youTarget.left}%`, top: `${youTarget.top}%` }}
-            initial={{ opacity: 0, left: '65%', top: '68%' }}
+            animate={{ opacity: 1, left: `${youDisplay.left}%`, top: `${youDisplay.top}%` }}
+            initial={{ opacity: 0, left: '50%', top: '85%' }}
             transition={{
-              left: { type: 'tween', duration: 2.4, ease: 'easeInOut' },
-              top: { type: 'tween', duration: 2.4, ease: 'easeInOut' },
+              left: { type: 'tween', duration: segmentDuration, ease: 'linear' },
+              top: { type: 'tween', duration: segmentDuration, ease: 'linear' },
               opacity: { duration: 0.6 },
+            }}
+            onAnimationComplete={() => {
+              if (walkQueue.length > 0) {
+                posRef.current = walkQueue[0]
+                setWalkQueue(q => q.slice(1))
+              }
             }}
             className="absolute z-50 pointer-events-none flex flex-col items-center"
             style={{ transform: 'translate(-50%, -100%)' }}

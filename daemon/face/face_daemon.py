@@ -383,6 +383,18 @@ def post_reload():
     return jsonify({"reloaded": count})
 
 
+@app.post("/sync")
+def post_sync():
+    """Force a full sync from the backend (re-enroll all, purge deleted users)."""
+    from .sync_service import sync_from_backend
+    try:
+        changed = sync_from_backend(force=True)
+        return jsonify({"synced": True, "changes": changed})
+    except Exception as e:
+        log.error(f"Manual sync failed: {e}")
+        return jsonify({"synced": False, "error": str(e)}), 500
+
+
 # ── Entry Point ──────────────────────────────────────────────────────────────
 
 
