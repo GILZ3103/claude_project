@@ -4,6 +4,7 @@ import { CreditCard, Wifi, CheckCircle, AlertCircle, Keyboard, Loader, RefreshCw
 import toast from 'react-hot-toast'
 import { useCard } from '../context/CardContext'
 import { getCardHistory, linkNfcCard } from '../lib/api'
+import { HeroHeader } from '../components/HeroHeader'
 
 const NFC_DAEMON = 'http://localhost:5001'
 const POLL_MS = 2000
@@ -135,6 +136,11 @@ export default function NfcConnect() {
 
   return (
     <div className="px-4 pb-16 max-w-2xl mx-auto pt-4 space-y-5">
+
+      {/* Hero banner */}
+      <div className="-mx-4 -mt-4">
+        <HeroHeader title="NFC Card" subtitle="Tap, link & view your card activity" seed="nfc" height="h-32" />
+      </div>
 
       {/* ── LINK NFC CARD section (only if no physical card) ── */}
       {!hasPhysicalCard && (

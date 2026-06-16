@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react'
 import { Gift, QrCode, CreditCard, X } from 'lucide-react'
 import { useCard } from '../context/CardContext'
 import { getCardVouchers } from '../lib/api'
+import { HeroHeader } from '../components/HeroHeader'
 
 type VoucherStatus = 'ACTIVE' | 'USED' | 'EXPIRED'
 
@@ -61,12 +62,13 @@ export default function Vouchers() {
     <div className="px-4 pb-28 max-w-lg mx-auto pt-4">
 
       {/* Header */}
-      <div className="mb-5">
-        <div className="flex items-center space-x-2 mb-1">
-          <Gift className="text-orange-500" size={22} />
-          <h1 className="text-2xl font-bold tracking-tight text-[#1A1A1A]">My Vouchers</h1>
-        </div>
-        <p className="text-sm text-[#6B7280]">RM {Number(card.points_balance).toFixed(2)} wallet balance</p>
+      <div className="-mx-4 -mt-4 mb-5">
+        <HeroHeader
+          title="My Vouchers"
+          subtitle={`RM ${Number(card.points_balance).toFixed(2)} wallet balance`}
+          seed="vouchers"
+          height="h-36"
+        />
       </div>
 
       {/* Stats row */}

@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react'
+import { motion } from 'motion/react'
+import { Wallet, Tag, Repeat, TrendingUp } from 'lucide-react'
 import { useCard } from '../context/CardContext'
 import { getVendorSummary } from '../lib/api'
+import { HeroHeader } from '../components/HeroHeader'
+import { ImageWithFallback } from '../components/ImageWithFallback'
+import { StatPill } from '../components/Badges'
+import { getFoodImage } from '../lib/foodImages'
 
 export default function VendorSummary() {
   const { card } = useCard()
@@ -17,34 +23,77 @@ export default function VendorSummary() {
 
   if (!card) return null
 
-  return (
-    <div className="p-6 max-w-lg mx-auto space-y-5 pb-24">
-      <h1 className="text-xl font-bold">Subsidy Summary</h1>
+  const campaigns = summary?.campaigns ?? []
+  const total = Number(summary?.grand_total_subsidy ?? 0)
 
-      <div className="bg-black text-white rounded-xl p-4">
-        <p className="text-xs text-gray-400">Total Subsidy Available</p>
-        {loading
-          ? <div className="h-8 w-32 bg-gray-700 rounded animate-pulse mt-1" />
-          : <p className="text-3xl font-bold">RM {Number(summary?.grand_total_subsidy ?? 0).toFixed(2)}</p>
-        }
+  return (
+    <div className="px-4 pb-28 max-w-lg mx-auto pt-4">
+      {/* Header */}
+      <div className="-mx-4 -mt-4 mb-5">
+        <HeroHeader
+          title="Subsidy Summary"
+          subtitle={card.business_name ?? 'Your earnings at a glance'}
+          seed="vendor-summary"
+        />
       </div>
 
-      <p className="text-sm font-medium">Breakdown by Campaign</p>
+      {/* Total subsidy stat card */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative overflow-hidden rounded-[1.5rem] p-6 bg-gradient-to-br from-[#FF8A00] to-[#FFD166] text-white shadow-md mb-6"
+      >
+        <div className="flex items-center gap-2 text-white/90 mb-1">
+          <Wallet size={16} />
+          <span className="text-xs font-semibold uppercase tracking-wider">Total Subsidy Available</span>
+        </div>
+        {loading
+          ? <div className="h-9 w-36 bg-white/30 rounded-lg animate-pulse mt-1" />
+          : <p className="text-4xl font-bold drop-shadow-sm">RM {total.toFixed(2)}</p>
+        }
+        <Wallet className="absolute -right-3 -bottom-3 text-white/15" size={104} />
+      </motion.div>
 
-      {loading
-        ? [1, 2].map(i => <div key={i} className="h-16 bg-gray-100 rounded-xl animate-pulse" />)
-        : (summary?.campaigns ?? []).length === 0
-          ? <p className="text-sm text-gray-400">No subsidy data yet.</p>
-          : (summary?.campaigns ?? []).map((c: any) => (
-              <div key={c.campaign_id} className="bg-white rounded-xl shadow p-4 flex justify-between items-center">
-                <div>
-                  <p className="font-medium text-sm">{c.campaign_name}</p>
-                  <p className="text-xs text-gray-400">{c.redemption_count} redemptions</p>
+      <div className="flex items-center gap-2 mb-3">
+        <TrendingUp size={16} className="text-[#FF8A00]" />
+        <p className="text-sm font-bold text-[#1A1A1A]">Breakdown by Campaign</p>
+      </div>
+
+      {loading ? (
+        <div className="space-y-3">
+          {[1, 2].map(i => <div key={i} className="h-20 bg-gray-100 rounded-[1.5rem] animate-pulse" />)}
+        </div>
+      ) : campaigns.length === 0 ? (
+        <div className="text-center py-12 bg-white rounded-[1.5rem] border border-dashed border-gray-200 text-[#6B7280]">
+          <Tag size={32} className="mx-auto mb-2 text-gray-200" />
+          <p className="text-sm">No subsidy data yet.</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {campaigns.map((c: any, i: number) => (
+            <motion.div
+              key={c.campaign_id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.05 }}
+              className="bg-white rounded-[1.5rem] border border-gray-100 shadow-sm overflow-hidden flex items-center gap-4 p-3 hover:shadow-md hover:border-orange-200 transition-all"
+            >
+              <ImageWithFallback
+                src={getFoodImage({ name: c.campaign_name, food_id: c.campaign_id })}
+                alt={c.campaign_name ?? 'Campaign'}
+                className="w-16 h-16 rounded-2xl object-cover shrink-0"
+              />
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-sm text-[#1A1A1A] truncate">{c.campaign_name}</p>
+                <div className="mt-1">
+                  <StatPill icon={Repeat} tone="blue">{c.redemption_count} redemptions</StatPill>
                 </div>
-                <p className="font-bold text-green-700">RM {Number(c.total_subsidy_owed ?? 0).toFixed(2)}</p>
               </div>
-            ))
-      }
+              <p className="shrink-0 font-bold text-green-700 text-base">RM {Number(c.total_subsidy_owed ?? 0).toFixed(2)}</p>
+            </motion.div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

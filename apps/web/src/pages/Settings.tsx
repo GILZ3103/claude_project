@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 import { useCard } from '../context/CardContext'
 import { uploadCardPhoto } from '../lib/api'
 import { fileToResizedDataUrl } from '../lib/image'
+import { HeroHeader } from '../components/HeroHeader'
 
 const FAQS = [
   {
@@ -86,6 +87,11 @@ export default function Settings() {
 
   return (
     <div className="px-4 pb-28 max-w-lg mx-auto space-y-4 pt-4">
+
+      {/* Hero banner */}
+      <div className="-mx-4 -mt-4">
+        <HeroHeader title="Settings" subtitle={card.owner_name} seed={card.uid} height="h-32" />
+      </div>
 
       {/* Account Settings */}
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className={sectionCls}>

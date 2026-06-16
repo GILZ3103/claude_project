@@ -10,6 +10,10 @@ import {
   getVendors, getAdminPendingVendors, reviewVendor,
   getAdminCampaignApplications, reviewCampaignApplication, setVendorPosition
 } from '../lib/api'
+import { HeroHeader } from '../components/HeroHeader'
+import { ImageWithFallback } from '../components/ImageWithFallback'
+import { IconBadge } from '../components/Badges'
+import { getVendorImage } from '../lib/foodImages'
 
 type AdminTab = 'vendors' | 'applications' | 'compliance' | 'slots'
 
@@ -120,18 +124,19 @@ export default function AdminDashboard() {
 
   return (
     <section className="w-full flex flex-col px-4 sm:px-6 pb-16 bg-[#FAFAFA] min-h-[100dvh]">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between mt-8 mb-8 gap-4">
-        <div className="flex items-center space-x-3">
-          <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-gray-900 shadow-sm border border-gray-800">
-            <Shield className="text-white" size={24} />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight text-[#1A1A1A]">Admin Console</h2>
-            <p className="text-xs text-[#6B7280]">{card.owner_name} · {card.department}</p>
-          </div>
-        </div>
+      {/* Hero banner */}
+      <div className="-mx-4 sm:-mx-6 mb-6">
+        <HeroHeader
+          title="Admin Console"
+          subtitle={`${card.owner_name} · ${card.department}`}
+          seed="admin-console"
+        >
+          <IconBadge icon={Shield} tone="dark">Administrator</IconBadge>
+        </HeroHeader>
+      </div>
 
+      {/* Tabs */}
+      <div className="flex mb-8">
         <div className="flex space-x-1 bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm overflow-x-auto w-full md:w-auto [&::-webkit-scrollbar]:hidden">
           {(['vendors', 'applications', 'compliance', 'slots'] as AdminTab[]).map(tab => (
             <button
@@ -190,8 +195,17 @@ export default function AdminDashboard() {
                         <>
                           <tr key={v.vendor_id} className={`hover:bg-gray-50 transition-colors ${expandedId === v.vendor_id ? 'bg-blue-50/20' : ''}`}>
                             <td className="p-4">
-                              <p className="font-bold text-[#1A1A1A]">{v.business_name}</p>
-                              <p className="text-xs text-[#6B7280]">{v.category ?? '—'}</p>
+                              <div className="flex items-center gap-3">
+                                <ImageWithFallback
+                                  src={getVendorImage(v)}
+                                  alt={v.business_name}
+                                  className="w-11 h-11 rounded-xl object-cover shrink-0"
+                                />
+                                <div>
+                                  <p className="font-bold text-[#1A1A1A]">{v.business_name}</p>
+                                  <p className="text-xs text-[#6B7280]">{v.category ?? '—'}</p>
+                                </div>
+                              </div>
                             </td>
                             <td className="p-4">
                               <p className="text-sm text-[#6B7280] max-w-xs truncate">{v.description ?? '—'}</p>
@@ -281,12 +295,19 @@ export default function AdminDashboard() {
                     {pendingVendors.map((v: any) => (
                       <div key={v.vendor_id} className="bg-white rounded-[2rem] border border-gray-200 shadow-[0_4px_20px_rgb(0,0,0,0.04)] overflow-hidden">
                         <div className="p-6 flex flex-col sm:flex-row justify-between items-start gap-4">
-                          <div>
-                            <div className="flex items-center gap-3 mb-1">
-                              <h4 className="font-bold text-lg text-[#1A1A1A]">{v.business_name}</h4>
-                              <span className="bg-yellow-50 text-yellow-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-yellow-200">Pending Review</span>
+                          <div className="flex items-start gap-4">
+                            <ImageWithFallback
+                              src={getVendorImage(v)}
+                              alt={v.business_name}
+                              className="w-14 h-14 rounded-2xl object-cover shrink-0"
+                            />
+                            <div>
+                              <div className="flex items-center gap-3 mb-1">
+                                <h4 className="font-bold text-lg text-[#1A1A1A]">{v.business_name}</h4>
+                                <span className="bg-yellow-50 text-yellow-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-yellow-200">Pending Review</span>
+                              </div>
+                              <p className="text-sm text-[#6B7280]">SSM: {v.ssm_registration_number} · {v.category ?? 'Vendor'}</p>
                             </div>
-                            <p className="text-sm text-[#6B7280]">SSM: {v.ssm_registration_number} · {v.category ?? 'Vendor'}</p>
                           </div>
                           <div className="flex gap-2 shrink-0">
                             <button
@@ -403,9 +424,11 @@ export default function AdminDashboard() {
                     {vendors.slice(0, 6).map((v: any) => (
                       <div key={v.vendor_id} className="flex items-center justify-between p-4 bg-[#FAFAFA] rounded-2xl border border-gray-100 hover:bg-white transition-all">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 bg-green-100 text-green-600 rounded-xl flex items-center justify-center font-black">
-                            {(v.business_name ?? 'V')[0]}
-                          </div>
+                          <ImageWithFallback
+                            src={getVendorImage(v)}
+                            alt={v.business_name}
+                            className="w-10 h-10 rounded-xl object-cover shrink-0"
+                          />
                           <div>
                             <p className="font-semibold text-[#1A1A1A] text-sm">{v.business_name}</p>
                             <p className="text-xs text-[#6B7280]">{v.category ?? '—'} · {v.food_item_count} menu items</p>

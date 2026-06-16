@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react'
-import { getVendors, getVendorFood } from '../lib/api'
+import { Search, ArrowLeft, Store, MapPin, Utensils } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { getVendors, getVendorFood } from '../lib/api'
+import { VendorCard } from '../components/VendorCard'
+import { FoodCard } from '../components/FoodCard'
+import { HeroHeader } from '../components/HeroHeader'
+import { ImageWithFallback } from '../components/ImageWithFallback'
+import { getVendorImage } from '../lib/foodImages'
 
 export default function Vendors() {
   const [vendors, setVendors] = useState<any[]>([])
@@ -46,98 +52,104 @@ export default function Vendors() {
 
   if (loading) {
     return (
-      <div className="p-6 max-w-lg mx-auto space-y-4 pb-24">
-        {[1, 2, 3].map(i => (
-          <div key={i} className="h-20 bg-gray-100 rounded-xl animate-pulse" />
-        ))}
+      <div className="max-w-3xl mx-auto pb-24">
+        <div className="h-44 bg-gray-100 animate-pulse rounded-b-[2.5rem]" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-6">
+          {[1, 2, 3, 4].map(i => <div key={i} className="h-56 bg-gray-100 rounded-2xl animate-pulse" />)}
+        </div>
       </div>
     )
   }
 
+  // ── Vendor detail view ──
   if (selected) {
     return (
-      <div className="p-6 max-w-lg mx-auto space-y-4 pb-24">
-        <button
-          onClick={() => { setSelected(null); setFood([]) }}
-          className="text-sm text-gray-500 flex items-center gap-1"
-        >
-          ← Back to Vendors
-        </button>
-
-        <div className="bg-white rounded-xl shadow p-4">
-          <p className="font-bold text-lg">{selected.business_name}</p>
-          <p className="text-xs text-gray-400">{selected.category}</p>
-          {selected.description && (
-            <p className="text-sm text-gray-500 mt-1">{selected.description}</p>
-          )}
-          {selected.grid_x != null && (
-            <p className="text-xs text-gray-400 mt-1">Location: Grid ({selected.grid_x}, {selected.grid_y})</p>
-          )}
+      <div className="max-w-3xl mx-auto pb-24 bg-[#FAFAFA] min-h-[100dvh]">
+        <div className="relative h-52 w-full overflow-hidden rounded-b-[2.5rem] shadow-md">
+          <ImageWithFallback
+            src={getVendorImage(selected, food[0])}
+            alt={selected.business_name}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+          <button
+            onClick={() => { setSelected(null); setFood([]) }}
+            className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 bg-white/90 backdrop-blur-sm text-[#1A1A1A] text-sm font-semibold px-3 py-2 rounded-xl shadow-sm hover:bg-white transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" /> Back
+          </button>
+          <div className="absolute bottom-4 left-5 right-5 z-10">
+            {selected.category && (
+              <span className="inline-flex items-center gap-1 bg-orange-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-lg mb-2">
+                <Utensils className="w-3 h-3" /> {selected.category}
+              </span>
+            )}
+            <h1 className="text-2xl font-bold tracking-tight text-white leading-tight drop-shadow">{selected.business_name}</h1>
+            {selected.grid_x != null && (
+              <p className="inline-flex items-center gap-1 text-white/85 text-xs font-medium mt-1">
+                <MapPin className="w-3.5 h-3.5" /> Stall ({selected.grid_x}, {selected.grid_y})
+              </p>
+            )}
+          </div>
         </div>
 
-        <p className="text-sm font-medium">Menu</p>
-
-        {foodLoading && <div className="h-16 bg-gray-100 rounded-xl animate-pulse" />}
-
-        {!foodLoading && food.length === 0 && (
-          <p className="text-sm text-gray-400">No items listed.</p>
+        {selected.description && (
+          <p className="text-sm text-[#6B7280] px-6 pt-4 leading-relaxed">{selected.description}</p>
         )}
 
-        {!foodLoading && food.map((item: any) => (
-          <div key={item.food_id} className="bg-white rounded-xl shadow p-4">
-            <div className="flex justify-between items-start">
-              <div className="flex gap-3">
-                {item.photo_url && (
-                  <img src={item.photo_url} alt={item.name} className="w-14 h-14 rounded-lg object-cover" />
-                )}
-                <div>
-                  <p className="font-medium">{item.name}</p>
-                  <p className="text-xs text-gray-400">{item.calories} kcal</p>
-                  {(item.protein_g > 0 || item.carbs_g > 0 || item.fat_g > 0) && (
-                    <p className="text-xs text-gray-400 mt-0.5">
-                      P: {item.protein_g}g · C: {item.carbs_g}g · F: {item.fat_g}g
-                    </p>
-                  )}
-                </div>
-              </div>
-              <p className="font-semibold text-green-700 shrink-0">RM {Number(item.price_in_points).toFixed(2)}</p>
-            </div>
+        <div className="flex items-center gap-2 px-6 pt-5 pb-3">
+          <Utensils className="w-4 h-4 text-orange-500" />
+          <h2 className="text-base font-bold text-[#1A1A1A]">Menu</h2>
+        </div>
+
+        {foodLoading ? (
+          <div className="grid grid-cols-2 gap-4 px-6">
+            {[1, 2, 3, 4].map(i => <div key={i} className="h-48 bg-gray-100 rounded-2xl animate-pulse" />)}
           </div>
-        ))}
+        ) : food.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-12 text-gray-400">
+            <Utensils className="w-8 h-8 mb-2 text-gray-300" />
+            <p className="text-sm">No items listed yet.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-4 px-6">
+            {food.map((item: any) => (
+              <FoodCard key={item.food_id} item={item} />
+            ))}
+          </div>
+        )}
       </div>
     )
   }
 
+  // ── Vendor list view ──
   return (
-    <div className="p-6 max-w-lg mx-auto space-y-4 pb-24">
-      <h2 className="text-xl font-bold">Vendors</h2>
+    <div className="max-w-3xl mx-auto pb-24 bg-[#FAFAFA] min-h-[100dvh]">
+      <HeroHeader title="Discover Vendors" subtitle="Explore the night market" seed="vendors" height="h-44">
+        <div className="relative">
+          <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 pointer-events-none" />
+          <input
+            type="search"
+            className="w-full bg-white/20 backdrop-blur-sm text-white placeholder-white/70 pl-10 pr-4 py-3 rounded-2xl border border-white/30 focus:outline-none focus:bg-white/30 transition-all text-sm font-medium"
+            placeholder="Search vendors or category…"
+            value={search}
+            onChange={e => handleSearch(e.target.value)}
+          />
+        </div>
+      </HeroHeader>
 
-      {/* Search bar */}
-      <input
-        type="search"
-        className="w-full border rounded-xl px-4 py-3 text-sm bg-white shadow-sm"
-        placeholder="Search vendors or category..."
-        value={search}
-        onChange={e => handleSearch(e.target.value)}
-      />
-
-      {filtered.length === 0 && (
-        <p className="text-sm text-gray-400">{search ? 'No vendors match your search.' : 'No vendors yet.'}</p>
+      {filtered.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-16 text-gray-400">
+          <Store className="w-10 h-10 mb-3 text-gray-300" />
+          <p className="text-sm">{search ? 'No vendors match your search.' : 'No vendors yet.'}</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-6">
+          {filtered.map((v: any) => (
+            <VendorCard key={v.vendor_id} vendor={v} onClick={() => openVendor(v)} />
+          ))}
+        </div>
       )}
-
-      {filtered.map((v: any) => (
-        <button
-          key={v.vendor_id}
-          onClick={() => openVendor(v)}
-          className="w-full bg-white rounded-xl shadow p-4 text-left flex justify-between items-center"
-        >
-          <div>
-            <p className="font-semibold">{v.business_name}</p>
-            <p className="text-xs text-gray-400">{v.category}</p>
-          </div>
-          <span className="text-gray-300 text-lg">›</span>
-        </button>
-      ))}
     </div>
   )
 }

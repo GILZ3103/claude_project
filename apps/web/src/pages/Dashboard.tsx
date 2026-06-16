@@ -3,11 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import {
   Plus, Flame, CreditCard, Navigation, History, Gift,
-  CheckCircle, ShieldCheck, Zap, QrCode, Search
+  CheckCircle, ShieldCheck, QrCode, Search, Utensils
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCard } from '../context/CardContext'
 import { getCardHistory, topup, getAllFood } from '../lib/api'
+import { FoodCard } from '../components/FoodCard'
+import { ImageWithFallback } from '../components/ImageWithFallback'
+import { getHeroImage, getFoodImage } from '../lib/foodImages'
 
 export default function Dashboard() {
   const { card, refreshCard } = useCard()
@@ -104,8 +107,11 @@ export default function Dashboard() {
 
   return (
     <section className="w-full flex flex-col pt-6 px-4 pb-24 relative min-h-[100dvh] bg-[#FAFAFA]">
-      {/* Orange gradient header bg */}
-      <div className="absolute top-0 left-0 w-full h-[380px] bg-gradient-to-br from-[#FF8A00] to-[#FFD166] rounded-b-[3rem] z-0 shadow-md" />
+      {/* Hero banner photo with brand gradient overlay */}
+      <div className="absolute top-0 left-0 w-full h-[380px] rounded-b-[3rem] z-0 shadow-md overflow-hidden">
+        <ImageWithFallback src={getHeroImage(card.uid)} alt="" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#FF8A00]/90 via-[#FF8A00]/75 to-[#FFD166]/85" />
+      </div>
 
       {/* Header */}
       <div className="mb-5 z-10 pt-4">
@@ -230,6 +236,28 @@ export default function Dashboard() {
         </div>
       </motion.div>
 
+      {/* Featured Food */}
+      {foodItems.length > 0 && (
+        <div className="mb-6 z-10">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-2">
+              <Utensils className="text-orange-500" size={20} />
+              <h2 className="text-lg font-bold tracking-tight text-[#1A1A1A]">Featured Food</h2>
+            </div>
+            <button onClick={() => navigate('/vendors')} className="text-xs font-semibold text-orange-600 bg-orange-50 border border-orange-100 px-3 py-1.5 rounded-xl">
+              See All
+            </button>
+          </div>
+          <div className="flex overflow-x-auto pb-3 space-x-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            {foodItems.slice(0, 10).map((f: any) => (
+              <div key={f.food_item_id} className="shrink-0 w-44">
+                <FoodCard item={f} onClick={() => navigate(`/map?vendor=${f.vendor_id}`)} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Voucher Panel */}
       <div className="mb-6 z-10 mt-4">
         <div className="flex items-center justify-between mb-4">
@@ -333,9 +361,17 @@ export default function Dashboard() {
                   className="flex items-center justify-between p-4 bg-[#FAFAFA] rounded-2xl hover:bg-white border border-transparent hover:border-gray-100 transition-all cursor-default"
                 >
                   <div className="flex items-center space-x-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shadow-sm ${isTopup ? 'bg-blue-50 text-blue-600 border border-blue-100' : 'bg-orange-50 text-orange-600 border border-orange-100'}`}>
-                      {isTopup ? <Plus size={18} /> : <Zap size={18} />}
-                    </div>
+                    {isTopup ? (
+                      <div className="w-11 h-11 rounded-xl flex items-center justify-center shadow-sm bg-blue-50 text-blue-600 border border-blue-100">
+                        <Plus size={18} />
+                      </div>
+                    ) : (
+                      <ImageWithFallback
+                        src={getFoodImage({ name: h.food_name, photo_url: h.photo_url, food_id: h.event_id })}
+                        alt={h.food_name ?? 'Purchase'}
+                        className="w-11 h-11 rounded-xl object-cover shadow-sm border border-gray-100"
+                      />
+                    )}
                     <div>
                       <p className="font-semibold text-[#1A1A1A] text-sm">{h.food_name ?? h.event_type}</p>
                       <div className="flex items-center space-x-1.5 mt-0.5">

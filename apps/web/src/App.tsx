@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard'
 import Calories from './pages/Calories'
 import Campaigns from './pages/Campaigns'
 import Vendors from './pages/Vendors'
+import Catalogue from './pages/Catalogue'
 import Map from './pages/Map'
 import NfcConnect from './pages/NfcConnect'
 import Settings from './pages/Settings'
@@ -39,6 +40,7 @@ function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => 
         <Route path="/calories" element={<Calories />} />
         <Route path="/campaigns" element={<Campaigns />} />
         <Route path="/vendors" element={<Vendors />} />
+        <Route path="/catalogue" element={<Catalogue />} />
         <Route path="/map" element={<Map />} />
         <Route path="/nfc" element={<NfcConnect />} />
         <Route path="/vouchers" element={<Vouchers />} />

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'motion/react'
 import {
   Store, Plus, Edit2, Trash2, X, ShieldCheck, AlertTriangle, FileText,
   CheckCircle, MapPin, CheckSquare, Tag, DollarSign,
-  TrendingUp, Star, ReceiptText, ArrowRight, Info, Upload, Loader
+  TrendingUp, Star, ReceiptText, ArrowRight, Info, Loader
 } from 'lucide-react'
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import toast from 'react-hot-toast'
@@ -14,6 +14,10 @@ import {
   getComplianceRecords, addComplianceRecord, deleteComplianceRecord,
   applyCampaign, getVendorCampaignApplications
 } from '../lib/api'
+import { HeroHeader } from '../components/HeroHeader'
+import { ImageWithFallback } from '../components/ImageWithFallback'
+import { IconBadge } from '../components/Badges'
+import { getFoodImage } from '../lib/foodImages'
 
 type Tab = 'overview' | 'compliance' | 'operations' | 'menu' | 'campaigns' | 'reviews'
 
@@ -245,24 +249,25 @@ export default function VendorDashboard() {
 
   return (
     <section className="w-full flex flex-col px-4 sm:px-6 pb-16 bg-[#FAFAFA] min-h-[100dvh]">
-      {/* Header + tabs */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-8 mb-8 gap-4">
-        <div className="flex items-center space-x-3">
-          <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-blue-50 border border-blue-100 shadow-sm">
-            <Store className="text-blue-500" size={24} />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight text-[#1A1A1A]">{card.business_name ?? card.owner_name}</h2>
-            <p className="text-xs text-[#6B7280] font-medium">{card.ssm_registration_number ?? 'Vendor Dashboard'}</p>
-          </div>
-        </div>
+      {/* Hero banner */}
+      <div className="-mx-4 sm:-mx-6 mb-6">
+        <HeroHeader
+          title={card.business_name ?? card.owner_name}
+          subtitle={card.ssm_registration_number ?? 'Vendor Dashboard'}
+          seed={card.vendor_id ?? 'vendor-dashboard'}
+        >
+          <IconBadge icon={ShieldCheck} tone="green">Verified Vendor</IconBadge>
+        </HeroHeader>
+      </div>
 
+      {/* Tabs */}
+      <div className="flex justify-start mb-8">
         <div className="flex space-x-1 bg-white p-1.5 rounded-xl border border-gray-200 shadow-sm overflow-x-auto w-full sm:w-auto [&::-webkit-scrollbar]:hidden">
           {TABS.map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold capitalize tracking-wide transition-all shrink-0 ${activeTab === tab ? 'bg-blue-50 text-blue-600 shadow-sm' : 'text-[#6B7280] hover:text-[#1A1A1A]'}`}
+              className={`px-4 py-2 rounded-lg text-xs font-semibold capitalize tracking-wide transition-all shrink-0 ${activeTab === tab ? 'bg-orange-50 text-orange-600 shadow-sm' : 'text-[#6B7280] hover:text-[#1A1A1A]'}`}
             >
               {tab}
             </button>
@@ -521,8 +526,12 @@ export default function VendorDashboard() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {foodItems.map((item: any) => (
                 <div key={item.food_item_id} className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:border-orange-200 transition-all group">
-                  <div className="h-28 bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center">
-                    <Upload size={28} className="text-orange-200" />
+                  <div className="relative h-28 overflow-hidden bg-gray-100">
+                    <ImageWithFallback
+                      src={getFoodImage(item)}
+                      alt={item.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
                   </div>
                   <div className="p-5">
                     <div className="flex justify-between items-start mb-2">

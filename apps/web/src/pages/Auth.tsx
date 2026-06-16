@@ -6,6 +6,8 @@ import toast from 'react-hot-toast'
 import { useCard } from '../context/CardContext'
 import { registerCard, loginConsumer, loginVendor, loginAdmin, registerVendor, uploadCardPhoto } from '../lib/api'
 import { fileToResizedDataUrl } from '../lib/image'
+import { ImageWithFallback } from '../components/ImageWithFallback'
+import { getHeroImage } from '../lib/foodImages'
 
 type Role = 'consumer' | 'vendor' | 'admin'
 type Mode = 'login' | 'signup'
@@ -151,6 +153,9 @@ export default function AuthPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#FAFAFA] p-4 relative overflow-hidden">
+      {/* Food backdrop */}
+      <ImageWithFallback src={getHeroImage('auth')} alt="" className="absolute inset-0 w-full h-full object-cover opacity-[0.18]" />
+      <div className="absolute inset-0 bg-[#FAFAFA]/40" />
       {/* Background glows */}
       <div className="absolute top-[-10%] -left-[10%] w-[50vw] h-[50vw] bg-[#FF8A00] rounded-full mix-blend-multiply filter blur-[100px] opacity-[0.12]" />
       <div className="absolute top-[20%] -right-[10%] w-[40vw] h-[40vw] bg-[#3B82F6] rounded-full mix-blend-multiply filter blur-[120px] opacity-[0.12]" />

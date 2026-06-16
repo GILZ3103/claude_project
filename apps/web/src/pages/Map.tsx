@@ -7,6 +7,8 @@ import {
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { getVendorFood, getAllFood } from '../lib/api'
+import { ImageWithFallback } from '../components/ImageWithFallback'
+import { getVendorImage } from '../lib/foodImages'
 import { useLivePosition, METERS_PER_GRID_CELL, type PositioningAnchor } from '../lib/useLivePosition'
 import { trilaterate, type PositionEstimate } from '../lib/trilaterate'
 
@@ -858,8 +860,15 @@ export default function Map() {
               onClick={() => handleSelectVendor(v.vendor_id)}
               className={`bg-white rounded-2xl border cursor-pointer overflow-hidden transition-all duration-300 shadow-sm ${isSelected ? 'border-orange-400 ring-2 ring-orange-100 shadow-orange-100 shadow-md' : 'border-gray-100 hover:border-gray-200 hover:shadow-md'}`}
             >
-              {/* Color header strip */}
-              <div className={`h-2 ${colorCls}`} />
+              {/* Vendor photo header */}
+              <div className="relative h-24 overflow-hidden bg-gray-100">
+                <ImageWithFallback
+                  src={getVendorImage(v)}
+                  alt={v.business_name}
+                  className="w-full h-full object-cover"
+                />
+                <div className={`absolute bottom-0 left-0 right-0 h-1.5 ${colorCls}`} />
+              </div>
               <div className="p-4">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
