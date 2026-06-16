@@ -18,9 +18,14 @@ export const errorHandler = (
     return
   }
 
+  // Surface the underlying DB/runtime error so failures are diagnosable
+  // (e.g. a missing column shows the real PostgREST message instead of a
+  // generic one). Falls back to the generic message when nothing useful.
+  const detail = err?.message || err?.details || err?.hint
   res.status(500).json({
     success: false,
     error: 'INTERNAL_ERROR',
-    message: 'An unexpected error occurred'
+    code: err?.code,
+    message: detail ? `An unexpected error occurred: ${detail}` : 'An unexpected error occurred'
   })
 }

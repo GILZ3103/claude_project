@@ -197,7 +197,7 @@ export default function Dashboard() {
               <span>Top Up</span>
             </motion.button>
             <motion.button
-              onClick={() => navigate('/map')}
+              onClick={() => navigate('/catalogue')}
               whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
               className="bg-orange-50 text-orange-600 border border-orange-100 py-3 rounded-2xl font-semibold flex items-center justify-center space-x-2 text-sm"
             >

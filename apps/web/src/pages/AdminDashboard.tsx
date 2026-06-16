@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import {
   Shield, CheckCircle, XCircle,
@@ -43,10 +43,22 @@ export default function AdminDashboard() {
   const [rejectReason, setRejectReason] = useState('')
   const [reviewing, setReviewing] = useState(false)
 
+  // Deep-link scroll target within the applications tab
+  const campaignSectionRef = useRef<HTMLDivElement>(null)
+  const [pendingScroll, setPendingScroll] = useState<'campaigns' | null>(null)
+
   useEffect(() => {
     if (!card) return
     loadAll()
   }, [card?.uid])
+
+  // When a stat card deep-links into the applications tab, scroll to its section
+  useEffect(() => {
+    if (activeTab === 'applications' && pendingScroll === 'campaigns') {
+      campaignSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      setPendingScroll(null)
+    }
+  }, [activeTab, pendingScroll])
 
   async function loadAll() {
     setLoading(true)
@@ -328,7 +340,7 @@ export default function AdminDashboard() {
               </div>
 
               {/* Campaign applications */}
-              <div>
+              <div ref={campaignSectionRef} className="scroll-mt-24">
                 <div className="flex items-center gap-3 mb-4">
                   <Tag size={18} className="text-green-600" />
                   <h3 className="font-bold text-xl text-[#1A1A1A]">Campaign Applications</h3>
@@ -398,14 +410,14 @@ export default function AdminDashboard() {
           {activeTab === 'compliance' && (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                {[
+                {([
                   { label: 'Active Vendors', value: vendors.length, color: 'text-green-500', bg: 'hover:bg-green-50 hover:border-green-300', desc: 'Fully approved & operating', tab: 'vendors' as AdminTab },
                   { label: 'Pending Applications', value: pendingVendors.length, color: 'text-yellow-500', bg: 'hover:bg-yellow-50 hover:border-yellow-300', desc: 'Click to review', tab: 'applications' as AdminTab },
-                  { label: 'Pending Campaigns', value: pendingCampaignApps.length, color: 'text-red-500', bg: 'hover:bg-red-50 hover:border-red-300', desc: 'Click to review', tab: 'applications' as AdminTab },
-                ].map(stat => (
+                  { label: 'Pending Campaigns', value: pendingCampaignApps.length, color: 'text-red-500', bg: 'hover:bg-red-50 hover:border-red-300', desc: 'Click to review', tab: 'applications' as AdminTab, focus: 'campaigns' as const },
+                ] as { label: string; value: number; color: string; bg: string; desc: string; tab: AdminTab; focus?: 'campaigns' }[]).map(stat => (
                   <div
                     key={stat.label}
-                    onClick={() => setActiveTab(stat.tab)}
+                    onClick={() => { setActiveTab(stat.tab); if (stat.focus) setPendingScroll(stat.focus) }}
                     className={`bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm flex flex-col items-center text-center cursor-pointer transition-colors ${stat.bg}`}
                   >
                     <p className={`text-4xl font-bold mb-1 ${stat.color}`}>{stat.value}</p>
