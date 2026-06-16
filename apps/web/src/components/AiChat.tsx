@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { Sparkles, X, Send } from 'lucide-react'
+import { X, Send } from 'lucide-react'
 import { useCard } from '../context/CardContext'
 import { askAgent } from '../lib/api'
 
@@ -60,8 +60,8 @@ export default function AiChat() {
               <X size={22} />
             </motion.div>
           ) : (
-            <motion.div key="spark" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
-              <Sparkles size={22} fill="currentColor" />
+            <motion.div key="mascot" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
+              <img src="/burger-mascot.png" alt="WarungTek Assistant" className="w-10 h-10 object-contain drop-shadow" />
             </motion.div>
           )}
         </AnimatePresence>
@@ -80,8 +80,8 @@ export default function AiChat() {
           >
             {/* Header */}
             <div className="px-5 py-4 bg-gradient-to-r from-[#FF8A00] to-[#FFD166] text-white flex items-center gap-3">
-              <div className="w-8 h-8 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center">
-                <Sparkles size={16} />
+              <div className="w-9 h-9 rounded-xl overflow-hidden shrink-0">
+                <img src="/burger-mascot.png" alt="" className="w-full h-full object-contain" />
               </div>
               <div>
                 <p className="font-bold text-sm">WarungTek Assistant</p>
