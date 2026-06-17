@@ -124,7 +124,7 @@ export default function Dashboard() {
       </div>
 
       {/* Food search bar */}
-      <div className="mb-5 z-10 relative">
+      <div className={`mb-5 relative ${foodDropdownOpen ? 'z-[60]' : 'z-10'}`}>
         <div className="relative">
           <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 pointer-events-none" />
           <input
