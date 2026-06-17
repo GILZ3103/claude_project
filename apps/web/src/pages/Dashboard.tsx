@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import {
   Plus, Flame, CreditCard, Navigation, History, Gift,
-  CheckCircle, ShieldCheck, QrCode, Search, Utensils
+  CheckCircle, ShieldCheck, QrCode, Search, Utensils, Gamepad2, Bird, Layers, Dices
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCard } from '../context/CardContext'
@@ -257,6 +257,44 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+      {/* Games Hub Banner */}
+      <div className="mb-6 z-10">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center space-x-2">
+            <Gamepad2 className="text-orange-500" size={20} />
+            <h2 className="text-lg font-bold tracking-tight text-[#1A1A1A]">Arcade</h2>
+          </div>
+          <button onClick={() => navigate('/games')} className="text-xs font-semibold text-orange-600 bg-orange-50 border border-orange-100 px-3 py-1.5 rounded-xl">
+            Play All
+          </button>
+        </div>
+        <motion.button
+          onClick={() => navigate('/games')}
+          whileTap={{ scale: 0.98 }}
+          className="w-full bg-gradient-to-br from-[#1A1A1A] to-[#2D2A3E] rounded-[2rem] p-5 flex items-center gap-4 shadow-lg overflow-hidden relative"
+        >
+          <div className="absolute -right-10 -top-10 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
+          <div className="absolute right-6 bottom-0 opacity-10 text-white pointer-events-none">
+            <Gamepad2 size={80} />
+          </div>
+          <div className="flex gap-3 z-10">
+            {[
+              { icon: <Bird size={22} />, label: 'Flappy', gradient: 'from-[#FF8A00] to-[#FFD166]' },
+              { icon: <Layers size={22} />, label: 'Stack', gradient: 'from-[#3B82F6] to-[#6366F1]' },
+              { icon: <Dices size={22} />, label: 'Spin', gradient: 'from-[#22C55E] to-[#86EFAC]' },
+            ].map(g => (
+              <div key={g.label} className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${g.gradient} flex items-center justify-center text-white shadow-md shrink-0`}>
+                {g.icon}
+              </div>
+            ))}
+          </div>
+          <div className="z-10 text-left">
+            <p className="font-bold text-white text-base">Play & Win Vouchers</p>
+            <p className="text-white/60 text-xs mt-0.5">Flappy Burger · Stack Tower · Daily Spin</p>
+          </div>
+        </motion.button>
+      </div>
 
       {/* Voucher Panel */}
       <div className="mb-6 z-10 mt-4">

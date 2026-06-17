@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
-import { Zap, Bell, Globe, User, Store, Shield, Settings, Home, Flame, Map, Gift, Utensils, Gamepad2 } from 'lucide-react'
+import { Zap, Bell, Globe, User, Store, Shield, Settings, Home, Flame, Map, Gift, Utensils } from 'lucide-react'
 import { useCard } from '../context/CardContext'
 
 type AppMode = 'consumer' | 'vendor'
@@ -27,7 +27,6 @@ export function TopNav({ mode, setMode }: TopNavProps) {
     { href: '/catalogue', label: 'Food', icon: <Utensils size={13} /> },
     { href: '/calories', label: 'Health Tracking', icon: <Flame size={13} /> },
     { href: '/vouchers', label: 'Vouchers', icon: <Gift size={13} /> },
-    { href: '/games', label: 'Games', icon: <Gamepad2 size={13} /> },
     { href: '/map', label: 'Map', icon: <Map size={13} /> },
     { href: '/settings', label: 'Settings', icon: <Settings size={13} /> },
   ]

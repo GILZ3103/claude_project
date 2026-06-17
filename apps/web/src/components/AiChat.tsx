@@ -49,19 +49,31 @@ export default function AiChat() {
       {/* Floating button */}
       <motion.button
         onClick={() => setOpen(v => !v)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="fixed bottom-24 md:bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-xl flex items-center justify-center overflow-hidden"
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.93 }}
+        className="fixed bottom-24 md:bottom-6 right-4 z-50 w-24 h-24 flex items-center justify-center drop-shadow-2xl"
         aria-label="AI Assistant"
       >
         <AnimatePresence mode="wait">
           {open ? (
-            <motion.div key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }}>
-              <X size={22} />
+            <motion.div
+              key="x"
+              initial={{ rotate: -90, opacity: 0, scale: 0.7 }}
+              animate={{ rotate: 0, opacity: 1, scale: 1 }}
+              exit={{ rotate: 90, opacity: 0, scale: 0.7 }}
+              className="w-12 h-12 rounded-full bg-[#FF8A00] flex items-center justify-center shadow-lg"
+            >
+              <X size={24} className="text-white" />
             </motion.div>
           ) : (
-            <motion.div key="mascot" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
-              <img src="/burger-mascot.png" alt="WarungTek Assistant" className="w-full h-full object-cover" />
+            <motion.div
+              key="mascot"
+              initial={{ rotate: 90, opacity: 0, scale: 0.7 }}
+              animate={{ rotate: 0, opacity: 1, scale: 1 }}
+              exit={{ rotate: -90, opacity: 0, scale: 0.7 }}
+              className="w-full h-full"
+            >
+              <img src="/burger-mascot.png" alt="WarungTek Assistant" className="w-full h-full object-contain" />
             </motion.div>
           )}
         </AnimatePresence>

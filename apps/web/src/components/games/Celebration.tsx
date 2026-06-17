@@ -87,22 +87,23 @@ export function Celebration({ score, best, isHighScore, vouchers, onPlayAgain, o
         transition={{ type: 'spring', bounce: 0.35 }}
         className="relative w-full max-w-sm bg-white rounded-[2.5rem] p-8 shadow-2xl flex flex-col items-center text-center"
       >
-        {/* Dancing burger mascot */}
+        {/* Dancing burger mascot — latin dance on win */}
         <motion.div
-          className="w-28 h-28 mb-2"
+          className="w-44 h-44 mb-2"
           animate={
             win
               ? {
-                  y: [0, -18, 0, -10, 0],
-                  rotate: [0, -12, 12, -8, 8, 0],
-                  scaleX: [1, 1.12, 0.9, 1.06, 1],
-                  scaleY: [1, 0.9, 1.12, 0.96, 1],
+                  y:      [0, -60, 8,  -45, 5,  -30, 0],
+                  x:      [0,  22, -28, 26, -22, 14,  0],
+                  rotate: [0, -28, 32, -22, 26, -12,  0],
+                  scaleX: [1, 1.25, 0.78, 1.18, 0.85, 1.12, 1],
+                  scaleY: [1, 0.78, 1.25, 0.85, 1.18, 0.88, 1],
                 }
-              : { rotate: [0, -6, 6, 0], y: [0, -4, 0] }
+              : { rotate: [0, -12, 12, -8, 8, 0], y: [0, -10, 0] }
           }
-          transition={{ duration: win ? 0.9 : 1.4, repeat: Infinity, ease: 'easeInOut' }}
+          transition={{ duration: win ? 1.1 : 1.6, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <img src="/burger-mascot.png" alt="" className="w-full h-full object-contain drop-shadow-lg" />
+          <img src="/burger-mascot.png" alt="" className="w-full h-full object-contain drop-shadow-2xl" />
         </motion.div>
 
         {win ? (
