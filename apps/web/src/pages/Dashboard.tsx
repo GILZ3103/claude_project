@@ -106,7 +106,7 @@ export default function Dashboard() {
   const vouchers = card.active_vouchers ?? []
 
   return (
-    <section className="w-full flex flex-col pt-6 px-4 pb-24 relative min-h-[100dvh] bg-[#FAFAFA]">
+    <section className="w-full max-w-2xl mx-auto flex flex-col pt-6 px-4 pb-24 relative min-h-[100dvh] bg-[#FAFAFA]">
       {/* Hero banner photo with brand gradient overlay */}
       <div className="absolute top-0 left-0 w-full h-[380px] rounded-b-[3rem] z-0 shadow-md overflow-hidden">
         <ImageWithFallback src={getHeroImage(card.uid)} alt="" className="absolute inset-0 w-full h-full object-cover" />
@@ -377,7 +377,7 @@ export default function Dashboard() {
       {/* Transactions */}
       <motion.div
         initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}
-        className="z-10 bg-white rounded-[2rem] p-6 border border-gray-100 border-t-4 border-t-[#3B82F6] shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
+        className="z-10 bg-white rounded-[2rem] p-6 border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
       >
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center space-x-2">
