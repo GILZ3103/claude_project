@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import {
   Plus, Flame, CreditCard, Navigation, History, Gift,
-  CheckCircle, ShieldCheck, QrCode, Search, Utensils, Gamepad2, Bird, Layers, Dices
+  CheckCircle, ShieldCheck, QrCode, Search, Utensils, Layers, Dices
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCard } from '../context/CardContext'
@@ -258,109 +258,98 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Games Hub Banner */}
-      <div className="mb-6 z-10">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-2">
-            <Gamepad2 className="text-orange-500" size={20} />
-            <h2 className="text-lg font-bold tracking-tight text-[#1A1A1A]">Arcade</h2>
-          </div>
-          <button onClick={() => navigate('/games')} className="text-xs font-semibold text-orange-600 bg-orange-50 border border-orange-100 px-3 py-1.5 rounded-xl">
-            Play All
-          </button>
-        </div>
-        <motion.button
-          onClick={() => navigate('/games')}
-          whileTap={{ scale: 0.98 }}
-          className="w-full bg-gradient-to-br from-[#1A1A1A] to-[#2D2A3E] rounded-[2rem] p-5 flex items-center gap-4 shadow-lg overflow-hidden relative"
-        >
-          <div className="absolute -right-10 -top-10 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
-          <div className="absolute right-6 bottom-0 opacity-10 text-white pointer-events-none">
-            <Gamepad2 size={80} />
-          </div>
-          <div className="flex gap-3 z-10">
-            {[
-              { icon: <Bird size={22} />, label: 'Flappy', gradient: 'from-[#FF8A00] to-[#FFD166]' },
-              { icon: <Layers size={22} />, label: 'Stack', gradient: 'from-[#3B82F6] to-[#6366F1]' },
-              { icon: <Dices size={22} />, label: 'Spin', gradient: 'from-[#22C55E] to-[#86EFAC]' },
-            ].map(g => (
-              <div key={g.label} className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${g.gradient} flex items-center justify-center text-white shadow-md shrink-0`}>
-                {g.icon}
-              </div>
-            ))}
-          </div>
-          <div className="z-10 text-left">
-            <p className="font-bold text-white text-base">Play & Win Vouchers</p>
-            <p className="text-white/60 text-xs mt-0.5">Flappy Burger · Stack Tower · Daily Spin</p>
-          </div>
-        </motion.button>
-      </div>
-
-      {/* Voucher Panel */}
+      {/* Rewards & Arcade — combined section */}
       <div className="mb-6 z-10 mt-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center space-x-2">
             <Gift className="text-orange-500" size={20} />
-            <h2 className="text-lg font-bold tracking-tight text-[#1A1A1A]">Voucher Panel</h2>
+            <h2 className="text-lg font-bold tracking-tight text-[#1A1A1A]">Rewards & Arcade</h2>
           </div>
-          <button onClick={() => navigate('/vouchers')} className="text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 px-3 py-1.5 rounded-xl">
-            View All
-          </button>
+          <div className="flex gap-2">
+            <button onClick={() => navigate('/vouchers')} className="text-xs font-semibold text-blue-600 bg-blue-50 border border-blue-100 px-3 py-1.5 rounded-xl">Vouchers</button>
+            <button onClick={() => navigate('/games')} className="text-xs font-semibold text-orange-600 bg-orange-50 border border-orange-100 px-3 py-1.5 rounded-xl">Games</button>
+          </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {/* Loyalty balance card */}
-          <div className="bg-white rounded-[2rem] border border-gray-100 p-5 shadow-sm flex flex-col relative overflow-hidden">
-            <div className="absolute -right-8 -top-8 w-28 h-28 bg-orange-50 rounded-full blur-2xl opacity-50 pointer-events-none" />
-            <p className="text-[10px] font-bold text-[#6B7280] uppercase tracking-wider mb-2 z-10">Loyalty Balance</p>
-            {/* Balance + Earned/Redeemed inline */}
-            <div className="flex items-baseline justify-between mb-1 z-10">
-              <div className="flex items-baseline space-x-1">
-                <span className="text-4xl font-bold text-[#1A1A1A] tracking-tight">
-                  {Math.round(card.points_balance * 100)}
-                </span>
-                <span className="text-sm font-medium text-orange-500">pts</span>
-              </div>
-              <div className="text-right space-y-0.5">
-                <p className="text-[10px] text-[#6B7280]">Earned: —</p>
-                <p className="text-[10px] text-[#6B7280]">Redeemed: —</p>
-              </div>
+
+        {/* Loyalty summary row */}
+        <div className="bg-white rounded-[1.75rem] border border-gray-100 px-5 py-4 shadow-sm flex items-center justify-between mb-3">
+          <div>
+            <p className="text-[10px] font-bold text-[#6B7280] uppercase tracking-wider mb-1">Loyalty Balance</p>
+            <div className="flex items-baseline gap-1">
+              <span className="text-3xl font-bold text-[#1A1A1A] tracking-tight">{Math.round(card.points_balance * 100)}</span>
+              <span className="text-sm font-medium text-orange-500">pts</span>
             </div>
-            <p className="text-[10px] text-[#6B7280] mb-4 z-10">RM {Number(card.points_balance).toFixed(2)} wallet balance</p>
-            {/* Vouchers Available — in place of where Earned/Redeemed used to be */}
-            <div className="border-t border-gray-100 pt-4 mt-auto z-10">
-              <p className="text-[10px] text-[#6B7280] mb-1">Vouchers Available</p>
-              <p className="text-3xl font-bold text-orange-500">{vouchers.length}</p>
+            <p className="text-[10px] text-[#6B7280]">RM {Number(card.points_balance).toFixed(2)} balance</p>
+          </div>
+          <div className="text-right">
+            <p className="text-[10px] text-[#6B7280] mb-0.5">Active Vouchers</p>
+            <p className="text-4xl font-bold text-orange-500">{vouchers.length}</p>
+          </div>
+        </div>
+
+        {/* Horizontal scroll: vouchers + divider + game cards */}
+        <div className="flex overflow-x-auto pb-2 gap-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          {/* Voucher cards */}
+          {vouchers.length === 0 ? (
+            <div className="shrink-0 w-[190px] h-[152px] flex flex-col items-center justify-center bg-white rounded-[1.5rem] border border-dashed border-gray-200 text-xs text-gray-400 text-center px-4 gap-1">
+              <Gift size={20} className="text-gray-300" />
+              No vouchers yet
             </div>
+          ) : vouchers.map((v: any, i: number) => (
+            <motion.div
+              key={v.voucher_id}
+              whileHover={{ y: -4, scale: 1.02 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: 'spring', bounce: 0.4 }}
+              onClick={() => setSelectedVoucher(v)}
+              className={`shrink-0 w-[190px] h-[152px] rounded-[1.5rem] p-4 relative flex flex-col justify-between overflow-hidden shadow-md cursor-pointer
+                ${i % 2 === 0 ? 'bg-gradient-to-br from-[#3B82F6] to-[#6366F1]' : 'bg-gradient-to-br from-[#FF8A00] to-[#FFD166]'}
+              `}
+            >
+              <div className="absolute top-2.5 right-2.5 bg-white/90 px-2 py-0.5 rounded-lg text-[10px] font-bold text-blue-600">Active</div>
+              <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-white/10 rounded-full blur-xl" />
+              <div>
+                <p className="text-white/70 text-[10px] font-medium uppercase tracking-wider mb-1">
+                  {v.expires_at ? `Exp. ${new Date(v.expires_at).toLocaleDateString('en-MY')}` : 'No expiry'}
+                </p>
+                <h3 className="font-bold text-white text-xl leading-tight">RM {Number(v.discount_value).toFixed(2)}</h3>
+                <p className="text-white/70 text-xs">Off voucher</p>
+              </div>
+              <p className="text-white/80 text-[10px] font-semibold">Tap to view →</p>
+            </motion.div>
+          ))}
+
+          {/* Visual divider */}
+          <div className="shrink-0 flex items-center px-1">
+            <div className="w-px h-24 bg-gray-200 rounded-full" />
           </div>
 
-          {/* Voucher cards horizontal scroll */}
-          <div className="sm:col-span-2 flex overflow-x-auto pb-3 space-x-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] items-center">
-            {vouchers.length === 0 ? (
-              <div className="w-full flex items-center justify-center h-[140px] bg-white rounded-[1.5rem] border border-dashed border-gray-200 text-sm text-gray-400">
-                No active vouchers — join a campaign to earn one!
+          {/* Game cards */}
+          {([
+            { label: 'Flappy Burger', sub: 'Dodge the sticks!', to: '/games/flappy', gradient: 'from-[#FF8A00] to-[#FFD166]', type: 'burger' },
+            { label: 'Stack Tower',   sub: 'Stack it up!',      to: '/games/stack',  gradient: 'from-[#3B82F6] to-[#6366F1]', type: 'stack'  },
+            { label: 'Daily Spin',    sub: 'Free spin daily',   to: '/games/spin',   gradient: 'from-[#22C55E] to-[#86EFAC]', type: 'spin'   },
+          ] as const).map(g => (
+            <motion.button
+              key={g.label}
+              whileHover={{ y: -5, scale: 1.03 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate(g.to)}
+              className={`shrink-0 w-[140px] h-[152px] rounded-[1.5rem] relative overflow-hidden shadow-lg bg-gradient-to-br ${g.gradient} flex flex-col items-center justify-center text-center p-3 gap-1`}
+            >
+              <div className="absolute -bottom-5 -right-5 w-20 h-20 bg-white/10 rounded-full blur-xl pointer-events-none" />
+              <div className="w-14 h-14 mb-1 flex items-center justify-center">
+                {g.type === 'burger' && (
+                  <img src="/burger-mascot.png" alt="" className="w-full h-full object-contain drop-shadow-md" />
+                )}
+                {g.type === 'stack' && <Layers size={34} className="text-white drop-shadow" />}
+                {g.type === 'spin'  && <Dices  size={34} className="text-white drop-shadow" />}
               </div>
-            ) : vouchers.map((v: any, i: number) => (
-              <motion.div
-                key={v.voucher_id}
-                whileHover={{ y: -4, scale: 1.02 }}
-                transition={{ type: 'spring', bounce: 0.4 }}
-                onClick={() => setSelectedVoucher(v)}
-                className={`shrink-0 w-[240px] h-[140px] rounded-[1.5rem] p-5 relative flex flex-col justify-between overflow-hidden shadow-md cursor-pointer border border-white/20
-                  ${i % 2 === 0 ? 'bg-gradient-to-br from-[#3B82F6] to-[#6366F1]' : 'bg-gradient-to-br from-[#FF8A00] to-[#FFD166]'}
-                `}
-              >
-                <div className="absolute top-2.5 right-2.5 bg-white/90 px-2 py-0.5 rounded-lg text-[10px] font-bold text-blue-600 z-10">Active</div>
-                <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-white/10 rounded-full blur-xl" />
-                <div>
-                  <p className="text-white/70 text-[10px] font-medium uppercase tracking-wider mb-1">
-                    {v.expires_at ? `Expires ${new Date(v.expires_at).toLocaleDateString('en-MY')}` : 'No expiry'}
-                  </p>
-                  <h3 className="font-bold text-white text-lg leading-tight">RM {Number(v.discount_value).toFixed(2)} Off</h3>
-                </div>
-                <p className="text-white/80 text-xs">Tap to view</p>
-              </motion.div>
-            ))}
-          </div>
+              <p className="font-bold text-white text-xs leading-tight">{g.label}</p>
+              <p className="text-white/75 text-[10px]">{g.sub}</p>
+              <span className="mt-1 px-2.5 py-0.5 bg-white/25 rounded-full text-[10px] font-bold text-white">Play →</span>
+            </motion.button>
+          ))}
         </div>
       </div>
 

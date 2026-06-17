@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'motion/react'
-import { Dices, Bird, Layers, Trophy, ChevronRight, Crown } from 'lucide-react'
+import { Dices, Layers, Trophy, ChevronRight, Crown } from 'lucide-react'
 import { useCard } from '../context/CardContext'
 import { getMyGameStats, getLeaderboard, type GameStats, type LeaderboardEntry, type GameKey } from '../lib/api'
 
@@ -15,7 +15,7 @@ interface GameDef {
 }
 
 const GAMES: GameDef[] = [
-  { key: 'FLAPPY', title: 'Flappy Burger', blurb: 'Flap through the satay sticks', to: '/games/flappy', icon: <Bird size={26} />, gradient: 'from-[#FF8A00] to-[#FFD166]' },
+  { key: 'FLAPPY', title: 'Flappy Burger', blurb: 'Flap through the satay sticks', to: '/games/flappy', icon: <img src="/burger-mascot.png" alt="" className="w-8 h-8 object-contain" />, gradient: 'from-[#FF8A00] to-[#FFD166]' },
   { key: 'STACK',  title: 'Stack Tower',  blurb: 'Stack ingredients sky-high',  to: '/games/stack',  icon: <Layers size={26} />, gradient: 'from-[#3B82F6] to-[#6366F1]' },
   { key: 'SPIN',   title: 'Daily Spin',   blurb: 'One free spin every day',      to: '/games/spin',   icon: <Dices size={26} />, gradient: 'from-[#22C55E] to-[#86EFAC]' },
 ]

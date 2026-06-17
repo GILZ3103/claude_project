@@ -51,7 +51,7 @@ export default function AiChat() {
         onClick={() => setOpen(v => !v)}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.93 }}
-        className="fixed bottom-24 md:bottom-6 right-4 z-50 w-24 h-24 flex items-center justify-center drop-shadow-2xl"
+        className="fixed bottom-24 md:bottom-6 right-4 z-50 w-28 h-28 flex items-center justify-center drop-shadow-2xl"
         aria-label="AI Assistant"
       >
         <AnimatePresence mode="wait">
