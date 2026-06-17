@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { motion } from 'motion/react'
 import { ArrowLeft, Play } from 'lucide-react'
 import { useCard } from '../context/CardContext'
 import { submitGameScore, type GameScoreResult } from '../lib/api'
@@ -265,13 +266,37 @@ export default function FlappyGame() {
 
           {/* Ready overlay */}
           {phase === 'ready' && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/15 text-center px-6 pointer-events-none">
-              <div className="bg-white/95 rounded-3xl px-6 py-5 shadow-lg">
-                <Play size={32} className="text-orange-500 mx-auto mb-2" />
-                <p className="font-bold text-[#1A1A1A]">Tap, click, or press Space</p>
-                <p className="text-sm text-[#6B7280] mt-1">Flap the burger through the satay sticks!</p>
-              </div>
-            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-black/10 via-black/20 to-black/45 text-center px-6 pointer-events-none"
+            >
+              <motion.div
+                initial={{ y: 24, opacity: 0, scale: 0.9 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                transition={{ type: 'spring', bounce: 0.4 }}
+                className="bg-white/95 backdrop-blur-sm rounded-[2rem] px-7 py-7 shadow-2xl border border-white/60 flex flex-col items-center max-w-[260px]"
+              >
+                <motion.img
+                  src="/burger-mascot.png"
+                  alt=""
+                  className="w-20 h-20 object-contain mb-3 drop-shadow-lg"
+                  animate={{ y: [0, -10, 0], rotate: [0, -6, 6, 0] }}
+                  transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+                />
+                <p className="font-bold text-[#1A1A1A] text-lg leading-tight">Flappy Burger</p>
+                <p className="text-sm text-[#6B7280] mt-1.5 mb-4">Flap through the satay sticks without crashing!</p>
+                <motion.div
+                  animate={{ scale: [1, 1.06, 1] }}
+                  transition={{ duration: 1.1, repeat: Infinity }}
+                  className="flex items-center gap-2 bg-gradient-to-r from-[#FF8A00] to-[#FFD166] text-white font-bold text-sm px-5 py-2.5 rounded-full shadow-md"
+                >
+                  <Play size={15} className="fill-white" />
+                  Tap to Start
+                </motion.div>
+                <p className="text-[10px] text-gray-400 mt-3">or press Space</p>
+              </motion.div>
+            </motion.div>
           )}
         </div>
       </div>

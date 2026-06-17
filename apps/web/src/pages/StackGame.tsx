@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { motion } from 'motion/react'
 import { ArrowLeft, Hand } from 'lucide-react'
 import { useCard } from '../context/CardContext'
 import { submitGameScore, type GameScoreResult } from '../lib/api'
@@ -271,13 +272,39 @@ export default function StackGame() {
           )}
 
           {phase === 'ready' && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/25 text-center px-6 pointer-events-none">
-              <div className="bg-white/95 rounded-3xl px-6 py-5 shadow-lg">
-                <Hand size={32} className="text-orange-500 mx-auto mb-2" />
-                <p className="font-bold text-[#1A1A1A]">Tap to drop the block</p>
-                <p className="text-sm text-[#6B7280] mt-1">Line it up — overhang gets sliced off!</p>
-              </div>
-            </div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-black/10 via-black/25 to-black/50 text-center px-6 pointer-events-none"
+            >
+              <motion.div
+                initial={{ y: 24, opacity: 0, scale: 0.9 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                transition={{ type: 'spring', bounce: 0.4 }}
+                className="bg-white/95 backdrop-blur-sm rounded-[2rem] px-7 py-7 shadow-2xl border border-white/60 flex flex-col items-center max-w-[260px]"
+              >
+                <motion.div
+                  className="flex flex-col items-center gap-1 mb-4"
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 1.3, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  <div className="w-9 h-3.5 rounded bg-gradient-to-r from-[#3B82F6] to-[#6366F1] shadow-sm" />
+                  <div className="w-12 h-3.5 rounded bg-gradient-to-r from-[#FF8A00] to-[#FFD166] shadow-sm" />
+                  <div className="w-16 h-3.5 rounded bg-gradient-to-r from-[#22C55E] to-[#86EFAC] shadow-sm" />
+                </motion.div>
+                <p className="font-bold text-[#1A1A1A] text-lg leading-tight">Stack Tower</p>
+                <p className="text-sm text-[#6B7280] mt-1.5 mb-4">Tap to drop blocks — line them up to stack higher!</p>
+                <motion.div
+                  animate={{ scale: [1, 1.06, 1] }}
+                  transition={{ duration: 1.1, repeat: Infinity }}
+                  className="flex items-center gap-2 bg-gradient-to-r from-[#3B82F6] to-[#6366F1] text-white font-bold text-sm px-5 py-2.5 rounded-full shadow-md"
+                >
+                  <Hand size={15} />
+                  Tap to Drop
+                </motion.div>
+                <p className="text-[10px] text-gray-400 mt-3">or press Space / Enter</p>
+              </motion.div>
+            </motion.div>
           )}
         </div>
       </div>

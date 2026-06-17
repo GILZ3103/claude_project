@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Scale the whole UI down ~80% — Tailwind's rem-based spacing/text/sizing
+   utilities all scale proportionally with the root font size. */
+html {
+  font-size: 80%;
+}
