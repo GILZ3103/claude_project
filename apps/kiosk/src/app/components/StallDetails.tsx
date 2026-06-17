@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Stall } from '../data';
 import { X, Map, Clock, Navigation, Loader2 } from 'lucide-react';
 import { translations } from '../translations';
+import { ImageWithFallback } from './ImageWithFallback';
 
 interface StallDetailsProps {
   stall: Stall;
@@ -24,18 +25,18 @@ export function StallDetails({ stall, onClose, onNavigate, language }: StallDeta
   }
 
   return (
-    <div className="absolute inset-y-0 right-0 w-[480px] bg-[#FAF7F0] shadow-2xl flex flex-col z-40 anim-slide-right border-l border-[#EDE4D4]">
+    <div className="absolute inset-y-0 right-0 w-full max-w-[480px] bg-[#FAF7F0] shadow-2xl flex flex-col z-40 anim-slide-right border-l border-[#EDE4D4]">
       {/* Header Image */}
       <div className="relative h-56 shrink-0">
-        <img src={stall.image} alt={stall.name} className="w-full h-full object-cover" />
+        <ImageWithFallback src={stall.image} alt={stall.name} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/70 rounded-full text-white backdrop-blur-sm transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
-        
+
         <div className="absolute bottom-4 left-4 right-4 text-white">
           <h2 className="text-3xl font-bold mb-1 shadow-sm">{stall.name}</h2>
           <div className="flex items-center gap-4 text-sm font-medium opacity-90">
@@ -73,7 +74,7 @@ export function StallDetails({ stall, onClose, onNavigate, language }: StallDeta
         <div className="space-y-4 pb-12">
           {stall.menu.map(item => (
             <div key={item.id} className="flex gap-4 p-3 rounded-xl border border-[#EDE4D4] bg-white hover:bg-[#F2ECE0] transition-colors">
-              <img src={item.image} alt={item.name} className="w-20 h-20 rounded-lg object-cover" />
+              <ImageWithFallback src={item.image} alt={item.name} className="w-20 h-20 rounded-lg object-cover shrink-0" />
               <div className="flex-1">
                 <div className="flex justify-between items-start mb-1">
                   <h4 className="font-bold text-gray-900 leading-tight">{item.name}</h4>

@@ -32,9 +32,9 @@ export function FilterPanel({ language, onAction, preferences, setPreferences }:
   ];
 
   return (
-    <div className="w-72 flex-shrink-0 border-r border-[#EDE4D4] bg-[#F2ECE0] h-full flex flex-col">
+    <div className="w-full flex flex-col bg-[#F2ECE0]">
       {/* Quick Action Buttons */}
-      <div className="flex-1 p-4 space-y-2 overflow-y-auto no-scrollbar" style={{ WebkitOverflowScrolling: 'touch' }}>
+      <div className="p-4 space-y-2">
         {actions.map(({ Icon, label, desc, action }) => (
           <button
             key={action}

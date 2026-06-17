@@ -4,6 +4,7 @@
  */
 
 import type { Stall, MenuItem, StallCategory } from '../app/data'
+import { getFoodImage, getVendorImage } from '../app/foodImages'
 
 // Fall back to the production URL if the build-time env var is missing (e.g. no .env on the Pi).
 const RAW_API = import.meta.env.VITE_API_URL || 'https://warungtek-backend.onrender.com'
@@ -62,17 +63,24 @@ export function foodItemToMenuItem(item: any): MenuItem {
       : item.calories < 300 ? 'Green'
       : item.calories < 600 ? 'Orange'
       : 'Red',
-    image: item.photo_url ?? `https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80`,
+    // Real photo_url wins; otherwise resolve a relevant food photo from name/category.
+    image: getFoodImage({
+      photo_url: item.photo_url,
+      name: item.name,
+      category: item.category,
+      food_id: item.food_id ?? item.id,
+    }),
   }
 }
 
 export function vendorToStall(vendor: any, foods: any[] = []): Stall {
-  const menu: MenuItem[] = foods
-    .filter((f: any) => f.vendor_id === vendor.vendor_id || f.vendors?.vendor_id === vendor.vendor_id)
-    .slice(0, 6)
-    .map(foodItemToMenuItem)
-
+  const vendorFoods = foods.filter(
+    (f: any) => f.vendor_id === vendor.vendor_id || f.vendors?.vendor_id === vendor.vendor_id,
+  )
+  const menu: MenuItem[] = vendorFoods.slice(0, 6).map(foodItemToMenuItem)
   const firstFood = menu[0]
+  // Prefer a genuine uploaded food photo for the storefront image; else fall back by category/name.
+  const realPhoto = vendorFoods.find((f: any) => f.photo_url)?.photo_url ?? null
 
   return {
     id: vendor.vendor_id,
@@ -92,8 +100,10 @@ export function vendorToStall(vendor: any, foods: any[] = []): Stall {
     isFavorite: false,
     isBestseller: false,
     category: mapCategory(vendor.category ?? ''),
-    image: menu.find(m => m.image && !m.image.includes('unsplash'))?.image
-      ?? `https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80`,
+    image: getVendorImage(
+      { business_name: vendor.business_name, category: vendor.category, vendor_id: vendor.vendor_id },
+      realPhoto,
+    ),
     zone: gridToZone(vendor.grid_x ?? 0, vendor.grid_y ?? 0),
     grid_x: vendor.grid_x ?? 0,
     grid_y: vendor.grid_y ?? 0,

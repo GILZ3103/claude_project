@@ -158,6 +158,42 @@ export const reviewCampaignApplication = (app_id: string, card_uid: string, acti
     body: JSON.stringify({ card_uid, action, rejection_reason })
   })
 
+// Mini Game
+export const spinWheel = (card_uid: string) =>
+  request<{ prizeIndex: number; label: string; points: number }>('/api/game/spin', {
+    method: 'POST',
+    body: JSON.stringify({ card_uid }),
+  })
+
+// Skill games (Flappy Burger, Stack Tower)
+export type GameKey = 'FLAPPY' | 'STACK'
+
+export interface GameScoreResult {
+  best: number
+  isHighScore: boolean
+  newVouchers: { milestone: number; discount_value: number }[]
+}
+
+export const submitGameScore = (card_uid: string, game: GameKey, score: number) =>
+  request<GameScoreResult>('/api/game/score', {
+    method: 'POST',
+    body: JSON.stringify({ card_uid, game, score }),
+  })
+
+export interface LeaderboardEntry {
+  rank: number
+  name: string
+  score: number
+}
+
+export const getLeaderboard = (game: GameKey, limit = 10) =>
+  request<LeaderboardEntry[]>(`/api/game/leaderboard?game=${game}&limit=${limit}`)
+
+export type GameStats = Partial<Record<GameKey, { best_score: number; total_plays: number }>>
+
+export const getMyGameStats = (card_uid: string) =>
+  request<GameStats>(`/api/game/stats?card_uid=${card_uid}`)
+
 // Map
 export interface MapAnchor {
   anchor_id: string

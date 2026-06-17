@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { X, CreditCard, Ticket, Award, CheckCircle, QrCode } from 'lucide-react';
 import { translations } from '../translations';
+import { NfcCardGraphic } from './NfcCardGraphic';
+import { ImageWithFallback } from './ImageWithFallback';
 
 interface Voucher {
   id: string;
@@ -35,6 +37,7 @@ interface WalletPanelProps {
   vouchers: Voucher[];
   setVouchers: React.Dispatch<React.SetStateAction<Voucher[]>>;
   cardUid: string | null;
+  ownerName?: string;
   campaigns?: Campaign[];
   onRequestNfcConfirm: (action: { type: 'topup'; amount: number; method: string } | { type: 'calorie'; limit: number } | { type: 'campaign'; campaign_id: string; name: string }) => void;
   onNavigateToStall?: (stallName: string) => void;
@@ -42,7 +45,7 @@ interface WalletPanelProps {
 
 export function WalletPanel({
   onClose, language, initialTab = 'balance', isUserMode,
-  balance, setBalance: _setBalance, points, setPoints, vouchers, setVouchers, cardUid: _cardUid, campaigns = [], onRequestNfcConfirm, onNavigateToStall
+  balance, setBalance: _setBalance, points, setPoints, vouchers, setVouchers, cardUid: _cardUid, ownerName, campaigns = [], onRequestNfcConfirm, onNavigateToStall
 }: WalletPanelProps) {
   const t = translations[language];
   const [activeTab, setActiveTab] = useState(initialTab);
@@ -130,7 +133,7 @@ export function WalletPanel({
 
   if (!isUserMode) {
     return (
-      <div className="absolute inset-y-0 right-0 w-[500px] bg-[#FAF7F0] shadow-2xl flex flex-col z-40 anim-slide-right border-l border-[#EDE4D4]">
+      <div className="absolute inset-y-0 right-0 w-full max-w-[500px] bg-[#FAF7F0] shadow-2xl flex flex-col z-40 anim-slide-right border-l border-[#EDE4D4]">
         <div className="bg-black text-white p-6 flex justify-between items-center shrink-0">
           <h2 className="text-2xl font-bold">{t.myWallet}</h2>
           <button onClick={onClose} className="p-2 hover:bg-white/10 rounded-full transition-colors"><X className="w-5 h-5" /></button>
@@ -147,7 +150,7 @@ export function WalletPanel({
   }
 
   return (
-    <div className="absolute inset-y-0 right-0 w-[500px] bg-[#FAF7F0] shadow-2xl flex flex-col z-40 anim-slide-right border-l border-[#EDE4D4]">
+    <div className="absolute inset-y-0 right-0 w-full max-w-[500px] bg-[#FAF7F0] shadow-2xl flex flex-col z-40 anim-slide-right border-l border-[#EDE4D4]">
       {/* Header */}
       <div className="bg-black text-white p-6 pb-0 flex flex-col shrink-0">
         <div className="flex justify-between items-center mb-6">
@@ -175,9 +178,9 @@ export function WalletPanel({
       <div className="flex-1 overflow-y-auto no-scrollbar p-6 relative animate-[fadeIn_0.3s_ease-out]" key={activeTab}>
         {activeTab === 'balance' && (
           <div className="space-y-6">
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#EDE4D4] flex flex-col items-center">
-              <p className="text-gray-500 font-medium mb-2">{t.currentBalance}</p>
-              <h3 className="text-4xl font-bold text-gray-900 mb-6">RM {balance.toFixed(2)}</h3>
+            <div>
+              <p className="text-gray-500 font-medium mb-2 text-center">{t.currentBalance}</p>
+              <NfcCardGraphic name={ownerName} balance={balance} className="max-w-sm mx-auto" />
             </div>
 
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#EDE4D4]">
@@ -230,7 +233,7 @@ export function WalletPanel({
             {vouchers.filter(v => v.status === 'Active').map(v => (
               <div key={v.id} onClick={() => setSelectedVoucher(v)} className="bg-white p-4 rounded-xl shadow-sm border border-[#EDE4D4] flex items-center gap-4 cursor-pointer hover:shadow-md transition-shadow">
                 <div className="w-14 h-14 bg-[#FDF0E8] text-[#E8622A] rounded-lg flex items-center justify-center shrink-0 overflow-hidden">
-                  {v.image ? <img src={v.image} className="w-full h-full object-cover" /> : <Ticket className="w-6 h-6" />}
+                  {v.image ? <ImageWithFallback src={v.image} className="w-full h-full object-cover" /> : <Ticket className="w-6 h-6" />}
                 </div>
                 <div className="flex-1">
                   <h4 className="font-bold text-gray-900">{v.title}</h4>
@@ -259,7 +262,7 @@ export function WalletPanel({
           <div className="bg-white rounded-2xl shadow-sm border border-[#EDE4D4] overflow-hidden">
             <div className="h-40 bg-orange-100 relative">
               {selectedVoucher.image ? (
-                <img src={selectedVoucher.image} className="w-full h-full object-cover" />
+                <ImageWithFallback src={selectedVoucher.image} className="w-full h-full object-cover" />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center"><Ticket className="w-12 h-12 text-orange-300" /></div>
               )}

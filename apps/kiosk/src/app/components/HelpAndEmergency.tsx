@@ -20,7 +20,7 @@ export function HelpDrawer({ onClose, language }: HelpDrawerProps) {
   ];
 
   return (
-    <div className="absolute inset-y-0 right-0 w-[400px] bg-[#FAF7F0] shadow-2xl flex flex-col z-40 anim-slide-right border-l border-[#EDE4D4]">
+    <div className="absolute inset-y-0 right-0 w-full max-w-[400px] bg-[#FAF7F0] shadow-2xl flex flex-col z-40 anim-slide-right border-l border-[#EDE4D4]">
       <div className="p-6 bg-[#F2ECE0] border-b border-[#EDE4D4] flex justify-between items-center">
         <div className="flex items-center gap-2">
           <HelpCircle className="w-6 h-6 text-gray-700" />

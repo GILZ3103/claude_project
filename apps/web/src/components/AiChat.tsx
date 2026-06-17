@@ -51,7 +51,7 @@ export default function AiChat() {
         onClick={() => setOpen(v => !v)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="fixed bottom-24 md:bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-br from-[#FF8A00] to-[#FFD166] text-white rounded-full shadow-xl flex items-center justify-center"
+        className="fixed bottom-24 md:bottom-6 right-6 z-50 w-14 h-14 rounded-full shadow-xl flex items-center justify-center overflow-hidden"
         aria-label="AI Assistant"
       >
         <AnimatePresence mode="wait">
@@ -61,7 +61,7 @@ export default function AiChat() {
             </motion.div>
           ) : (
             <motion.div key="mascot" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }}>
-              <img src="/burger-mascot.png" alt="WarungTek Assistant" className="w-10 h-10 object-contain drop-shadow" />
+              <img src="/burger-mascot.png" alt="WarungTek Assistant" className="w-full h-full object-cover" />
             </motion.div>
           )}
         </AnimatePresence>

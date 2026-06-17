@@ -52,7 +52,7 @@ export function SettingsModal({
 
   return (
     <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-50 flex justify-end transition-opacity">
-      <div className="w-[400px] h-full bg-white shadow-2xl flex flex-col animate-[slideInRight_0.3s_ease-out]">
+      <div className="w-full max-w-[400px] h-full bg-white shadow-2xl flex flex-col animate-[slideInRight_0.3s_ease-out]">
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
             <Settings className="w-6 h-6" />

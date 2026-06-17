@@ -1,7 +1,7 @@
 import type { Stall } from '../data';
 import { StallCard } from './StallCard';
 import type { FilterState } from './FilterPanel';
-import { X } from 'lucide-react';
+import { X, Menu } from 'lucide-react';
 import { translations } from '../translations';
 
 interface StallGridProps {
@@ -9,19 +9,22 @@ interface StallGridProps {
   filters: FilterState;
   setFilters: React.Dispatch<React.SetStateAction<FilterState>>;
   onStallClick: (stall: Stall) => void;
+  onOpenMenu: () => void;
+  favorites: Set<string>;
+  onToggleFavorite: (id: string) => void;
   language: 'en' | 'ms' | 'zh';
 }
 
-export function StallGrid({ stalls, filters, setFilters, onStallClick, language }: StallGridProps) {
+export function StallGrid({ stalls, filters, setFilters, onStallClick, onOpenMenu, favorites, onToggleFavorite, language }: StallGridProps) {
   const t = translations[language];
 
   // Get active filter pills
   const activePills: { group: keyof FilterState, value: string }[] = [];
-  
+
   if (filters.category) activePills.push({ group: 'category', value: filters.category });
   if (filters.calories) activePills.push({ group: 'calories', value: filters.calories });
   if (filters.voucher) activePills.push({ group: 'voucher', value: filters.voucher });
-  
+
   filters.dietary.forEach(v => activePills.push({ group: 'dietary', value: v }));
   filters.vendorType.forEach(v => activePills.push({ group: 'vendorType', value: v }));
   filters.distance.forEach(v => activePills.push({ group: 'distance', value: v }));
@@ -49,32 +52,37 @@ export function StallGrid({ stalls, filters, setFilters, onStallClick, language 
   };
 
   return (
-    <div className="flex-1 h-full overflow-y-auto no-scrollbar bg-[#FAF7F0] p-6">
-      {/* Filter Pills Header */}
-      {activePills.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2 mb-6">
-          <span className="text-sm font-medium text-gray-500 mr-2">{t.filters}:</span>
-          {activePills.map((pill, idx) => (
-            <div key={idx} className="flex items-center bg-[#FDF0E8] border border-[#EDE4D4] text-[#1A1208] text-sm font-medium px-3 py-1.5 rounded-full shadow-sm">
-              {pill.value}
-              <button 
-                onClick={() => removePill(pill.group, pill.value)}
-                className="ml-2 text-gray-400 hover:text-black focus:outline-none"
-              >
-                <X className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          ))}
-          {activePills.length > 1 && (
-            <button 
-              onClick={clearAll}
-              className="text-sm font-semibold text-[#E8622A] hover:text-[#E8622A]/80 ml-2"
+    <div className="h-full overflow-y-auto no-scrollbar bg-[#FAF7F0] p-4 pb-24">
+      {/* Top controls: Menu button (opens the quick-actions / dietary sheet) + active filter pills */}
+      <div className="flex flex-wrap items-center gap-2 mb-4">
+        <button
+          onClick={onOpenMenu}
+          className="flex items-center gap-2 bg-white border border-[#EDE4D4] text-[#1A1208] text-sm font-bold px-4 py-2.5 rounded-full shadow-sm hover:border-[#E8622A]/40 active:scale-95 transition-all shrink-0"
+        >
+          <Menu className="w-4 h-4 text-[#E8622A]" />
+          {t.menu}
+        </button>
+
+        {activePills.map((pill, idx) => (
+          <div key={idx} className="flex items-center bg-[#FDF0E8] border border-[#EDE4D4] text-[#1A1208] text-sm font-medium px-3 py-1.5 rounded-full shadow-sm">
+            {pill.value}
+            <button
+              onClick={() => removePill(pill.group, pill.value)}
+              className="ml-2 text-gray-400 hover:text-black focus:outline-none"
             >
-              {t.clearAll}
+              <X className="w-3.5 h-3.5" />
             </button>
-          )}
-        </div>
-      )}
+          </div>
+        ))}
+        {activePills.length > 1 && (
+          <button
+            onClick={clearAll}
+            className="text-sm font-semibold text-[#E8622A] hover:text-[#E8622A]/80 ml-1"
+          >
+            {t.clearAll}
+          </button>
+        )}
+      </div>
 
       {/* Grid */}
       {stalls.length === 0 ? (
@@ -89,7 +97,7 @@ export function StallGrid({ stalls, filters, setFilters, onStallClick, language 
             {t.tryAdjusting}
           </p>
           {activePills.length > 0 && (
-            <button 
+            <button
               onClick={clearAll}
               className="mt-6 bg-[#E8622A] text-white px-6 py-2 rounded-full font-medium hover:bg-[#E8622A]/90 transition"
             >
@@ -98,9 +106,16 @@ export function StallGrid({ stalls, filters, setFilters, onStallClick, language 
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-6 pb-20">
+        <div className="grid grid-cols-2 gap-4 pb-24">
           {stalls.map(stall => (
-            <StallCard key={stall.id} stall={stall} onClick={() => onStallClick(stall)} language={language} />
+            <StallCard
+              key={stall.id}
+              stall={stall}
+              onClick={() => onStallClick(stall)}
+              isFavorite={favorites.has(stall.id)}
+              onToggleFavorite={() => onToggleFavorite(stall.id)}
+              language={language}
+            />
           ))}
         </div>
       )}

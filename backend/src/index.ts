@@ -11,6 +11,7 @@ import mapRouter from './routes/map'
 import authRouter from './routes/auth'
 import aiRouter from './routes/ai'
 import faceRouter from './routes/face'
+import gameRouter from './routes/game'
 import { errorHandler } from './middleware/errors'
 
 const app = express()
@@ -47,6 +48,7 @@ app.use('/api', campaignsRouter)   // mounts /api/kiosk/tap
 app.use('/api/map', mapRouter)
 app.use('/api/ai', aiRouter)
 app.use('/api/face', faceRouter)
+app.use('/api/game', gameRouter)
 
 // 404
 app.use((_req, res) => {

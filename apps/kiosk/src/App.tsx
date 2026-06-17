@@ -15,6 +15,7 @@ import { SettingsModal } from './app/components/SettingsModal'
 import { UserBar } from './app/components/UserBar'
 import { NfcCardOfferModal } from './app/components/NfcCardOfferModal'
 import { LoginAnimation } from './app/components/LoginAnimation'
+import { BottomNav } from './app/components/BottomNav'
 import { fetchStalls } from './lib/transforms'
 import toast, { Toaster } from 'react-hot-toast'
 
@@ -74,7 +75,23 @@ export default function App() {
     distance: [], voucher: null, availability: [],
   })
 
-  type Overlay = 'stall' | 'nav' | 'nfc' | 'vouchers' | 'help' | 'emergency' | 'settings' | 'card-offer' | null
+  // Favourite stalls — persisted locally so the heart toggle survives reloads.
+  const [favorites, setFavorites] = useState<Set<string>>(() => {
+    try {
+      const raw = localStorage.getItem('wt_favorites')
+      return new Set<string>(raw ? JSON.parse(raw) : [])
+    } catch { return new Set<string>() }
+  })
+  const toggleFavorite = (id: string) => {
+    setFavorites(prev => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id); else next.add(id)
+      try { localStorage.setItem('wt_favorites', JSON.stringify([...next])) } catch { /* storage unavailable */ }
+      return next
+    })
+  }
+
+  type Overlay = 'stall' | 'nav' | 'nfc' | 'vouchers' | 'help' | 'emergency' | 'settings' | 'card-offer' | 'menu' | null
   const [activeOverlay, setActiveOverlay] = useState<Overlay>(null)
   const [activeStall, setActiveStall] = useState<Stall | null>(null)
   const [navDestination, setNavDestination] = useState<Stall | null>(null)
@@ -456,6 +473,7 @@ export default function App() {
         />
       )}
 
+      {/* Main content — single mobile column (no desktop side panel) */}
       <div className="flex-1 flex flex-col overflow-hidden relative">
         <Intro
           activeCategory={filters.category as any}
@@ -463,36 +481,30 @@ export default function App() {
           language={language}
         />
 
-        <div className="flex-1 flex overflow-hidden">
-          <FilterPanel
+        <div className="flex-1 relative overflow-hidden">
+          <StallGrid
+            stalls={filteredStalls}
+            filters={filters}
+            setFilters={setFilters}
+            onStallClick={handleStallClick}
+            onOpenMenu={() => setActiveOverlay('menu')}
+            favorites={favorites}
+            onToggleFavorite={toggleFavorite}
             language={language}
-            isUserMode={isUserMode}
-            onAction={handleIconClick}
-            preferences={preferences}
-            setPreferences={setPreferences}
           />
-          <div className="flex-1 flex flex-col h-full relative">
-            <StallGrid
-              stalls={filteredStalls}
-              filters={filters}
-              setFilters={setFilters}
-              onStallClick={handleStallClick}
-              language={language}
-            />
 
-            {loadingStalls && (
-              <div className="absolute inset-0 flex items-center justify-center bg-white/60">
-                <p className="text-gray-500 animate-pulse">Loading stalls...</p>
-              </div>
-            )}
-          </div>
+          {loadingStalls && (
+            <div className="absolute inset-0 flex items-center justify-center bg-white/60">
+              <p className="text-gray-500 animate-pulse">Loading stalls...</p>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Emergency Button */}
+      {/* Emergency Button — sits above the bottom nav */}
       <button
         onClick={() => setActiveOverlay('emergency')}
-        className="absolute bottom-6 left-6 w-14 h-14 bg-red-600 rounded-full shadow-lg flex items-center justify-center text-white hover:bg-red-700 transition-colors z-30"
+        className="absolute bottom-[5.5rem] left-6 w-14 h-14 bg-red-600 rounded-full shadow-lg flex items-center justify-center text-white hover:bg-red-700 transition-colors z-30"
       >
         <AlertTriangle className="w-6 h-6" />
       </button>
@@ -500,6 +512,22 @@ export default function App() {
       {/* Backdrop */}
       {activeOverlay && activeOverlay !== 'nav' && activeOverlay !== 'emergency' && (
         <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-30 transition-opacity" onClick={() => setActiveOverlay(null)} />
+      )}
+
+      {/* Quick menu — bottom sheet (mobile replacement for the old left sidebar) */}
+      {activeOverlay === 'menu' && (
+        <div className="absolute inset-x-0 bottom-0 z-40 max-h-[85vh] overflow-y-auto no-scrollbar rounded-t-3xl bg-[#F2ECE0] shadow-2xl anim-slide-up">
+          <div className="sticky top-0 z-10 flex justify-center bg-[#F2ECE0] pt-3 pb-1">
+            <div className="h-1.5 w-12 rounded-full bg-[#C9BFB2]" />
+          </div>
+          <FilterPanel
+            language={language}
+            isUserMode={isUserMode}
+            onAction={handleIconClick}
+            preferences={preferences}
+            setPreferences={setPreferences}
+          />
+        </div>
       )}
 
       {/* NFC card offer — shown after face login when user has no physical card */}
@@ -541,6 +569,7 @@ export default function App() {
           vouchers={vouchers}
           setVouchers={setVouchers}
           cardUid={cardData?.uid ?? null}
+          ownerName={cardData?.owner_name}
           campaigns={campaigns}
           onRequestNfcConfirm={setPendingAction}
           onNavigateToStall={(stallName) => {
@@ -604,6 +633,11 @@ export default function App() {
 
       {activeOverlay === 'emergency' && (
         <EmergencyModal onClose={() => setActiveOverlay(null)} language={language} />
+      )}
+
+      {/* Bottom navigation — hidden for full-screen modal flows */}
+      {!pendingAction && activeOverlay !== 'nav' && activeOverlay !== 'card-offer' && activeOverlay !== 'emergency' && (
+        <BottomNav activeOverlay={activeOverlay} onAction={handleIconClick} />
       )}
 
       <Toaster position="top-center" />

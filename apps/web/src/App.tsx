@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { CardProvider, useCard } from './context/CardContext'
 import Auth from './pages/Auth'
@@ -19,6 +19,10 @@ import AdminDashboard from './pages/AdminDashboard'
 import Vouchers from './pages/Vouchers'
 import AiChat from './components/AiChat'
 import { TopNav } from './components/TopNav'
+import MiniGame from './pages/MiniGame'
+import GamesHub from './pages/GamesHub'
+import FlappyGame from './pages/FlappyGame'
+import StackGame from './pages/StackGame'
 
 type AppMode = 'consumer' | 'vendor'
 
@@ -44,6 +48,11 @@ function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => 
         <Route path="/map" element={<Map />} />
         <Route path="/nfc" element={<NfcConnect />} />
         <Route path="/vouchers" element={<Vouchers />} />
+        <Route path="/games" element={<GamesHub />} />
+        <Route path="/games/spin" element={<MiniGame />} />
+        <Route path="/games/flappy" element={<FlappyGame />} />
+        <Route path="/games/stack" element={<StackGame />} />
+        <Route path="/game" element={<Navigate to="/games" replace />} />
         <Route path="/settings" element={<Settings />} />
         {/* Vendor routes */}
         <Route path="/vendor/dashboard" element={<VendorDashboard />} />

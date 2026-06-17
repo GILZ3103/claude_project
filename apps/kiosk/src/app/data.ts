@@ -211,6 +211,58 @@ export const MOCK_STALLS: Stall[] = [
     menu: [
       { id: 'm8', name: 'Fresh Mango Bingsu', price: 'RM 12.00', calories: '180 kcal', nutritionLabel: 'Green', image: 'https://images.unsplash.com/photo-1765188988267-7018a757f1f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhc2lhbiUyMHN0cmVldCUyMGRlc3NlcnQlMjBzaGF2ZWQlMjBpY2V8ZW58MXx8fHwxNzc4Njg5NzY5fDA&ixlib=rb-4.1.0&q=80&w=1080' }
     ]
+  },
+  {
+    id: 's8',
+    name: 'Nasi Lemak Corner',
+    featuredFood: 'Nasi Lemak Ayam',
+    calories: '640 kcal',
+    distance: 28,
+    rating: 4.7,
+    isHealthy: false,
+    isVegetarian: false,
+    isLowSugar: false,
+    isHalal: true,
+    isHighProtein: true,
+    isLocalVendor: true,
+    isPopularVendor: true,
+    hasVoucher: false,
+    isFavorite: false,
+    isBestseller: true,
+    category: 'Rice Meals',
+    image: 'https://images.unsplash.com/photo-1761125174582-a1538be4ec19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhc2lhbiUyMHN0cmVldCUyMGZvb2QlMjBmcmllZCUyMG5vb2RsZXN8ZW58MXx8fHwxNzc4Njg5NzY4fDA&ixlib=rb-4.1.0&q=80&w=1080',
+    zone: 'B3',
+    operatingStatus: 'Open Now',
+    menu: [
+      { id: 'm9', name: 'Nasi Lemak Ayam', price: 'RM 9.50', calories: '640 kcal', nutritionLabel: 'Red', image: 'https://images.unsplash.com/photo-1761125174582-a1538be4ec19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhc2lhbiUyMHN0cmVldCUyMGZvb2QlMjBmcmllZCUyMG5vb2RsZXN8ZW58MXx8fHwxNzc4Njg5NzY4fDA&ixlib=rb-4.1.0&q=80&w=1080' },
+      { id: 'm10', name: 'Nasi Goreng Kampung', price: 'RM 8.00', calories: '520 kcal', nutritionLabel: 'Orange', image: 'https://images.unsplash.com/photo-1761125174582-a1538be4ec19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhc2lhbiUyMHN0cmVldCUyMGZvb2QlMjBmcmllZCUyMG5vb2RsZXN8ZW58MXx8fHwxNzc4Njg5NzY4fDA&ixlib=rb-4.1.0&q=80&w=1080' }
+    ]
+  },
+  {
+    id: 's9',
+    name: 'Green Bowl',
+    featuredFood: 'Grilled Chicken Salad',
+    calories: '320 kcal',
+    distance: 42,
+    rating: 4.6,
+    isHealthy: true,
+    isVegetarian: false,
+    isLowSugar: true,
+    isHalal: true,
+    isHighProtein: true,
+    isLocalVendor: false,
+    isPopularVendor: false,
+    hasVoucher: true,
+    isFavorite: false,
+    isBestseller: false,
+    category: 'Healthy Choices',
+    image: 'https://images.unsplash.com/photo-1758115271914-76d1acfe305e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncmlsbGVkJTIwc2VhZm9vZCUyMHN0cmVldCUyMGZvb2R8ZW58MXx8fHwxNzc4Njg5NzY5fDA&ixlib=rb-4.1.0&q=80&w=1080',
+    zone: 'C2',
+    operatingStatus: 'Open Now',
+    menu: [
+      { id: 'm11', name: 'Grilled Chicken Salad', price: 'RM 13.00', calories: '320 kcal', nutritionLabel: 'Green', image: 'https://images.unsplash.com/photo-1758115271914-76d1acfe305e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncmlsbGVkJTIwc2VhZm9vZCUyMHN0cmVldCUyMGZvb2R8ZW58MXx8fHwxNzc4Njg5NzY5fDA&ixlib=rb-4.1.0&q=80&w=1080' },
+      { id: 'm12', name: 'Quinoa Veggie Bowl', price: 'RM 11.50', calories: '280 kcal', nutritionLabel: 'Green', image: 'https://images.unsplash.com/photo-1758115271914-76d1acfe305e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncmlsbGVkJTIwc2VhZm9vZCUyMHN0cmVldCUyMGZvb2R8ZW58MXx8fHwxNzc4Njg5NzY5fDA&ixlib=rb-4.1.0&q=80&w=1080' }
+    ]
   }
 ];
 
