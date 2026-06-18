@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Hide all scrollbars globally — kiosk touchscreen uses native swipe */
+html, body, * {
+  scrollbar-width: none;        /* Firefox / standard */
+  -ms-overflow-style: none;     /* legacy Edge/IE */
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none;                /* Chromium / WebKit */
+  width: 0;
+  height: 0;
+}
+
+/* Kiosk: drag-to-scroll must not select text or ghost-drag images.
+   Disable selection everywhere, then re-allow it inside text inputs. */
+* {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+img {
+  -webkit-user-drag: none;
+}
+input,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
