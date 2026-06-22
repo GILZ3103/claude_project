@@ -260,19 +260,38 @@ export default function Dashboard() {
 
       {/* Rewards & Arcade — combined section */}
       <div className="mb-6 z-10 mt-4">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-1.5">
-            <Sparkles size={13} className="text-orange-400" />
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#6B7280]">Rewards & Arcade</span>
-          </div>
-          <div className="flex gap-1.5">
-            <button onClick={() => navigate('/vouchers')} aria-label="Vouchers" className="w-7 h-7 flex items-center justify-center rounded-full bg-blue-50 text-blue-600 border border-blue-100 hover:bg-blue-100 transition-colors">
-              <Gift size={13} />
-            </button>
-            <button onClick={() => navigate('/games')} aria-label="Games" className="w-7 h-7 flex items-center justify-center rounded-full bg-orange-50 text-orange-600 border border-orange-100 hover:bg-orange-100 transition-colors">
-              <Gamepad2 size={13} />
-            </button>
-          </div>
+        <div className="flex items-center gap-1.5 mb-4">
+          <Sparkles size={13} className="text-orange-400" />
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#6B7280]">Rewards & Arcade</span>
+        </div>
+
+        {/* Quick-access icon tiles — circular, KFC-style */}
+        <div className="flex gap-5 mb-4 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          {[
+            { label: 'Vouchers', Icon: Gift, ring: 'from-[#3B82F6] to-[#6366F1]', to: '/vouchers', badge: vouchers.length > 0 ? String(vouchers.length) : null },
+            { label: 'Games', Icon: Gamepad2, ring: 'from-[#FF8A00] to-[#FFD166]', to: '/games', badge: 'PLAY' },
+            { label: 'Daily Spin', Icon: Dices, ring: 'from-[#22C55E] to-[#86EFAC]', to: '/games/spin', badge: null },
+          ].map(t => (
+            <motion.button
+              key={t.label}
+              whileHover={{ y: -3 }}
+              whileTap={{ scale: 0.94 }}
+              onClick={() => navigate(t.to)}
+              className="flex flex-col items-center gap-2 shrink-0 w-[68px]"
+            >
+              <div className="relative">
+                <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${t.ring} flex items-center justify-center shadow-md`}>
+                  <t.Icon size={26} className="text-white" />
+                </div>
+                {t.badge && (
+                  <span className="absolute -top-1 -right-1 bg-[#1A1A1A] text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full shadow-sm leading-none">
+                    {t.badge}
+                  </span>
+                )}
+              </div>
+              <span className="text-[11px] font-semibold text-[#1A1A1A] leading-tight text-center">{t.label}</span>
+            </motion.button>
+          ))}
         </div>
 
         {/* Loyalty summary row */}
