@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { X, Phone, Mail, HelpCircle, ChevronDown, ChevronUp, AlertTriangle } from 'lucide-react';
 import { translations } from '../translations';
 
@@ -80,7 +80,7 @@ export function EmergencyModal({ onClose, language }: { onClose: () => void, lan
   const [isCalling, setIsCalling] = useState(false);
 
   return (
-    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-[60] flex items-center justify-center p-6">
+    <div className="absolute inset-0 bg-black/80 z-[60] flex items-center justify-center p-6">
       <div className={`bg-white rounded-2xl w-full max-w-md p-8 flex flex-col items-center text-center shadow-2xl relative overflow-hidden anim-fade-scale
         ${!isCalling && 'animate-[pulse_2s_infinite] border-4 border-red-500'}
       `}>

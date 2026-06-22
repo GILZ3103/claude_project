@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { CheckCircle, CreditCard, Loader2 } from 'lucide-react'
 
 interface LoginAnimationProps {
@@ -27,7 +27,7 @@ export function LoginAnimation({ loginSource, ownerName, confidence, isLoading =
 
   if (loginSource === 'nfc') {
     return (
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center">
+      <div className="absolute inset-0 bg-black/80 z-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="relative">
             <div className="w-24 h-24 rounded-full border-2 border-blue-400/60 animate-ping absolute inset-0" />
@@ -47,7 +47,7 @@ export function LoginAnimation({ loginSource, ownerName, confidence, isLoading =
   }
 
   return (
-    <div className="absolute inset-0 bg-black/88 backdrop-blur-md z-50 flex items-center justify-center">
+    <div className="absolute inset-0 bg-black/88 z-50 flex items-center justify-center">
       <div className="flex flex-col items-center gap-8">
 
         {/* Viewfinder */}

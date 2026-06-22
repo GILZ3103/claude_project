@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import type { Stall } from '../data';
 import { X, Map, Clock, Navigation, Loader2 } from 'lucide-react';
 import { translations } from '../translations';
@@ -32,7 +32,7 @@ export function StallDetails({ stall, onClose, onNavigate, language }: StallDeta
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/70 rounded-full text-white backdrop-blur-sm transition-colors"
+          className="absolute top-4 right-4 p-2 bg-black/50 hover:bg-black/70 rounded-full text-white transition-colors"
         >
           <X className="w-5 h-5" />
         </button>

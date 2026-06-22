@@ -52,7 +52,7 @@ export function StallGrid({ stalls, filters, setFilters, onStallClick, onOpenMen
   };
 
   return (
-    <div className="h-full overflow-y-auto no-scrollbar bg-[#FAF7F0] p-4 pb-24">
+    <div className="bg-[#FAF7F0] p-4 pb-28">
       {/* Top controls: Menu button (opens the quick-actions / dietary sheet) + active filter pills */}
       <div className="flex flex-wrap items-center gap-2 mb-4">
         <button
@@ -106,7 +106,7 @@ export function StallGrid({ stalls, filters, setFilters, onStallClick, onOpenMen
           )}
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4 pb-24">
+        <div className="grid grid-cols-2 gap-4">
           {stalls.map(stall => (
             <StallCard
               key={stall.id}

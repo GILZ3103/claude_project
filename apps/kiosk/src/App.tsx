@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from 'react'
+﻿import { useState, useMemo, useEffect, useRef } from 'react'
 import { AlertTriangle, Wifi } from 'lucide-react'
 import type { Stall } from './app/data'
 import { VOUCHERS } from './app/data'
@@ -16,6 +16,7 @@ import { UserBar } from './app/components/UserBar'
 import { NfcCardOfferModal } from './app/components/NfcCardOfferModal'
 import { LoginAnimation } from './app/components/LoginAnimation'
 import { BottomNav } from './app/components/BottomNav'
+import { OnScreenKeyboard } from './app/components/OnScreenKeyboard'
 import { fetchStalls } from './lib/transforms'
 import toast, { Toaster } from 'react-hot-toast'
 
@@ -24,10 +25,12 @@ const FACE_URL = import.meta.env.VITE_FACE_DAEMON_URL ?? 'http://localhost:5002'
 const BASE_API = import.meta.env.VITE_API_URL
 const KIOSK_ID = import.meta.env.VITE_KIOSK_ID ?? 'kiosk-01'
 const POLL_MS = 1500
+const FACE_RELOGIN_COOLDOWN_MS = 20000   // after logout, ignore the SAME face for 20s so logout sticks
 
 export default function App() {
   const [language, setLanguage] = useState<'en' | 'ms' | 'zh'>('en')
   const [searchQuery, setSearchQuery] = useState('')
+  const [searchActive, setSearchActive] = useState(false)
   const [stalls, setStalls] = useState<Stall[]>([])
   const [loadingStalls, setLoadingStalls] = useState(true)
 
@@ -53,6 +56,7 @@ export default function App() {
   // Face recognition state
   const [loginSource, setLoginSource] = useState<'nfc' | 'face' | null>(null)
   const lastFaceUid = useRef<string | null>(null)
+  const logoutInfo = useRef<{ uid: string | null; at: number }>({ uid: null, at: 0 })
   const [faceConfidence, setFaceConfidence] = useState(0)
   const [faceDaemonOnline, setFaceDaemonOnline] = useState(false)
   const [faceAnimLoading, setFaceAnimLoading] = useState(false)
@@ -154,9 +158,13 @@ export default function App() {
         if (res.status === 200) {
           const data = await res.json()
           if (data.uid && data.uid !== lastFaceUid.current) {
-            lastFaceUid.current = data.uid
-            const success = await handleFaceTap(data.uid, data.confidence ?? 0, data.owner_name ?? '')
-            if (!success) setTimeout(() => { lastFaceUid.current = null }, 15000)
+            const lo = logoutInfo.current
+            const sameUserCoolingDown = data.uid === lo.uid && (Date.now() - lo.at) < FACE_RELOGIN_COOLDOWN_MS
+            if (!sameUserCoolingDown) {
+              lastFaceUid.current = data.uid
+              const success = await handleFaceTap(data.uid, data.confidence ?? 0, data.owner_name ?? '')
+              if (!success) setTimeout(() => { lastFaceUid.current = null }, 15000)
+            }
           }
         }
       } catch {
@@ -375,6 +383,9 @@ export default function App() {
   }
 
   function handleLogout() {
+    // Remember who just logged out so the face poll doesn't instantly re-login
+    // them while they're still standing in front of the camera.
+    logoutInfo.current = { uid: lastFaceUid.current, at: Date.now() }
     setIsUserMode(false)
     setCardData(null)
     setBalance(0)
@@ -423,11 +434,13 @@ export default function App() {
 
   const handleLogoClick = () => {
     setSearchQuery('')
+    setSearchActive(false)
     setFilters({ category: null, calories: null, dietary: [], vendorType: [], distance: [], voucher: null, availability: [] })
     setActiveOverlay(null)
   }
 
   const handleIconClick = (action: string) => {
+    setSearchActive(false)
     if (action === 'language') {
       setLanguage(prev => prev === 'en' ? 'ms' : prev === 'ms' ? 'zh' : 'en')
     } else if (action === 'nav') {
@@ -439,6 +452,7 @@ export default function App() {
   }
 
   const handleStallClick = (stall: Stall) => {
+    setSearchActive(false)
     setActiveStall(stall)
     setActiveOverlay('stall')
   }
@@ -459,6 +473,9 @@ export default function App() {
         isUserMode={isUserMode}
         cardData={cardData ? { owner_name: cardData.owner_name, points_balance: points } : null}
         faceDaemonOnline={faceDaemonOnline}
+        searchActive={searchActive}
+        onSearchActivate={() => setSearchActive(true)}
+        onSearchClose={() => setSearchActive(false)}
       />
 
       {/* User mode top bar — replaces floating badge */}
@@ -473,15 +490,16 @@ export default function App() {
         />
       )}
 
-      {/* Main content — single mobile column (no desktop side panel) */}
+      {/* Main content — one scrolling column so the hero banner and category bar
+          scroll away with the list, revealing the full food grid. */}
       <div className="flex-1 flex flex-col overflow-hidden relative">
-        <Intro
-          activeCategory={filters.category as any}
-          onCategoryClick={(cat) => setFilters(prev => ({ ...prev, category: prev.category === cat ? null : cat }))}
-          language={language}
-        />
+        <div className="flex-1 overflow-y-auto no-scrollbar">
+          <Intro
+            activeCategory={filters.category as any}
+            onCategoryClick={(cat) => setFilters(prev => ({ ...prev, category: prev.category === cat ? null : cat }))}
+            language={language}
+          />
 
-        <div className="flex-1 relative overflow-hidden">
           <StallGrid
             stalls={filteredStalls}
             filters={filters}
@@ -492,13 +510,13 @@ export default function App() {
             onToggleFavorite={toggleFavorite}
             language={language}
           />
-
-          {loadingStalls && (
-            <div className="absolute inset-0 flex items-center justify-center bg-white/60">
-              <p className="text-gray-500 animate-pulse">Loading stalls...</p>
-            </div>
-          )}
         </div>
+
+        {loadingStalls && (
+          <div className="absolute inset-0 flex items-center justify-center bg-white/60">
+            <p className="text-gray-500 animate-pulse">Loading stalls...</p>
+          </div>
+        )}
       </div>
 
       {/* Emergency Button — sits above the bottom nav */}
@@ -511,7 +529,7 @@ export default function App() {
 
       {/* Backdrop */}
       {activeOverlay && activeOverlay !== 'nav' && activeOverlay !== 'emergency' && (
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-30 transition-opacity" onClick={() => setActiveOverlay(null)} />
+        <div className="absolute inset-0 bg-black/40 z-30 transition-opacity" onClick={() => setActiveOverlay(null)} />
       )}
 
       {/* Quick menu — bottom sheet (mobile replacement for the old left sidebar) */}
@@ -534,7 +552,14 @@ export default function App() {
       {activeOverlay === 'card-offer' && (
         <NfcCardOfferModal
           onClose={() => { setActiveOverlay(null); setCardLinkStatus('idle') }}
-          onConfirmCollect={() => setCardLinkStatus('linking')}
+          onConfirmCollect={() => {
+              // Trigger the physical card dispenser (fire-and-forget)
+              const dispenserUrl = import.meta.env.VITE_DISPENSER_URL
+              if (dispenserUrl) {
+                fetch(`${dispenserUrl}/dispense`, { method: 'POST' }).catch(() => {})
+              }
+              setCardLinkStatus('linking')
+            }}
           linkStatus={cardLinkStatus}
           onLinkComplete={() => { setActiveOverlay(null); setCardLinkStatus('idle') }}
           language={language}
@@ -581,7 +606,7 @@ export default function App() {
 
       {/* NFC action confirmation overlay */}
       {pendingAction && (
-        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+        <div className="absolute inset-0 bg-black/80 z-50 flex items-center justify-center p-6">
           <div className="bg-[#FAF7F0] p-8 rounded-3xl w-full max-w-md text-center shadow-2xl">
             <div className="relative w-20 h-20 mx-auto mb-6">
               <div className="absolute inset-0 bg-[#FDF0E8] rounded-full animate-ping opacity-60" />
@@ -635,9 +660,23 @@ export default function App() {
         <EmergencyModal onClose={() => setActiveOverlay(null)} language={language} />
       )}
 
-      {/* Bottom navigation — hidden for full-screen modal flows */}
-      {!pendingAction && activeOverlay !== 'nav' && activeOverlay !== 'card-offer' && activeOverlay !== 'emergency' && (
+      {/* Bottom navigation — hidden for full-screen modal flows and while typing */}
+      {!pendingAction && !searchActive && activeOverlay !== 'nav' && activeOverlay !== 'card-offer' && activeOverlay !== 'emergency' && (
         <BottomNav activeOverlay={activeOverlay} onAction={handleIconClick} />
+      )}
+
+      {/* Floating on-screen keyboard for search (kiosk has no physical keyboard) */}
+      {searchActive && (
+        <>
+          {/* Transparent layer: tap anywhere outside the keyboard/search to dismiss */}
+          <div className="absolute inset-0 z-40" onClick={() => setSearchActive(false)} />
+          <OnScreenKeyboard
+            value={searchQuery}
+            onChange={setSearchQuery}
+            onClose={() => setSearchActive(false)}
+            language={language}
+          />
+        </>
       )}
 
       <Toaster position="top-center" />

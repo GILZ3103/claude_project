@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { CheckCircle, Wifi } from 'lucide-react'
 import { translations } from '../translations'
 import { NfcCardGraphic } from './NfcCardGraphic'
@@ -21,7 +21,7 @@ export function NfcCardOfferModal({ onClose, onConfirmCollect, linkStatus, onLin
 
   if (step === 'offer') {
     return (
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+      <div className="absolute inset-0 bg-black/80 z-50 flex items-center justify-center p-6">
         <div className="bg-white p-8 rounded-3xl w-full max-w-md text-center shadow-2xl animate-[fadeIn_0.3s_ease-out]">
           <div className="mx-auto mb-6 w-56 max-w-full">
             <NfcCardGraphic />
@@ -52,7 +52,7 @@ export function NfcCardOfferModal({ onClose, onConfirmCollect, linkStatus, onLin
 
   if (step === 'tapping') {
     return (
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+      <div className="absolute inset-0 bg-black/80 z-50 flex items-center justify-center p-6">
         <div className="bg-white p-8 rounded-3xl w-full max-w-md text-center shadow-2xl">
           <div className="relative mx-auto mb-6 w-56 max-w-full">
             <div className="absolute -inset-3 rounded-3xl bg-orange-200/60 animate-ping" />
@@ -78,7 +78,7 @@ export function NfcCardOfferModal({ onClose, onConfirmCollect, linkStatus, onLin
   }
 
   return (
-    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+    <div className="absolute inset-0 bg-black/80 z-50 flex items-center justify-center p-6">
       <div className="bg-white p-8 rounded-3xl w-full max-w-md text-center shadow-2xl">
         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <CheckCircle className="w-10 h-10 text-green-500" />

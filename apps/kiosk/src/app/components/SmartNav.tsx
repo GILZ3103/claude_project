@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { X, Navigation, MapPin, Footprints } from 'lucide-react';
 import type { Stall } from '../data';
 import { translations } from '../translations';
@@ -63,7 +63,7 @@ export function SmartNav({ destination, stalls, onClose, language }: SmartNavPro
       {/* Close button */}
       <button
         onClick={onClose}
-        className="absolute top-4 right-4 z-20 p-2.5 bg-white/90 backdrop-blur-sm rounded-full shadow-lg text-gray-500 hover:text-black hover:bg-white transition-colors"
+        className="absolute top-4 right-4 z-20 p-2.5 bg-white/90 rounded-full shadow-lg text-gray-500 hover:text-black hover:bg-white transition-colors"
       >
         <X className="w-5 h-5" />
       </button>
@@ -174,7 +174,7 @@ export function SmartNav({ destination, stalls, onClose, language }: SmartNavPro
 
         {/* Hint — shown when no stall is selected */}
         {!selected && (
-          <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10 bg-[#1A1A1A]/80 backdrop-blur-sm text-white text-xs font-semibold px-4 py-2.5 rounded-2xl shadow-xl whitespace-nowrap">
+          <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10 bg-[#1A1A1A]/80 text-white text-xs font-semibold px-4 py-2.5 rounded-2xl shadow-xl whitespace-nowrap">
             {t.selectDestToView}
           </div>
         )}

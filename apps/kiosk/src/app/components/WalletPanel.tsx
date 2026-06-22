@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { X, CreditCard, Ticket, Award, CheckCircle, QrCode } from 'lucide-react';
 import { translations } from '../translations';
 import { NfcCardGraphic } from './NfcCardGraphic';
@@ -302,7 +302,7 @@ export function WalletPanel({
 
             {/* Confirmation Modal Inline */}
             {isConfirmingVoucher && (
-              <div className="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-6 z-50 rounded-lg">
+              <div className="absolute inset-0 bg-black/80 flex items-center justify-center p-6 z-50 rounded-lg">
                 <div className="bg-white p-6 rounded-2xl text-center w-full max-w-sm">
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{t.confirmUseVoucher}</h3>
                   <p className="text-gray-500 mb-6">Cannot be undone.</p>

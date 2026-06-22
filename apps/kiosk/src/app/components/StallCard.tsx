@@ -1,4 +1,4 @@
-import type { Stall } from '../data';
+﻿import type { Stall } from '../data';
 import { translations } from '../translations';
 import { Star, MapPin, Ticket, Heart, Leaf, Clock } from 'lucide-react';
 import { ImageWithFallback } from './ImageWithFallback';
@@ -45,12 +45,12 @@ export function StallCard({ stall, onClick, isFavorite, onToggleFavorite, langua
           aria-label={isFavorite ? 'Remove from favourites' : 'Add to favourites'}
           aria-pressed={isFavorite}
           onClick={(e) => { e.stopPropagation(); onToggleFavorite(); }}
-          className="absolute top-2 right-2 p-1.5 bg-white/90 backdrop-blur-sm rounded-full shadow-sm text-gray-500 hover:text-red-500 hover:bg-white active:scale-90 transition-all"
+          className="absolute top-2 right-2 p-1.5 bg-white/90 rounded-full shadow-sm text-gray-500 hover:text-red-500 hover:bg-white active:scale-90 transition-all"
         >
           <Heart className={`w-4 h-4 ${isFavorite ? 'fill-red-500 text-red-500' : ''}`} />
         </button>
 
-        <div className="absolute bottom-2 right-2 bg-black/80 backdrop-blur-sm text-white text-[10px] font-medium px-1.5 py-0.5 rounded">
+        <div className="absolute bottom-2 right-2 bg-black/80 text-white text-[10px] font-medium px-1.5 py-0.5 rounded">
           {stall.calories}
         </div>
       </div>

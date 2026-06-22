@@ -13,11 +13,13 @@ interface HeaderProps {
   isUserMode?: boolean;
   cardData?: { owner_name: string; points_balance: number } | null;
   faceDaemonOnline?: boolean;
+  searchActive?: boolean;
+  onSearchActivate?: () => void;
+  onSearchClose?: () => void;
 }
 
-export function Header({ searchQuery, setSearchQuery, onLogoClick, onIconClick, language, isUserMode, cardData, faceDaemonOnline }: HeaderProps) {
+export function Header({ searchQuery, setSearchQuery, onLogoClick, onIconClick, language, isUserMode, cardData, faceDaemonOnline, searchActive, onSearchActivate, onSearchClose }: HeaderProps) {
   const t = translations[language];
-  const [isFocused, setIsFocused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   // Debounced search mock
@@ -73,16 +75,18 @@ export function Header({ searchQuery, setSearchQuery, onLogoClick, onIconClick, 
 
       {/* Row 2: Search (full width) */}
       <div className="relative w-full">
-        <div className={`flex items-center bg-white border border-[#EDE4D4] rounded-full px-4 py-2 transition-colors ${isFocused ? 'ring-2 ring-[#E8622A]' : ''}`}>
+        <div className={`flex items-center bg-white border border-[#EDE4D4] rounded-full px-4 py-2 transition-colors ${searchActive ? 'ring-2 ring-[#E8622A]' : ''}`}>
           <Search className="w-5 h-5 text-gray-500 mr-2 shrink-0" />
           <input
             type="text"
+            inputMode="none"
+            autoComplete="off"
             placeholder={t.searchPlaceholder}
             className="bg-transparent border-none outline-none w-full text-black placeholder-gray-500"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+            onFocus={() => onSearchActivate?.()}
+            onClick={() => onSearchActivate?.()}
           />
           {searchQuery && (
             <button onClick={() => setSearchQuery('')} className="ml-2 text-gray-500 hover:text-black shrink-0">
@@ -92,7 +96,7 @@ export function Header({ searchQuery, setSearchQuery, onLogoClick, onIconClick, 
         </div>
 
         {/* Search Dropdown */}
-        {isFocused && searchQuery && (
+        {searchActive && searchQuery && (
           <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50">
             {isLoading ? (
               <div className="p-4 text-center text-sm text-gray-500 animate-pulse">Loading...</div>
@@ -103,7 +107,7 @@ export function Header({ searchQuery, setSearchQuery, onLogoClick, onIconClick, 
                     key={stall.id}
                     onClick={() => {
                       setSearchQuery(stall.name);
-                      setIsFocused(false);
+                      onSearchClose?.();
                     }}
                     className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
                   >

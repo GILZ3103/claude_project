@@ -6,7 +6,7 @@
 // scroll the nearest scrollable container. Pointer events are used so it works
 // whether the input arrives as a mouse or as real touch.
 
-const DRAG_THRESHOLD = 6 // px of movement before a press counts as a scroll (vs a tap)
+const DRAG_THRESHOLD = 10 // px of movement before a press counts as a scroll (vs a tap)
 
 let dragging = false
 let moved = false
@@ -30,11 +30,16 @@ function findScrollable(el: HTMLElement | null): HTMLElement | null {
 
 function onDown(e: PointerEvent) {
   if (e.button && e.button !== 0) return
+  // Reset all per-gesture state up front so a previous drag can't leak into this
+  // press. (Tapping a non-scrollable target — e.g. the Logout button — returns
+  // early below; if `moved` were left set from the last scroll, onUp would wrongly
+  // suppress this tap's click and the button would appear dead.)
   suppressClick = false
+  moved = false
+  dragging = false
   container = findScrollable(e.target as HTMLElement)
   if (!container) return
   dragging = true
-  moved = false
   startX = e.clientX
   startY = e.clientY
   startLeft = container.scrollLeft
@@ -53,10 +58,16 @@ function onMove(e: PointerEvent) {
 }
 
 function onUp() {
-  // If the press turned into a drag, swallow the click the browser fires on
-  // release so dragging across a button doesn't activate it.
-  if (moved) suppressClick = true
+  // Swallow the click the browser fires on release ONLY when the press actually
+  // scrolled the container — not on raw pointer jitter (a cheap touch panel reports
+  // several px on a stationary tap) and never on a tap with no scrollable target
+  // (container is null), so buttons always stay tappable.
+  if (container) {
+    const scrolled = Math.abs(container.scrollTop - startTop) + Math.abs(container.scrollLeft - startLeft)
+    if (scrolled > DRAG_THRESHOLD) suppressClick = true
+  }
   dragging = false
+  moved = false
   container = null
 }
 
