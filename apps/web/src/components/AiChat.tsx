@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react'
 import { X, Send } from 'lucide-react'
 import { useCard } from '../context/CardContext'
 import { askAgent } from '../lib/api'
+import { MASCOT } from '../lib/mascot'
 
 type Message = { from: 'user' | 'ai'; text: string }
 
@@ -71,9 +72,11 @@ export default function AiChat() {
               initial={{ rotate: 90, opacity: 0, scale: 0.7 }}
               animate={{ rotate: 0, opacity: 1, scale: 1 }}
               exit={{ rotate: -90, opacity: 0, scale: 0.7 }}
-              className="w-full h-full"
+              className="w-16 h-16 rounded-full bg-gradient-to-br from-[#FF8A00] to-[#FFD166] flex items-center justify-center shadow-lg text-3xl select-none"
+              role="img"
+              aria-label="WarungTek Assistant"
             >
-              <img src="/burger-mascot.png" alt="WarungTek Assistant" className="w-full h-full object-contain" />
+              {MASCOT}
             </motion.div>
           )}
         </AnimatePresence>
@@ -92,8 +95,8 @@ export default function AiChat() {
           >
             {/* Header */}
             <div className="px-5 py-4 bg-gradient-to-r from-[#FF8A00] to-[#FFD166] text-white flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl overflow-hidden shrink-0">
-                <img src="/burger-mascot.png" alt="" className="w-full h-full object-contain" />
+              <div className="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center shrink-0 text-xl select-none">
+                {MASCOT}
               </div>
               <div>
                 <p className="font-bold text-sm">WarungTek Assistant</p>

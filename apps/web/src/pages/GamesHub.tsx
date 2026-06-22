@@ -24,16 +24,16 @@ const GAMES: GameDef[] = [
     icon: <span className="text-2xl leading-none">🔪</span>,
   },
   {
-    key: 'BUBBLE', title: 'Boba Pop', blurb: 'Match 3+ to pop the pearls', to: '/games/boba',
-    gradient: 'from-[#3B82F6] to-[#6366F1]', scored: true,
-    pattern: 'repeating-radial-gradient(circle, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 2px, transparent 2px, transparent 11px)',
-    icon: <span className="text-2xl leading-none">🧋</span>,
+    key: 'JUMP', title: 'Block Hop', blurb: 'Hold & release to leap blocks', to: '/games/jump',
+    gradient: 'from-[#6366F1] to-[#8B5CF6]', scored: true,
+    pattern: 'repeating-linear-gradient(45deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 3px, transparent 3px, transparent 15px)',
+    icon: <span className="text-2xl leading-none">🐥</span>,
   },
   {
     key: 'ROAD', title: 'Roti Road', blurb: 'Hop across the traffic', to: '/games/road',
     gradient: 'from-[#22C55E] to-[#10B981]', scored: true,
     pattern: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 3px, transparent 3px, transparent 16px)',
-    icon: <span className="text-2xl leading-none">🐔</span>,
+    icon: <span className="text-2xl leading-none">🚗</span>,
   },
   {
     key: 'STACK', title: 'Stack Tower', blurb: 'Stack ingredients sky-high', to: '/games/stack',
@@ -49,7 +49,7 @@ const GAMES: GameDef[] = [
   },
 ]
 
-const SCORED_KEYS: GameKey[] = ['SLICER', 'BUBBLE', 'ROAD', 'STACK']
+const SCORED_KEYS: GameKey[] = ['SLICER', 'JUMP', 'ROAD', 'STACK']
 
 export default function GamesHub() {
   const { card } = useCard()
@@ -85,6 +85,22 @@ export default function GamesHub() {
         <div className="absolute -top-12 -right-10 w-52 h-52 bg-white/15 rounded-full blur-3xl" />
         <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
         <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'repeating-linear-gradient(45deg, rgba(255,255,255,0.4) 0px, rgba(255,255,255,0.4) 2px, transparent 2px, transparent 14px)' }} />
+        {/* Ambient floating game motifs */}
+        {[
+          { e: '🕹️', cls: 'top-6 right-8 text-2xl', d: 0 },
+          { e: '✨', cls: 'top-16 right-24 text-base', d: 0.6 },
+          { e: '🏆', cls: 'top-9 left-10 text-lg', d: 1.1 },
+        ].map((m, i) => (
+          <motion.span
+            key={i}
+            aria-hidden
+            className={`absolute z-0 select-none opacity-60 ${m.cls}`}
+            animate={{ y: [0, -9, 0], rotate: [0, 8, 0] }}
+            transition={{ duration: 3 + i, repeat: Infinity, ease: 'easeInOut', delay: m.d }}
+          >
+            {m.e}
+          </motion.span>
+        ))}
         <div className="absolute bottom-0 left-0 right-0 h-8 bg-[#FAFAFA] rounded-t-[2rem]" />
 
         <div className="relative z-10">
@@ -126,6 +142,7 @@ export default function GamesHub() {
           className={`w-full rounded-[2rem] relative overflow-hidden shadow-xl bg-gradient-to-br ${featured.gradient} p-5 flex items-center gap-4 text-left`}
         >
           <div className="absolute inset-0 opacity-25 pointer-events-none" style={{ backgroundImage: featured.pattern }} />
+          <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-white/25 via-transparent to-black/10" />
           <div className="absolute -bottom-8 -right-6 w-32 h-32 bg-white/15 rounded-full blur-2xl pointer-events-none" />
           <span className="absolute top-3 right-3 z-10 px-2.5 py-1 bg-white/25 backdrop-blur-sm rounded-full text-[10px] font-bold text-white border border-white/30">★ FEATURED</span>
 
@@ -167,6 +184,7 @@ export default function GamesHub() {
               className={`relative overflow-hidden rounded-[1.75rem] shadow-lg bg-gradient-to-br ${g.gradient} p-4 h-[150px] flex flex-col justify-between text-left`}
             >
               <div className="absolute inset-0 opacity-25 pointer-events-none" style={{ backgroundImage: g.pattern }} />
+              <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-white/25 via-transparent to-black/10" />
               <div className="absolute -bottom-6 -right-6 w-20 h-20 bg-white/15 rounded-full blur-xl pointer-events-none" />
 
               <div className="flex items-start justify-between z-10">

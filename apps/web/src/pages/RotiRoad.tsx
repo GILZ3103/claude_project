@@ -6,6 +6,7 @@ import { useCard } from '../context/CardContext'
 import { submitGameScore, type GameScoreResult } from '../lib/api'
 import { useGameLoop } from '../lib/useGameLoop'
 import { Celebration } from '../components/games/Celebration'
+import { MASCOT } from '../lib/mascot'
 
 type Phase = 'ready' | 'playing' | 'over'
 
@@ -37,19 +38,12 @@ export default function RotiRoad() {
   const worldRef = useRef<World | null>(null)
   const phaseRef = useRef<Phase>('ready')
   const scoreRef = useRef(0)
-  const imgRef = useRef<HTMLImageElement | null>(null)
   const downRef = useRef<{ x: number; y: number } | null>(null)
 
   const [phase, setPhase] = useState<Phase>('ready')
   const [score, setScore] = useState(0)
   const [result, setResult] = useState<GameScoreResult | null>(null)
   const [submitting, setSubmitting] = useState(false)
-
-  useEffect(() => {
-    const img = new Image()
-    img.src = '/burger-mascot.png'
-    img.onload = () => { imgRef.current = img }
-  }, [])
 
   const setPhaseBoth = (p: Phase) => { phaseRef.current = p; setPhase(p) }
 
@@ -147,14 +141,12 @@ export default function RotiRoad() {
     const r = cell * 0.42
     ctx.save()
     ctx.translate(px, py - bounce)
-    const img = imgRef.current
-    if (img) {
-      ctx.drawImage(img, -r, -r, r * 2, r * 2)
-    } else {
-      ctx.font = `${r * 2}px serif`
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
-      ctx.fillText('🫓', 0, 0)
-    }
+    ctx.font = `${r * 2}px serif`
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
+    ctx.shadowColor = 'rgba(0,0,0,0.25)'
+    ctx.shadowBlur = cell * 0.12
+    ctx.shadowOffsetY = cell * 0.06
+    ctx.fillText(MASCOT, 0, 0)
     ctx.restore()
   }, [laneAt])
 
@@ -325,12 +317,12 @@ export default function RotiRoad() {
       </div>
 
       {/* Game stage */}
-      <div className="flex-1 flex items-center justify-center px-4 pb-6">
+      <div className="flex-1 min-h-0 flex items-center justify-center px-4 pb-6">
         <div
           ref={wrapRef}
           onPointerDown={onDown}
           onPointerUp={onUp}
-          className="relative w-full max-w-[420px] aspect-[2/3] rounded-[1.75rem] overflow-hidden shadow-xl border border-emerald-200 select-none touch-none cursor-pointer"
+          className="relative h-full max-h-[680px] w-auto max-w-full aspect-[2/3] rounded-[1.75rem] overflow-hidden shadow-xl border border-emerald-200 select-none touch-none cursor-pointer"
         >
           <canvas ref={canvasRef} className="absolute inset-0" />
 
@@ -354,13 +346,13 @@ export default function RotiRoad() {
                 transition={{ type: 'spring', bounce: 0.4 }}
                 className="bg-white/95 backdrop-blur-sm rounded-[2rem] px-7 py-7 shadow-2xl border border-white/60 flex flex-col items-center max-w-[280px]"
               >
-                <motion.img
-                  src="/burger-mascot.png"
-                  alt=""
-                  className="w-16 h-16 object-contain mb-3 drop-shadow-lg"
+                <motion.span
+                  className="text-6xl mb-3 drop-shadow-lg select-none"
                   animate={{ y: [0, -10, 0] }}
                   transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
-                />
+                >
+                  {MASCOT}
+                </motion.span>
                 <p className="font-bold text-[#1A1A1A] text-lg leading-tight">Roti Road</p>
                 <p className="text-sm text-[#6B7280] mt-1.5 mb-4">Tap to hop forward, swipe to dodge traffic. Don't get caught — keep moving!</p>
                 <motion.div

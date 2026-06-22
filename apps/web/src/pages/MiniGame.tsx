@@ -4,6 +4,7 @@ import { Dices, Trophy, RotateCcw, Sparkles } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCard } from '../context/CardContext'
 import { spinWheel } from '../lib/api'
+import { MASCOT } from '../lib/mascot'
 
 const PRIZES = [
   { index: 0, label: 'Try Again', points: 0,   color: '#94A3B8' },
@@ -67,7 +68,7 @@ function SpinWheelSVG() {
           <stop offset="100%" stopColor="#FF8A00" />
         </radialGradient>
       </defs>
-      <image href="/burger-mascot.png" x={cx - 18} y={cy - 20} width={36} height={36} />
+      <text x={cx} y={cy} textAnchor="middle" dominantBaseline="central" fontSize={30}>{MASCOT}</text>
     </svg>
   )
 }

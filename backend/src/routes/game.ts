@@ -35,7 +35,7 @@ const spinSchema = z.object({
 // These never modify points_balance. Score milestones grant a voucher, deduped
 // per user per game via the game_reward_log UNIQUE constraint.
 
-type GameKey = 'FLAPPY' | 'STACK' | 'SLICER' | 'BUBBLE' | 'ROAD'
+type GameKey = 'FLAPPY' | 'STACK' | 'SLICER' | 'JUMP' | 'ROAD'
 
 // Score milestones -> voucher discount value (RM). Tune freely.
 const MILESTONES: Record<GameKey, { score: number; reward: number }[]> = {
@@ -57,7 +57,7 @@ const MILESTONES: Record<GameKey, { score: number; reward: number }[]> = {
     { score: 100, reward: 5 },
     { score: 200, reward: 10 },
   ],
-  BUBBLE: [
+  JUMP: [
     { score: 10,  reward: 1 },
     { score: 25,  reward: 2 },
     { score: 50,  reward: 5 },
@@ -73,12 +73,12 @@ const MILESTONES: Record<GameKey, { score: number; reward: number }[]> = {
 
 // Reject obviously impossible scores before they touch the DB.
 const MAX_PLAUSIBLE: Record<GameKey, number> = {
-  FLAPPY: 100000, STACK: 100000, SLICER: 100000, BUBBLE: 100000, ROAD: 100000,
+  FLAPPY: 100000, STACK: 100000, SLICER: 100000, JUMP: 100000, ROAD: 100000,
 }
 
 const scoreSchema = z.object({
   card_uid: z.string().min(4).max(20),
-  game: z.enum(['FLAPPY', 'STACK', 'SLICER', 'BUBBLE', 'ROAD']),
+  game: z.enum(['FLAPPY', 'STACK', 'SLICER', 'JUMP', 'ROAD']),
   score: z.number().int().min(0),
 })
 
@@ -204,7 +204,7 @@ router.get('/leaderboard', async (req: Request, res: Response): Promise<void> =>
   const game = String(req.query.game ?? '').toUpperCase()
   const limit = Math.min(Number(req.query.limit ?? 10) || 10, 50)
 
-  const VALID_GAMES = ['FLAPPY', 'STACK', 'SLICER', 'BUBBLE', 'ROAD']
+  const VALID_GAMES = ['FLAPPY', 'STACK', 'SLICER', 'JUMP', 'ROAD']
   if (!VALID_GAMES.includes(game)) {
     res.status(400).json({ success: false, error: 'INVALID_GAME', message: `game must be one of ${VALID_GAMES.join(', ')}` })
     return

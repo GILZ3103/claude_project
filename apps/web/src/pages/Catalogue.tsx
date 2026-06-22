@@ -98,7 +98,7 @@ export default function Catalogue() {
       ) : (
         <div className="grid grid-cols-2 gap-4 p-6">
           {filtered.map((f: any) => (
-            <FoodCard key={f.food_item_id} item={f} onClick={() => navigate(`/map?vendor=${f.vendor_id}`)} />
+            <FoodCard key={f.food_item_id} item={f} onClick={() => navigate(`/food/${f.food_item_id ?? f.food_id}`, { state: { item: f } })} />
           ))}
         </div>
       )}

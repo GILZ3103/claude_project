@@ -165,8 +165,8 @@ export const spinWheel = (card_uid: string) =>
     body: JSON.stringify({ card_uid }),
   })
 
-// Skill games (Ingredient Slicer, Stack Tower, Boba Pop, Roti Road)
-export type GameKey = 'FLAPPY' | 'STACK' | 'SLICER' | 'BUBBLE' | 'ROAD'
+// Skill games (Ingredient Slicer, Stack Tower, Block Hop, Roti Road)
+export type GameKey = 'FLAPPY' | 'STACK' | 'SLICER' | 'JUMP' | 'ROAD'
 
 export interface GameScoreResult {
   best: number

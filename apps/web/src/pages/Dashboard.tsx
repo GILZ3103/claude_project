@@ -151,7 +151,7 @@ export default function Dashboard() {
                   onMouseDown={() => {
                     setFoodDropdownOpen(false)
                     setFoodQuery('')
-                    navigate(`/map?vendor=${f.vendor_id}`)
+                    navigate(`/food/${f.food_item_id ?? f.food_id}`, { state: { item: f } })
                   }}
                   className="w-full flex items-center justify-between px-4 py-3 hover:bg-orange-50 transition-colors border-b border-gray-50 last:border-0 text-left"
                 >
@@ -251,7 +251,7 @@ export default function Dashboard() {
           <div className="flex overflow-x-auto pb-3 space-x-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {foodItems.slice(0, 10).map((f: any) => (
               <div key={f.food_item_id} className="shrink-0 w-44">
-                <FoodCard item={f} onClick={() => navigate(`/map?vendor=${f.vendor_id}`)} />
+                <FoodCard item={f} onClick={() => navigate(`/food/${f.food_item_id ?? f.food_id}`, { state: { item: f } })} />
               </div>
             ))}
           </div>

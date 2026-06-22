@@ -257,11 +257,11 @@ export default function StackGame() {
         <div className="w-16" />
       </div>
 
-      <div className="flex-1 flex items-center justify-center px-4 pb-6">
+      <div className="flex-1 min-h-0 flex items-center justify-center px-4 pb-6">
         <div
           ref={wrapRef}
           onPointerDown={tap}
-          className="relative w-full max-w-[420px] aspect-[2/3] rounded-[1.75rem] overflow-hidden shadow-xl border border-gray-200 select-none touch-none cursor-pointer"
+          className="relative h-full max-h-[680px] w-auto max-w-full aspect-[2/3] rounded-[1.75rem] overflow-hidden shadow-xl border border-gray-200 select-none touch-none cursor-pointer"
         >
           <canvas ref={canvasRef} className="absolute inset-0" />
 

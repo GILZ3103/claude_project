@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'motion/react'
 import { Trophy, RotateCcw, Gift } from 'lucide-react'
+import { MASCOT } from '../../lib/mascot'
 
 interface NewVoucher {
   milestone: number
@@ -87,9 +88,9 @@ export function Celebration({ score, best, isHighScore, vouchers, onPlayAgain, o
         transition={{ type: 'spring', bounce: 0.35 }}
         className="relative w-full max-w-sm bg-white rounded-[2.5rem] p-8 shadow-2xl flex flex-col items-center text-center"
       >
-        {/* Dancing burger mascot — latin dance on win */}
+        {/* Dancing chick mascot — latin dance on win */}
         <motion.div
-          className="w-44 h-44 mb-2"
+          className="w-44 h-44 mb-2 flex items-center justify-center text-[7rem] leading-none select-none drop-shadow-2xl"
           animate={
             win
               ? {
@@ -103,7 +104,7 @@ export function Celebration({ score, best, isHighScore, vouchers, onPlayAgain, o
           }
           transition={{ duration: win ? 1.1 : 1.6, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <img src="/burger-mascot.png" alt="" className="w-full h-full object-contain drop-shadow-2xl" />
+          {MASCOT}
         </motion.div>
 
         {win ? (

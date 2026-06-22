@@ -323,7 +323,7 @@ export default function IngredientSlicer() {
       </div>
 
       {/* Game stage */}
-      <div className="flex-1 flex items-center justify-center px-4 pb-6">
+      <div className="flex-1 min-h-0 flex items-center justify-center px-4 pb-6">
         <div
           ref={wrapRef}
           onPointerDown={onDown}
@@ -331,7 +331,7 @@ export default function IngredientSlicer() {
           onPointerUp={onUp}
           onPointerLeave={onUp}
           onPointerCancel={onUp}
-          className="relative w-full max-w-[420px] aspect-[2/3] rounded-[1.75rem] overflow-hidden shadow-xl border border-purple-200 select-none touch-none cursor-crosshair"
+          className="relative h-full max-h-[680px] w-auto max-w-full aspect-[2/3] rounded-[1.75rem] overflow-hidden shadow-xl border border-purple-200 select-none touch-none cursor-crosshair"
         >
           <canvas ref={canvasRef} className="absolute inset-0" />
 

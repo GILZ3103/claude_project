@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Search, ArrowLeft, Store, MapPin, Utensils } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { getVendors, getVendorFood } from '../lib/api'
@@ -9,6 +10,7 @@ import { ImageWithFallback } from '../components/ImageWithFallback'
 import { getVendorImage } from '../lib/foodImages'
 
 export default function Vendors() {
+  const navigate = useNavigate()
   const [vendors, setVendors] = useState<any[]>([])
   const [filtered, setFiltered] = useState<any[]>([])
   const [search, setSearch] = useState('')
@@ -113,9 +115,20 @@ export default function Vendors() {
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-4 px-6">
-            {food.map((item: any) => (
-              <FoodCard key={item.food_id} item={item} />
-            ))}
+            {food.map((item: any) => {
+              const enriched = {
+                ...item,
+                vendor_id: item.vendor_id ?? selected?.vendor_id,
+                vendor_name: item.vendor_name ?? selected?.business_name,
+              }
+              return (
+                <FoodCard
+                  key={item.food_id}
+                  item={enriched}
+                  onClick={() => navigate(`/food/${enriched.food_item_id ?? enriched.food_id}`, { state: { item: enriched } })}
+                />
+              )
+            })}
           </div>
         )}
       </div>
