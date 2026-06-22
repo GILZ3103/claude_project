@@ -1,7 +1,8 @@
-﻿import { useState } from 'react';
-import { X, Navigation, MapPin, Footprints } from 'lucide-react';
+﻿import { useRef, useState } from 'react';
+import { X, Navigation, MapPin, Footprints, Star, Plus, Minus } from 'lucide-react';
 import type { Stall } from '../data';
 import { translations } from '../translations';
+import { ImageWithFallback } from './ImageWithFallback';
 
 interface SmartNavProps {
   destination: Stall | null;
@@ -52,10 +53,42 @@ const CORRIDOR_Y = 30
 export function SmartNav({ destination, stalls, onClose, language }: SmartNavProps) {
   const t = translations[language];
   const [selected, setSelected] = useState<Stall | null>(destination);
+  // Route is drawn immediately when arriving from the dashboard (destination preset),
+  // but deferred behind the "Navigate" button when picking on the map.
+  const [showRoute, setShowRoute] = useState<boolean>(!!destination);
+
+  // Zoom + pan for the map canvas
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const drag = useRef<{ x: number; y: number; px: number; py: number } | null>(null);
 
   const destPos = selected
     ? gridToPct(selected.grid_x ?? 5, selected.grid_y ?? 5)
     : null;
+
+  const zoomIn = () => setZoom(z => Math.min(3, +(z + 0.5).toFixed(1)));
+  const zoomOut = () => setZoom(z => {
+    const next = Math.max(1, +(z - 0.5).toFixed(1));
+    if (next === 1) setPan({ x: 0, y: 0 });
+    return next;
+  });
+
+  function onPointerDown(e: React.PointerEvent) {
+    if (zoom <= 1) return;
+    drag.current = { x: e.clientX, y: e.clientY, px: pan.x, py: pan.y };
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  }
+  function onPointerMove(e: React.PointerEvent) {
+    if (!drag.current) return;
+    const bound = 200 * (zoom - 1);
+    const nx = drag.current.px + (e.clientX - drag.current.x);
+    const ny = drag.current.py + (e.clientY - drag.current.y);
+    setPan({
+      x: Math.max(-bound, Math.min(bound, nx)),
+      y: Math.max(-bound, Math.min(bound, ny)),
+    });
+  }
+  function onPointerUp() { drag.current = null; }
 
   return (
     <div className="absolute inset-0 z-50 flex flex-col bg-[#EEE9E0]">
@@ -69,7 +102,24 @@ export function SmartNav({ destination, stalls, onClose, language }: SmartNavPro
       </button>
 
       {/* ── Map canvas ─────────────────────────────────────────────────────── */}
-      <div className="flex-1 relative overflow-hidden">
+      <div
+        className="flex-1 relative overflow-hidden"
+        style={{ touchAction: 'none', cursor: zoom > 1 ? 'grab' : 'default' }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+      >
+
+        {/* Zoomable / pannable layer */}
+        <div
+          className="absolute inset-0"
+          style={{
+            transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+            transformOrigin: 'center',
+            transition: drag.current ? 'none' : 'transform 150ms ease-out',
+          }}
+        >
 
         {/* Grid + walkways + route */}
         <svg
@@ -96,7 +146,7 @@ export function SmartNav({ destination, stalls, onClose, language }: SmartNavPro
           <line x1="0" y1={`${CORRIDOR_Y}`} x2="100" y2={`${CORRIDOR_Y}`} stroke="#A09B93" strokeWidth="1" strokeDasharray="4 2" />
 
           {/* Navigation path — L-shaped route through corridors */}
-          {destPos && (
+          {destPos && showRoute && (
             <>
               <polyline
                 points={`${KIOSK.left},${KIOSK.top} ${KIOSK.left},${CORRIDOR_Y} ${destPos.left},${CORRIDOR_Y} ${destPos.left},${destPos.top}`}
@@ -127,7 +177,7 @@ export function SmartNav({ destination, stalls, onClose, language }: SmartNavPro
               key={stall.id}
               className="absolute cursor-pointer"
               style={{ left: `${pos.left}%`, top: `${pos.top}%`, width: '8%', height: '10%', transform: 'translate(-50%,-50%)' }}
-              onClick={() => setSelected(stall)}
+              onClick={() => { setSelected(stall); setShowRoute(false); }}
             >
               {isSelected && (
                 <div className="absolute inset-0 rounded-xl bg-orange-400/50 animate-ping pointer-events-none" />
@@ -172,6 +222,28 @@ export function SmartNav({ destination, stalls, onClose, language }: SmartNavPro
           </span>
         </div>
 
+        </div>{/* /Zoomable layer */}
+
+        {/* Zoom controls — stay fixed (outside the scaled layer) */}
+        <div className="absolute bottom-5 right-4 z-20 flex flex-col gap-2">
+          <button
+            onClick={zoomIn}
+            disabled={zoom >= 3}
+            className="p-2.5 bg-white/90 rounded-full shadow-lg text-gray-600 hover:text-black hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors active:scale-95"
+            aria-label="Zoom in"
+          >
+            <Plus className="w-5 h-5" />
+          </button>
+          <button
+            onClick={zoomOut}
+            disabled={zoom <= 1}
+            className="p-2.5 bg-white/90 rounded-full shadow-lg text-gray-600 hover:text-black hover:bg-white disabled:opacity-40 disabled:cursor-not-allowed transition-colors active:scale-95"
+            aria-label="Zoom out"
+          >
+            <Minus className="w-5 h-5" />
+          </button>
+        </div>
+
         {/* Hint — shown when no stall is selected */}
         {!selected && (
           <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-10 bg-[#1A1A1A]/80 text-white text-xs font-semibold px-4 py-2.5 rounded-2xl shadow-xl whitespace-nowrap">
@@ -188,13 +260,16 @@ export function SmartNav({ destination, stalls, onClose, language }: SmartNavPro
           <div className="px-4 pt-4 pb-5 flex flex-col gap-3">
             {/* Stall summary row */}
             <div className="flex items-start gap-3">
-              <div className={`w-12 h-12 rounded-xl ${CATEGORY_COLORS[selected.category] ?? CATEGORY_COLORS.Default} flex items-center justify-center shadow-sm shrink-0`}>
-                <span className="text-white text-lg font-black">{(selected.name ?? 'V')[0].toUpperCase()}</span>
-              </div>
+              <ImageWithFallback
+                src={selected.image}
+                alt={selected.name}
+                className="w-12 h-12 rounded-xl object-cover shadow-sm shrink-0"
+              />
               <div className="flex-1 min-w-0">
                 <h3 className="font-bold text-gray-900 text-base leading-tight truncate">{selected.name}</h3>
                 <p className="text-xs text-gray-400 mt-0.5">Zone {selected.zone} · {selected.category}</p>
                 <div className="flex items-center gap-3 text-sm text-gray-500 mt-1">
+                  <span className="flex items-center gap-1"><Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" /> {selected.rating}</span>
                   <span className="flex items-center gap-1"><Navigation className="w-3.5 h-3.5" /> {selected.distance}m {t.away}</span>
                   <span className="flex items-center gap-1"><Footprints className="w-3.5 h-3.5" /> ~{Math.ceil(selected.distance / 50)} min {t.walk}</span>
                 </div>
@@ -207,14 +282,16 @@ export function SmartNav({ destination, stalls, onClose, language }: SmartNavPro
               </button>
             </div>
 
-            {/* Navigate CTA */}
-            <button
-              onClick={onClose}
-              className="w-full py-3.5 bg-[#1A1A1A] hover:bg-gray-800 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-colors active:scale-[0.98]"
-            >
-              <Navigation className="w-5 h-5" />
-              {t.navigateStall}
-            </button>
+            {/* Navigate CTA — only before the route is drawn (hidden when arriving from dashboard) */}
+            {!showRoute && (
+              <button
+                onClick={() => setShowRoute(true)}
+                className="w-full py-3.5 bg-[#1A1A1A] hover:bg-gray-800 text-white font-bold rounded-2xl flex items-center justify-center gap-2 transition-colors active:scale-[0.98]"
+              >
+                <Navigation className="w-5 h-5" />
+                {t.navigateStall}
+              </button>
+            )}
           </div>
         )}
       </div>
