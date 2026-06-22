@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
 import {
   Plus, Flame, CreditCard, Navigation, History, Gift,
-  CheckCircle, ShieldCheck, QrCode, Search, Utensils, Layers, Dices, Gamepad2, Sparkles
+  CheckCircle, ShieldCheck, QrCode, Search, Utensils, Dices, Gamepad2, Sparkles
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCard } from '../context/CardContext'
@@ -310,7 +310,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Horizontal scroll: vouchers + divider + game cards */}
+        {/* Horizontal scroll: voucher cards */}
         <div className="flex overflow-x-auto pb-2 gap-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {/* Voucher cards */}
           {vouchers.length === 0 ? (
@@ -340,55 +340,6 @@ export default function Dashboard() {
               </div>
               <p className="text-white/80 text-[10px] font-semibold">Tap to view →</p>
             </motion.div>
-          ))}
-
-          {/* Visual divider */}
-          <div className="shrink-0 flex items-center px-1">
-            <div className="w-px h-24 bg-gray-200 rounded-full" />
-          </div>
-
-          {/* Game cards */}
-          {([
-            {
-              label: 'Flappy Burger', sub: 'Dodge the sticks!', to: '/games/flappy', gradient: 'from-[#FF8A00] to-[#FFD166]', type: 'burger', delay: 0,
-              pattern: 'repeating-linear-gradient(45deg, rgba(255,255,255,0.55) 0px, rgba(255,255,255,0.55) 2px, transparent 2px, transparent 12px)',
-            },
-            {
-              label: 'Stack Tower', sub: 'Stack it up!', to: '/games/stack', gradient: 'from-[#3B82F6] to-[#6366F1]', type: 'stack', delay: 0.25,
-              pattern: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 3px, transparent 3px, transparent 14px)',
-            },
-            {
-              label: 'Daily Spin', sub: 'Free spin daily', to: '/games/spin', gradient: 'from-[#22C55E] to-[#86EFAC]', type: 'spin', delay: 0.5,
-              pattern: 'repeating-radial-gradient(circle, rgba(255,255,255,0.55) 0px, rgba(255,255,255,0.55) 2px, transparent 2px, transparent 10px)',
-            },
-          ] as const).map(g => (
-            <motion.button
-              key={g.label}
-              whileHover={{ y: -6, scale: 1.04 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigate(g.to)}
-              className={`shrink-0 w-[148px] h-[168px] rounded-[1.75rem] relative overflow-hidden shadow-lg bg-gradient-to-br ${g.gradient} flex flex-col items-center justify-between text-center p-3.5`}
-            >
-              <div className="absolute inset-0 opacity-30 pointer-events-none" style={{ backgroundImage: g.pattern }} />
-              <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-white/10 rounded-full blur-xl pointer-events-none" />
-
-              <motion.div
-                animate={{ y: [0, -5, 0] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut', delay: g.delay }}
-                className="w-16 h-16 rounded-full bg-white shadow-md flex items-center justify-center mt-1 relative z-10 shrink-0"
-              >
-                {g.type === 'burger' && <img src="/burger-mascot.png" alt="" className="w-11 h-11 object-contain" />}
-                {g.type === 'stack' && <Layers size={28} className="text-[#3B82F6]" />}
-                {g.type === 'spin'  && <Dices  size={28} className="text-[#22C55E]" />}
-              </motion.div>
-
-              <div className="z-10">
-                <p className="font-bold text-white text-xs leading-tight">{g.label}</p>
-                <p className="text-white/75 text-[10px] mt-0.5">{g.sub}</p>
-              </div>
-
-              <span className="z-10 px-3 py-1 bg-white/25 backdrop-blur-sm rounded-full text-[10px] font-bold text-white border border-white/30">Play →</span>
-            </motion.button>
           ))}
         </div>
       </div>

@@ -35,7 +35,7 @@ const spinSchema = z.object({
 // These never modify points_balance. Score milestones grant a voucher, deduped
 // per user per game via the game_reward_log UNIQUE constraint.
 
-type GameKey = 'FLAPPY' | 'STACK'
+type GameKey = 'FLAPPY' | 'STACK' | 'SLICER' | 'BUBBLE' | 'ROAD'
 
 // Score milestones -> voucher discount value (RM). Tune freely.
 const MILESTONES: Record<GameKey, { score: number; reward: number }[]> = {
@@ -51,14 +51,34 @@ const MILESTONES: Record<GameKey, { score: number; reward: number }[]> = {
     { score: 40, reward: 5 },
     { score: 75, reward: 10 },
   ],
+  SLICER: [
+    { score: 20,  reward: 1 },
+    { score: 50,  reward: 2 },
+    { score: 100, reward: 5 },
+    { score: 200, reward: 10 },
+  ],
+  BUBBLE: [
+    { score: 10,  reward: 1 },
+    { score: 25,  reward: 2 },
+    { score: 50,  reward: 5 },
+    { score: 100, reward: 10 },
+  ],
+  ROAD: [
+    { score: 10,  reward: 1 },
+    { score: 25,  reward: 2 },
+    { score: 50,  reward: 5 },
+    { score: 100, reward: 10 },
+  ],
 }
 
 // Reject obviously impossible scores before they touch the DB.
-const MAX_PLAUSIBLE: Record<GameKey, number> = { FLAPPY: 100000, STACK: 100000 }
+const MAX_PLAUSIBLE: Record<GameKey, number> = {
+  FLAPPY: 100000, STACK: 100000, SLICER: 100000, BUBBLE: 100000, ROAD: 100000,
+}
 
 const scoreSchema = z.object({
   card_uid: z.string().min(4).max(20),
-  game: z.enum(['FLAPPY', 'STACK']),
+  game: z.enum(['FLAPPY', 'STACK', 'SLICER', 'BUBBLE', 'ROAD']),
   score: z.number().int().min(0),
 })
 
@@ -184,8 +204,9 @@ router.get('/leaderboard', async (req: Request, res: Response): Promise<void> =>
   const game = String(req.query.game ?? '').toUpperCase()
   const limit = Math.min(Number(req.query.limit ?? 10) || 10, 50)
 
-  if (game !== 'FLAPPY' && game !== 'STACK') {
-    res.status(400).json({ success: false, error: 'INVALID_GAME', message: 'game must be FLAPPY or STACK' })
+  const VALID_GAMES = ['FLAPPY', 'STACK', 'SLICER', 'BUBBLE', 'ROAD']
+  if (!VALID_GAMES.includes(game)) {
+    res.status(400).json({ success: false, error: 'INVALID_GAME', message: `game must be one of ${VALID_GAMES.join(', ')}` })
     return
   }
 
