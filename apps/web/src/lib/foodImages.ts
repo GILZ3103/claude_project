@@ -56,6 +56,37 @@ const NAME_KEYWORDS: [RegExp, string][] = [
 
 const norm = (s?: string | null) => (s ?? '').trim().toLowerCase()
 
+// Hand-picked photos for specific dishes (Wikimedia Commons — free to hotlink),
+// keyed by exact food name (lowercased). Takes precedence over keyword guessing
+// so each dish shows its real food instead of a generic bucket image.
+const WIKI_NASI_LEMAK = 'https://upload.wikimedia.org/wikipedia/commons/5/55/Nasi_Lemak_dengan_Chili_Nasi_Lemak_dan_Sotong_Pedas%2C_di_Penang_Summer_Restaurant.jpg'
+const WIKI_ROTI = 'https://upload.wikimedia.org/wikipedia/commons/5/56/Canai.jpg'
+const WIKI_CCF = 'https://upload.wikimedia.org/wikipedia/commons/2/2e/A_Steam_White_Rice_Noodle_Rolls_from_KC_Chinese_Restaurant.jpg'
+const WIKI_COCONUT = 'https://upload.wikimedia.org/wikipedia/commons/7/78/Young_Coconut_Drink.jpg'
+const WIKI_MEE_GORENG = 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Mee_Goreng_Mamak.jpg'
+
+const NAME_EXACT: Record<string, string> = {
+  'young coconut': WIKI_COCONUT,
+  'coconut shake': WIKI_COCONUT,
+  'green smoothie': 'https://upload.wikimedia.org/wikipedia/commons/1/10/Green_Smoothie.jpg',
+  'milo ais': 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Iced_Milo.jpg',
+  'teh tarik': 'https://upload.wikimedia.org/wikipedia/commons/1/1b/Teh_tarik_man_pulling_tea.jpg',
+  'kacang putih pao pao': 'https://upload.wikimedia.org/wikipedia/commons/8/87/Muruku-Home-AndhraPradesh-015.jpg',
+  'grilled whole squid': PHOTOS.seafood,
+  'cendol': 'https://upload.wikimedia.org/wikipedia/commons/9/9a/ChendolMalaysia.jpg',
+  'chee cheong fun': WIKI_CCF,
+  'ccf with char siu': WIKI_CCF,
+  'roti canai': WIKI_ROTI,
+  'roti telur': WIKI_ROTI,
+  'grain bowl': 'https://upload.wikimedia.org/wikipedia/commons/5/53/BuddhaBowlLot.jpg',
+  'nasi lemak telur': WIKI_NASI_LEMAK,
+  'nasi lemak ikan bilis': WIKI_NASI_LEMAK,
+  'nasi lemak ayam': WIKI_NASI_LEMAK,
+  'kuey teow goreng': 'https://upload.wikimedia.org/wikipedia/commons/0/04/Char_kway_teow.jpg',
+  'mee goreng udang': WIKI_MEE_GORENG,
+  'mee goreng biasa': WIKI_MEE_GORENG,
+}
+
 // Stable index from a string so the same item always gets the same default photo.
 function hashIndex(seed: string, len: number): number {
   let h = 0
@@ -86,6 +117,8 @@ export function getFoodImage(item: {
   food_item_id?: string
 }): string {
   if (item.photo_url) return item.photo_url
+  const exact = NAME_EXACT[norm(item.name)]
+  if (exact) return exact
   return fallbackImage(item.name, item.category, item.food_item_id || item.food_id || item.name || '')
 }
 
