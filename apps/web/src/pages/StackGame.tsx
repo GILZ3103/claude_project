@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'motion/react'
-import { ArrowLeft, Hand } from 'lucide-react'
+import { ArrowLeft, Hand, Volume2, VolumeX } from 'lucide-react'
 import { useCard } from '../context/CardContext'
 import { submitGameScore, type GameScoreResult } from '../lib/api'
 import { useGameLoop } from '../lib/useGameLoop'
+import { useGameMusic } from '../lib/useGameMusic'
 import { Celebration } from '../components/games/Celebration'
 
 type Phase = 'ready' | 'playing' | 'over'
@@ -39,6 +40,7 @@ export default function StackGame() {
   const [score, setScore] = useState(0)
   const [result, setResult] = useState<GameScoreResult | null>(null)
   const [submitting, setSubmitting] = useState(false)
+  const { muted, toggleMuted } = useGameMusic(phase === 'playing')
 
   const setPhaseBoth = (p: Phase) => { phaseRef.current = p; setPhase(p) }
 
@@ -67,21 +69,35 @@ export default function StackGame() {
     // Background — deep slate so colourful blocks pop
     const bg = ctx.createLinearGradient(0, 0, 0, h)
     bg.addColorStop(0, '#2D2A3E')
-    bg.addColorStop(1, '#1A1A1A')
+    bg.addColorStop(1, '#141422')
     ctx.fillStyle = bg
     ctx.fillRect(0, 0, w, h)
+    // soft top glow + faint stars
+    const glow = ctx.createRadialGradient(w * 0.5, h * 0.18, 0, w * 0.5, h * 0.18, w * 0.7)
+    glow.addColorStop(0, 'rgba(34,211,238,0.14)')
+    glow.addColorStop(1, 'rgba(34,211,238,0)')
+    ctx.fillStyle = glow
+    ctx.fillRect(0, 0, w, h)
+    for (let i = 0; i < 14; i++) {
+      const sx = (((i * 71) % 100) / 100) * w
+      const sy = (((i * 137) % 100) / 100) * h * 0.7
+      ctx.fillStyle = `rgba(255,255,255,${0.06 + (i % 3) * 0.03})`
+      ctx.fillRect(sx, sy, 2, 2)
+    }
 
     const n = blocks.length
 
-    // Placed blocks
+    // Placed blocks — colour + top gloss + bottom shade for depth
     for (let i = 0; i < n; i++) {
       const b = blocks[i]
       const y = topScreen + (n - i) * blockH - shift
       ctx.fillStyle = colorForLevel(i)
       roundRect(ctx, b.x, y, b.width, blockH - 2, 6)
       ctx.fill()
-      ctx.fillStyle = 'rgba(255,255,255,0.18)'
+      ctx.fillStyle = 'rgba(255,255,255,0.22)'
       ctx.fillRect(b.x + 4, y + 3, b.width - 8, 3)
+      ctx.fillStyle = 'rgba(0,0,0,0.18)'
+      ctx.fillRect(b.x + 4, y + blockH - 6, b.width - 8, 3)
     }
 
     // Moving block (steady at topScreen)
@@ -254,7 +270,9 @@ export default function StackGame() {
           <ArrowLeft size={18} /> Games
         </button>
         <h1 className="font-bold text-[#1A1A1A]">Stack Tower</h1>
-        <div className="w-16" />
+        <button onClick={toggleMuted} aria-label={muted ? 'Unmute music' : 'Mute music'} className="w-16 flex justify-end text-[#6B7280] hover:text-[#1A1A1A]">
+          {muted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </button>
       </div>
 
       <div className="flex-1 min-h-0 flex items-center justify-center px-4 pb-6">

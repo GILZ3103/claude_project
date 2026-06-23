@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'motion/react'
-import { ArrowLeft, Play } from 'lucide-react'
+import { ArrowLeft, Play, Volume2, VolumeX } from 'lucide-react'
 import { useCard } from '../context/CardContext'
 import { submitGameScore, type GameScoreResult } from '../lib/api'
 import { useGameLoop } from '../lib/useGameLoop'
+import { useGameMusic } from '../lib/useGameMusic'
 import { Celebration } from '../components/games/Celebration'
 import { MASCOT } from '../lib/mascot'
 
@@ -44,6 +45,7 @@ export default function RotiRoad() {
   const [score, setScore] = useState(0)
   const [result, setResult] = useState<GameScoreResult | null>(null)
   const [submitting, setSubmitting] = useState(false)
+  const { muted, toggleMuted } = useGameMusic(phase === 'playing')
 
   const setPhaseBoth = (p: Phase) => { phaseRef.current = p; setPhase(p) }
 
@@ -103,17 +105,33 @@ export default function RotiRoad() {
       const y = laneScreenY(world, idx) - cell  // top of the row
       // Lane background
       if (lane.road) {
-        ctx.fillStyle = idx % 2 === 0 ? '#3F3F46' : '#52525B'
+        const road = ctx.createLinearGradient(0, y, 0, y + cell)
+        road.addColorStop(0, idx % 2 === 0 ? '#44444B' : '#4E4E55')
+        road.addColorStop(1, idx % 2 === 0 ? '#34343A' : '#3F3F46')
+        ctx.fillStyle = road
         ctx.fillRect(0, y, w, cell)
-        // dashed center line
-        ctx.strokeStyle = 'rgba(255,255,255,0.5)'
+        // curb edges (top + bottom)
+        ctx.fillStyle = 'rgba(0,0,0,0.28)'
+        ctx.fillRect(0, y, w, cell * 0.04)
+        ctx.fillRect(0, y + cell - cell * 0.04, w, cell * 0.04)
+        // dashed center line (warm yellow)
+        ctx.strokeStyle = 'rgba(253,224,71,0.85)'
         ctx.lineWidth = 2
         ctx.setLineDash([cell * 0.3, cell * 0.3])
         ctx.beginPath(); ctx.moveTo(0, y + cell / 2); ctx.lineTo(w, y + cell / 2); ctx.stroke()
         ctx.setLineDash([])
       } else {
-        ctx.fillStyle = idx % 2 === 0 ? '#34D399' : '#6EE7B7'
+        const grass = ctx.createLinearGradient(0, y, 0, y + cell)
+        grass.addColorStop(0, idx % 2 === 0 ? '#34D399' : '#43DEA0')
+        grass.addColorStop(1, idx % 2 === 0 ? '#2BB587' : '#34D399')
+        ctx.fillStyle = grass
         ctx.fillRect(0, y, w, cell)
+        // scattered grass tufts (deterministic per lane)
+        ctx.fillStyle = 'rgba(255,255,255,0.10)'
+        for (let t = 0; t < 5; t++) {
+          const gx = (((idx * 53 + t * 211) % 100) / 100) * w
+          ctx.fillRect(gx, y + cell * 0.3, 2, cell * 0.18)
+        }
       }
 
       // Cars
@@ -121,15 +139,20 @@ export default function RotiRoad() {
         for (let ci = 0; ci < lane.cars.length; ci++) {
           const car = lane.cars[ci]
           const cx = car.x
+          // shadow
+          ctx.fillStyle = 'rgba(0,0,0,0.25)'
+          roundRect(ctx, cx + 3, y + cell * 0.22 + 3, car.w, cell * 0.64, cell * 0.18); ctx.fill()
+          // body
           ctx.fillStyle = CAR_COLORS[(idx * 7 + ci) % CAR_COLORS.length]
-          roundRect(ctx, cx, y + cell * 0.18, car.w, cell * 0.64, cell * 0.18)
-          ctx.fill()
+          roundRect(ctx, cx, y + cell * 0.18, car.w, cell * 0.64, cell * 0.18); ctx.fill()
+          // roof highlight
+          ctx.fillStyle = 'rgba(255,255,255,0.16)'
+          roundRect(ctx, cx, y + cell * 0.18, car.w, cell * 0.2, cell * 0.18); ctx.fill()
           // windshield
-          ctx.fillStyle = 'rgba(255,255,255,0.6)'
+          ctx.fillStyle = 'rgba(255,255,255,0.7)'
           const ws = car.w * 0.22
           const wx = lane.dir > 0 ? cx + car.w - ws - cell * 0.12 : cx + cell * 0.12
-          roundRect(ctx, wx, y + cell * 0.26, ws, cell * 0.46, cell * 0.08)
-          ctx.fill()
+          roundRect(ctx, wx, y + cell * 0.26, ws, cell * 0.46, cell * 0.08); ctx.fill()
         }
       }
     }
@@ -313,7 +336,9 @@ export default function RotiRoad() {
           <ArrowLeft size={18} /> Games
         </button>
         <h1 className="font-bold text-[#1A1A1A]">Roti Road</h1>
-        <div className="w-16" />
+        <button onClick={toggleMuted} aria-label={muted ? 'Unmute music' : 'Mute music'} className="w-16 flex justify-end text-[#6B7280] hover:text-[#1A1A1A]">
+          {muted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </button>
       </div>
 
       {/* Game stage */}

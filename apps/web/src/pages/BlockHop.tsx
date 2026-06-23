@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'motion/react'
-import { ArrowLeft, Play } from 'lucide-react'
+import { ArrowLeft, Play, Volume2, VolumeX } from 'lucide-react'
 import { useCard } from '../context/CardContext'
 import { submitGameScore, type GameScoreResult } from '../lib/api'
 import { useGameLoop } from '../lib/useGameLoop'
+import { useGameMusic } from '../lib/useGameMusic'
 import { Celebration } from '../components/games/Celebration'
 import { MASCOT } from '../lib/mascot'
 
@@ -49,6 +50,7 @@ export default function BlockHop() {
   const [charge, setCharge] = useState(0)
   const [result, setResult] = useState<GameScoreResult | null>(null)
   const [submitting, setSubmitting] = useState(false)
+  const { muted, toggleMuted } = useGameMusic(phase === 'playing')
 
   const setPhaseBoth = (p: Phase) => { phaseRef.current = p; setPhase(p) }
 
@@ -90,30 +92,55 @@ export default function BlockHop() {
 
     // Sky
     const sky = ctx.createLinearGradient(0, 0, 0, h)
-    sky.addColorStop(0, '#5B21B6')
-    sky.addColorStop(0.6, '#7C3AED')
+    sky.addColorStop(0, '#4C1D95')
+    sky.addColorStop(0.55, '#7C3AED')
     sky.addColorStop(1, '#C4B5FD')
     ctx.fillStyle = sky
     ctx.fillRect(0, 0, w, h)
 
-    // Blocks
+    // Soft bokeh dots, drifting with the camera (parallax)
+    for (let i = 0; i < 6; i++) {
+      const bx = (((i * 137.5 - scrollX * 0.15) % (w + 80)) + w + 80) % (w + 80) - 40
+      const by = h * (0.08 + (i % 3) * 0.13)
+      ctx.fillStyle = `rgba(255,255,255,${0.05 + (i % 2) * 0.04})`
+      ctx.beginPath(); ctx.arc(bx, by, 16 + (i % 3) * 10, 0, Math.PI * 2); ctx.fill()
+    }
+
+    // Parallax hills
+    const hill = (color: string, base: number, amp: number, speed: number) => {
+      ctx.fillStyle = color
+      ctx.beginPath(); ctx.moveTo(0, h)
+      const off = (scrollX * speed) % 120
+      for (let x = -off; x <= w + 120; x += 60) ctx.quadraticCurveTo(x + 30, base - amp, x + 60, base)
+      ctx.lineTo(w, h); ctx.closePath(); ctx.fill()
+    }
+    hill('rgba(167,139,250,0.40)', h * 0.60, h * 0.05, 0.10)
+    hill('rgba(124,58,237,0.45)', h * 0.66, h * 0.04, 0.18)
+
+    // Blocks — glossy pillars with shadow + gradient
     for (let i = 0; i < world.blocks.length; i++) {
       const b = world.blocks[i]
       const bx = b.x - scrollX - b.w / 2
-      // body
-      ctx.fillStyle = i === 0 ? '#FCD34D' : '#F472B6'
-      roundRect(ctx, bx, b.top, b.w, blockH, 10)
-      ctx.fill()
-      // top highlight
-      ctx.fillStyle = 'rgba(255,255,255,0.45)'
-      roundRect(ctx, bx, b.top, b.w, blockH * 0.18, 8)
-      ctx.fill()
-      // centre dot (aim helper) on target block
+      const tall = h - b.top
+      // drop shadow
+      ctx.fillStyle = 'rgba(0,0,0,0.18)'
+      roundRect(ctx, bx + 4, b.top + 5, b.w, tall, 12); ctx.fill()
+      // body gradient
+      const g = ctx.createLinearGradient(bx, b.top, bx, b.top + tall)
+      if (i === 0) { g.addColorStop(0, '#FDE68A'); g.addColorStop(1, '#F59E0B') }
+      else { g.addColorStop(0, '#F9A8D4'); g.addColorStop(1, '#DB2777') }
+      ctx.fillStyle = g
+      roundRect(ctx, bx, b.top, b.w, tall, 12); ctx.fill()
+      // glossy top band
+      ctx.fillStyle = 'rgba(255,255,255,0.5)'
+      roundRect(ctx, bx, b.top, b.w, blockH * 0.16, 10); ctx.fill()
+      // target marker on the next block
       if (i === 1) {
-        ctx.fillStyle = 'rgba(255,255,255,0.85)'
-        ctx.beginPath()
-        ctx.arc(bx + b.w / 2, b.top + blockH * 0.45, Math.max(3, b.w * 0.04), 0, Math.PI * 2)
-        ctx.fill()
+        const cx = bx + b.w / 2, cy = b.top + blockH * 0.4
+        ctx.fillStyle = 'rgba(255,255,255,0.9)'
+        ctx.beginPath(); ctx.arc(cx, cy, Math.max(3, b.w * 0.05), 0, Math.PI * 2); ctx.fill()
+        ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 2
+        ctx.beginPath(); ctx.arc(cx, cy, Math.max(8, b.w * 0.11), 0, Math.PI * 2); ctx.stroke()
       }
     }
 
@@ -292,7 +319,9 @@ export default function BlockHop() {
           <ArrowLeft size={18} /> Games
         </button>
         <h1 className="font-bold text-[#1A1A1A]">Block Hop</h1>
-        <div className="w-16" />
+        <button onClick={toggleMuted} aria-label={muted ? 'Unmute music' : 'Mute music'} className="w-16 flex justify-end text-[#6B7280] hover:text-[#1A1A1A]">
+          {muted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </button>
       </div>
 
       {/* Game stage */}

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'motion/react'
-import { ArrowLeft, Play } from 'lucide-react'
+import { ArrowLeft, Play, Volume2, VolumeX } from 'lucide-react'
 import { useCard } from '../context/CardContext'
 import { submitGameScore, type GameScoreResult } from '../lib/api'
 import { useGameLoop } from '../lib/useGameLoop'
+import { useGameMusic } from '../lib/useGameMusic'
 import { Celebration } from '../components/games/Celebration'
 
 type Phase = 'ready' | 'playing' | 'over'
@@ -57,6 +58,7 @@ export default function IngredientSlicer() {
   const [misses, setMisses] = useState(0)
   const [result, setResult] = useState<GameScoreResult | null>(null)
   const [submitting, setSubmitting] = useState(false)
+  const { muted, toggleMuted } = useGameMusic(phase === 'playing')
 
   const setPhaseBoth = (p: Phase) => { phaseRef.current = p; setPhase(p) }
 
@@ -101,11 +103,16 @@ export default function IngredientSlicer() {
     if (!ctx) return
     const { w, h, items, splashes } = world
 
-    // Background — warm kitchen gradient
+    // Background — moody kitchen gradient with a soft spotlight
     const bg = ctx.createLinearGradient(0, 0, 0, h)
-    bg.addColorStop(0, '#2A2342')
+    bg.addColorStop(0, '#241D3A')
     bg.addColorStop(1, '#4C2A6B')
     ctx.fillStyle = bg
+    ctx.fillRect(0, 0, w, h)
+    const glow = ctx.createRadialGradient(w * 0.5, h * 0.42, 0, w * 0.5, h * 0.42, w * 0.75)
+    glow.addColorStop(0, 'rgba(236,72,153,0.18)')
+    glow.addColorStop(1, 'rgba(236,72,153,0)')
+    ctx.fillStyle = glow
     ctx.fillRect(0, 0, w, h)
 
     // Splashes (juice bursts)
@@ -127,6 +134,9 @@ export default function IngredientSlicer() {
       ctx.translate(it.x, it.y)
       ctx.rotate(it.rot)
       ctx.font = `${it.r * 2}px serif`
+      ctx.shadowColor = 'rgba(0,0,0,0.35)'
+      ctx.shadowBlur = it.r * 0.4
+      ctx.shadowOffsetY = it.r * 0.18
       ctx.fillText(it.emoji, 0, 0)
       ctx.restore()
     }
@@ -319,7 +329,9 @@ export default function IngredientSlicer() {
           <ArrowLeft size={18} /> Games
         </button>
         <h1 className="font-bold text-[#1A1A1A]">Ingredient Slicer</h1>
-        <div className="w-16" />
+        <button onClick={toggleMuted} aria-label={muted ? 'Unmute music' : 'Mute music'} className="w-16 flex justify-end text-[#6B7280] hover:text-[#1A1A1A]">
+          {muted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </button>
       </div>
 
       {/* Game stage */}
