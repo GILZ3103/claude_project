@@ -52,7 +52,7 @@ export default function AiChat() {
         onClick={() => setOpen(v => !v)}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.93 }}
-        className="fixed bottom-24 md:bottom-6 right-4 z-50 w-28 h-28 flex items-end justify-center drop-shadow-2xl"
+        className="fixed bottom-24 md:bottom-6 right-4 z-50 w-24 h-24 flex items-center justify-center drop-shadow-2xl"
         aria-label="AI Assistant"
       >
         <AnimatePresence mode="wait">
@@ -72,7 +72,7 @@ export default function AiChat() {
               initial={{ rotate: 90, opacity: 0, scale: 0.7 }}
               animate={{ rotate: 0, opacity: 1, scale: 1 }}
               exit={{ rotate: -90, opacity: 0, scale: 0.7 }}
-              className="w-16 h-16 rounded-full bg-gradient-to-br from-[#FF8A00] to-[#FFD166] flex items-center justify-center shadow-lg text-3xl select-none"
+              className="flex items-center justify-center text-8xl leading-none select-none"
               role="img"
               aria-label="WarungTek Assistant"
             >

@@ -34,7 +34,10 @@ function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => 
   const { card } = useCard()
   const onAuthPage = pathname === '/'
   const showTopNav = !onAuthPage && !!card
-  const showAiChat = showTopNav && card?.role !== 'ADMIN'
+  // Hide the assistant during gameplay so its floating button can't intercept
+  // taps on the game canvas (e.g. /games/jump). The hub (/games) still shows it.
+  const onGamePlay = pathname.startsWith('/games/')
+  const showAiChat = showTopNav && card?.role !== 'ADMIN' && !onGamePlay
 
   return (
     <div className={`min-h-screen bg-gray-50 ${showTopNav ? 'pt-14 pb-16 md:pb-0' : ''}`}>
