@@ -266,7 +266,7 @@ export default function Dashboard() {
         </div>
 
         {/* Quick-access icon tiles — circular, KFC-style */}
-        <div className="flex gap-5 mb-4 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="flex gap-5 mb-4 overflow-x-auto pt-3 pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {[
             { label: 'Vouchers', Icon: Gift, ring: 'from-[#3B82F6] to-[#6366F1]', to: '/vouchers', badge: vouchers.length > 0 ? String(vouchers.length) : null },
             { label: 'Games', Icon: Gamepad2, ring: 'from-[#FF8A00] to-[#FFD166]', to: '/games', badge: 'PLAY' },
@@ -284,7 +284,7 @@ export default function Dashboard() {
                   <t.Icon size={26} className="text-white" />
                 </div>
                 {t.badge && (
-                  <span className="absolute -top-1 -right-1 bg-[#1A1A1A] text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full shadow-sm leading-none">
+                  <span className="absolute -top-2 -right-2 z-10 bg-[#1A1A1A] text-white text-[10px] font-extrabold px-2 py-1 rounded-full shadow-md leading-none">
                     {t.badge}
                   </span>
                 )}

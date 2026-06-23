@@ -52,8 +52,8 @@ export default function AiChat() {
         onClick={() => setOpen(v => !v)}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.93 }}
-        className="fixed bottom-24 md:bottom-6 right-4 z-50 w-24 h-24 flex items-center justify-center drop-shadow-2xl"
-        aria-label="AI Assistant"
+        className="fixed bottom-24 md:bottom-6 right-4 z-50 flex flex-col items-center justify-end drop-shadow-2xl"
+        aria-label="Pipi, AI Assistant"
       >
         <AnimatePresence mode="wait">
           {open ? (
@@ -72,11 +72,13 @@ export default function AiChat() {
               initial={{ rotate: 90, opacity: 0, scale: 0.7 }}
               animate={{ rotate: 0, opacity: 1, scale: 1 }}
               exit={{ rotate: -90, opacity: 0, scale: 0.7 }}
-              className="flex items-center justify-center text-8xl leading-none select-none"
-              role="img"
-              aria-label="WarungTek Assistant"
+              className="flex flex-col items-center select-none"
             >
-              {MASCOT}
+              <span className="text-8xl leading-none" role="img" aria-label="Pipi">{MASCOT}</span>
+              <div className="-mt-1 px-2.5 py-1 rounded-2xl bg-white shadow-md text-center leading-none">
+                <p className="text-[12px] font-extrabold text-[#1A1A1A]">Pipi</p>
+                <p className="text-[8px] font-semibold text-[#6B7280] uppercase tracking-wide mt-0.5">AI Assistant</p>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

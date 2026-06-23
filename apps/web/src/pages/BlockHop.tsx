@@ -302,7 +302,8 @@ export default function BlockHop() {
           onPointerDown={startCharge}
           onPointerUp={releaseJump}
           onPointerLeave={releaseJump}
-          className="relative h-full max-h-[680px] w-auto max-w-full aspect-[2/3] rounded-[1.75rem] overflow-hidden shadow-xl border border-violet-200 select-none touch-none cursor-pointer"
+          className="relative rounded-[1.75rem] overflow-hidden shadow-xl border border-violet-200 select-none touch-none cursor-pointer"
+          style={{ width: 'min(92vw, calc((100dvh - 12rem) * 0.6667), 453px)', aspectRatio: '2 / 3' }}
         >
           <canvas ref={canvasRef} className="absolute inset-0" />
 
