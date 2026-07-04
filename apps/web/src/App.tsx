@@ -22,6 +22,7 @@ import { TopNav } from './components/TopNav'
 import MiniGame from './pages/MiniGame'
 import GamesHub from './pages/GamesHub'
 import IngredientSlicer from './pages/IngredientSlicer'
+import FlappyGame from './pages/FlappyGame'
 import BlockHop from './pages/BlockHop'
 import RotiRoad from './pages/RotiRoad'
 import StackGame from './pages/StackGame'
@@ -60,7 +61,7 @@ function AppLayout({ mode, setMode }: { mode: AppMode; setMode: (m: AppMode) => 
         <Route path="/games/jump" element={<BlockHop />} />
         <Route path="/games/road" element={<RotiRoad />} />
         <Route path="/games/stack" element={<StackGame />} />
-        <Route path="/games/flappy" element={<Navigate to="/games/slicer" replace />} />
+        <Route path="/games/flappy" element={<FlappyGame />} />
         <Route path="/games/boba" element={<Navigate to="/games/jump" replace />} />
         <Route path="/game" element={<Navigate to="/games" replace />} />
         <Route path="/food/:id" element={<FoodDetail />} />

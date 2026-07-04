@@ -80,10 +80,18 @@ stall — no app install required on supported Android, and a smoother native pa
 Capacitor build. See [map navigation](docs/features/map-navigation.md).
 
 ### 2.9 AI assistant
-A floating assistant (Gemini 2.0 Flash) answers questions and recommends meals within a calorie
+A floating assistant (DeepSeek V4.0) answers questions and recommends meals within a calorie
 budget, surfaced both in the app and as the kiosk's meal planner
 ([`backend/src/routes/ai.ts`](backend/src/routes/ai.ts),
 [`apps/web/src/components/AiChat.tsx`](apps/web/src/components/AiChat.tsx)).
+
+### 2.10 Engagement games & mascot
+The consumer app carries a light engagement layer: a games hub — Flappy Burger, Stack Tower, Block
+Hop, Ingredient Slicer, Roti Road, and a daily spin — where each game is a self-contained page
+driven by shared hooks (`useGameLoop`, `useGameBackground`, `useGameMusic`) with in-game music. A
+friendly chick mascot fronts the AI assistant and the game intros
+([`GamesHub.tsx`](apps/web/src/pages/GamesHub.tsx), [`FlappyGame.tsx`](apps/web/src/pages/FlappyGame.tsx),
+[`BlockHop.tsx`](apps/web/src/pages/BlockHop.tsx)).
 
 ---
 
@@ -107,7 +115,7 @@ flowchart LR
     subgraph Data["DATA — Supabase"]
         PG[("PostgreSQL")]
     end
-    AI["Gemini 2.0 Flash"]
+    AI["DeepSeek V4.0"]
 
     Web --> Express
     Kiosk --> Express
@@ -130,7 +138,10 @@ flowchart LR
 | Database | PostgreSQL | Supabase |
 | Vendor terminal | ESP32 · Arduino C++ · MFRC522 · HX711 · BLE · WiFi/HTTPS | On-device |
 | Kiosk daemons | Python · Flask · `mfrc522` · InsightFace · OpenCV | On-device (Pi 5) |
-| AI | Google Gemini 2.0 Flash | Via backend |
+| AI | DeepSeek V4.0 | Via backend |
+
+The consumer web app also bundles an engagement layer — the games hub and chick mascot — built on
+shared game hooks (`useGameLoop` / `useGameBackground` / `useGameMusic`) and in-game audio.
 
 Backend route map (mounted in [`backend/src/index.ts`](backend/src/index.ts)):
 `/api/auth` · `/api/cards` · `/api/vendors` · `/api/tap` (+ `/api/tap/sync`) · `/api/campaigns`
@@ -285,7 +296,9 @@ Schema and migrations live in [`database/`](database/) (`schema.sql` + `migratio
 | Load-cell weighing & calibration | [docs/features/load-cell-calibration.md](docs/features/load-cell-calibration.md) | — |
 | NFC reading (3 surfaces) | [docs/features/nfc-reading.md](docs/features/nfc-reading.md) | — |
 | Multi-terminal backend sync | [docs/backend-sync-dataflow.md](docs/backend-sync-dataflow.md) | — |
+| Full technical report (architecture · data flow · hardware · MCP tools · deploy) | [docs/technical-report.md](docs/technical-report.md) | — |
+| Design decisions: doubts, challenges & solutions | [docs/system-design-critical-thinking.md](docs/system-design-critical-thinking.md) | — |
 
 ---
 
-*React 19 · TypeScript · Express · PostgreSQL (Supabase) · Render · Vercel · ESP32 · Raspberry Pi 5 · Gemini 2.0 Flash*
+*React 19 · TypeScript · Express · PostgreSQL (Supabase) · Render · Vercel · ESP32 · Raspberry Pi 5 · DeepSeek V4.0*

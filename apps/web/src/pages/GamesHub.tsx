@@ -36,6 +36,12 @@ const GAMES: GameDef[] = [
     icon: <span className="text-2xl leading-none">🚗</span>,
   },
   {
+    key: 'FLAPPY', title: 'Flappy Burger', blurb: 'Flap through the satay sticks', to: '/games/flappy',
+    gradient: 'from-[#FF8A00] to-[#F97316]', scored: true,
+    pattern: 'repeating-linear-gradient(45deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 3px, transparent 3px, transparent 14px)',
+    icon: <img src="/burger-mascot.png" alt="" className="w-9 h-9 object-contain" />,
+  },
+  {
     key: 'STACK', title: 'Stack Tower', blurb: 'Stack ingredients sky-high', to: '/games/stack',
     gradient: 'from-[#0EA5E9] to-[#22D3EE]', scored: true,
     pattern: 'repeating-linear-gradient(0deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 3px, transparent 3px, transparent 14px)',
@@ -49,7 +55,7 @@ const GAMES: GameDef[] = [
   },
 ]
 
-const SCORED_KEYS: GameKey[] = ['SLICER', 'JUMP', 'ROAD', 'STACK']
+const SCORED_KEYS: GameKey[] = ['SLICER', 'JUMP', 'ROAD', 'STACK', 'FLAPPY']
 
 export default function GamesHub() {
   const { card } = useCard()

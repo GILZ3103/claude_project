@@ -20,7 +20,7 @@ tap.
 
 | Role | Where | What they do |
 |---|---|---|
-| 🧑 **Consumer** | Web / mobile app | Link & top up an NFC card, tap to pay at stalls, track calories, join campaigns, redeem vouchers, navigate the market |
+| 🧑 **Consumer** | Web / mobile app | Link & top up an NFC card, tap to pay at stalls, track calories, join campaigns, redeem vouchers, navigate the market, play mini-games with a chick mascot |
 | 🏪 **Vendor** | Web app (mode toggle) + onboarding app | Register a stall, manage a menu with weight pricing, calibrate the terminal, join campaigns, submit subsidy claims |
 | 🛡️ **Admin** | Web app (`/admin`) | Approve vendor applications, review campaign applications, assign stall grid slots, monitor compliance |
 
@@ -70,7 +70,7 @@ to the Express API on Render, which holds the only Supabase service key.
 | Face daemon (`daemon/face/`) | Pi 5 — `localhost:5002` | ✅ On-device recognition |
 | ESP32 vendor terminal | On-device | ✅ Two-tap weighing + NFC tap |
 | BLE indoor positioning | ESP32 beacons + phone | ✅ Demo / Android + native app |
-| AI (chat + meal advisor) | Gemini 2.0 Flash via backend | ✅ Live |
+| AI (chat + meal advisor) | DeepSeek V4.0 via backend | ✅ Live |
 
 ---
 
@@ -81,7 +81,7 @@ to the Express API on Render, which holds the only Supabase service key.
 | Frontend | React 19 · TypeScript · Vite · Tailwind CSS · React Router · Recharts · Capacitor (mobile) |
 | Backend | Node.js · Express · TypeScript · Zod · bcryptjs |
 | Database | Supabase (PostgreSQL) |
-| AI | Google Gemini 2.0 Flash (chat assistant + meal advisor) |
+| AI | DeepSeek V4.0 (chat assistant + meal advisor) |
 | Vendor terminal | ESP32 (Arduino C++) · MFRC522 RFID (SPI) · HX711 load cell · BLE beacon · WiFi/HTTPS |
 | Kiosk | Raspberry Pi 5 · Python (Flask) · RC522 (SPI) · InsightFace + OpenCV for face recognition |
 | Positioning | ESP32 BLE beacons · Web Bluetooth / `@capacitor-community/bluetooth-le` · trilateration |
@@ -93,7 +93,7 @@ to the Express API on Render, which holds the only Supabase service key.
 ```
 claude_project/
 ├── apps/
-│   ├── web/         # Consumer + Vendor + Admin app (React, Capacitor mobile build)
+│   ├── web/         # Consumer + Vendor + Admin app (React + Capacitor; games hub in src/pages/)
 │   ├── vendor/      # Vendor onboarding app (register, menu, calibration, claims)
 │   └── kiosk/       # Raspberry Pi 5 directory kiosk (React + Vite)
 ├── backend/         # Express API (routes: auth, cards, vendors, tap, campaigns, map, ai, face)
@@ -143,6 +143,8 @@ Per-app environment variables are listed in the per-app READMEs
 | You want… | Read |
 |---|---|
 | The high-level story: objective, all features, tech stack, **user journeys** | [master.md](master.md) |
+| The full **technical report**: architecture, data flow, hardware, MCP tools, deploy pipeline | [docs/technical-report.md](docs/technical-report.md) |
+| The **design decisions**: doubts, logical challenges & how each was solved | [docs/system-design-critical-thinking.md](docs/system-design-critical-thinking.md) |
 | How data syncs across kiosk / terminal / phone / backend | [docs/backend-sync-dataflow.md](docs/backend-sync-dataflow.md) |
 | Face recognition (kiosk) | [docs/features/face-recognition.md](docs/features/face-recognition.md) → deep dive: [daemon/face/README.md](daemon/face/README.md) |
 | Indoor map navigation (BLE) | [docs/features/map-navigation.md](docs/features/map-navigation.md) → deep dive: [docs/positioning-data-flow.md](docs/positioning-data-flow.md) |

@@ -15,7 +15,7 @@ const agentSchema = z.object({
 router.post('/agent', validate(agentSchema), async (req: Request, res: Response): Promise<void> => {
   const { message, card_uid } = req.body
 
-  // Verify card exists before running the agent (defends against junk UIDs reaching Gemini)
+  // Verify card exists before running the agent (defends against junk UIDs reaching DeepSeek)
   const { data: card } = await supabase
     .from('cards')
     .select('uid')

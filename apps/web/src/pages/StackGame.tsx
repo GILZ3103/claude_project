@@ -6,6 +6,7 @@ import { useCard } from '../context/CardContext'
 import { submitGameScore, type GameScoreResult } from '../lib/api'
 import { useGameLoop } from '../lib/useGameLoop'
 import { useGameMusic } from '../lib/useGameMusic'
+import { useGameBackground } from '../lib/useGameBackground'
 import { Celebration } from '../components/games/Celebration'
 
 type Phase = 'ready' | 'playing' | 'over'
@@ -41,6 +42,7 @@ export default function StackGame() {
   const [result, setResult] = useState<GameScoreResult | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const { muted, toggleMuted } = useGameMusic(phase === 'playing')
+  const drawBackground = useGameBackground()
 
   const setPhaseBoth = (p: Phase) => { phaseRef.current = p; setPhase(p) }
 
@@ -66,23 +68,25 @@ export default function StackGame() {
     if (!ctx) return
     const { w, h, blockH, topScreen, blocks, moving, shift, falling } = world
 
-    // Background — deep slate so colourful blocks pop
-    const bg = ctx.createLinearGradient(0, 0, 0, h)
-    bg.addColorStop(0, '#2D2A3E')
-    bg.addColorStop(1, '#141422')
-    ctx.fillStyle = bg
-    ctx.fillRect(0, 0, w, h)
-    // soft top glow + faint stars
-    const glow = ctx.createRadialGradient(w * 0.5, h * 0.18, 0, w * 0.5, h * 0.18, w * 0.7)
-    glow.addColorStop(0, 'rgba(34,211,238,0.14)')
-    glow.addColorStop(1, 'rgba(34,211,238,0)')
-    ctx.fillStyle = glow
-    ctx.fillRect(0, 0, w, h)
-    for (let i = 0; i < 14; i++) {
-      const sx = (((i * 71) % 100) / 100) * w
-      const sy = (((i * 137) % 100) / 100) * h * 0.7
-      ctx.fillStyle = `rgba(255,255,255,${0.06 + (i % 3) * 0.03})`
-      ctx.fillRect(sx, sy, 2, 2)
+    // Background — Malaysia night-market backdrop; deep-slate gradient + stars fallback
+    if (!drawBackground(ctx, w, h)) {
+      const bg = ctx.createLinearGradient(0, 0, 0, h)
+      bg.addColorStop(0, '#2D2A3E')
+      bg.addColorStop(1, '#141422')
+      ctx.fillStyle = bg
+      ctx.fillRect(0, 0, w, h)
+      // soft top glow + faint stars
+      const glow = ctx.createRadialGradient(w * 0.5, h * 0.18, 0, w * 0.5, h * 0.18, w * 0.7)
+      glow.addColorStop(0, 'rgba(34,211,238,0.14)')
+      glow.addColorStop(1, 'rgba(34,211,238,0)')
+      ctx.fillStyle = glow
+      ctx.fillRect(0, 0, w, h)
+      for (let i = 0; i < 14; i++) {
+        const sx = (((i * 71) % 100) / 100) * w
+        const sy = (((i * 137) % 100) / 100) * h * 0.7
+        ctx.fillStyle = `rgba(255,255,255,${0.06 + (i % 3) * 0.03})`
+        ctx.fillRect(sx, sy, 2, 2)
+      }
     }
 
     const n = blocks.length
@@ -121,7 +125,7 @@ export default function StackGame() {
       ctx.fill()
       ctx.restore()
     }
-  }, [])
+  }, [drawBackground])
 
   const endGame = useCallback(async () => {
     if (phaseRef.current === 'over') return

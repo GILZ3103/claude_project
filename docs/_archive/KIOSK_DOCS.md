@@ -94,7 +94,7 @@ All three physical surfaces — kiosk, vendor terminal, and web app — talk to 
 | **Autostart** | labwc (`~/.config/labwc/autostart`) | Launches Chromium kiosk mode on boot |
 | **OS** | Raspberry Pi OS 64-bit Bookworm (Debian 12) | Pi 5 default — uses Wayland, not X11 |
 | **Build machine** | Windows PC | `npm run build` → SCP to Pi |
-| **AI** | Google Gemini 2.0 Flash | Via backend `/api/ai/meal-advisor` |
+| **AI** | DeepSeek V4.0 | Via backend `/api/ai/meal-advisor` |
 
 ### Why Build on PC, Not Pi?
 
@@ -173,7 +173,7 @@ flowchart TD
 | 1 | HomePanel | `apps/kiosk/src/panels/HomePanel.tsx` | NFC polling every 1.5s · 5 action buttons · emergency | ✅ |
 | 2 | CardPanel | `apps/kiosk/src/panels/CardPanel.tsx` | Name · RM balance · calorie bar · promotions · rebate CTA · 60s idle | ✅ |
 | 3 | CalorieSetPanel | `apps/kiosk/src/panels/CalorieSetPanel.tsx` | +/− buttons · 5 preset shortcuts · save-to-card popup if card loaded | ✅ |
-| 4 | MealSuggestionPanel | `apps/kiosk/src/panels/MealSuggestionPanel.tsx` | 3 Gemini AI suggestions · calories · navigate to stall | ✅ |
+| 4 | MealSuggestionPanel | `apps/kiosk/src/panels/MealSuggestionPanel.tsx` | 3 DeepSeek AI suggestions · calories · navigate to stall | ✅ |
 | 5 | FoodBrowserPanel | `apps/kiosk/src/panels/FoodBrowserPanel.tsx` | Live search · all food items from backend · tap to navigate on map | ✅ |
 | 6 | MapPanel | `apps/kiosk/src/panels/MapPanel.tsx` | Grid map · yellow highlight for destination stall · tap stall for info | ✅ |
 | 7 | CampaignsPanel | `apps/kiosk/src/panels/CampaignsPanel.tsx` | Browse campaigns · progress bar · enrol button | ✅ |
@@ -202,7 +202,7 @@ flowchart TD
 - Then calls `POST /api/ai/meal-advisor` with the budget → navigates to MealSuggestionPanel
 
 #### MealSuggestionPanel — AI Meal Advisor
-- Displays 3 Gemini suggestions: food name, vendor, calories, AI-generated reason
+- Displays 3 DeepSeek suggestions: food name, vendor, calories, AI-generated reason
 - First result labelled "Main Dish", rest "Side Dish"
 - Navigate button → passes vendor info to `handleSelectStall()` → MapPanel highlights stall
 - Total calorie count shown at top
@@ -283,7 +283,7 @@ All kiosk state lives in `apps/kiosk/src/context/KioskContext.tsx`. No external 
 | `tapping` | `boolean` | Loading state for directory rebate tap |
 | `selectedStall` | `SelectedStall \| null` | Vendor to highlight on MapPanel |
 | `calorieInput` | `number` | Temporary calorie limit value being entered |
-| `suggestions` | `any[]` | AI meal suggestions from Gemini |
+| `suggestions` | `any[]` | AI meal suggestions from DeepSeek |
 | `showEmergency` | `boolean` | Controls EmergencyModal overlay visibility |
 
 | Handler | What It Does |

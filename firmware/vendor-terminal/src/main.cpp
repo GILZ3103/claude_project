@@ -8,12 +8,12 @@
  *   HX711  DOUT=4  SCK=5  VCC=3.3V  GND=GND
  *   (No button required)
  *
- * Two-tap Weighing Flow (key-started, mass-difference):
- *   1. IDLE     — press 'N' (Serial key) to start → tare to a fresh zero → ARMED
- *   2. ARMED    — customer taps card (tap 1); initial weight captured → WEIGHING
- *   3. WEIGHING — vendor scoops/adds; SAME card taps again (tap 2);
- *                 delta = final − initial = the billable grams → auto re-tare → IDLE
- *   (Phase 2 prints the delta locally; Phase 3 will POST it to /api/tap.)
+ * Two-tap Weighing Flow (key-started, mass-deduction from a shared tray):
+ *   1. IDLE     — press 'N' (Serial key) to arm → ARMED
+ *   2. ARMED    — customer taps card (tap 1); scale TARES to zero at the tray's
+ *                 current weight → WEIGHING
+ *   3. WEIGHING — vendor removes food from the tray; SAME card taps again (tap 2);
+ *                 delta = initial(0) − final = grams removed = the billable grams → IDLE
  *
  *   Fallbacks:
  *   • WEIGHING, a different card taps → cancel & re-arm (re-tare)
@@ -22,16 +22,17 @@
  * Calorie calculation is handled entirely by the backend using the food item's
  * calories_per_100g field from the database — no calorie data needed on device.
  *
- * Load-cell drift control (scalability fix): drift is contained by
+ * Load-cell drift control: drift is contained by
  *   (a) per-session re-tare on 'N'  — every customer starts from a fresh zero,
- *   (b) post-transaction auto re-tare (folded into 'N' in this bowl flow),
- *   (c) on-site persistent 'C' calibration against a known mass (no reflash).
- * So N terminals stay accurate without per-unit recalibration in firmware.
+ *   (b) post-transaction auto re-tare (folded into 'N' in this bowl flow).
+ * Scale factor is determined offline per-unit (no on-site mass-based wizard).
+ * It defaults to DEFAULT_CALIBRATION_FACTOR below, but can be overridden without
+ * reflashing via the 'F' Serial command, which persists the new value to NVS.
  *
- * Serial keys: N start session · C calibrate  (weighing is tap-1 / tap-2 by card)
+ * Serial keys: N start session · F<number> set calibration factor (e.g. F18.46)
+ *              (weighing is tap-1 / tap-2 by card)
  *
- * NVS keys: wifi_ssid, wifi_pass, vendor_id, food_id, api_url,
- *           auth_token, scale_factor
+ * NVS keys: wifi_ssid, wifi_pass, vendor_id, food_id, api_url, auth_token, cal_factor
  */
 
 #include <Arduino.h>
@@ -68,6 +69,7 @@
 #define STABILITY_INTERVAL_MS    300   // ms between samples
 #define STABLE_HOLD_REQUIRED       4   // consecutive stable checks → settle ≈ 1.2 s
 #define STATE_TIMEOUT_MS      120000UL // 2 min auto-reset
+#define DEFAULT_CALIBRATION_FACTOR 18.46f // fallback if NVS has no saved "cal_factor"
 
 // ── Objects ───────────────────────────────────────────────────────────────────
 MFRC522     mfrc522(SS_PIN, RST_PIN);
@@ -76,7 +78,7 @@ Preferences prefs;
 
 // ── NVS config ────────────────────────────────────────────────────────────────
 String wifiSSID, wifiPass, vendorId, foodId, apiUrl, authToken;
-float  scaleFactor = 1.0f;
+float  calibrationFactor = DEFAULT_CALIBRATION_FACTOR;
 
 // ── State machine ─────────────────────────────────────────────────────────────
 enum SessionState { IDLE, ARMED, WEIGHING };
@@ -294,50 +296,9 @@ String readSerialLine(unsigned long timeoutMs) {
     return s;
 }
 
-// ── Field calibration (Serial 'C') ──────────────────────────────────────────────
-// Scalability / drift fix: recalibrate any unit on-site against a known reference
-// mass and persist the factor to NVS — no per-terminal reflash. Reuses the existing
-// "scale_factor" NVS key so it survives reboot.
-void calibrateScale() {
-    Serial.println("\n=== Scale Calibration ===");
-    Serial.println("Step 1/2: Remove ALL weight, then send any key to zero...");
-    while (!Serial.available()) delay(20);
-    while (Serial.available()) Serial.read();        // flush keypress
-    Serial.println("Zeroing (30 samples)...");
-    scale.tare(30);
-
-    Serial.println("Step 2/2: Place a KNOWN reference mass on the scale.");
-    Serial.println("Type its mass in grams (e.g. 100) and press Enter (60s):");
-    String line  = readSerialLine(60000);
-    float  known = line.toFloat();
-    if (known <= 0.0f) {
-        Serial.println("Calibration cancelled — invalid/blank mass. Factor unchanged.");
-        return;
-    }
-
-    float raw = (float)scale.get_value(30);          // tare-subtracted raw average
-    if (fabsf(raw) < 1.0f) {
-        Serial.println("Calibration failed — no weight detected. Factor unchanged.");
-        return;
-    }
-
-    float factor = raw / known;
-    scale.set_scale(factor);
-    scaleFactor = factor;
-
-    prefs.begin("config", false);
-    prefs.putFloat("scale_factor", factor);
-    prefs.end();
-
-    Serial.printf("Calibrated: factor=%.4f  (raw=%.0f for %.1f g)\n", factor, raw, known);
-    Serial.printf("Saved to NVS (survives reboot). Check: %.1f g\n",
-                  fabsf(scale.get_units(10)));
-    Serial.println("Remove the mass before serving.");
-}
-
 // ── Two-tap card handler ────────────────────────────────────────────────────────
-// tap 1 (ARMED)              → capture initial weight, open session for this UID
-// tap 2 (same UID, WEIGHING) → delta = final − initial → print → auto re-tare → IDLE
+// tap 1 (ARMED)              → TARE to zero at the tray's current weight, open session
+// tap 2 (same UID, WEIGHING) → delta = initial(0) − final = grams removed from the tray
 // different UID (WEIGHING)    → cancel & re-arm (re-tare)
 void handleCardTap(const String& uid) {
     if (state == IDLE) {
@@ -346,11 +307,13 @@ void handleCardTap(const String& uid) {
     }
 
     if (state == ARMED) {
-        initialWeight = readStableWeight();
+        scale.tare(30);                       // tap 1 = zero reference (tray's current weight)
+        tracker.reset();                      // discard samples taken before this tare
+        initialWeight = readStableWeight();   // ~0g right after taring
         lastUID       = uid;
         char msg[96];
         snprintf(msg, sizeof(msg),
-                 "Tap 1 [%s]: start %.1fg — add food, then tap the SAME card again",
+                 "Tap 1 [%s]: zeroed at %.1fg — remove food, then tap the SAME card again",
                  uid.c_str(), initialWeight);
         enterState(WEIGHING, msg);
         return;
@@ -359,17 +322,16 @@ void handleCardTap(const String& uid) {
     // state == WEIGHING
     if (uid == lastUID) {
         float finalWeight = readStableWeight();
-        float delta       = finalWeight - initialWeight;
+        float delta       = initialWeight - finalWeight;   // mass removed from the tray
         Serial.println("──────────────────────────────");
-        Serial.printf("Tap 2 [%s]: final %.1fg\n", uid.c_str(), finalWeight);
+        Serial.printf("Tap 2 [%s]: tray now %.1fg\n", uid.c_str(), finalWeight);
         Serial.printf("Delta (billable): %.1fg\n", delta);
         if (delta < MIN_SERVING_G)
             Serial.println("WARNING: delta below minimum serving — re-check the scale");
         postTap(uid, delta);
         Serial.println("──────────────────────────────");
-        scale.tare(30);                       // auto re-tare = drift reset after each txn
         initialWeight = 0.0f; lastUID = "";
-        enterState(IDLE, "Auto re-tared — press N for next customer");
+        enterState(IDLE, "Press N for next customer");
     } else {
         Serial.println("Different card — cancelling session, re-taring.");
         scale.tare(30);
@@ -390,8 +352,8 @@ void setup() {
     vendorId    = prefs.getString("vendor_id",    "");
     foodId      = prefs.getString("food_id",      "");
     apiUrl      = prefs.getString("api_url",      "");
-    authToken   = prefs.getString("auth_token",   "");
-    scaleFactor = prefs.getFloat ("scale_factor", 1.0f);
+    authToken       = prefs.getString("auth_token",   "");
+    calibrationFactor = prefs.getFloat("cal_factor", DEFAULT_CALIBRATION_FACTOR);
     prefs.end();
 
     if (wifiSSID.isEmpty() || vendorId.isEmpty() || foodId.isEmpty()
@@ -403,12 +365,12 @@ void setup() {
     // HX711 load cell
     scale.begin(HX711_DOUT, HX711_SCK);
     if (scale.wait_ready_timeout(2000)) {
-        scale.set_scale(scaleFactor);
+        scale.set_scale(calibrationFactor);
         Serial.print("HX711 settling");
         for (int i = 0; i < 10; i++) { scale.read(); delay(300); Serial.print("."); }
         scale.tare(30);  // 30-sample tare for stable zero
-        Serial.printf("\nHX711 ready — scale factor %.4f, tared\n", scaleFactor);
-        Serial.println("Tip: 'N' starts a session, 'C' calibrates against a known mass");
+        Serial.printf("\nHX711 ready — scale factor %.4f, tared\n", calibrationFactor);
+        Serial.println("Tip: 'N' starts a session, 'F<number>' sets calibration factor");
     } else {
         Serial.println("WARNING: HX711 not detected — check wiring (DOUT=4, SCK=5)");
     }
@@ -464,7 +426,7 @@ void loop() {
 
     // Serial keys:
     //   N = start a session → tare to fresh zero → ARMED (then card tap-1 / tap-2)
-    //   C = field-calibrate against a known mass (persists to NVS)
+    //   F<number> = set calibration factor and persist to NVS (no reflash needed)
     if (Serial.available()) {
         char c = Serial.read();
 
@@ -473,10 +435,19 @@ void loop() {
             initialWeight = 0.0f; lastUID = "";
             enterState(ARMED, "Session started — tap card (tap 1), add food, tap again");
 
-        } else if (c == 'C' || c == 'c') {
-            calibrateScale();
-            initialWeight = 0.0f; lastUID = "";
-            enterState(IDLE, "Calibration done — press N to start a session");
+        } else if (c == 'F' || c == 'f') {
+            String line = readSerialLine(10000);
+            float  newFactor = line.toFloat();
+            if (newFactor == 0.0f) {
+                Serial.println("Invalid factor — type a number after F, e.g. F18.46");
+            } else {
+                calibrationFactor = newFactor;
+                scale.set_scale(calibrationFactor);
+                prefs.begin("config", false);
+                prefs.putFloat("cal_factor", calibrationFactor);
+                prefs.end();
+                Serial.printf("Calibration factor set to %.4f (saved to NVS)\n", calibrationFactor);
+            }
         }
     }
 
@@ -501,6 +472,12 @@ void loop() {
         handleCardTap(uid);
         mfrc522.PICC_HaltA();
         mfrc522.PCD_StopCrypto1();
+        // A halted card won't answer the REQA used by PICC_IsNewCardPresent() again.
+        // Cycling the antenna de-energizes it so the SAME card re-registers as "new"
+        // on the next tap, even if it never left the reader's field.
+        mfrc522.PCD_AntennaOff();
+        delay(50);
+        mfrc522.PCD_AntennaOn();
         delay(1500);
     }
 }

@@ -407,9 +407,13 @@ export default function Map() {
                 <line x1="0" y1={`${p}`} x2="100" y2={`${p}`} stroke="#B5B0A8" strokeWidth="0.5" />
               </g>
             ))}
-            {/* Main walkway */}
-            <line x1="25" y1="0" x2="25" y2="100" stroke="#A09B93" strokeWidth="1" strokeDasharray="4 2" />
-            <line x1="0" y1="30" x2="100" y2="30" stroke="#A09B93" strokeWidth="1" strokeDasharray="4 2" />
+            {/* Main walkway — rendered as roads: solid bed + dashed centerline */}
+            <g strokeLinecap="round">
+              <line x1="25" y1="0" x2="25" y2="100" stroke="#A8A29B" strokeWidth="2.4" />
+              <line x1="0" y1="30" x2="100" y2="30" stroke="#A8A29B" strokeWidth="2.4" />
+              <line x1="25" y1="0" x2="25" y2="100" stroke="#FFFFFF" strokeWidth="0.4" strokeDasharray="3 2.2" opacity={0.8} />
+              <line x1="0" y1="30" x2="100" y2="30" stroke="#FFFFFF" strokeWidth="0.4" strokeDasharray="3 2.2" opacity={0.8} />
+            </g>
           </svg>
 
           {/* Navigation path — L-shaped route from YOU to selected vendor */}

@@ -6,6 +6,7 @@ import { useCard } from '../context/CardContext'
 import { submitGameScore, type GameScoreResult } from '../lib/api'
 import { useGameLoop } from '../lib/useGameLoop'
 import { useGameMusic } from '../lib/useGameMusic'
+import { useGameBackground } from '../lib/useGameBackground'
 import { Celebration } from '../components/games/Celebration'
 
 type Phase = 'ready' | 'playing' | 'over'
@@ -59,6 +60,7 @@ export default function IngredientSlicer() {
   const [result, setResult] = useState<GameScoreResult | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const { muted, toggleMuted } = useGameMusic(phase === 'playing')
+  const drawBackground = useGameBackground()
 
   const setPhaseBoth = (p: Phase) => { phaseRef.current = p; setPhase(p) }
 
@@ -103,17 +105,19 @@ export default function IngredientSlicer() {
     if (!ctx) return
     const { w, h, items, splashes } = world
 
-    // Background — moody kitchen gradient with a soft spotlight
-    const bg = ctx.createLinearGradient(0, 0, 0, h)
-    bg.addColorStop(0, '#241D3A')
-    bg.addColorStop(1, '#4C2A6B')
-    ctx.fillStyle = bg
-    ctx.fillRect(0, 0, w, h)
-    const glow = ctx.createRadialGradient(w * 0.5, h * 0.42, 0, w * 0.5, h * 0.42, w * 0.75)
-    glow.addColorStop(0, 'rgba(236,72,153,0.18)')
-    glow.addColorStop(1, 'rgba(236,72,153,0)')
-    ctx.fillStyle = glow
-    ctx.fillRect(0, 0, w, h)
+    // Background — Malaysia night-market backdrop; moody gradient + spotlight fallback
+    if (!drawBackground(ctx, w, h)) {
+      const bg = ctx.createLinearGradient(0, 0, 0, h)
+      bg.addColorStop(0, '#241D3A')
+      bg.addColorStop(1, '#4C2A6B')
+      ctx.fillStyle = bg
+      ctx.fillRect(0, 0, w, h)
+      const glow = ctx.createRadialGradient(w * 0.5, h * 0.42, 0, w * 0.5, h * 0.42, w * 0.75)
+      glow.addColorStop(0, 'rgba(236,72,153,0.18)')
+      glow.addColorStop(1, 'rgba(236,72,153,0)')
+      ctx.fillStyle = glow
+      ctx.fillRect(0, 0, w, h)
+    }
 
     // Splashes (juice bursts)
     for (const s of splashes) {
@@ -156,7 +160,7 @@ export default function IngredientSlicer() {
         ctx.stroke()
       }
     }
-  }, [])
+  }, [drawBackground])
 
   const endGame = useCallback(async () => {
     if (phaseRef.current === 'over') return

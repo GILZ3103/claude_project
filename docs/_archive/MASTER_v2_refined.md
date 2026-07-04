@@ -33,7 +33,7 @@ flowchart LR
     end
     subgraph P4["✅ PHASE 4 — AI & KIOSK"]
         direction TB
-        AI["🤖 AI Features\nChat + Meal Advisor\nGemini 2.0 Flash"]
+        AI["🤖 AI Features\nChat + Meal Advisor\nDeepSeek V4.0"]
         KUI["🖥️ Kiosk UI\n8 panels built\nNFC polling"]
         KDM["🐍 NFC Daemon\nPN532 I2C — complete"]
     end
@@ -59,7 +59,7 @@ flowchart LR
 | ⚡ ESP32 Vendor Terminal | ✅ Tested end-to-end | On-device |
 | 🖥️ Kiosk App (Raspberry Pi) | 🟢 8 panels built | Runs locally on Pi |
 | 🐍 NFC Daemon (Raspberry Pi) | ✅ Complete | `localhost:5001` on Pi |
-| 🤖 AI Features | ✅ Chat + Meal Advisor | Via Gemini 2.0 Flash |
+| 🤖 AI Features | ✅ Chat + Meal Advisor | Via DeepSeek V4.0 |
 
 ---
 
@@ -557,4 +557,4 @@ Camera module on the Raspberry Pi kiosk captures a photo after each card tap. St
 
 ---
 
-*v2.4 · React + TypeScript + Express + PostgreSQL (Supabase) + Render + Vercel + ESP32 + Raspberry Pi + Gemini 2.0 Flash*
+*v2.4 · React + TypeScript + Express + PostgreSQL (Supabase) + Render + Vercel + ESP32 + Raspberry Pi + DeepSeek V4.0*

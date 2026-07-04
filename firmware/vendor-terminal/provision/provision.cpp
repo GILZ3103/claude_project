@@ -26,8 +26,8 @@
 // ────────────────────────────────────────────────────────────────────────────
 // --- FILL IN YOUR VALUES ---
 // ────────────────────────────────────────────────────────────────────────────
-static const char* WIFI_SSID     = "Gilbert";
-static const char* WIFI_PASS     = "gilbert123";
+static const char* WIFI_SSID     = "LAPTOP-U5T9P5QJ 3751";
+static const char* WIFI_PASS     = "M(0z2989";
 static const char* VENDOR_ID     = "43fcda5f-214f-457b-8bd4-ee43971dc79d";
 static const char* FOOD_ID       = "498c1bca-5a31-42d5-b68b-bc132ace0bd1";
 static const char* API_URL       = "https://warungtek-backend.onrender.com";

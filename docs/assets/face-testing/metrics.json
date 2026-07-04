@@ -1,0 +1,88 @@
+{
+  "dataset": {
+    "identities": 11,
+    "embeddings": 88,
+    "embeddings_per_identity": 8,
+    "embedding_dim": 512,
+    "genuine_pairs": 308,
+    "impostor_pairs": 3520
+  },
+  "separation": {
+    "genuine_mean": 0.9763,
+    "genuine_std": 0.0196,
+    "genuine_min": 0.9153,
+    "impostor_mean": 0.0838,
+    "impostor_std": 0.1045,
+    "impostor_max": 0.6093
+  },
+  "roc": {
+    "auc": 1.0,
+    "eer": 0.0,
+    "eer_threshold": 0.61
+  },
+  "thresholds": {
+    "deployed_confirmed": 0.4,
+    "deployed_possible": 0.32,
+    "f1_optimal": 0.61
+  },
+  "metrics_at_threshold": {
+    "possible": {
+      "threshold": 0.32,
+      "tp": 308,
+      "fn": 0,
+      "fp": 64,
+      "tn": 3456,
+      "accuracy": 0.9833,
+      "precision": 0.828,
+      "recall": 1.0,
+      "f1": 0.9059,
+      "far": 0.0182,
+      "frr": 0.0
+    },
+    "confirmed": {
+      "threshold": 0.4,
+      "tp": 308,
+      "fn": 0,
+      "fp": 64,
+      "tn": 3456,
+      "accuracy": 0.9833,
+      "precision": 0.828,
+      "recall": 1.0,
+      "f1": 0.9059,
+      "far": 0.0182,
+      "frr": 0.0
+    },
+    "f1_optimal": {
+      "threshold": 0.61,
+      "tp": 308,
+      "fn": 0,
+      "fp": 0,
+      "tn": 3520,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "far": 0.0,
+      "frr": 0.0
+    }
+  },
+  "operating_point_max_per_identity": {
+    "threshold": 0.4,
+    "tp": 88,
+    "fn": 0,
+    "fp": 16,
+    "tn": 72,
+    "accuracy": 0.9091,
+    "precision": 0.8462,
+    "recall": 1.0,
+    "f1": 0.9167,
+    "far": 0.1818,
+    "frr": 0.0,
+    "confusion": {
+      "tp": 88,
+      "fn": 0,
+      "fp": 16,
+      "tn": 72
+    }
+  }
+}

@@ -553,11 +553,6 @@ export default function App() {
         <NfcCardOfferModal
           onClose={() => { setActiveOverlay(null); setCardLinkStatus('idle') }}
           onConfirmCollect={() => {
-              // Trigger the physical card dispenser (fire-and-forget)
-              const dispenserUrl = import.meta.env.VITE_DISPENSER_URL
-              if (dispenserUrl) {
-                fetch(`${dispenserUrl}/dispense`, { method: 'POST' }).catch(() => {})
-              }
               setCardLinkStatus('linking')
             }}
           linkStatus={cardLinkStatus}

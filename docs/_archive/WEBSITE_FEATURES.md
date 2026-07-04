@@ -78,7 +78,7 @@ flowchart LR
 - **express-async-errors** — async error handling
 - **bcryptjs** — password hashing
 - **@supabase/supabase-js** — DB client (uses service role key, bypasses RLS)
-- **@google/generative-ai** — Gemini 2.0 Flash for AI agent
+- **@google/generative-ai** — DeepSeek V4.0 for AI agent
 - **Deployed on:** Render (free tier, ~30s cold start)
 - **Cold-start mitigation:** Frontend pings `/api/health` on mount; banner appears if >4s
 
@@ -86,7 +86,7 @@ flowchart LR
 10 tables: `cards`, `vendors`, `food_items`, `tap_events`, `campaigns`, `campaign_progress`, `campaign_applications`, `vouchers`, `subsidy_claims`, `compliance_records`, `kiosks`, `points_log`
 
 ### AI Layer
-- **Provider:** Google Gemini 2.0 Flash (free tier) — function-calling agent at `/api/ai/agent`
+- **Provider:** DeepSeek V4.0 (free tier) — function-calling agent at `/api/ai/agent`
 - **Persona file:** `backend/agent/warungtek-agent.md` (editable markdown)
 - **Tools:** 8 total (6 read + 2 write) — see Section 7
 
@@ -282,7 +282,7 @@ flowchart TB
     Post --> Verify{"🔐 Card exists<br/>in DB?"}
     Verify -->|❌ no| Err404["📛 404 CARD_NOT_FOUND"]
     Verify -->|✅ yes| Persona["📄 Read backend/agent/<br/>warungtek-agent.md<br/>(cached after first read)"]
-    Persona --> Init["🤖 Gemini chat.startChat()<br/>+ 8 tool schemas"]
+    Persona --> Init["🤖 DeepSeek chat.startChat()<br/>+ 8 tool schemas"]
     Init --> Send["📨 chat.sendMessage(userMessage)"]
     Send --> Loop{"🔄 Iteration < 5?"}
     Loop -->|no| Fallback["⚠️ 'Could not complete'"]
@@ -317,7 +317,7 @@ flowchart TB
 | Write | `setMyCalorieGoal({kcal})` | Update daily calorie limit (1200–4000) |
 
 ### Security
-- `card_uid` passed via runner's `ToolContext`, **never exposed to Gemini's argument schema**
+- `card_uid` passed via runner's `ToolContext`, **never exposed to DeepSeek's argument schema**
 - Backend verifies card exists before invoking the agent
 - Persona instructs the LLM to never echo card UIDs
 - 5-iteration safety cap prevents infinite tool loops
@@ -356,14 +356,14 @@ flowchart TB
         R4["/api/campaigns — join · apply · admin review"]
         R5["/api/tap + /sync — ESP32 ingest"]
         R6["/api/map — grid + kiosks"]
-        R7["/api/ai/agent — Gemini function-calling"]
+        R7["/api/ai/agent — DeepSeek function-calling"]
         API --> R1 & R2 & R3 & R4 & R5 & R6 & R7
     end
 
     subgraph DATA["🗄️ DATA LAYER"]
         direction TB
         DB[("🐘 Supabase Postgres\n10 tables · no RLS\nservice-role key")]
-        AI["🤖 Google Gemini 2.0 Flash\nfunction-calling · free tier"]
+        AI["🤖 DeepSeek V4.0\nfunction-calling · free tier"]
     end
 
     subgraph HW["⚡ HARDWARE"]
@@ -374,7 +374,7 @@ flowchart TB
 
     CLIENT -->|HTTPS · CORS| SERVER
     SERVER -->|service role| DB
-    SERVER -->|GEMINI_API_KEY| AI
+    SERVER -->|DEEPSEEK_API_KEY| AI
     HW -->|Bearer auth| SERVER
 
     style CLIENT fill:#dbeafe,stroke:#3b82f6,color:#1e3a8a
@@ -449,7 +449,7 @@ sequenceDiagram
     actor C as 👤 Consumer
     participant W as ✨ AiChat
     participant B as ⚙️ Agent Runner
-    participant G as 🤖 Gemini 2.0 Flash
+    participant G as 🤖 DeepSeek V4.0
     participant DB as 🗄️ Supabase
     C->>W: Type "can i afford nasi lemak?"
     W->>B: POST /api/ai/agent<br/>{ message, card_uid }

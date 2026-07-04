@@ -6,10 +6,11 @@ import { useCard } from '../context/CardContext'
 import { submitGameScore, type GameScoreResult } from '../lib/api'
 import { useGameLoop } from '../lib/useGameLoop'
 import { useGameMusic } from '../lib/useGameMusic'
+import { useGameBackground } from '../lib/useGameBackground'
 import { Celebration } from '../components/games/Celebration'
 import { MASCOT } from '../lib/mascot'
 
-type Phase = 'ready' | 'playing' | 'over'
+type Phase = 'ready' | 'getready' | 'playing' | 'over'
 
 interface Block { x: number; top: number; w: number }
 interface Hopper { x: number; y: number; vx: number; vy: number; jumping: boolean }
@@ -48,9 +49,11 @@ export default function BlockHop() {
   const [phase, setPhase] = useState<Phase>('ready')
   const [score, setScore] = useState(0)
   const [charge, setCharge] = useState(0)
+  const [countdown, setCountdown] = useState(3)
   const [result, setResult] = useState<GameScoreResult | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const { muted, toggleMuted } = useGameMusic(phase === 'playing')
+  const drawBackground = useGameBackground()
 
   const setPhaseBoth = (p: Phase) => { phaseRef.current = p; setPhase(p) }
 
@@ -90,13 +93,16 @@ export default function BlockHop() {
     if (!ctx) return
     const { w, h, blockH, scrollX } = world
 
-    // Sky
-    const sky = ctx.createLinearGradient(0, 0, 0, h)
-    sky.addColorStop(0, '#4C1D95')
-    sky.addColorStop(0.55, '#7C3AED')
-    sky.addColorStop(1, '#C4B5FD')
-    ctx.fillStyle = sky
-    ctx.fillRect(0, 0, w, h)
+    // Sky — Malaysia night-market backdrop, with a gradient fallback while it loads
+    const hasBg = drawBackground(ctx, w, h)
+    if (!hasBg) {
+      const sky = ctx.createLinearGradient(0, 0, 0, h)
+      sky.addColorStop(0, '#4C1D95')
+      sky.addColorStop(0.55, '#7C3AED')
+      sky.addColorStop(1, '#C4B5FD')
+      ctx.fillStyle = sky
+      ctx.fillRect(0, 0, w, h)
+    }
 
     // Soft bokeh dots, drifting with the camera (parallax)
     for (let i = 0; i < 6; i++) {
@@ -114,8 +120,10 @@ export default function BlockHop() {
       for (let x = -off; x <= w + 120; x += 60) ctx.quadraticCurveTo(x + 30, base - amp, x + 60, base)
       ctx.lineTo(w, h); ctx.closePath(); ctx.fill()
     }
-    hill('rgba(167,139,250,0.40)', h * 0.60, h * 0.05, 0.10)
-    hill('rgba(124,58,237,0.45)', h * 0.66, h * 0.04, 0.18)
+    if (!hasBg) {
+      hill('rgba(167,139,250,0.40)', h * 0.60, h * 0.05, 0.10)
+      hill('rgba(124,58,237,0.45)', h * 0.66, h * 0.04, 0.18)
+    }
 
     // Blocks — glossy pillars with shadow + gradient
     for (let i = 0; i < world.blocks.length; i++) {
@@ -162,7 +170,7 @@ export default function BlockHop() {
     ctx.textBaseline = 'bottom'
     ctx.fillText(MASCOT, 0, size * 0.1)
     ctx.restore()
-  }, [])
+  }, [drawBackground])
 
   const endGame = useCallback(async () => {
     if (phaseRef.current === 'over') return
@@ -263,8 +271,11 @@ export default function BlockHop() {
     const world = worldRef.current
     if (!world) return
     if (phaseRef.current === 'ready') {
+      // First press: start a brief "Get Ready" freeze (input ignored) before play.
       setScore(0); scoreRef.current = 0; setResult(null)
-      setPhaseBoth('playing')
+      setCountdown(3)
+      setPhaseBoth('getready')
+      return
     }
     if (phaseRef.current !== 'playing') return
     if (world.hopper.jumping) return
@@ -302,6 +313,20 @@ export default function BlockHop() {
     window.addEventListener('keyup', up)
     return () => { window.removeEventListener('keydown', down); window.removeEventListener('keyup', up) }
   }, [startCharge, releaseJump])
+
+  // Get-Ready freeze: count 3-2-1 then enter play. Holding is ignored until done,
+  // after which the chick simply waits — the player charges & leaps at their own pace.
+  useEffect(() => {
+    if (phase !== 'getready') return
+    let n = 3
+    setCountdown(n)
+    const id = setInterval(() => {
+      n -= 1
+      if (n <= 0) { clearInterval(id); setPhaseBoth('playing') }
+      else setCountdown(n)
+    }, 600)
+    return () => clearInterval(id)
+  }, [phase])
 
   const restart = useCallback(() => {
     setResult(null)
@@ -385,6 +410,32 @@ export default function BlockHop() {
                 </motion.div>
                 <p className="text-[10px] text-gray-400 mt-3">Hold = charge · Release = jump (or Space)</p>
               </motion.div>
+            </motion.div>
+          )}
+
+          {/* Get Ready freeze — standby moment before play */}
+          {phase === 'getready' && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-black/30 via-black/35 to-black/55 text-center px-6 pointer-events-none"
+            >
+              <motion.span
+                className="text-6xl mb-2 drop-shadow-lg select-none"
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 1, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                {MASCOT}
+              </motion.span>
+              <motion.div
+                key={countdown}
+                initial={{ scale: 0.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="text-7xl font-black text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] tabular-nums leading-none"
+              >
+                {countdown}
+              </motion.div>
+              <p className="text-white/90 font-semibold text-sm mt-3">Get ready… steady your aim</p>
             </motion.div>
           )}
         </div>
